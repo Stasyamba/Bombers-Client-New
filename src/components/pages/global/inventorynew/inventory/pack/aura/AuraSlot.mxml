@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 width="60" height="60"
+		 >
+	
+	
+	<fx:Declarations>
+		
+		<s:Animate id="apearingA" target="{this}" duration="600"
+				   effectStart="{this.alpha = 0;}"
+				   >
+			<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1.0"/>
+		</s:Animate>
+		
+		<s:Animate id="disapearingA" target="{this}" duration="600"
+				   >
+			<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0.0"/>
+		</s:Animate>
+		<s:Animate id="appearingImageA" target="{auraGroup}" duration="300">
+			<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1" />
+		</s:Animate>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.items.ItemObject;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemViewObject;
+			
+			private var itemProfileObject:ItemProfileObject = null;
+			
+			[Bindable]
+			private var itemViewObject:ItemViewObject = null;
+			
+			
+			public function initContent(itemProfileObjectP:ItemProfileObject):void {
+				itemProfileObject = itemProfileObjectP;
+				
+				var itemObject:ItemObject = Context.Model.itemsManager.getItem(itemProfileObject.itemType);
+				itemViewObject = itemObject.viewObject;
+				
+				apearingA.play();
+			}
+			
+			public function auraOn():void {
+				Context.Model.currentSettings.gameProfile.setAura(itemProfileObject.itemType, true);
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_HIDE_COLLECTION);
+			}
+			
+			
+			private function deleteAura():void 
+			{
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group id="baseGroup" width="60" height="60" click="auraOn();">
+		<s:HGroup width="60" height="60"
+				  horizontalAlign="center" verticalAlign="middle"
+				   >
+			<s:BitmapImage id="bgImage" source="@Embed(source='assets/windows/inventory/pack/auraBg.png')"/>
+		</s:HGroup>
+		
+		<s:HGroup width="60" paddingTop="22"
+				  horizontalAlign="center" verticalAlign="middle"
+				  >
+			<s:Rect id="bgRect" width="24" height="24">
+				<s:fill>
+					<s:SolidColor color="0x000000"/>
+				</s:fill>
+				<s:stroke>
+					<s:SolidColorStroke color="0x955b28" weight="2"/>
+				</s:stroke>
+			</s:Rect>
+		</s:HGroup>
+		
+		<s:HGroup width="60" y="{bgRect.y + bgRect.height/2 - auraImage.height/2 - 4}"
+				  horizontalAlign="center"
+				  id="auraGroup"
+				  >
+				<mx:Image id="auraImage" source="{itemViewObject.smallImageURL}"
+						  trustContent="{Context.Model.trustContent}"
+						  complete="appearingImageA.play();"
+						  />
+		</s:HGroup>
+	</s:Group>
+
+	
+</s:Group>

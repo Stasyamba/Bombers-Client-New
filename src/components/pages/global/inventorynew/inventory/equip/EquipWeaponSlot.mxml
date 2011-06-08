@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 >
+	
+	<fx:Declarations>
+		<s:Animate id="appearingA" target="{baseContentGroup}" duration="300">
+			<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1" />
+		</s:Animate>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.items.ItemViewObject;
+			
+			import mx.controls.Alert;
+			
+			private var itemType:ItemType = null;
+			[Bindable]
+			private var itemStringView: String = "";
+			
+			public function initContent(itemTypeP: ItemType):void 
+			{
+				if (itemTypeP != null)
+				{
+					countGroup.visible = true;
+					itemType = itemTypeP;
+					var imageURL: String =  Context.Model.itemsManager.getItem(itemType).viewObject.smallImageURL;
+					weaponImage.source = imageURL;
+					
+					itemStringView = (Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand as ItemProfileObject).itemCount.toString() + " шт.";
+				}else
+				{
+					countGroup.visible = false;
+					itemType = null;
+					weaponImage.source = "";
+				}
+			}
+			
+			private function deleteWeapon():void 
+			{
+				baseContentGroup.alpha = 0;
+				Context.Model.currentSettings.gameProfile.setWeaponLeftHand(null);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group id="baseGroup" click="deleteWeapon();">
+		
+		<s:BitmapImage id="bgImage" source="@Embed(source='assets/windows/inventory/itemSlotBG.jpg')">
+			<s:filters>
+				<s:DropShadowFilter alpha="0.3" distance="2" />
+			</s:filters>
+		</s:BitmapImage>
+		
+		<s:Group id="baseContentGroup" alpha="0">
+			<s:HGroup width="{bgImage.width}" height="{bgImage.height}"
+					  horizontalAlign="center" verticalAlign="middle">
+				<mx:Image id="weaponImage"
+						  trustContent="{Context.Model.trustContent}"
+						  complete="appearingA.play();"
+						  />
+			</s:HGroup>
+			
+			<s:Group x="28" y="10"
+					 id="countGroup"
+					 >
+				<s:Rect id="bgCountRect"
+						width="31" height="11"
+						alpha="0.69"
+						>
+					<s:fill>
+						<s:SolidColor color="0xf2ed7f"/>
+					</s:fill>
+					<s:stroke>
+						<s:SolidColorStroke color="0xc2b76a" />
+					</s:stroke>
+				</s:Rect>
+				<s:HGroup width="100%" height="100%"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="countLabel"
+							 text="{itemStringView}"
+							 color="0x3a2810" fontFamily="mpr" fontSize="10"
+							 />
+				</s:HGroup>
+				
+			</s:Group>
+			
+		</s:Group>
+		</s:Group>
+		
+	
+	
+</s:Group>

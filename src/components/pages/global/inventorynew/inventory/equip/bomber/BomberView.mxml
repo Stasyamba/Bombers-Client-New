@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 verticalAlign="middle"
+		 creationComplete="init();"
+		 gap="31"
+		 >
+	
+	<fx:Declarations>
+		<s:Animate id="appearingA" target="{bomberImageGroup}" duration="300">
+			<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1" />
+		</s:Animate>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			public function initContent(bomberParams: BomberParams): void
+			{
+			}
+			
+			public function destory():void
+			{
+				Context.Model.removeCustomEventListener(ContextEvent.BOMBER_CHANGED,refreshBomberImage);
+			}
+			
+			private function init(): void
+			{
+				Context.Model.addCustomListener(ContextEvent.BOMBER_CHANGED,refreshBomberImage);
+				
+				refreshBomberImage(null);
+			}
+			
+			private function refreshBomberImage(e:ContextEvent): void
+			{
+				if(Context.Model.currentSettings.gameProfile != null)
+				{
+					bomberImage.source = Context.Model.bomberManager.getBomber(Context.Model.currentSettings.gameProfile.currentBomberType).viewObject.bigImageURL;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup verticalAlign="middle" height="155">
+		<s:VGroup>
+			<s:Group>
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/health.png')" />
+				<s:HGroup width="17" height="17" x="25" y="8"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label text="10" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Group>
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/speed.png')" />
+				<s:HGroup width="17" height="17" x="25" y="8"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label text="9" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Group>
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/waveSize.png')" />
+				<s:HGroup width="17" height="17" x="25" y="8"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Group>
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/bombsCount.png')" />
+				<s:HGroup width="17" height="17" x="25" y="8"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+				</s:HGroup>
+			</s:Group>
+			
+		</s:VGroup>
+		
+		<s:VGroup horizontalAlign="right">
+			<s:Group>
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/defenceBg.png')" />
+				<s:HGroup width="17" height="17" x="30" y="13"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Group>
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/damageBg.png')" />
+				<s:HGroup width="11" height="17" x="59" y="11"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label text="17" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+				</s:HGroup>
+			</s:Group>
+		</s:VGroup>
+	</s:HGroup>
+	
+	<s:HGroup id="bomberImageGroup" width="205" height="155" verticalAlign="middle" alpha="0">
+		<mx:Image id="bomberImage" trustContent="{Context.Model.trustContent}" smoothBitmapContent="true"
+				  complete="appearingA.play();"
+				  />
+	</s:HGroup>
+	
+</s:HGroup>

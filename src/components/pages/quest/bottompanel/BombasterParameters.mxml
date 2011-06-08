@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
+		 verticalAlign="middle" gap="25">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.utils.adjustcolor.ColorMatrix;
+			
+			private function init(): void
+			{
+				updateParametersFromBomberType();
+				
+				var cm: ColorMatrix = new ColorMatrix();
+				cm.desaturate();
+				
+				baseParams.filters = [cm.filter];
+			}
+			
+			public function updateParametersFromBomberType():void 
+			{
+				/* нужно еще учесть ауры */
+				
+				speedLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.getViewSpeed(Context.Model.currentSettings.gameProfile.currentBomberType.speed).toString();
+				bombsLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.bombCount.toString();
+				waveLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.bombPower.toString();
+				healthLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.startLife.toString();
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup id="baseParams">
+		<s:Group>
+			<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/speed.png')" />
+			<s:HGroup width="17" height="17" x="25" y="8"
+					  horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="speedLabel" text="9" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+			</s:HGroup>
+		</s:Group>
+		
+		<s:Group>
+			<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/waveSize.png')" />
+			<s:HGroup width="17" height="17" x="25" y="8"
+					  horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="waveLabel" text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+			</s:HGroup>
+		</s:Group>
+		
+		<s:Group>
+			<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/bombsCount.png')" />
+			<s:HGroup width="17" height="17" x="25" y="8"
+					  horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="bombsLabel" text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+			</s:HGroup>
+		</s:Group>
+		
+		<s:Group>
+			<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/health.png')" />
+			<s:HGroup width="17" height="17" x="25" y="8"
+					  horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="healthLabel" text="10" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+			</s:HGroup>
+		</s:Group>
+	</s:HGroup>
+	
+	<s:HGroup scaleX="0.9" scaleY="0.9" paddingTop="10">
+		<s:HGroup paddingTop="-5">
+			<s:Group>
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/defenceBg.png')" smooth="true" />
+				<s:HGroup width="17" height="17" x="30" y="13"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="defenceLabel" text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+				</s:HGroup>
+			</s:Group>
+		</s:HGroup>
+		
+		<s:Group>
+			<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/damageBg.png')" smooth="true" />
+			<s:HGroup width="11" height="17" x="59" y="11"
+					  horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="damageLabel" text="17" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+			</s:HGroup>
+		</s:Group>
+	</s:HGroup>
+	
+	
+</s:HGroup>

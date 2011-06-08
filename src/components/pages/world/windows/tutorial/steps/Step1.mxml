@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%" height="100%" 
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 horizontalAlign="center"
+		 >
+	
+	<fx:Script>
+		<![CDATA[
+			import components.pages.world.windows.tutorial.TutorialW;
+			
+			import engine.profiles.GameProfile;
+			
+			import skins.buttons.Pattern3ButtonS;
+			
+			private function nextStep(): void
+			{
+				/* testing */
+				Context.Model.currentSettings.gameProfile = new GameProfile();
+				Context.Model.currentSettings.gameProfile.nick = nameTextInput.text;
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_NEXT_STEP);
+			}
+		]]>
+	</fx:Script>
+    
+	<fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    
+	<s:HGroup verticalAlign="middle">
+		<s:BitmapImage source="@Embed(source='assets/pageworld/tutorial/joe.png')" />		
+		<s:VGroup horizontalAlign="center" gap="20">
+			<s:Label text="{'Привет, меня зовут Мохнатый Джо!\nДобро пожаловать Бомбастерию,\nнаш мир!'}" 
+					 fontFamily="mpr" color="0xffd746" fontSize="24" textAlign="center" 
+					 />
+			<s:Label text="Как прикажешь тебя называть?" 
+					 fontFamily="mpr" color="0xffd746" fontSize="18" textAlign="center" 
+					 />
+		</s:VGroup>
+		
+	</s:HGroup>
+	
+	<s:HGroup verticalAlign="middle" gap="30">
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+						   backgroundImageFillMode="repeat"
+						   borderWeight="3" borderColor="0x413720"
+						   width="310" height="43"
+			>
+			<s:HGroup width="100%" height="100%">
+				<s:TextInput borderVisible="false" contentBackgroundAlpha="0"
+							 textAlign="center" fontFamily="mpr" fontSize="30" focusAlpha="0"
+							 color="0xffd746"
+							 text="Бритый джон"
+							 id="nameTextInput"
+							 maxChars="14"
+							 />
+			</s:HGroup>
+		</s:BorderContainer>
+		
+		<flexcomponents:PatternButton customLabel="Дальше"
+									  skinClass="skins.buttons.Pattern3ButtonS"
+									  fontSize="28" fontSizeOver="28"
+									  fontColor="0xfff19f"
+									  click="nextStep();"
+									  />
+	</s:HGroup>
+	
+	
+</s:VGroup>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         width="808" height="41"
+         xmlns:toppanel="toppanel.*"
+         xmlns:resources="toppanel.resources.*"
+         creationComplete="init();"
+         xmlns:bottompanel="components.pages.game.bottompanel.*"
+         xmlns:flexcomponents="components.common.flexcomponents.*"
+        >
+    <fx:Script>
+		<![CDATA[
+			import components.ApplicationView;
+			import engine.bombers.BomberType;
+			
+			import skins.buttons.InventoryButtonS;
+
+        private function init():void 
+		{
+            Context.Model.addCustomListener(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED, function(e:ContextEvent):void 
+			{
+                leftHandWeapon.initContent(Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand);
+            });
+
+            Context.Model.addCustomListener(ContextEvent.GPAGE_UPDATE_GAME_WEAPONS, function(e:ContextEvent):void {
+                updateWeapon();
+            });
+
+            Context.Model.addCustomListener(ContextEvent.GPAGE_MY_PARAMETERS_IS_CHANGED, function (e:ContextEvent):void {
+                if (Context.gameModel.isPlayingNow) 
+				{
+                   /*  mySpeed.count = Context.Model.currentSettings.gameProfile.currentBomberType.getViewSpeed(Context.game.playerManager.me.speed);
+                    myBombsCount.count = Context.game.playerManager.me.baseBombCount;
+                    myWavePower.count = Context.game.playerManager.me.bombPower;
+                    myHealth.count = Context.game.playerManager.me.life; */
+                } else 
+				{
+                    /* updateFromBomberType() */
+                }
+            });
+
+
+            updateWeapon();
+        }
+
+        private function updateWeapon():void 
+		{
+            leftHandWeapon.initContent(Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand);
+        }
+
+        private function onGameEnded(p1:*, p2:*):void {
+            //updateFromBomberType()
+        }
+
+        private function openInventory():void 
+		{
+            Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW);
+        }
+
+        private function quitTheGame():void {
+          	/* quit the game now! */
+        }
+
+
+        ]]>
+	</fx:Script>
+
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+
+
+    <s:BitmapImage source="@Embed(source='assets/pageworld/bottompanel/common/bottomPanelBG.jpg')"
+                   width="808" height="41"
+            >
+        <s:filters>
+            <s:DropShadowFilter distance="1"
+                                alpha="0.85"
+                                angle="-90"
+                                blurY="5"
+                    />
+        </s:filters>
+
+    </s:BitmapImage>
+
+    <s:HGroup width="100%" height="41"
+              verticalAlign="middle" horizontalAlign="left"
+              paddingLeft="10"
+              gap="18">
+
+		<flexcomponents:InventoryButton click="openInventory();" />
+		
+		<bottompanel:BombasterParameters />
+		
+		<s:HGroup width="100%" horizontalAlign="right" paddingRight="20">
+			<s:HGroup verticalAlign="middle">
+				<bottompanel:Weapon id="leftHandWeapon" buttonMode="true" useHandCursor="true"/>
+				<s:VGroup>
+					<s:Label text="X" fontFamily="mpbc" fontSize="14" color="0xffffff"/>
+					<s:Label text="Второе оружие" fontFamily="mpbc" fontSize="12" color="0xa5a5a5"/>
+					
+				</s:VGroup>
+			</s:HGroup>
+		</s:HGroup>
+	
+       	
+
+
+    </s:HGroup>
+
+</s:Group>

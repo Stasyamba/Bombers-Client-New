@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:start="components.pages.quest.windows.start.*"
+		 horizontalAlign="center"
+		 height="289"
+		 gap="15"
+		 >
+		
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.quests.QuestObject;
+			import components.common.quests.medals.MedalObject;
+			import components.common.quests.medals.MedalType;
+			
+			public var questObject: QuestObject;
+			
+			public function initContent(qo: QuestObject): void
+			{
+				questObject = qo;
+				
+				if(questImage != null)
+				{
+					questImage.source = questObject.view.imageURL;
+					questAdditionalImage.source = questObject.view.additionalImageURL;
+					
+					questDescribe.text = questObject.view.describe;
+					
+					/* medal from own profile */
+					
+					var medals: Array = Context.Model.currentSettings.gameProfile.medals.concat();
+					var currentMedalType: MedalType = null;
+						
+					for each(var mo:MedalObject in medals)
+					{
+						if(mo.questType == qo.questType)
+						{
+							currentMedalType = mo.medalType;
+							break;
+						}
+					}
+					
+					var gotGold: Boolean = false;
+					var gotSilver: Boolean = false;
+					var gotBronze: Boolean = false;
+					
+					switch(currentMedalType)
+					{
+						case MedalType.GOLD_MEDAL:
+							gotGold = true;
+							gotSilver = true;
+							gotBronze = true;
+							break;
+						case MedalType.SILVER_MEDAL:
+							gotSilver = true;
+							gotBronze = true;
+							break;
+						case MedalType.BRONZE_MEDAL:
+							gotBronze = true;
+							break;
+					}
+					
+					goldTask.initTask(questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
+					silverTask.initTask(questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
+					bronzeTask.initTask(questObject.getTask(MedalType.BRONZE_MEDAL), gotBronze);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup gap="20" verticalAlign="middle">
+		
+		<s:Group width="77" height="77">
+			<s:Rect width="100%" height="100%" radiusX="3" radiusY="3">
+				<s:fill>
+					<s:SolidColor color="0x2e2414" />
+				</s:fill>
+			</s:Rect>
+			
+			<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<mx:Image id="questImage" trustContent="{Context.Model.trustContent}" smoothBitmapContent="true"
+						  width="71" height="71"
+						  />
+			</s:HGroup>
+			
+		</s:Group>
+		
+		<s:Label id="questDescribe" fontFamily="mpr" color="0xffe760" fontSize="14"
+				 maxWidth="280"
+				 />
+	</s:HGroup>
+	
+	<s:HGroup width="100%" horizontalAlign="center">
+		<mx:Image id="questAdditionalImage" />
+	</s:HGroup>
+	
+	<s:Group>
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+						   backgroundImageFillMode="repeat"
+						   width="269" height="153"
+						   borderVisible="false"
+						   cornerRadius="25"
+						   />
+		<s:HGroup width="269" horizontalAlign="center">
+			<s:VGroup height="153" horizontalAlign="left" verticalAlign="top"
+					   paddingTop="15">
+				<start:TaskViewSlot id="bronzeTask" />
+				<start:TaskViewSlot id="silverTask" />
+				<start:TaskViewSlot id="goldTask" />
+			</s:VGroup>
+		</s:HGroup>
+		
+	</s:Group>
+	
+	
+</s:VGroup>

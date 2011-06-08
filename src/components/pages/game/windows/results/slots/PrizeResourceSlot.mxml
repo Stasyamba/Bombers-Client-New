@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
+		 height="69">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourceType;
+			import components.common.resources.ResourceViewObject;
+			
+			private var resourceType: ResourceType = ResourceType.GOLD;
+			[Bindable]
+			private var amount: int;
+			
+			public function initContent(rt: ResourceType, amountP: int): void
+			{
+				resourceType = rt;
+				amount = amountP;
+			}
+
+			private function init(): void
+			{
+				var rwo: ResourceViewObject = Context.Model.resourceViewManager.getResourceViewObject(resourceType);
+				resourceImage.source = rwo.bigImage;
+				
+				switch(resourceType)
+				{
+					case ResourceType.GOLD:
+						resourceImage.scaleX=0.45;
+						resourceImage.scaleY=0.45;
+						
+						resourceAmount.setStyle("color", 0xffd746);
+						
+						break;
+					case ResourceType.CRYSTALS:
+						resourceImage.scaleX=0.35;
+						resourceImage.scaleY=0.35;
+						
+						resourceAmount.setStyle("color", 0xd96eff);
+						
+						break;
+					case ResourceType.ADAMANT:
+						resourceImage.scaleX=0.5;
+						resourceImage.scaleY=0.5;
+						
+						resourceAmount.setStyle("color", 0xe0e0e0);
+						
+						break;
+					case ResourceType.ANTIMATTER:
+						resourceImage.scaleX=0.33;
+						resourceImage.scaleY=0.33;
+						
+						resourceAmount.setStyle("color", 0x6dbede);
+						
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:HGroup height="100%" verticalAlign="bottom">
+		<s:BitmapImage id="resourceImage" smooth="true" />
+		<s:HGroup>
+			<s:Label id="resourceAmount" paddingLeft="-5" text="{amount}" />
+		</s:HGroup>
+		
+	</s:HGroup>
+	
+	
+</s:Group>

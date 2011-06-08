@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:mx1="http://ns.adobe.com/mxml/mx"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false"
+				useHandCursor="true"
+				buttonMode="true"
+				width="105" height="46"
+				>
+	<s:layout>
+		<s:BasicLayout />
+	</s:layout>
+	
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourceType;
+			import components.common.resources.ResourceViewObject;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			
+			
+			override public function set data( value:Object ) : void {
+				super.data = value;
+				
+				/* set dark side */
+			
+				var cm: ColorMatrix = new ColorMatrix();
+				cm.adjustBrightness(-20,-20,-20);
+				
+				bgDark.filters = [cm.filter];
+				
+				
+				if(value is ResourceCostView)
+				{
+					var rvo: ResourceViewObject = Context.Model.resourceViewManager.getResourceViewObject((value as ResourceCostView).type);
+					
+					if(rvo != null)
+					{
+						resourceImage.source = rvo.bigImage;
+						resourceAmountLabel.text = (value as ResourceCostView).amount.toString();
+						resourcePriceLabel.text = (value as ResourceCostView).votes.toString() + "голос.";
+						
+						resourceAmountLabel.setStyle("color", rvo.color);
+						resourcePriceLabel.setStyle("color", rvo.color);
+						
+					}
+					
+					resourceImage.scaleX = (value as ResourceCostView).imageScale;
+					resourceImage.scaleY = (value as ResourceCostView).imageScale;
+					
+					//glowFilter.color =  rvo.color;
+				}
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer id="bgDark"
+					   width="105" height="46"
+					   backgroundImage="@Embed(source='assets/windows/bgGrey.jpg')"
+					   backgroundImageFillMode="repeat"
+					   borderVisible="false"
+					   alpha="0.9"
+					   >
+		<!--<s:filters>
+			<s:GlowFilter id="glowFilter" inner="true" alpha="0" alpha.hovered="0.5" blurX="10" blurY="10" />
+		</s:filters>-->
+	</s:BorderContainer>
+	
+	<s:HGroup width="100%" height="100%"
+			  horizontalAlign="center" verticalAlign="middle"
+			  >
+		<s:VGroup horizontalAlign="center" gap="0" width="50" height="100%" verticalAlign="middle">
+			<s:Label id="resourceAmountLabel" fontFamily="mpbc" fontSize="24" />
+			<s:Label id="resourcePriceLabel" fontFamily="mpr" fontSize="12" />
+		</s:VGroup>
+		
+		<s:HGroup width="50" horizontalAlign="center">
+			<s:BitmapImage id="resourceImage" smooth="true" />
+		</s:HGroup>
+		
+		
+	</s:HGroup>
+	
+	
+</s:ItemRenderer>

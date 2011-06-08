@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 implements="components.common.base.window.IWindow"
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 skinClass="skins.common.EmptyPopUpS"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 width="767" height="421"
+		 alpha="0" 
+		 xmlns:inventorynew="components.pages.global.inventorynew.*" 
+		 xmlns:inventory="components.pages.global.inventorynew.inventory.*" 
+		 xmlns:flexcomponents="components.common.flexcomponents.*" 
+		 xmlns:market="components.pages.global.inventorynew.market.*" 
+		 >
+	
+	<fx:Declarations>
+		
+		
+		<s:Animate id="disapearingA" target="{this}" duration="300"
+				   effectEnd="{close();}">
+			<s:SimpleMotionPath property="alpha"
+								valueFrom="1"
+								valueTo="0"
+								/>
+		</s:Animate>
+		
+		<s:Animate id="apearingA" target="{this}" duration="500">
+			<s:SimpleMotionPath property="alpha"
+								valueFrom="0" valueTo="1"
+								/>
+		</s:Animate>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			
+			/*ublic function bottomMenuButtonClickHandler(type:int):void {
+			switch (type) {
+			case OPEN_MARKET_TYPE:
+			showInventoryMarket();
+			break;
+			
+			case OPEN_RANDOM_GAME_TYPE:
+			Context.gameModel.fastJoin();
+			showRandomGameCreating();
+			
+			Context.gameModel.someoneJoinedToGame.addOnce(function (p1:*):void {
+			closeRandomGameCreating();
+			Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_GAME);
+			});
+			
+			break;
+			}
+			} */ 
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager
+			
+			public function close():void {
+				//Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingA.play();
+			}
+			
+			private function panelCreationComplete():void {
+				
+				//Context.Model.windowsManager.closeAll(true);
+				//Context.Model.windowsManager.addWindow(this);
+				
+				apearingA.play();
+				
+				/* check flag */
+				/* if new item =  */
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, false);
+				
+				/* if new shop item =  */
+			}
+			
+			private function setTab(e: ContextEvent): void
+			{
+				switch(e.data)
+				{
+					case TopMenu.STATE_INVENOTRY:
+						marketView.visible = false;
+						inventoryView.visible = true;
+						break;
+					case TopMenu.STATE_MARKET:
+						marketView.visible = true;
+						inventoryView.visible = false;
+						break;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<!--<s:BorderContainer width="2000" height="2000" y="-1000" x="-1000" backgroundColor="0x000000" alpha="0.3" />
+	-->
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="767" height="421"
+					   borderVisible="true" borderColor="0x322916" borderWeight="3"
+					   cornerRadius="30"
+					   />
+	
+	<s:VGroup width="764" height="418" x="3" y="3" verticalAlign="top" gap="0">
+		
+		<inventorynew:TopMenu stateChanged="setTab(event);" />
+		<!-- content -->
+		<s:Group height="100%">
+			<inventory:InventoryView id="inventoryView" />
+			<market:MarketView id="marketView" visible="false" />
+		</s:Group>
+		
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" scale="0.7" x="722" y="10" click="closeWrapper();" />
+	
+	<s:controlBarContent/>
+</s:Panel>

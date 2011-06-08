@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" 
+		  width="100%" height="342"
+		  creationComplete="init();"
+		  horizontalAlign="center" xmlns:flexcomponents="components.common.flexcomponents.*"
+		  >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.Pattern1ButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.bombers.BomberObject;
+			
+			private function init(): void
+			{
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup height="284" verticalAlign="middle" horizontalAlign="center" gap="20">
+		
+		<s:HGroup paddingTop="-10" verticalAlign="middle">
+			<s:HGroup width="130" horizontalAlign="center" verticalAlign="middle"
+					  >
+				<s:BitmapImage source="@Embed(source='assets/windows/energy/bg.png')" />
+			</s:HGroup>
+			
+			<s:VGroup verticalAlign="middle" gap="20">
+				<!-- 25 -->
+				
+				<s:HGroup horizontalAlign="left" gap="25" verticalAlign="middle">
+					<s:HGroup  width="76" horizontalAlign="right">
+						<s:Label text="25" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+						<s:HGroup paddingTop="-5" scaleX="0.9" scaleY="0.9">
+							<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+										   smooth="true"
+										   />
+						</s:HGroup>
+					</s:HGroup>
+					
+					<s:Label text="= 1 голос" fontFamily="mpbc" color="0xffe760" fontSize="20" />
+					
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.2" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				
+				<!-- 100 -->
+				<s:HGroup horizontalAlign="left" gap="25" verticalAlign="middle">
+					<s:HGroup width="76" horizontalAlign="right">
+						<s:Label text="100" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+						<s:HGroup paddingTop="-5" scaleX="0.9" scaleY="0.9">
+							<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+										   smooth="true"
+										   />
+						</s:HGroup>
+					</s:HGroup>
+					
+					<s:Label text="= 3 голос" fontFamily="mpbc" color="0xffe760" fontSize="20" />
+					
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.2" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				
+				<!-- 175 -->
+				<s:HGroup horizontalAlign="left" gap="25" verticalAlign="middle">
+					<s:HGroup  width="76" horizontalAlign="right">
+						<s:Label text="175" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+						<s:HGroup paddingTop="-5" scaleX="0.9" scaleY="0.9">
+							<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+										   smooth="true"
+										   />
+						</s:HGroup>
+					</s:HGroup>
+					
+					<s:Label text="= 5 голос" fontFamily="mpbc" color="0xffe760" fontSize="20" />
+					
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.2" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+			</s:VGroup>
+		</s:HGroup>
+		
+	</s:HGroup>
+	
+	<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="center">
+		<s:HGroup>
+			<s:Label text="{'Закончилась энергия\nвсе ждут вас, решайтесь!'}" fontFamily="mpr" fontSize="14" color="0xffe760" />
+		</s:HGroup>
+		
+		<s:HGroup gap="0" enabled="false" alpha="0.3">
+			<s:HGroup  width="76" horizontalAlign="right">
+				<s:Label text="5" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+				<s:HGroup paddingTop="-5" scaleX="0.7" scaleY="0.7">
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+								   smooth="true"
+								   />
+				</s:HGroup>
+			</s:HGroup>
+			
+			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
+										  buttonMode="true" useHandCursor="true"
+										  scaleX="0.8" scaleY="0.8"
+										  customLabel="Уже готов" fontColor="0xfff19f"
+										  fontSize="28" fontSizeOver="28"
+										  />
+		</s:HGroup>
+		
+	</s:HGroup>
+	
+</s:VGroup>

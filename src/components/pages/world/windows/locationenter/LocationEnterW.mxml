@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="443" height="315"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" xmlns:preloaders="components.common.utils.preloaders.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" target="{this}" duration="400" effectEnd="{close();}">
+			<s:Animate >
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="1"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="550">
+				<s:SimpleMotionPath property="x"
+									valueFrom="800" valueTo="140"
+									/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="x"
+									valueFrom="140" valueTo="180"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourceType;
+			import components.common.quests.medals.MedalType;
+			import components.common.quests.medals.MedalObject;
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.itemrule.AccessItemRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.worlds.locations.LocationType;
+			import components.common.worlds.locations.LocationViewObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			/*   set from outside when windows is creatig   */
+			public var locationType:LocationType = null;
+			
+			[Bindable]
+			private var locationViewObject: LocationViewObject;
+			
+			public function close():void {
+				Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				Context.Model.windowsManager.closeAll(true);
+				Context.Model.windowsManager.addWindow(this);
+				
+				initContent();
+			}
+			
+			private function initContent():void {
+				
+				if (locationType != null) 
+				{
+					var loo: LocationViewObject = Context.Model.locationViewManager.getLocationViewObject(locationType);
+					
+					locationName.text = loo.name;
+					locationDescribe.text = loo.describe;
+					
+					
+					actionsGroup.removeAllElements();
+					
+					var accessObjects:Array = AccessManager.checkAccessLocation(locationType);
+					
+					var isLevelRuleDone: Boolean = true;
+					var isLocationRuleDone: Boolean = true;
+					var isLocationBeta: Boolean = false;
+					
+					var neededLevel: int = 1;
+					
+					for each(var aro: AccessRuleObject in accessObjects) 
+					{
+						switch (aro.accessRule.getAccessRuleType()) 
+						{
+							case AccessRuleType.LEVEL_RULE:
+								isLevelRuleDone = aro.isSuccess;
+								neededLevel = (aro.accessRule as AccessLevelRule).minimumLevel;
+								
+								break;
+							
+							case AccessRuleType.OPENED_LOCATIONS_RULE:
+								isLocationRuleDone = aro.isSuccess;
+								break;
+							
+							case AccessRuleType.BETA_RULE:
+								isLocationBeta = true;
+								break;
+						}
+					}
+					
+					
+					var isLocationOpened:Boolean = false;
+					
+					for each(var ol:LocationType in Context.Model.currentSettings.gameProfile.openedLocations) 
+					{
+						if (ol == locationType) 
+						{
+							isLocationOpened = true;
+							break;
+						}
+					}
+					
+					var content:IVisualElement = null;
+					
+					if(isLocationBeta)
+					{
+						content = new BetaContent();
+					}else
+					{
+					
+						if (isLocationOpened) 
+						{
+							content = new OpenedContent();
+							
+							/* get real data from own profile */
+							
+							var missionsMedals: int = Context.Model.questManager.getQuests(locationType).length * 3;
+							var myMedals: int = 0;
+							
+							for each(var m: MedalObject in Context.Model.currentSettings.gameProfile.medals)
+							{
+								if(m.questType.locationType == locationType)
+								{
+									switch(m.medalType)
+									{
+										case MedalType.GOLD_MEDAL:
+											myMedals += 3;
+											break;
+										case MedalType.SILVER_MEDAL:
+											myMedals += 2;
+											break;
+										case MedalType.BRONZE_MEDAL:
+											myMedals += 1;
+											break;
+									}
+								}
+							}
+							
+							(content as OpenedContent).initContent(missionsMedals, myMedals, 120, [ResourceType.GOLD]);
+							(content as OpenedContent).addEventListener("actionSelected", actionSelected);  
+						}else
+						{
+							content = new ClosedContent();
+							(content as ClosedContent).initContent(isLevelRuleDone, isLocationRuleDone, neededLevel);
+						}
+					}
+					
+					if (content != null) {
+						actionsGroup.addElement(content);
+					}
+					
+					apearingAnimation.play();
+				} else 
+				{
+					Alert.show("Error: locationType is null | LocationEnterW");
+				}
+			}
+			
+			private function actionSelected(e: ContextEvent): void
+			{
+				actionsGroup.getElementAt(0).removeEventListener("actionSelected", actionSelected);  
+				closeWrapper();
+				
+				if(e.data)
+				{
+					/* isPlay */
+				}else
+				{
+					/* isQuest */
+					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_LOCATION_QUESTS, locationType);
+				}
+				
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="60"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="437" x="3" y="3" height="123"
+					   cornerRadius="60"
+					   borderVisible="false"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="437" x="3" height="70"
+					   y="66"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="15">
+		
+		<s:HGroup width="100%" height="68"
+				  horizontalAlign="center" verticalAlign="middle">
+			<s:Label id="locationName" fontFamily="mpbc" color="0xffd33d" fontSize="36" />
+		</s:HGroup>
+		
+		<s:Label id="locationDescribe" 
+				 textAlign="center" 
+				 fontFamily="mpr" color="0xffd33d" fontSize="14" 
+				 maxWidth="306" height="56" 
+				 />
+		
+		<s:Group id="actionsGroup" />
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="380" y="15" scale="0.8"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

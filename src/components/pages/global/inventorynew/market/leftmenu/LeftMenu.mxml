@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="123" height="166"
+		 creationComplete="init();"
+		 >
+	
+	<fx:Metadata>
+		
+		[Event(name="stateChanged", type="ContextEvent")]
+		
+	</fx:Metadata>
+	
+	<fx:Declarations>
+		<s:Parallel id="toWeaponsA" target="{selectedGroup}">
+			<s:Sequence >
+				<s:Animate duration="300">
+					<s:SimpleMotionPath property="y" valueFrom="{selectedGroup.y}" valueTo="-4" />
+				</s:Animate>
+			</s:Sequence>
+			
+		</s:Parallel>
+		
+		<s:Parallel id="toPotionsA" target="{selectedGroup}">
+			<s:Sequence>
+				<s:Animate duration="300">
+					<s:SimpleMotionPath property="y" valueFrom="{selectedGroup.y}" valueTo="30" />
+				</s:Animate>
+			</s:Sequence>
+			
+		</s:Parallel>
+		
+		<s:Parallel id="toBombastersA" target="{selectedGroup}">
+			<s:Sequence>
+				<s:Animate duration="300">
+					<s:SimpleMotionPath property="y" valueFrom="{selectedGroup.y}" valueTo="66" />
+				</s:Animate>
+			</s:Sequence>
+			
+		</s:Parallel>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.items.categories.MarketCategory;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			
+			public static const CATEGORY_WEAPON: MarketCategory = MarketCategory.BOMBS_AND_POISONS;
+			public static const CATEGORY_POTIONS: MarketCategory = MarketCategory.POTIONS;
+			public static const CATEGORY_BOMBERS: MarketCategory = MarketCategory.BOMBERS;
+			public static const CATEGORY_VARIOUS: MarketCategory = MarketCategory.VARIOUS;
+			
+			private var _selectedState: MarketCategory;
+	
+			
+			public function get selectedState():MarketCategory
+			{
+				return _selectedState;
+			}
+			
+			public function set selectedState(value:MarketCategory):void
+			{
+				if(value != _selectedState)
+				{
+					dispatchEvent(new ContextEvent("stateChanged", false, false, value));
+					
+					toWeaponsA.stop();
+					toPotionsA.stop();
+					toBombastersA.stop();
+					
+					switch(value)
+					{
+						case CATEGORY_BOMBERS:
+							toBombastersA.play();
+							break;
+						case CATEGORY_POTIONS:
+							toPotionsA.play();
+							break;
+						case CATEGORY_WEAPON:
+							toWeaponsA.play();
+							break;
+					}
+					
+				}
+				
+				_selectedState = value;
+			}
+			
+			private function init(): void
+			{
+				selectedState = CATEGORY_WEAPON;
+				
+				var cm: ColorMatrix = new ColorMatrix();
+				cm.adjustBrightness(-10,-10,-10);
+				
+				selectedGroup.filters = [cm.filter];
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:BorderContainer id="selectedGroup"
+					   width="109" height="25" 
+					   backgroundImage="@Embed(source='assets/windows/bgBright.jpg')"
+					   backgroundImageFillMode="repeat"
+					   borderVisible="false"
+					   cornerRadius="15"
+					   x="7"
+					   />
+	
+	<s:VGroup gap="20" 
+			  useHandCursor="true" buttonMode="true" 
+			  width="100%"
+			  horizontalAlign="center"
+			  >
+		
+		<s:HGroup click="{selectedState = CATEGORY_WEAPON;}">
+			<s:Label text="Оружие" color="0xdea300" fontFamily="mpr" fontSize="16" />
+		</s:HGroup>
+		<s:HGroup click="{selectedState = CATEGORY_POTIONS;}">
+			<s:Label text="Зелья" color="0xdea300" fontFamily="mpr" fontSize="16" />
+		</s:HGroup>
+		<s:HGroup click="{selectedState = CATEGORY_BOMBERS;}">
+			<s:Label text="Бомбастеры" color="0xdea300" fontFamily="mpr" fontSize="16" />
+		</s:HGroup>
+		
+		
+	</s:VGroup>
+	
+</s:Group>

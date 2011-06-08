@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:mx="library://ns.adobe.com/flex/mx"
+          xmlns:resources="components.pages.world.toppanel.resources.*"
+          gap="5"
+          creationComplete="init();"
+        >
+
+    <fx:Declarations>
+    </fx:Declarations>
+
+    <fx:Script>
+		<![CDATA[
+        import components.common.resources.ResourceType
+
+        [Embed(source="assets/sounds/pageworld/rPFO_1.mp3")]
+        [Bindable]
+        public var sndDropDownClass:Class;
+
+        public var sndDropDown:Sound = new sndDropDownClass() as Sound;
+        public var sndChannel:SoundChannel;
+
+
+        private function init():void {
+            
+			Context.Model.addCustomListener(ContextEvent.GP_RESOURCE_CHANGED, function (e:ContextEvent):void
+			{
+                antimatterResource.setResource(Context.Model.currentSettings.gameProfile.resources.antimatter.value);
+                adamantResource.setResource(Context.Model.currentSettings.gameProfile.resources.adamant.value);
+                crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value);
+                goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value);
+            });
+			
+			
+            if (Context.Model.currentSettings.gameProfile != null && Context.Model.currentSettings.gameProfile.resources != null) {
+                antimatterResource.setResource(Context.Model.currentSettings.gameProfile.resources.antimatter.value);
+                adamantResource.setResource(Context.Model.currentSettings.gameProfile.resources.adamant.value);
+                crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value);
+                goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value);
+            }
+        }
+
+
+        private function resourceFocusOver(e:Event):void {
+            // play some sound
+            sndChannel = sndDropDown.play();
+
+            for (var i:int = 0; i <= resourcesGroup.numElements - 1; i++) {
+                var el:* = resourcesGroup.getElementAt(i);
+                if (el is IResourceView && el != e.currentTarget) {
+                    (el as IResourceView).closeToolTip();
+
+                    // may be acceleratedCloseToolTip - for another behavor
+                }
+            }
+        }
+        ]]>
+	</fx:Script>
+
+
+    <s:HGroup id="resourcesGroup">
+
+
+        <resources:ResourceTemplate id="antimatterResource"
+                                    resourceType="{ResourceType.ANTIMATTER}"
+                                    toolTipCalledFirst="resourceFocusOver(event);"
+                />
+        <resources:ResourceTemplate id="adamantResource"
+                                    resourceType="{ResourceType.ADAMANT}"
+                                    toolTipCalledFirst="resourceFocusOver(event);"
+                />
+        <resources:ResourceTemplate id="crystalsResource"
+                                    resourceType="{ResourceType.CRYSTALS}"
+                                    toolTipCalledFirst="resourceFocusOver(event);"
+                />
+        <resources:ResourceTemplate id="goldResource"
+                                    resourceType="{ResourceType.GOLD}"
+                                    toolTipCalledFirst="resourceFocusOver(event);"
+                />
+
+    </s:HGroup>
+
+</s:HGroup>

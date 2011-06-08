@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer 	 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx"
+					 xmlns:locationenter="components.pages.world.windows.locationenter.*"
+					 backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					 backgroundImageFillMode="repeat"
+					 borderVisible="false" 
+					 width="396" height="127" xmlns:flexcomponents="components.common.flexcomponents.*"
+					 creationComplete="init();"
+					 >
+	
+	<s:filters>
+		<s:DropShadowFilter inner="true" distance="0" alpha="0.4" />
+	</s:filters>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Metadata>
+		[Event(name="actionSelected", type="ContextEvent")] 
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourceObject;
+			import components.common.resources.ResourceType;
+			import components.common.resources.ResourceViewObject;
+			
+			
+			[Bindable]
+			private var missionsMedalsCount: int;
+			[Bindable]
+			private var medalsCount: int;
+			[Bindable]
+			private var playersCount: int;
+			
+			private var rType: Array;
+			
+			public function initContent(missionsMedalsCountP: int, 
+										medalsCountP: int,
+										playersCountP: int,
+										resourcesType: Array):void
+			{
+				missionsMedalsCount = missionsMedalsCountP;
+				medalsCount = medalsCountP;
+				playersCount = playersCountP;
+				
+				rType = new Array();
+				for each(var rt: ResourceType in resourcesType)
+				{
+					rType.push(rt)
+				}
+			}
+			
+			private function init(): void
+			{
+				resourceGroup.removeAllElements();
+				for each(var rt: ResourceType in rType)
+				{
+					var resourceObject: ResourceViewObject = Context.Model.resourceViewManager.getResourceViewObject(rt);
+					
+					var bmp:BitmapImage = new BitmapImage();
+					bmp.source = resourceObject.smallImage;
+					bmp.smooth = true;
+					bmp.scaleX = 0.7;
+					bmp.scaleY = 0.7;
+					
+					resourceGroup.addElement(bmp);
+				}
+			}
+			
+			public function doAction(isPlay: Boolean): void
+			{
+				dispatchEvent(new ContextEvent("actionSelected", false, false, isPlay));	
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   borderVisible="false" 
+					   width="196" height="100%" 
+					   x="200"
+					   blendMode="overlay"
+					   alpha="0.3"
+					   />
+	
+	<s:HGroup horizontalAlign="center" 
+			  verticalAlign="middle"
+			  width="100%" height="100%" 
+			  >
+		<s:VGroup width="200" horizontalAlign="center" verticalAlign="middle" gap="10">
+			
+			<s:HGroup verticalAlign="middle" gap="10">
+				<s:VGroup>
+					<s:Label text="Ваши медали: {medalsCount}" fontFamily="mpr" color="0xffde00" fontSize="12" />
+					<s:Label text="Всего медалей: {missionsMedalsCount}" fontFamily="mpr" color="0xffde00" fontSize="12" />
+				</s:VGroup>
+				
+				<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/locationenter/shield.png')" />
+			</s:HGroup>
+			
+			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
+										  customLabel="Задание"
+										  scaleX="0.6" scaleY="0.6"
+										  fontSize="30" fontSizeOver="30"
+										  fontColor="0xffeeca"
+										  click="doAction(false);"
+										  />
+			
+		</s:VGroup>
+		
+		<s:VGroup width="200" horizontalAlign="center" verticalAlign="middle" gap="10">
+			<s:HGroup verticalAlign="middle" gap="10">
+				<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/locationenter/swords.png')" />
+				
+				<s:VGroup>
+					<s:Label text="Играют: {playersCount} чел." fontFamily="mpr" color="0xffde00" fontSize="12" />
+					<s:HGroup verticalAlign="middle" horizontalAlign="left" gap="2">
+						<s:Label text="Добыча:" fontFamily="mpr" color="0xffde00" fontSize="12" />
+						<s:HGroup id="resourceGroup" gap="2" />
+					</s:HGroup>
+				</s:VGroup>
+			</s:HGroup>
+			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
+										  customLabel="В бой"
+										  scaleX="0.6" scaleY="0.6"
+										  fontSize="30" fontSizeOver="30"
+										  fontColor="0xffeeca"
+										  click="doAction(true);"
+										  />
+		</s:VGroup>
+	</s:HGroup>
+
+	
+	
+	
+</s:BorderContainer>

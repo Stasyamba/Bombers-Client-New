@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:market="components.pages.global.inventorynew.market.*"
+		 creationComplete="init();" xmlns:flexcomponents="components.common.flexcomponents.*"
+		 gap="20"
+		 >
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.market.ItemMarketObject;
+			import components.common.items.ItemObject;
+			import components.common.items.ItemType;
+			import components.common.items.ItemViewObject;
+			import components.common.resources.ResourcePrice;
+			
+			import skins.buttons.Pattern3ButtonS;
+			
+			[Bindable]
+			private var itemType: ItemType;
+			
+			[Bindable]
+			private var itemName: String;
+			[Bindable]
+			private var itemDescribe: String;
+			private var itemPrice: ResourcePrice;
+			private var itemImageURL: String;
+			private var itemMarketObject: ItemMarketObject;
+			
+			public function initContent(itemTypeP: ItemType): void
+			{
+				itemType = itemTypeP;
+				var itemObject: ItemObject = Context.Model.itemsManager.getItem(itemType)
+				var itemViewObject: ItemViewObject = itemObject.viewObject;
+				
+				itemName = itemViewObject.name;
+				itemDescribe = itemViewObject.description;
+				itemImageURL = itemViewObject.smallImageURL;
+				itemMarketObject = Context.Model.marketManager.getItemPrice(itemType);
+				
+				
+				
+				var accessRulesObject:Array = AccessManager.checkAccessItem(itemType);
+				var isLevelRuleSuccess:Boolean = false;
+				
+				for each(var aro:AccessRuleObject in accessRulesObject) {
+					if (aro.accessRule is AccessLevelRule) {
+						isLevelRuleSuccess = aro.isSuccess;
+						
+						if (!isLevelRuleSuccess) {
+							accessLevelRuleFailed.text = "Необходим " + (aro.accessRule as AccessLevelRule).minimumLevel.toString() + " уровень";
+						}
+						
+						break;
+					}
+				}
+				
+				if (isLevelRuleSuccess) {
+					accessGroup.visible = false;
+					buyGroup.visible = true;
+				}else
+				{
+					accessGroup.visible = true;
+					buyGroup.visible = false;
+				}
+						
+			}
+			
+			private function init(): void
+			{
+				itemImage.source = itemImageURL;
+				price.initContent(itemMarketObject.price);
+				itemCount.text = itemMarketObject.amount.toString() +" шт.";
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="100%" horizontalAlign="center">
+		<s:VGroup horizontalAlign="center" width="72">
+			<s:HGroup height="50" verticalAlign="middle">
+				<mx:Image id="itemImage" smoothBitmapContent="true" trustContent="{Context.Model.trustContent}" />
+			</s:HGroup>
+			
+			<s:Label id="itemCount" fontFamily="mpr" fontSize="12" color="0xc29b2f" text="10 шт." />
+			
+			<s:HGroup id="buyGroup" width="100%" horizontalAlign="center" visible="false">
+				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+											  scaleX="0.5" scaleY="0.5"
+											  customLabel="Купить"
+											  fontSize="32" fontSizeOver="32"
+											  fontColor="0xfff19f"
+											  />
+			</s:HGroup>
+		</s:VGroup>
+		
+		<s:VGroup gap="10">
+			<s:Label text="{itemName}" fontFamily="mpbc" fontSize="18" color="0xfec935" maxWidth="194" />
+			
+			<s:HGroup verticalAlign="middle">
+				<s:Label fontFamily="mpr" fontSize="14" color="0xc29b2f" text="Цена: " />
+				<market:PricePanel id="price" />
+			</s:HGroup>
+			
+			<s:Label text="{itemDescribe}" fontFamily="mpr" fontSize="12" color="0xc29b2f"
+					 width="203"
+					 />
+		</s:VGroup>
+	</s:HGroup>
+	
+	<s:HGroup id="accessGroup" width="100%" horizontalAlign="center" visible="false">
+		<s:Label id="accessLevelRuleFailed" fontFamily="mpr" fontSize="24" color="0xe86a05" />
+	</s:HGroup>
+
+	
+	
+</s:VGroup>

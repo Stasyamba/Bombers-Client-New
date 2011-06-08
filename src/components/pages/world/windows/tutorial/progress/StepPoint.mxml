@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			public function setOver(): void
+			{
+				upGroup.alpha = 0;
+				overGroup.alpha = 1;
+				doneGroup.alpha = 0;
+			}
+			
+			public function setUp(): void
+			{
+				upGroup.alpha = 1;
+				overGroup.alpha = 0;
+				doneGroup.alpha = 0;	
+			}
+			
+			public function setDone(): void
+			{
+				upGroup.alpha = 0;
+				overGroup.alpha = 0;
+				doneGroup.alpha = 1;
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:Group id="upGroup">
+		<s:Ellipse width="15" height="15" blendMode="overlay" alpha="0.3">
+			<s:fill>
+				<s:SolidColor color="0x2b2414" />
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	
+	<s:Group id="overGroup" alpha="0">
+		<s:Ellipse width="30" height="30" blendMode="overlay" alpha="0.9" x="-7" y="-7">
+			<s:fill>
+				<s:SolidColor color="0xfffe0c" />
+			</s:fill>
+		</s:Ellipse>
+		<s:Ellipse width="30" height="30" blendMode="overlay" alpha="0.9" x="-7" y="-7">
+			<s:fill>
+				<s:SolidColor color="0xfffe0c" />
+			</s:fill>
+		</s:Ellipse>
+		<s:Ellipse width="15" height="15" alpha="0.9">
+			<s:fill>
+				<s:SolidColor color="0x2b2414" />
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	
+	<s:Group id="doneGroup" alpha="0">
+		<s:Ellipse width="15" height="15" blendMode="overlay" alpha="0.9">
+			<s:fill>
+				<s:SolidColor color="0xfffe0c" />
+			</s:fill>
+		</s:Ellipse>
+		<s:Ellipse width="15" height="15" blendMode="overlay" alpha="0.9">
+			<s:fill>
+				<s:SolidColor color="0xfffe0c" />
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	
+	
+	
+</s:Group>

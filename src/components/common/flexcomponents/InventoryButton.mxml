@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
+		 >
+	<fx:Declarations>
+		<s:Parallel target="{plusOneGroup}" id="pulseA" repeatCount="10000">
+			<s:Sequence>
+				<s:Animate duration="500">
+					<s:SimpleMotionPath property="y" valueFrom="0" valueTo="-10" />
+				</s:Animate>
+				<s:Animate duration="300">
+					<s:SimpleMotionPath property="y" valueFrom="-10" valueTo="0" />
+				</s:Animate>
+			</s:Sequence>
+			
+			<s:Sequence>
+				<s:Animate duration="250">
+					<s:SimpleMotionPath property="scaleY" valueFrom="1" valueTo="0.95" />
+				</s:Animate>
+				<s:Animate duration="250">
+					<s:SimpleMotionPath property="scaleY" valueFrom="0.95" valueTo="0.75" />
+				</s:Animate>
+				
+				<s:Animate duration="300">
+					<s:SimpleMotionPath property="scaleY" valueFrom="0.75" valueTo="1" />
+				</s:Animate>
+				
+			</s:Sequence>
+			
+		</s:Parallel>
+		
+		
+		<s:Parallel target="{plusOneGroup}" id="disapearingA" effectEnd="{plusOneGroup.visible = false;}">
+			
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="y" valueFrom="{plusOneGroup.y}" valueTo="-50" />
+			</s:Animate>
+
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="scaleY" valueFrom="1" valueTo="3" />
+			</s:Animate>
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="scaleX" valueFrom="1" valueTo="3" />
+			</s:Animate>
+		
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0" />
+			</s:Animate>
+			
+		</s:Parallel>
+		
+	</fx:Declarations>
+	
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.InventoryButtonS;
+			
+			private function init(): void
+			{
+				Context.Model.addCustomListener(ContextEvent.IM_NEW_ITEM, function (e: ContextEvent): void
+				{
+					if(e.data)
+					{
+						plusOneGroup.visible = true;
+						pulseA.play();
+						
+						/* play sound */
+					}else
+					{
+						pulseA.stop();
+						plusOneGroup.visible = false;
+						//disapearingA.play();
+					}
+				});
+				
+				/* testing */
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, true);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group>
+		<s:Button skinClass="skins.buttons.InventoryButtonS" 
+				  useHandCursor="true" buttonMode="true"
+				  />
+		<s:Group id="plusOneGroup" x="74" y="-5">
+			<s:BitmapImage source="@Embed(source='assets/pageworld/bottompanel/buttons/plusOne.png')" smooth="true" />
+		</s:Group>
+		
+	</s:Group>
+	
+	
+</s:Group>

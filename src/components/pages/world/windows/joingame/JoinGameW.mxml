@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:mx1="library://ns.adobe.com/flex/halo"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:fx="http://ns.adobe.com/mxml/2009"
+         creationComplete="panelCreationComplete();"
+         borderVisible="false"
+         dropShadowVisible="false"
+         skinClass="skins.common.EmptyPopUpS"
+         implements="components.common.base.window.IWindow"
+		 width="611" height="122"
+		 alpha="0" xmlns:preloaders="components.common.utils.preloaders.*"
+        >
+
+    <fx:Declarations>
+
+
+        <s:Animate id="disapearingA" target="{this}" duration="300"
+                   effectEnd="{close();}">
+            <s:SimpleMotionPath property="alpha"
+                                valueFrom="1"
+                                valueTo="0"
+                    />
+        </s:Animate>
+
+        <s:Animate id="apearingA" target="{this}" duration="500">
+            <s:SimpleMotionPath property="alpha"
+                                valueFrom="0" valueTo="1"
+                    />
+        </s:Animate>
+
+
+    </fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			
+			/*ublic function bottomMenuButtonClickHandler(type:int):void {
+				switch (type) {
+					case OPEN_MARKET_TYPE:
+						showInventoryMarket();
+						break;
+					
+					case OPEN_RANDOM_GAME_TYPE:
+						Context.gameModel.fastJoin();
+						showRandomGameCreating();
+						
+						Context.gameModel.someoneJoinedToGame.addOnce(function (p1:*):void {
+							closeRandomGameCreating();
+							Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_GAME);
+						});
+						
+						break;
+				}
+			} */ 
+			
+		]]>
+	</fx:Script>
+	
+    <fx:Script>
+		<![CDATA[
+        import mx.managers.PopUpManager
+	
+        private var timer:Timer = new Timer(3000, 1);
+
+        public function close():void {
+            Context.Model.windowsManager.deleteWindow(this);
+            PopUpManager.removePopUp(this);
+        }
+
+        public function closeWrapper():void {
+            disapearingA.play();
+        }
+
+        private function panelCreationComplete():void {
+
+            Context.Model.windowsManager.closeAll(true);
+            Context.Model.windowsManager.addWindow(this);
+            
+            timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerCompleteHandler);
+			
+			apearingA.play();
+        }
+
+        private function timerCompleteHandler(e:TimerEvent):void {
+            timer.reset();
+            timer.stop();
+        }
+			
+        ]]>
+	</fx:Script>
+    <s:layout>
+        <s:BasicLayout/>
+    </s:layout>
+
+	<s:BorderContainer width="2000" height="2000" y="-1000" x="-1000" backgroundColor="0x000000" alpha="0.3" />
+	
+	<s:Group>
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgGrey.jpg')"
+						   backgroundImageFillMode="repeat"
+						   width="611" height="122"
+						   borderVisible="false"
+						   cornerRadius="30"
+						   />
+		<s:HGroup width="100%" height="100%" 
+				  horizontalAlign="center" verticalAlign="middle"
+				  >
+			<preloaders:Spinner tickColor="0xfed43d" tickWidth="15" size="80"  />
+			<s:Label text="Ищем подходящую игру" fontFamily="mpbc" fontSize="48" color="0xfed43d" />
+		</s:HGroup>
+	</s:Group>
+   
+
+    <s:controlBarContent/>
+</s:Panel>

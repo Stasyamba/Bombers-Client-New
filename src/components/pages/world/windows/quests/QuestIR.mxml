@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:mx1="http://ns.adobe.com/mxml/mx"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false"
+				width="376" height="94" xmlns:flexcomponents="components.common.flexcomponents.*"
+				>
+	<s:layout>
+		<s:BasicLayout />
+	</s:layout>
+	
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+		<fx:Script>
+			<![CDATA[
+				import skins.buttons.Pattern3ButtonS;
+			]]>
+		</fx:Script>
+	</s:states>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import components.ApplicationView;
+			import components.common.base.access.rules.medalrule.AccessMedalRule;
+			import components.common.quests.QuestObject;
+			import components.common.quests.medals.MedalType;
+			import components.common.resources.ResourceType;
+			import components.common.resources.ResourceViewObject;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			
+			import mx.controls.Alert;
+			import mx.utils.ObjectUtil;
+			
+			private var qo: QuestObject;
+			
+			override public function set data( value:Object ) : void {
+				super.data = value;
+				qo = data as QuestObject;
+				
+				costLabel.text = qo.energyCost.toString();
+				
+				/* set dark side */
+				
+				 var cm: ColorMatrix = new ColorMatrix();
+				cm.adjustBrightness(-5,-5,-5);
+				baseDarkBg.filters = [cm.filter.clone()]; 
+				
+				cm = new ColorMatrix();
+				cm.adjustSaturation(0);
+				deniedGroup.filters = [cm.filter.clone()];
+				
+				/* data type = QuestObject */
+				
+				
+				nameLabel.text = (data as QuestObject).view.name;
+				previewImage.source = (data as QuestObject).view.imageURL;
+				
+				/* Рассматриваем только одно правило, либо оно есть и это правило медали, либо его нету и вооюще ничего нету */
+				
+				if((data as QuestObject).view.accessFailedRules.length == 0)
+				{
+					deniedGroup.visible = false;
+					actionGroup.visible = true;
+					
+					statusLabel.text = "Нет наград";
+					statusLabel.visible = true;
+					medalGroup.visible = false;
+					
+					if((data as QuestObject).view.medalHave != null)
+					{
+						statusLabel.visible = false;
+						
+						medal1.visible = true;
+						medal2.visible = true;
+						medal3.visible = true;
+						
+						switch((data as QuestObject).view.medalHave)
+						{
+							case MedalType.GOLD_MEDAL:
+								break;
+							case MedalType.SILVER_MEDAL:
+								medal1.visible = false;
+								break;
+							case MedalType.BRONZE_MEDAL:
+								medal1.visible = false;
+								medal2.visible = false;
+								break;
+						}
+						
+						medalGroup.visible = true;
+						statusLabel.visible = false;
+					}
+				}else
+				{
+					deniedGroup.visible = true;
+					actionGroup.visible = false;
+					
+					statusLabel.visible = false;
+					medalGroup.visible = false;
+					
+					cm = new ColorMatrix();
+					cm.adjustSaturation(0);
+					this.alpha = 0.8;
+					
+					this.filters = [cm.filter.clone()];
+					
+					/* check for one rule only */
+					for each(var rule: AccessMedalRule in (data as QuestObject).view.accessFailedRules)
+					{
+						if(rule.needAnyMedalInQuestsBefore)	
+						{
+							deniedLabel.text = "Взять любые медали \n в пред квестах";
+						}else
+						{
+							deniedLabel.text = "Нужны "+rule.medalsCount.toString();
+							
+							switch(rule.medalsType)
+							{
+								case MedalType.GOLD_MEDAL:
+									deniedLabel.text += " зол. ";
+									break;
+								case MedalType.SILVER_MEDAL:
+									deniedLabel.text += " сер. ";
+									break;
+								case MedalType.BRONZE_MEDAL:
+									deniedLabel.text += " бронз. ";
+									break;
+							}
+							
+							deniedLabel.text += "медали\nза прошлые квесты";
+						}
+					}
+				}
+			}
+			
+			private function doQuest(): void
+			{
+				/* send server request close quest window */
+				Context.Model.questTypeLastOpened = qo.questType;
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_QUEST);
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CLOSE_LOCATION_QUESTS);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="375" height="94"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   id="baseBg"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="89" height="94"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   x="285"
+					   id="baseDarkBg"
+					   />
+	
+	<s:HGroup width="375" height="94"
+			  horizontalAlign="left" verticalAlign="middle"
+			  paddingLeft="10"
+			  >
+		<s:Group width="77" height="77">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0x2e2414" />
+				</s:fill>
+			</s:Rect>
+			
+			<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<mx:Image id="previewImage" trustContent="{Context.Model.trustContent}" />
+			</s:HGroup>
+			
+		</s:Group>
+		
+		<s:VGroup height="100%" width="182" verticalAlign="top" paddingTop="10">
+			
+			<s:Label id="nameLabel" fontFamily="mpbc" fontSize="18" color="0xf4f57c" text="Test" />
+			<s:Group>
+				<s:Group id="medalGroup" x="5" scaleX="0.85" scaleY="0.85">
+					<s:BitmapImage id="medal3" source="@Embed(source='assets/pageworld/worlds/quests/3medal.png')" smooth="true" />
+					<s:BitmapImage id="medal2" x="20" source="@Embed(source='assets/pageworld/worlds/quests/2medal.png')" smooth="true" />
+					<s:BitmapImage id="medal1" x="40" source="@Embed(source='assets/pageworld/worlds/quests/1medal.png')" smooth="true" />
+				</s:Group>
+				<s:Label id="statusLabel" text="Нет наград" fontFamily="mpr" color="0xac9064" fontSize="14" />
+				<s:Group id="actionGroup">
+					<s:HGroup x="64" y="32">
+						<s:HGroup  width="76" horizontalAlign="right" scaleX="0.55" scaleY="0.55">
+							<s:Label id="costLabel" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+							<s:HGroup paddingTop="-5" scaleX="0.9" scaleY="0.9">
+								<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+											   smooth="true"
+											   />
+							</s:HGroup>
+						</s:HGroup>
+						<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
+													  customLabel="Пройти"
+													  scaleX="0.45" scaleY="0.45"
+													  fontSize="30" fontSizeOver="30"
+													  fontColor="0xffeeca"
+													  click="doQuest();"
+													  />
+					</s:HGroup>
+					
+					
+				</s:Group>
+			</s:Group>
+			
+		</s:VGroup>
+		
+	</s:HGroup>
+	
+	<s:Group id="deniedGroup" blendMode="multiply" x="95" y="17" scaleX="0.9" scaleY="0.9">
+		<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/quests/deniedBg.jpg')" smooth="true" />
+		<s:Label y="30" width="100%" textAlign="center" id="deniedLabel" fontFamily="mpbc" fontSize="18" color="0xc0281d" rotation="-7" />
+	</s:Group>
+	
+	
+</s:ItemRenderer>

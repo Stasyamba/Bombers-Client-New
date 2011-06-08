@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:mx1="http://ns.adobe.com/mxml/mx"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false"
+				useHandCursor="true"
+				buttonMode="true"
+				width="60" height="60"
+				>
+	<s:layout>
+		<s:BasicLayout />
+	</s:layout>
+	
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.items.ItemObject;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.categories.ItemCategory;
+			import components.pages.global.inventorynew.inventory.pack.aura.AuraSlot;
+			import components.pages.global.inventorynew.inventory.pack.collection.CollectionSlot;
+			import components.pages.global.inventorynew.inventory.pack.weapon.WeaponSlot;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			
+			
+			override public function set data( value:Object ) : void {
+				super.data = value;
+				
+				var itemObject:ItemObject = Context.Model.itemsManager.getItem(data.itemType);
+				var slot:IVisualElement = null;
+					
+				if (itemObject != null) {
+					var itemCategory:ItemCategory = Context.Model.itemsCategoryManager.getItemCategory(data.itemType);
+					
+					switch (itemCategory) {
+						case ItemCategory.AURA:
+							var aus:AuraSlot = new AuraSlot();
+							aus.initContent(data as ItemProfileObject);
+							slot = aus;
+							
+							break;
+						
+						case ItemCategory.WEAPON:
+							
+							var ws: WeaponSlot = new WeaponSlot();
+							ws.initContent(data as ItemProfileObject);
+							slot = ws;
+							
+							break;
+						
+						case ItemCategory.QUEST_ITEM:
+							Alert.show("Error 'No more quest items' = PackIR ");
+							break;
+						
+						case ItemCategory.PART:
+							
+							var coll:CollectionSlot = new CollectionSlot();
+							coll.initContent(data as ItemProfileObject);
+							slot = coll;
+							
+							break;
+						
+						default:
+							break;
+					}
+					
+					if (slot != null) {
+						slotGroup.removeAllElements();
+						slotGroup.addElement(slot);
+						
+					} else {
+						Alert.show("Error 'No item category finded' = PackIR ");
+					}
+					
+				} else {
+					Alert.show("Error 'Not valid arraycollection item type' = PackIR ");
+				}
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup id="slotGroup"
+			  width="60" height="60"
+			  horizontalAlign="center" verticalAlign="middle" 
+			  />
+	
+	
+</s:ItemRenderer>

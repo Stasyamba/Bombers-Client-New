@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="337" height="274"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*" 
+		 xmlns:pregame="components.pages.game.windows.pregame.*" 
+		 xmlns:start="components.pages.quest.windows.start.*"
+		 >
+	
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.Pattern1ButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0" valueTo="1"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="pulseA" targets="{[glowFilter1, glowFilter2]}"
+					repeatCount="10000"
+					>
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="alpha" valueFrom="0.5" valueTo="1" />
+			</s:Animate>
+			
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0.5" />
+			</s:Animate>
+		</s:Sequence>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.ApplicationView;
+			import components.common.game.questgameresult.QuestResultObject;
+			import components.common.quests.QuestObject;
+			import components.common.resources.ResourceType;
+			import components.common.quests.medals.MedalType;
+			import components.common.quests.medals.MedalObject;
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.itemrule.AccessItemRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.worlds.locations.LocationType;
+			import components.common.worlds.locations.LocationViewObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public var questResultObject: QuestResultObject = null;
+			
+			public function close():void {
+				//Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				//Context.Model.windowsManager.closeAll(true);
+				//Context.Model.windowsManager.addWindow(this);
+				
+				if(questResultObject != null)
+				{
+					//questContent.initContent(questObject);
+					
+					/* medal from own profile */
+					
+					var medals: Array = Context.Model.currentSettings.gameProfile.medals.concat();
+					var currentMedalType: MedalType = null;
+					
+					for each(var mo:MedalObject in medals)
+					{
+						if(mo.questType == questResultObject.questObject.questType)
+						{
+							currentMedalType = mo.medalType;
+							break;
+						}
+					}
+					
+					var gotGold: Boolean = false;
+					var gotSilver: Boolean = false;
+					var gotBronze: Boolean = false;
+					
+					switch(currentMedalType)
+					{
+						case MedalType.GOLD_MEDAL:
+							gotGold = true;
+							gotSilver = true;
+							gotBronze = true;
+							break;
+						case MedalType.SILVER_MEDAL:
+							gotSilver = true;
+							gotBronze = true;
+							break;
+						case MedalType.BRONZE_MEDAL:
+							gotBronze = true;
+							break;
+					}
+					
+					goldTask.initTask(questResultObject.questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
+					silverTask.initTask(questResultObject.questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
+					bronzeTask.initTask(questResultObject.questObject.getTask(MedalType.BRONZE_MEDAL), gotBronze);
+					
+					if(questResultObject.isNew)
+					{
+						resultTitleLabel.text = "Новая медаль!";
+						pulseA.play();
+						
+						switch(currentMedalType)
+						{
+							case MedalType.GOLD_MEDAL:
+								goldMedal.visible = true;
+								break;
+							case MedalType.SILVER_MEDAL:
+								silverMedal.visible = true;
+								break;
+							case MedalType.BRONZE_MEDAL:
+								bronzeMedal.visible = true;
+								break;
+						}
+						
+						goldMedal.visible = gotGold;
+						
+					}else
+					{
+						resultTitleLabel.text = "Нет новых медалей";
+					}
+					
+				}else
+				{
+					Alert.show("Error with passing data | QuestResultW.mxml");
+					close();
+				}
+			}
+			
+			private function startQuest(): void
+			{
+				
+			}
+			
+			private function quit(): void
+			{
+				closeWrapper();
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
+			}
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="60"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="331" x="3" y="3" height="123"
+					   cornerRadius="60"
+					   borderVisible="false"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="331" x="3" height="70"
+					   y="61"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="331" x="3" y="{274-123}" height="123"
+					   cornerRadius="60"
+					   borderVisible="false"
+					   />
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="331" x="3" height="70"
+					   y="{274-124}"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	<s:VGroup width="100%" height="100%" 
+			  horizontalAlign="center" verticalAlign="top" 
+			  gap="15"
+			  >
+		
+		<s:HGroup width="100%" height="57"
+				  horizontalAlign="center" verticalAlign="middle">
+			<s:Label id="resultTitleLabel" text="Нет новых медалей" fontFamily="mpbc" color="0xbbb17a" fontSize="22" />
+		</s:HGroup>
+		
+		<s:VGroup height="153" horizontalAlign="left" verticalAlign="top"
+				  paddingTop="15">
+			<start:TaskViewSlot id="bronzeTask" />
+			<start:TaskViewSlot id="silverTask" />
+			<start:TaskViewSlot id="goldTask" />
+		</s:VGroup>
+		
+		<s:HGroup width="100%" horizontalAlign="center" paddingTop="-7" >
+			<s:HGroup verticalAlign="middle" paddingLeft="-40">
+				
+				<s:HGroup  width="76" horizontalAlign="right">
+					<s:Label id="energyCostLabel" text="5" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+					<s:HGroup paddingTop="-5" scaleX="0.7" scaleY="0.7">
+						<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+									   smooth="true"
+									   />
+					</s:HGroup>
+				</s:HGroup>
+				
+				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
+											  buttonMode="true" useHandCursor="true"
+											  customLabel="Повторить"
+											  fontSize="28" fontSizeOver="28"
+											  fontColor="0xffeeca"
+											  scaleX="0.8" scaleY="0.8"
+											  click="startQuest();"
+											  />
+			</s:HGroup>
+			
+		</s:HGroup>
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="270" y="15" scale="0.6"
+								click="quit();"
+								/>
+	
+	<s:Group x="-30" y="-30">
+		<s:BitmapImage id="bronzeMedal" visible="false" source="@Embed(source='assets/pagequests/medals/bronze.png')" />
+		<s:BitmapImage id="silverMedal" visible="false" source="@Embed(source='assets/pagequests/medals/silver.png')" />
+		<s:BitmapImage id="goldMedal" visible="false" source="@Embed(source='assets/pagequests/medals/gold.png')" />
+		
+		<s:filters>
+			<s:GlowFilter id="glowFilter3" alpha="1" color="0xffb400" strength="1" blurX="35" blurY="35" />
+			<!--<s:GlowFilter id="glowFilter4" alpha="1" color="0xffb400" strength="1" blurX="35" blurY="35" />-->
+		</s:filters>
+		
+	</s:Group>
+	
+	<s:filters>
+		<s:DropShadowFilter alpha="0.3" />
+		<s:GlowFilter id="glowFilter1" alpha="0" color="0xffb400" strength="1" blurX="35" blurY="35" />
+		<s:GlowFilter id="glowFilter2" alpha="0" color="0xffb400" strength="1" blurX="35" blurY="35" />
+	</s:filters>
+	
+	<s:controlBarContent/>
+</s:Panel>

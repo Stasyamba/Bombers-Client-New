@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="443" height="277"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.Pattern3ButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<!--<s:Animate target="{this}" duration="500">
+			<s:SimpleMotionPath property="x"
+			valueFrom="100"
+			valueTo="800"
+			/>
+			</s:Animate>-->
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="750">
+				<s:SimpleMotionPath property="x"
+									valueFrom="800" valueTo="100"
+									/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="x"
+									valueFrom="100" valueTo="180"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public function close():void {
+				Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				Context.Model.windowsManager.closeAll(true);
+				Context.Model.windowsManager.addWindow(this);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="40"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="130" height="100%"
+					   cornerRadius="40"
+					   x="3"
+					   borderVisible="false"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="60" height="100%"
+					   x="73"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	
+	<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="15">
+		
+		<s:HGroup width="130" height="100%"
+				  horizontalAlign="center" verticalAlign="middle"
+				  >
+			<s:BitmapImage source="@Embed(source='assets/windows/energy/bg.png')" />
+		</s:HGroup>
+		
+		<s:VGroup width="100%" height="100%"
+				  horizontalAlign="left" verticalAlign="middle" gap="20"
+				  paddingTop="-20">
+			<s:Label text="Покупка энергии:" fontFamily="mpbc" color="0xfed530" fontSize="30" />
+			
+			<!-- 25 -->
+			
+			<s:HGroup horizontalAlign="left" gap="25" verticalAlign="middle">
+				<s:HGroup  width="76" horizontalAlign="right">
+					<s:Label text="25" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+					<s:HGroup paddingTop="-5" scaleX="0.9" scaleY="0.9">
+						<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+									   smooth="true"
+									   />
+					</s:HGroup>
+				</s:HGroup>
+				
+				<s:Label text="= 1 голос" fontFamily="mpbc" color="0xffe760" fontSize="20" />
+				
+				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+											  buttonMode="true" useHandCursor="true"
+											  scaleX="0.6" scaleY="0.6"
+											  customLabel="Купить" fontColor="0xfff19f"
+											  fontSize="32" fontSizeOver="32"
+											  >
+					<flexcomponents:filters>
+						<s:DropShadowFilter alpha="0.2" />
+					</flexcomponents:filters>
+				</flexcomponents:PatternButton>
+			</s:HGroup>
+			
+			
+			<!-- 100 -->
+			<s:HGroup horizontalAlign="left" gap="25" verticalAlign="middle">
+				<s:HGroup width="76" horizontalAlign="right">
+					<s:Label text="100" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+					<s:HGroup paddingTop="-5" scaleX="0.9" scaleY="0.9">
+						<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+									   smooth="true"
+									   />
+					</s:HGroup>
+				</s:HGroup>
+				
+				<s:Label text="= 3 голос" fontFamily="mpbc" color="0xffe760" fontSize="20" />
+				
+				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+											  buttonMode="true" useHandCursor="true"
+											  scaleX="0.6" scaleY="0.6"
+											  customLabel="Купить" fontColor="0xfff19f"
+											  fontSize="32" fontSizeOver="32"
+											  >
+					<flexcomponents:filters>
+						<s:DropShadowFilter alpha="0.2" />
+					</flexcomponents:filters>
+				</flexcomponents:PatternButton>
+			</s:HGroup>
+			
+			
+			<!-- 175 -->
+			<s:HGroup horizontalAlign="left" gap="25" verticalAlign="middle">
+				<s:HGroup  width="76" horizontalAlign="right">
+					<s:Label text="175" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+					<s:HGroup paddingTop="-5" scaleX="0.9" scaleY="0.9">
+						<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+									   smooth="true"
+									   />
+					</s:HGroup>
+				</s:HGroup>
+				
+				<s:Label text="= 5 голос" fontFamily="mpbc" color="0xffe760" fontSize="20" />
+				
+				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+											  buttonMode="true" useHandCursor="true"
+											  scaleX="0.6" scaleY="0.6"
+											  customLabel="Купить" fontColor="0xfff19f"
+											  fontSize="32" fontSizeOver="32"
+											  >
+					<flexcomponents:filters>
+						<s:DropShadowFilter alpha="0.2" />
+					</flexcomponents:filters>
+				</flexcomponents:PatternButton>
+			</s:HGroup>
+			
+		</s:VGroup>
+		
+	</s:HGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="380" y="15" scale="0.8"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

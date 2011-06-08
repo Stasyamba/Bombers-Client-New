@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
+		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.bombers.BomberColorType;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.common.utils.adjustcolor.ColorMatrixObject;
+			
+			import mx.controls.Alert;
+			
+			private var totalHealth: int;
+			[Bindable]
+			private var currentHealth: int;
+			
+			public var colorType: BomberColorType = null;
+			
+			[Bindable]
+			private var maskHeight: int = 0;
+			[Bindable]
+			public var isActive: Boolean = false;
+			
+			private function init(): void
+			{
+				refreshColor();
+				
+				var cm1: ColorMatrix = new ColorMatrix();
+				cm1.desaturate();
+				
+				greyBar.filters = [cm1.filter];
+			}
+			
+			public function refreshColor(): void
+			{
+				if(colorType != null)
+				{
+					var cm: ColorMatrix = new ColorMatrix();
+					var cmo: ColorMatrixObject;
+					
+					switch(colorType)
+					{
+						case BomberColorType.BASE_RED:
+							cmo = new ColorMatrixObject();
+							break;
+						case BomberColorType.BASE_GREEN:
+							cmo = new ColorMatrixObject();
+							break;
+						case BomberColorType.BASE_PINK:
+							cmo = new ColorMatrixObject();
+							break;
+						case BomberColorType.BASE_BLUE:
+							cmo = new ColorMatrixObject(154, 0.8);
+							break;
+						default:
+							cmo = new ColorMatrixObject();
+							break;
+					}
+					
+					cm.applyColorMatrixObject(cmo);
+					
+					if(colorizedBar != null)
+					{
+						colorizedBar.filters = [cm.filter];
+					}
+				}
+			}
+			
+			public function initContent(tHealth: int, cHealth: int, colorTypeP: BomberColorType): void
+			{
+				colorType = colorTypeP;
+				refreshColor();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BitmapImage id="greyBar" 
+				   source="@Embed(source='assets/pagegame/leftpanel/lifeBar.png')"
+				   visible="{!isActive}"
+				   alpha="0.5"
+				   />
+	
+	<s:Group visible="{isActive}" alpha="0.8">
+		<s:BitmapImage id="greyBarBg" mask="{greyBgMask}" source="@Embed(source='assets/pagegame/leftpanel/lifeBar.png')" />
+		<s:BorderContainer id="greyBgMask" contentBackgroundColor="0xffffff" width="{greyBarBg.width}" height="{maskHeight}" />
+		<s:BitmapImage id="colorizedBar" source="@Embed(source='assets/pagegame/leftpanel/lifeBar.png')" />
+	</s:Group>
+	
+</s:Group>

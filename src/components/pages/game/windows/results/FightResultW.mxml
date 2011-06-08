@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="486" height="406"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*" 
+		 xmlns:pregame="components.pages.game.windows.pregame.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.pack.LeftArrowPackButtonS;
+			import skins.buttons.pack.RightArrowPackButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0" valueTo="1"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.pages.game.windows.results.slots.PrizeCupSlot;
+			import components.common.game.multygameresult.PlaceType;
+			import components.pages.game.windows.results.slots.PrizeResourceSlot;
+			import mx.collections.ArrayCollection;
+			import components.common.game.multygameresult.PrizeType;
+			import components.common.game.multygameresult.PrizeObject;
+			import spark.layouts.HorizontalAlign;
+			import spark.components.HGroup;
+			import engine.profiles.LobbyProfile;
+			import components.common.resources.ResourceType;
+			import components.common.quests.medals.MedalType;
+			import components.common.quests.medals.MedalObject;
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.itemrule.AccessItemRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.worlds.locations.LocationType;
+			import components.common.worlds.locations.LocationViewObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public function close():void {
+				//Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private static const PRIZE_PER_PAGE: int = 3;
+			private var currentPage: int = -1;
+			private var currentPrizeCollection: ArrayCollection;
+			private var prizes: Array;
+			
+			private function panelCreationComplete():void {
+				//Context.Model.windowsManager.closeAll(true);
+				//Context.Model.windowsManager.addWindow(this);
+				
+				/* set score */
+				
+				scoreGroup.removeAllElements();
+				
+				/* testing */
+				var lobbies:Array = new Array();
+				lobbies.push( new LobbyProfile("", "Скелеет", "", 10123, 1, false, 1, 20));
+				lobbies.push( new LobbyProfile("", "Бритый джон", "", 10123, 1, false, 2, 10));
+				lobbies.push( new LobbyProfile("test3", "Полосатый джимми", "", 10123, 1, false, 3, 5));
+				lobbies.push( new LobbyProfile("test2", "едок", "", 10123, 1, false, 4, 2));
+				
+				//var lobbies: Array = Context.gameModel.lastGameLobbyProfiles.concat();
+				lobbies.sortOn('place');
+
+				for each(var lp:LobbyProfile in lobbies) {
+					
+					var baseScoreGroup: HGroup = new HGroup();
+					
+					var lScore: Label = new Label();
+					var l:Label = new Label();
+					l.text = lp.place.toString() + ". " + lp.nick;  
+					lScore.text = "+" + lp.expEarned + " опыта";
+					
+					
+					l.minWidth = 180;
+					l.setStyle("fontFamily", "mpbc");
+					
+					lScore.setStyle("fontFamily", "mpbc");
+					
+					if (Context.Model.currentSettings.gameProfile.id == lp.id) {
+						l.setStyle("fontSize", 18);
+						l.setStyle("color", 0xfcd150);
+						
+						lScore.setStyle("fontSize", 18);
+						lScore.setStyle("color", 0xfcd150);
+					} else {
+						l.setStyle("fontSize", 18);
+						l.setStyle("color", 0x958968);
+						
+						lScore.setStyle("fontSize", 18);
+						lScore.setStyle("color", 0x958968);
+					}
+					
+					baseScoreGroup.addElement(l);
+					baseScoreGroup.addElement(lScore);
+					
+					scoreGroup.addElement(baseScoreGroup);
+				}
+					
+				
+				/* set prizes */
+				
+				/* testing */
+				prizes = new Array();
+				prizes.push(new PrizeObject(
+					PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
+				);
+				/* prizes.push(new PrizeObject(
+					PrizeType.CUP, ResourceType.CRYSTALS, 1, PlaceType.SECOND)
+				);
+				prizes.push(new PrizeObject(
+					PrizeType.CUP, ResourceType.ADAMANT, 1, PlaceType.THIRD)
+				);
+				prizes.push(new PrizeObject(
+					PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
+				); */
+				/* prizes.push(new PrizeObject(
+					PrizeType.RESOURCE, ResourceType.GOLD, 6)
+				); */
+				/* prizes.push(new PrizeObject(
+					PrizeType.RESOURCE, ResourceType.CRYSTALS, 4)
+				); */
+				 
+				
+				
+				
+				
+				
+				setPage(0);
+			}
+			
+			private function setPage(page: int): void
+			{
+				if(page != currentPage)
+				{
+					if(page * PRIZE_PER_PAGE < prizes.length && page >= 0)
+					{
+						backButton.enabled = true;
+						forwardButton.enabled = true;
+						
+						if(page == 0)
+						{
+							backButton.enabled = false;
+						}
+						
+						currentPrizeCollection = new ArrayCollection();
+						
+						for(var i: int = page*PRIZE_PER_PAGE; i< (page + 1)*PRIZE_PER_PAGE; i++)
+						{
+							if(i <  prizes.length)
+							{
+								currentPrizeCollection.addItem(prizes[i]);
+								
+								if(i ==  prizes.length - 1)
+								{
+									forwardButton.enabled = false;
+								}
+							}else
+							{
+								forwardButton.enabled = false;
+								break;
+							}
+						}
+						
+						currentPage = page;
+					}
+					
+					/* show elements */
+					prizeGroup.removeAllElements();
+					
+					for each(var po: PrizeObject in currentPrizeCollection)
+					{
+						var content: * = null;
+						
+						switch(po.prizeType)
+						{
+							case PrizeType.RESOURCE:
+								content = new PrizeResourceSlot();
+								(content as PrizeResourceSlot).initContent(po.resourceType, po.amount);
+								
+								break;
+							
+							case PrizeType.CUP:
+								content = new PrizeCupSlot();
+								(content as PrizeCupSlot).initContent(po.resourceType, po.amount, po.placeType);
+								
+								break;
+						}
+						
+						if(content != null)
+						{
+							prizeGroup.addElement(content);
+						}
+					}
+				}
+				
+			}
+			
+			private function changePage(sign:int): void
+			{
+				setPage(currentPage + sign);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="60"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="480" x="3" y="128" height="275"
+					   cornerRadius="60"
+					   borderVisible="false"
+					   />
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="480" x="3" height="70"
+					   y="125"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="15">
+		
+		<s:VGroup width="100%" height="100%" verticalAlign="top" horizontalAlign="center"
+				  paddingTop="20">
+			
+			<s:VGroup horizontalAlign="center" height="185" gap="20">
+				<s:Label text="Исход боя:" fontFamily="mpbc" fontSize="24" color="0xfcd14f"/>
+				<s:VGroup id="scoreGroup" horizontalAlign="left"/>
+			</s:VGroup>
+			
+			<s:VGroup horizontalAlign="center">
+				<s:Label text="Ваша добыча:" fontFamily="mpbc" fontSize="24" color="0x958968"/>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:Button id="backButton" click="changePage(-1);" skinClass="skins.buttons.pack.LeftArrowPackButtonS" />
+					
+					<s:Group height="124">
+						
+						<s:Group y="80">
+							<s:BitmapImage source="@Embed(source='assets/pagegame/windows/gameresult/sheild.png')" />
+						</s:Group>	
+						
+						<s:HGroup paddingTop="17" id="prizeGroup" width="100%" horizontalAlign="center" gap="20" />
+					</s:Group>
+					
+					<s:Button id="forwardButton" click="changePage(1);" skinClass="skins.buttons.pack.RightArrowPackButtonS" />
+				</s:HGroup>
+				
+				<s:Label text="Все предметы перенесены в ваш рюкзак" fontFamily="mpr" fontSize="18" color="0x958968"/>
+			</s:VGroup>
+			
+		</s:VGroup>
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="420" y="15" scale="0.8"
+								/>
+	
+	
+	<s:filters>
+		<s:DropShadowFilter alpha="0.3" />
+	</s:filters>
+	
+	<s:controlBarContent/>
+</s:Panel>

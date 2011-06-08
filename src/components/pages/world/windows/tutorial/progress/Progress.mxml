@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
+		 gap="15" height="30">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var currentStep: int = 0;
+			
+			private function init(): void
+			{
+				/* init steps */
+				for(var i: int = 0; i< 6; i++)
+				{
+					this.addElement(new StepPoint());
+				}
+				
+				setStep(1);
+			}
+			
+			public function setStep(step: int): void
+			{
+				if(step < this.numElements - 1)
+				{
+					for(var i: int = 0; i<= step - 1; i++)	
+					{
+						if(i != step - 1)
+						{
+							if(this.getElementAt(i) is StepPoint)
+							{
+								(this.getElementAt(i) as StepPoint).setDone();
+							}
+						}else
+						{
+							if(this.getElementAt(i) is StepPoint)
+							{
+								(this.getElementAt(i) as StepPoint).setOver();
+							}
+						}	
+					}
+					
+					currentStep = step;
+				}
+			}
+			
+			public function nextStep(): void
+			{
+				currentStep++;
+				setStep(currentStep);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	
+</s:HGroup>

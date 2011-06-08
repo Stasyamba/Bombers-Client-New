@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:world="components.pages.world.*"
+         xmlns:game="components.pages.game.*"
+         width="100%" height="100%"
+         creationComplete="init();" xmlns:quest="components.pages.quest.*"
+        >
+
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+
+    <fx:Script>
+		<![CDATA[
+			import api.vkontakte.VkontakteGlobals;
+			
+			import components.common.profiles.VkontakteProfile;
+			import components.common.worlds.locations.LocationType;
+			import components.pages.global.energymarket.EnergyMarketW;
+			import components.pages.global.inventorynew.InventoryW;
+			import components.pages.world.windows.quests.QuestsW;
+			import components.pages.world.windows.tutorial.TutorialW;
+			import components.wall.SendWallObject;
+			
+			import loading.BombersContentLoader;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+
+        public static const TAB_NAME_WORLD:String = "WorldPage";
+        public static const TAB_NAME_GAME:String = "GamePage";
+		public static const TAB_NAME_QUEST:String = "QuestPage";
+
+        public var activeWindow:IVisualElement = null;
+			
+		/* testing */	
+			
+		private var bgSound:Sound;
+		private var bgSoundChannel: SoundChannel;
+			
+        public static function getTabIndexByName(name:String):int {
+            var res:int = 0;
+            switch (name) {
+                case ApplicationView.TAB_NAME_WORLD:
+                    res = 0;
+                    break;
+                case ApplicationView.TAB_NAME_GAME:
+                    res = 1;
+                    break;
+				case ApplicationView.TAB_NAME_QUEST:
+					res = 2;
+					break;
+				
+                default:
+                    res = -1;
+                    break;
+            }
+
+            return res;
+        }
+
+        private function tabChanged():void {
+            var tabName:String = "";
+
+            switch (contentMainViewStack.selectedIndex) {
+                case 0:
+                    tabName = TAB_NAME_WORLD;
+                    break;
+                case 1:
+                    tabName = TAB_NAME_GAME;
+                    break;
+				case 2:
+					tabName = TAB_NAME_QUEST;
+					break;
+                default:
+                    break;
+            }
+
+            Context.Model.dispatchCustomEvent(ContextEvent.MAIN_TAB_CHANGED, tabName);
+        }
+
+        private function init():void {
+            Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_ERROR, function(e:ContextEvent):void {
+                openErrorWindow(e.data);
+            });
+
+            Context.Model.addCustomListener(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, function(e:ContextEvent):void {
+                var index:int = getTabIndexByName(e.data);
+
+                if (index != -1) {
+                    hiddenControlingMenuGroup.selectedIndex = index;
+                } else {
+                    Alert.show("Error: No tab index exist | ApplicationView.mxm");
+                }
+
+            });
+			
+
+            Context.Model.addCustomListener(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET, function (e:ContextEvent):void {
+				
+				parentApplication.setStyle("modalTransparencyBlur",5);
+
+				var emw:EnergyMarketW = new EnergyMarketW();
+				
+				PopUpManager.addPopUp(emw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(emw);
+				
+				emw.y -= 92;
+            });
+
+            Context.Model.addCustomListener(ContextEvent.VK_SEND_TO_WALL, function (e:ContextEvent):void {
+                if (e.data is SendWallObject) {
+                    sendToWall(e.data);
+                }
+            });
+
+			
+			Context.Model.addCustomListener(ContextEvent.NEED_TO_OPEN_LOCATION_QUESTS, function (e: ContextEvent):void
+			{
+				if(e.data is LocationType)
+				{
+					var qw: QuestsW = new QuestsW();
+					qw.locationType = e.data;
+					
+					PopUpManager.addPopUp(qw, (parentApplication as Bombers), false);
+					PopUpManager.centerPopUp(qw);
+				}else
+				{
+					Alert.show("Error: data is not location type | ApplicationView");
+				}
+			});
+			
+
+			Context.Model.addCustomListener(ContextEvent.NEED_TO_OPEN_TUTORIAL, function (e: ContextEvent):void
+			{
+				parentApplication.setStyle("modalTransparencyBlur",0);
+				
+				var tw: TutorialW = new TutorialW();
+				
+				PopUpManager.addPopUp(tw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(tw);
+				
+				tw.y -= 100;
+			});
+			
+			Context.Model.addCustomListener(ContextEvent.IM_SHOW, function (e: ContextEvent): void
+			{
+				parentApplication.setStyle("modalTransparencyBlur",3);
+				
+				var iw:InventoryW = new InventoryW();
+				PopUpManager.addPopUp(iw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(iw);
+
+				iw.y -= 90;
+			});
+			
+            /*disconnected*/
+            Context.gameServer.disconnected.add(onDisconnected);
+
+				
+            /* for local testing */
+            idGroup.visible = !(parentApplication as Bombers).isWrapperExists;
+
+            /* for development */
+            //devGroup.visible = Context.Model.isDevelopment;
+
+			
+			/* parse game request if it's opened from the wall */
+			
+            if ((parentApplication as Bombers).isWrapperExists) {
+                var currentLocation:String = "" + VkontakteGlobals.wrapper.external.getLocation();
+                if (currentLocation != "") {
+                    Context.gameServer.profileLoaded.addOnce(function(p1:*):void {
+                        var arr:Array = currentLocation.split("-");
+
+                        if (arr.length == 2) 
+						{
+                           /*  Context.gameModel.fastJoinFailed.addOnce(joinTheGameFailed);
+                            Context.gameModel.someoneJoinedToGame.addOnce(joinTheGame);
+
+                            Context.gameModel.joinConcreteGame(arr[0], arr[1]); */
+                        }
+                    });
+                }
+            }
+			
+			
+			
+			/* testing */
+			Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_TUTORIAL);
+			
+			 bgSound = new Sound();
+			bgSoundChannel = new SoundChannel();
+			
+			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
+			
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded); 
+        }
+			
+		private function repeatSound(e: Event): void	
+		{
+			bgSoundChannel.removeEventListener(Event.SOUND_COMPLETE, repeatSound);
+			playBgSound();
+		}
+		
+		private function playBgSound(): void	
+		{
+			bgSoundChannel = bgSound.play();
+			bgSoundChannel.soundTransform = new SoundTransform(0.1);
+			bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, repeatSound);	
+		}
+			
+		private function bgSoundLoaded(e: Event): void
+		{
+			//playBgSound();
+			bgSoundChannel = bgSound.play();
+			bgSoundChannel.soundTransform = new SoundTransform(0.1);
+			bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, repeatSound);	
+		}
+			
+			
+			
+
+        private function joinTheGameFailed():void {
+            Context.gameModel.someoneJoinedToGame.remove(joinTheGame);
+        }
+
+        private function joinTheGame(p1:*):void {
+            Context.gameModel.fastJoinFailed.remove(joinTheGameFailed);
+            Context.Model.windowsManager.closeAll(true);
+            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_GAME);
+        }
+
+        private function sendToWall(swo:SendWallObject):void {
+            if (swo != null && swo.up != null) {
+                Context.Model.wallSavePhotoID(swo.up.id, swo.imageId, swo.postId, swo.message);
+            }
+        }
+
+        private function onDisconnected():void {
+            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, TAB_NAME_GAME)
+            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DISCONNECTED_WINDOW)
+        }
+
+        private function openTutorialPreview():void {
+            var tw:TutorialW = new TutorialW();
+
+
+            PopUpManager.addPopUp(tw, this, true);
+            PopUpManager.centerPopUp(tw);
+
+            tw.y -= 102;
+        }
+
+        private function openErrorWindow(data:String):void {
+            //var errorW: ErrorW = new ErrorW();
+            //errorW.errorText = data;
+
+            //PopUpManager.addPopUp(errorW, this, true);
+            //PopUpManager.centerPopUp(errorW);
+        }
+
+        // immitation
+       private function setId(id:int):void {
+            Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
+            Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
+            idGroup.visible = false;
+            Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, true)
+            BombersContentLoader.readyToUseAppView.addOnce(function():void {
+                Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false)
+            })
+            Context.gameModel.init();
+        }
+			
+			
+        ]]>
+	</fx:Script>
+
+    <s:ButtonBar id="hiddenControlingMenuGroup"
+                 visible="false"
+                 enabled="true"
+                 dataProvider="{contentMainViewStack}"
+            />
+
+    <mx:ViewStack id="contentMainViewStack"
+                  borderStyle="solid"
+                  borderVisible="false"
+                  backgroundColor="0xffffff"
+                  contentBackgroundColor="0xffffff"
+                  width="100%" height="100%"
+                  change="tabChanged();"
+                  selectedIndex="0"
+            >
+
+
+        <world:WorldPage/>
+        <game:GamePage/>
+		<quest:QuestPage />
+
+
+    </mx:ViewStack>
+
+ <!--   <s:HGroup id="devGroup" y="20" alpha="1">
+        <s:Button label="Reload Maps" click="Context.gameServer.adminReloadMaps();"/>
+        <s:Button label="Reload Price" click="Context.gameServer.adminReloadPrice();"/>
+    </s:HGroup>-->
+
+    <s:HGroup id="idGroup" alpha="1">
+        <s:Button label="ID1" click="setId(1);"/>
+        <s:Button label="ID2" click="setId(2);"/>
+        <s:Button label="ID3" click="setId(3);"/>
+        <s:Button label="ID4" click="setId(4);"/>
+        <s:Button label="ID5" click="setId(5);"/>
+    </s:HGroup>
+</s:Group>

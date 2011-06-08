@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  creationComplete="init();"
+		  width="168" height="41"
+		  verticalAlign="middle" horizontalAlign="left"
+		  gap="5" xmlns:flexcomponents="components.common.flexcomponents.*"
+		  >
+	
+	
+	<fx:Declarations>
+		
+		<s:Parallel id="openingProccessA">
+			<s:Animate id="appearingPopUpA" target="{mainPopUpContent}" duration="300"
+					   effectStart="{mainPopUpContent.alpha = 0; isOpeningProccess = true; openToolTip(); }"
+					   effectEnd="{isOpeningProccess = false;}"
+					   >
+				
+				<s:SimpleMotionPath property="alpha" valueFrom="{mainPopUpContent.alpha}" valueTo="1.0"/>
+			</s:Animate>
+			
+		</s:Parallel>
+		
+		<s:Parallel id="closingProccessA" duration="100">
+			<s:Animate id="disAppearingPopUpA" target="{mainPopUpContent}"
+					   effectStart="{isClosingProccess = true;}"
+					   effectEnd="{closeToolTip(); isClosingProccess = false;}"
+					   >
+				
+				<s:SimpleMotionPath property="alpha" valueFrom="{mainPopUpContent.alpha}" valueTo="0.0"/>
+			</s:Animate>
+			
+		</s:Parallel>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.pages.global.energymarket.EnergyMarketW;
+			
+			import mx.managers.PopUpManager;
+				
+			[Bindable]
+			private var energyStringView:String = "15";
+			
+			/* animation params */
+			
+			private var isMouseOnPopUp:Boolean = false;
+			private var isMouseOnPreview:Boolean = false;
+			
+			private var isOpeningProccess:Boolean = false;
+			private var isClosingProccess:Boolean = false;
+			
+			private var closeTimer:Timer = new Timer(100, 1);
+			
+			private function init():void {
+				closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, timerCompleteHandler);
+				closeTimer.stop();
+				
+				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, function (e:ContextEvent):void {
+					//setEnergy(int(e.data));
+				});
+				
+				if(Context.Model.currentSettings.gameProfileLoaded)
+				{
+					//setEnergy(Context.Model.currentSettings.gameProfile.energy);
+					setEnergy(15);
+				}
+				
+				/* set dark side */
+				
+				var cm: ColorMatrix = new ColorMatrix();
+				cm.adjustBrightness(-20,-20,-20);
+				darkBgSide.filters = [cm.filter];
+				
+				
+				var cm1: ColorMatrix = new ColorMatrix();
+				cm1.adjustBrightness(-5,-5,-5);
+				darkBgSide1.filters = [cm1.filter];
+				darkBgSide2.filters = [cm1.filter];
+			}
+			
+			private function timerCompleteHandler(e:TimerEvent):void {
+				closeTimer.reset();
+				closeTimer.stop();
+				
+				if (!isMouseOnPreview && !isMouseOnPopUp && !isClosingProccess) {
+					openingProccessA.stop();
+					closingProccessA.play();
+				}
+			}
+			
+			/* open/close processes */
+			
+			private function openToolTipWrapper():void {
+				if (!isOpeningProccess) {
+					openingToolTipProcess();
+					
+					if (!isClosingProccess && !closeTimer.running) {
+						//dispatchEvent(new Event("toolTipCalledFirst"));
+						//blurDisapearing.play();
+					}
+				}
+			}
+			
+			private function closeToolTipWrapper():void {
+				closeTimer.start();
+			}
+			
+			private function openingToolTipProcess():void {
+				closingProccessA.stop();
+				openingProccessA.play();
+			}
+			
+			private function closingToolTipProcess():void {
+				openingProccessA.stop();
+				closingProccessA.play();
+			}
+			
+			public function openToolTip():void {
+				expirancePopUp.displayPopUp = true;
+			}
+			
+			public function closeToolTip():void {
+				expirancePopUp.displayPopUp = false;
+			}
+			
+			/* expirance */
+			
+			private function expiranceChanged():void {
+				// e type = ContextEvent;
+				// read e.data.expirance
+				
+				
+			}
+			
+			private function setEnergy(energy:int):void {
+				
+				energyStringView = energy.toString();
+				
+				var currentPercent:Number = energy/50;
+				expiranceMaskRect.width = int(expiranceMaskRect.maxWidth * currentPercent);
+				
+				if(energy > 50)
+				{
+					expiranceMaskRect.width = expiranceMaskRect.maxWidth;
+				}
+			}
+			
+			private function openEnergyWindow(): void
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
+				/* var ew: EnergyMarketW = new EnergyMarketW();
+				
+				PopUpManager.addPopUp(ew, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(ew);
+				
+				ew.y -= 80; */
+			}
+		]]>
+	</fx:Script>
+	
+	
+	
+	<s:HGroup paddingTop="20" gap="0">
+		<s:Label id="energyLabel"
+				 text="{energyStringView}" color="0xfed43d"
+				 fontFamily="mpbc" fontSize="24"
+				 />
+		<s:HGroup paddingTop="-5">
+			<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')" />
+		</s:HGroup>
+	
+	</s:HGroup>
+	
+	<s:Group mouseOver="{ isMouseOnPreview = true; openToolTipWrapper(); }"
+			 mouseOut="{ isMouseOnPreview = false; closeToolTipWrapper(); }"
+			 useHandCursor="true" buttonMode="true"
+			 >
+		
+		<s:Rect height="24" width="110"
+				alpha="0.2"
+				x="-2" y="-2"
+				>
+			
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+			
+			<!--<s:filters>
+			<s:BlurFilter blurX="2" blurY="2"/>
+			</s:filters>-->
+		</s:Rect>
+		
+		<s:Rect height="20" width="106"
+				alpha="0.9"
+				>
+			
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke weight="2" color="0x3c3c3c"/>
+			</s:stroke>
+			<s:filters>
+				<s:BlurFilter blurX="2" blurY="2"/>
+			</s:filters>
+		</s:Rect>
+		
+		
+		<s:BitmapImage x="2" y="3"
+					   source="@Embed(source='assets/pageworld/toppanel/energy/bg.jpg')"
+					   mask="{expiranceMask}"
+					   />
+		
+		<s:Group id="expiranceMask">
+			<s:Rect id="expiranceMaskRect" height="20" width="103" maxWidth="103"
+					y="2" x="1"
+					>
+				
+				<s:fill>
+					<s:LinearGradient rotation="-90">
+						<s:GradientEntry color="0x311c38" ratio="0.0"/>
+						<s:GradientEntry color="0xab55a9" ratio="1.0"/>
+					</s:LinearGradient>
+				</s:fill>
+				
+			</s:Rect>
+		</s:Group>
+	</s:Group>
+	
+	<s:PopUpAnchor id="expirancePopUp" depth="-1"
+				   >
+		
+		<s:Group id="mainPopUpContent"
+				 alpha="0"
+				 mouseOver="{ isMouseOnPopUp = true; }"
+				 mouseOut="{ isMouseOnPopUp = false; closeToolTipWrapper(); }"
+				 >
+			
+			<s:Group x="-180" y="20" >
+				<s:BorderContainer id="baseBgContainer" width="186" height="87"
+								   backgroundImage="@Embed(source='assets/windows/bgGrey.jpg')"
+								   backgroundImageFillMode="repeat"
+								   borderVisible="false"
+								   >
+					<s:filters>
+						<s:DropShadowFilter inner="true" distance="-6" angle="90" blurX="0" blurY="30" alpha="1" />
+					</s:filters>
+				</s:BorderContainer>
+				
+				<s:BorderContainer width="186" height="30"
+								   y="{baseBgContainer.height - 30}"
+								   backgroundImage="@Embed(source='assets/windows/bgGrey.jpg')"
+								   backgroundImageFillMode="repeat"
+								   borderVisible="false"
+								   cornerRadius="0"
+								   />
+				
+				<s:BorderContainer id="darkBgSide"
+								   width="186" height="60"
+								   y="{baseBgContainer.height - 30 + 4}"
+								   backgroundImage="@Embed(source='assets/windows/bgGrey.jpg')"
+								   backgroundImageFillMode="repeat"
+								   borderVisible="false"
+								   cornerRadius="30"
+								   />
+				
+				<s:BorderContainer width="186" height="60"
+								   y="{baseBgContainer.height - 30}"
+								   backgroundImage="@Embed(source='assets/windows/bgGrey.jpg')"
+								   backgroundImageFillMode="repeat"
+								   borderVisible="false"
+								   cornerRadius="30"
+								   />
+				
+				<!-- dark bottom side -->
+				<s:BorderContainer id="darkBgSide1" width="186" height="50"
+								   y="{baseBgContainer.height - 20}"
+								   backgroundImage="@Embed(source='assets/windows/bgGrey.jpg')"
+								   backgroundImageFillMode="repeat"
+								   borderVisible="false"
+								   cornerRadius="30"
+								   />
+				<s:BorderContainer id="darkBgSide2" width="186" height="20"
+								   y="{baseBgContainer.height - 20}"
+								   backgroundImage="@Embed(source='assets/windows/bgGrey.jpg')"
+								   backgroundImageFillMode="repeat"
+								   borderVisible="false"
+								   cornerRadius="0"
+								   />
+				
+				
+				
+				<!-- hack with lighting -->
+				<s:BitmapImage y="-35" x="33" source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')" />
+				
+				<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" gap="16">
+					<s:VGroup horizontalAlign="center">
+						<s:Label text="Пополнение:" color="0xffd94a" fontFamily="mpr" fontSize="14" />
+						<s:HGroup horizontalAlign="left">
+							<s:Label text="1" color="0xf9bf11" fontFamily="mpr" fontSize="18" />
+							
+							<s:HGroup paddingTop="-5" scaleX="0.5" scaleY="0.5">
+								<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+											   smooth="true"
+											   />
+							</s:HGroup>
+							
+							<s:Label text=" = 10 мин." color="0xf9bf11" fontFamily="mpr" fontSize="18" />
+						</s:HGroup>
+					</s:VGroup>
+					<s:VGroup paddingTop="10">
+						<flexcomponents:PatternButton id="openButton"
+													  skinClass="skins.buttons.Pattern2ButtonS" scale="0.7" 
+													  fontColor="0xffeeca" fontSize="20" 
+													  customLabel="Узнать" fontSizeOver="20"
+													  click="openEnergyWindow();"
+													  />
+					</s:VGroup>
+					
+				</s:VGroup>
+			</s:Group>
+			
+			
+		</s:Group>
+	</s:PopUpAnchor>
+	
+	
+</s:HGroup>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:leftpanel="components.pages.game.leftpanel.*"
+		 xmlns:flexcomponents="components.common.flexcomponents.*" 
+         creationComplete="init();"
+         width="61" height="80" 
+		 >
+
+    <fx:Declarations>
+    </fx:Declarations>
+
+    <fx:Script>
+		<![CDATA[
+		import components.common.bombers.BomberColorType;
+		import components.common.profiles.SocialProfile;
+		import components.common.utils.adjustcolor.ColorMatrix;
+		import components.common.utils.adjustcolor.ColorMatrixObject;
+		
+		import engine.profiles.LobbyProfile;
+
+        private var _profile:LobbyProfile;
+
+        [Bindable]
+        private var levelStringView:String = "0";
+
+        public function get profile():LobbyProfile {
+            return _profile;
+        }
+
+			
+        private function init():void {
+            _profile = null;
+
+            var cmo:ColorMatrixObject = new ColorMatrixObject(80);
+            var cm:ColorMatrix = new ColorMatrix();
+            cm.applyColorMatrixObject(cmo);
+
+			
+			
+			lifeBar.isActive = true;
+			lifeBar.initContent(10,4, BomberColorType.BASE_BLUE);
+			
+			levelStringView = Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience).level.toString();
+			userPhotoGroup.initPhoto(Context.Model.currentSettings.gameProfile.photoURL);
+			bgRect.alpha = 1;
+			
+			/* 
+			init own profile
+			
+			lifeBar.isActive = true;
+			lifeBar.initContent(10,4, ColorType.BASE_BLUE);
+			
+			_profile = value;
+			isProfileNull = false;
+			
+			levelStringView = Context.Model.experianceManager.getLevel(value.experience).level.toString();
+			userPhotoGroup.initPhoto(_profile.photoURL);
+			bgRect.alpha = 1; */
+			
+         
+        }
+			
+		private function goToSocialProfile():void
+		{
+			if(_profile != null)
+			{
+				var link: String = SocialProfile.getSocialProfileLink(_profile.id, Context.Model.currentSettings.currentSocialWeb);
+				navigateToURL(new URLRequest(link));
+			}
+		}
+			
+		/* Сделать контекстное меню в котором будет пункт - "Нравится!", "Бросить вызов", "Профайл" */
+			
+        ]]>
+	</fx:Script>
+
+	<leftpanel:LifeBar id="lifeBar" x="-15" />
+	
+    <s:Rect width="47" height="63"
+            alpha="0.29"
+            id="bgRect">
+        <s:fill>
+            <s:SolidColor color="0x000000"/>
+        </s:fill>
+        <s:stroke>
+            <s:SolidColorStroke color="0x69696a" weight="2" />
+        </s:stroke>
+    </s:Rect>
+	
+
+	<flexcomponents:UserPhotoGroup id="userPhotoGroup" width="47" height="63"
+								   x="1" y="1"
+								   />
+
+    <s:Group id="levelGroup"
+             x="24" y="49" scaleX="0.8" scaleY="0.8"
+            >
+        <s:BitmapImage id="bgLevelImage" source="@Embed(source='assets/pagegame/leftpanel/levelBg.png')"/>
+
+        <s:HGroup width="{bgLevelImage.width}" height="{bgLevelImage.height}"
+                  horizontalAlign="center" verticalAlign="middle"
+                >
+            <s:Label text="{levelStringView} ур." fontSize="14" fontFamily="mpbc" color="0xffffff"/>
+        </s:HGroup>
+    </s:Group>
+
+</s:Group>

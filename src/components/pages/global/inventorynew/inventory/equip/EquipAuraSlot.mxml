@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 >
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.items.ItemType;
+			import components.common.items.ItemViewObject;
+			
+			import mx.controls.Alert;
+				
+			private var itemType:ItemType = null;
+			
+			public function initContent(itemTypeP: ItemType):void 
+			{
+				if (itemTypeP != null)
+				{
+					bgEmptyAura.visible = false;
+					itemType = itemTypeP;
+					var imageURL: String =  Context.Model.itemsManager.getItem(itemType).viewObject.anotherImageURL;
+					auraImage.source = imageURL;
+				}else
+				{
+					bgEmptyAura.visible = true;
+					auraImage.source = "";
+				}
+			}
+			
+			private function deleteAura():void 
+			{
+				Context.Model.currentSettings.gameProfile.deleteAura(itemType, true);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group id="baseGroup" click="deleteAura();">
+		
+		<s:BitmapImage id="bgImage" source="@Embed(source='assets/windows/inventory/auraSlotBG.jpg')">
+			<s:filters>
+				<s:DropShadowFilter alpha="0.3" distance="2" />
+			</s:filters>
+		</s:BitmapImage>
+		<s:BitmapImage id="bgEmptyAura" source="@Embed(source='assets/windows/inventory/auraSlotEmptyBG.png')"/>
+		
+		<s:HGroup width="{bgImage.width}" height="{bgImage.height}"
+				  horizontalAlign="center" verticalAlign="middle">
+			<mx:Image id="auraImage"
+					  trustContent="{Context.Model.trustContent}"
+					  />
+		</s:HGroup>
+		
+	</s:Group>
+	
+	
+</s:Group>

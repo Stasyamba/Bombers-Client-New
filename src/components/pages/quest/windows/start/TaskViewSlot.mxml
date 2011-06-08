@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 verticalAlign="middle" xmlns:regard="components.pages.quest.windows.start.regard.*"
+		 >
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.quests.medals.MedalType;
+			import components.common.quests.tasks.TaskObject;
+			
+			public var medalType: MedalType;
+			public var taskObject: TaskObject;
+			
+			public function initTask(to: TaskObject, isDone: Boolean): void
+			{
+				taskObject = to;	
+				describeLabel.text = to.describe;
+				
+				switch(to.medalType)
+				{
+					case MedalType.GOLD_MEDAL:
+						medal1.visible = true;
+						break;
+					case MedalType.SILVER_MEDAL:
+						medal2.visible = true;
+						break;
+					case MedalType.BRONZE_MEDAL:
+						medal3.visible = true;
+						break;
+				}
+				
+				ruleDoneImage.visible = isDone;
+				ruleFailImage.visible = !isDone;
+				
+				regards.initContent(to.regards);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group id="isDoneGroup">
+		<s:BitmapImage id="ruleDoneImage" source="@Embed(source='assets/pageworld/worlds/locationenter/ruleDone.png')"
+					   visible="false"
+					   />
+		<s:BitmapImage id="ruleFailImage" source="@Embed(source='assets/pageworld/worlds/locationenter/ruleFail.png')" 
+					   visible="false"
+					   />
+	</s:Group>
+	
+	<s:Group id="medalGroup" scaleX="0.6" scaleY="0.6">
+		<s:BitmapImage id="medal1" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/1medal.png')" smooth="true" />
+		<s:BitmapImage id="medal2" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/2medal.png')" smooth="true" />
+		<s:BitmapImage id="medal3" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/3medal.png')" smooth="true" />
+	</s:Group>
+	
+	<s:Label id="describeLabel" fontFamily="mpbc" fontSize="14" color="0xfdbd2b" width="125" />
+	
+	<regard:TaskRegardSlot id="regards" />
+	
+</s:HGroup>
+
+

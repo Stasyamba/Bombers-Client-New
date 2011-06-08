@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="641" height="365"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*" xmlns:progress="components.pages.world.windows.tutorial.progress.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<!--<s:Animate target="{this}" duration="500">
+			<s:SimpleMotionPath property="x"
+			valueFrom="100"
+			valueTo="800"
+			/>
+			</s:Animate>-->
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="550">
+				<s:SimpleMotionPath property="x"
+									valueFrom="800" valueTo="140"
+									/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="x"
+									valueFrom="140" valueTo="180"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.pages.world.windows.tutorial.steps.Step5;
+			import components.pages.world.windows.tutorial.steps.Step4;
+			import components.pages.world.windows.tutorial.steps.Step3;
+			import components.pages.world.windows.tutorial.steps.Step2;
+			import components.pages.world.windows.tutorial.steps.Step1;
+			import components.common.resources.ResourceType;
+			import components.common.quests.medals.MedalType;
+			import components.common.quests.medals.MedalObject;
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.itemrule.AccessItemRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.worlds.locations.LocationType;
+			import components.common.worlds.locations.LocationViewObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			private var steps: Array = [new Step1(), new Step2(), new Step3(), new Step4(), new Step5()];
+			private var currentStep: int = 0;
+			
+			public var bombasterName: String;
+			
+			public function close():void {
+				Context.Model.removeCustomEventListener(ContextEvent.TUTORIAL_NEXT_STEP, nextStep);
+				
+				Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				Context.Model.windowsManager.closeAll(true);
+				Context.Model.windowsManager.addWindow(this);
+				
+				Context.Model.addCustomListener(ContextEvent.TUTORIAL_NEXT_STEP,nextStep); 
+				setStep(0);
+			}
+			
+			private function setStep(step: int): void
+			{
+				stepGroup.removeAllElements();
+				stepGroup.addElement(steps[step]);
+				process.setStep(step+1);
+			}
+			
+			private function nextStep(e: ContextEvent):void
+			{
+				currentStep ++;
+				
+				if(currentStep < steps.length)
+				{
+					setStep(currentStep);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="30"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="15">
+		
+		<s:HGroup width="100%" height="60"
+				  horizontalAlign="left" verticalAlign="middle"
+				  paddingLeft="45" gap="20">
+			<s:Label text="Процесс обучения:" fontFamily="mpr" color="0xffd746" fontSize="14" />
+			<progress:Progress id="process" paddingTop="8" />
+		</s:HGroup>
+		
+		<s:Group id="stepGroup" />
+		
+	</s:VGroup>
+	
+	<s:filters>
+		<s:DropShadowFilter alpha="0.2" />
+	</s:filters>
+	
+	<s:controlBarContent/>
+</s:Panel>

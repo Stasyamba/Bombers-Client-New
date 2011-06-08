@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 creationComplete="init();"
+			 alpha.disabled="0.5" alpha="1"
+			 >
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[
+		[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	
+	<s:transitions>
+		
+		<s:Transition toState="over">
+			<s:Parallel>
+				<s:Fade target="{buttonImageOver}" alphaFrom="0" alphaTo="1" duration="100"/>
+				
+			</s:Parallel>
+		</s:Transition>
+		
+		
+		<s:Transition toState="up">
+			<s:Parallel>
+				<s:Fade target="{buttonImageOver}" alphaFrom="1" alphaTo="0" duration="100"/>
+				
+			</s:Parallel>
+			
+		</s:Transition>
+		
+	</s:transitions>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			/* Define the skin elements that should not be colorized.
+			For toggle button, the graphics are colorized but the label is not. */
+			static private const exclusions:Array = [];
+			
+			override public function get colorizeExclusions():Array {
+				return exclusions;
+			}
+			
+			// may be need color matrix filter
+			
+			private function init():void {
+				
+				/* flip horizontal */
+				 var matrix:Matrix = imagesGroup.transform.matrix;
+				matrix.a=-1;
+				matrix.tx=imagesGroup.width+imagesGroup.x;
+				imagesGroup.transform.matrix=matrix;
+				 
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<s:Group id="imagesGroup">
+		<s:BitmapImage id="buttonImage"
+					   source="@Embed(source='assets/windows/inventory/pack/arrowRight.png')"
+					   smooth="true"
+					   scaleX="1" scaleY="1"
+					   />
+		<s:BitmapImage id="buttonImageOver"
+					   source="@Embed(source='assets/windows/inventory/pack/arrowRight.png')"
+					   smooth="true"
+					   scaleX="1" scaleY="1"
+					   blendMode="overlay"
+					   alpha="0"
+					   />
+	</s:Group>
+	
+	<s:Label id="labelDisplay"
+			 visible="false"
+			 />
+	
+	
+</s:SparkSkin>

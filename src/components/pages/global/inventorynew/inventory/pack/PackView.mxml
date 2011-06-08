@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="246"
+		 creationComplete="init();"
+		 >
+	
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.items.categories.ItemCategory;
+			import components.common.items.collections.ItemCollectionType;
+			
+			import mx.collections.ArrayCollection;
+			
+			import skins.buttons.pack.LeftArrowPackButtonS;
+			import skins.buttons.pack.RightArrowPackButtonS;
+			
+			
+			[Bindable]
+			private var itemsCollection: ArrayCollection = new ArrayCollection();
+			
+			private function itemCollectionChanged(e:ContextEvent):void 
+			{
+				initContent();
+			}
+			
+			private function init(): void
+			{
+				Context.Model.addCustomListener(ContextEvent.GP_GOTITEMS_IS_CHANGED, itemCollectionChanged);
+				initContent();
+			}
+			
+			private function destroy(): void
+			{
+				Context.Model.removeCustomEventListener(ContextEvent.GP_GOTITEMS_IS_CHANGED, itemCollectionChanged);
+			}
+			
+			
+			private function initContent():void 
+			{
+				itemsCollection = new ArrayCollection();
+				var itemCollectionsTypes: Array = new Array();
+				
+				for each(var io:ItemProfileObject in Context.Model.currentSettings.gameProfile.packItems) 
+				{
+					var currentItemCategory:ItemCategory = Context.Model.itemsCategoryManager.getItemCategory(io.itemType);
+					
+					if(currentItemCategory == ItemCategory.AURA 
+						|| currentItemCategory ==ItemCategory.PART 
+						|| currentItemCategory == ItemCategory.WEAPON
+					) 
+					{
+						if(currentItemCategory != ItemCategory.PART)
+						{
+							itemsCollection.addItem(io);
+						}else
+						{
+							// кладем в коллекцию всего 1 часть из каждой коллекции, а отображается по 1ой части превью коллекции
+							
+							var collectionType: ItemCollectionType = Context.Model.itemCollectionsManager.getCollection(io.itemType).type;
+							var isFinded: Boolean = false;
+							
+							for each(var c: ItemCollectionType in itemCollectionsTypes)
+							{
+								if(collectionType == c)
+								{
+									isFinded = true;
+									break;
+								}
+							}
+							
+							if(!isFinded)
+							{
+								if(collectionType != null)
+								{
+									itemCollectionsTypes.push(collectionType);
+								}
+								
+								itemsCollection.addItem(io);
+							}
+						}
+					}
+			
+				}
+				
+				itemsCollection.refresh();
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup>
+		<s:Group>
+			<s:BitmapImage source="@Embed(source='assets/windows/inventory/pack/bg.jpg')" />
+			
+			<s:List width="100%" height="100%"
+					dataProvider="{itemsCollection}" itemRenderer="components.pages.global.inventorynew.inventory.pack.ItemsIR"
+					borderVisible="false" contentBackgroundAlpha="0"
+					>
+				<s:layout>
+					<s:TileLayout requestedColumnCount="4" requestedRowCount="5" verticalGap="0" horizontalGap="0" />
+				</s:layout>
+			</s:List>
+		</s:Group>
+		<s:HGroup width="100%" horizontalAlign="center" gap="190" paddingTop="-20" paddingLeft="-5">
+			<s:Button id="backButton" label="back" skinClass="skins.buttons.pack.LeftArrowPackButtonS"
+					  enabled="false"
+					  />
+			<s:Button id="forwButton" label="forward" skinClass="skins.buttons.pack.RightArrowPackButtonS" 
+					  enabled="false"
+					  />
+		</s:HGroup>
+	</s:VGroup>
+	
+	
+	
+</s:Group>

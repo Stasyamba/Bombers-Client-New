@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer 	 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx"
+					 creationComplete="init();"
+					 xmlns:locationenter="components.pages.world.windows.locationenter.*"
+		 			 backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					 backgroundImageFillMode="repeat"
+					 borderVisible="false" 
+					 width="396" height="127" xmlns:flexcomponents="components.common.flexcomponents.*"
+		 			>
+	
+	<s:filters>
+		<s:DropShadowFilter inner="true" distance="0" alpha="0.4" />
+	</s:filters>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.Pattern1ButtonS;
+			
+			private var isLevelRuleDone:Boolean;
+			private var isLocationRuleDone:Boolean;
+			private var neededLevel:int;
+			
+			public function initContent(isLevelRuleDoneP:Boolean, 
+										isLocationRuleDoneP: Boolean,
+										neededLevelP: int):void
+			{
+				isLevelRuleDone = isLevelRuleDoneP;
+				isLocationRuleDone = isLocationRuleDoneP;
+				neededLevel = neededLevelP;
+			}
+			
+			private function init(): void
+			{
+				levelRuleView.initContent(isLevelRuleDone, "Нужен "+neededLevel.toString()+" уровень");
+				locationRuleView.initContent(isLocationRuleDone, "Открыть прошлые локации");
+				
+				openButton.enabled = isLevelRuleDone && isLocationRuleDone;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:VGroup horizontalAlign="center" width="100%" height="100%" verticalAlign="middle">
+		<s:VGroup horizontalAlign="left">
+			<locationenter:RuleView id="levelRuleView" />
+			<locationenter:RuleView id="locationRuleView" />
+			<s:HGroup width="100%" horizontalAlign="center" paddingTop="5">
+				<flexcomponents:PatternButton id="openButton"
+											  skinClass="skins.buttons.Pattern3ButtonS" scale="0.7" 
+											  fontColor="0xffeeca" fontSize="18" 
+											  customLabel="Открыть"
+											  />
+			</s:HGroup>
+		</s:VGroup>
+	</s:VGroup>
+	
+	
+</s:BorderContainer>

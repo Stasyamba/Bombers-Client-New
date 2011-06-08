@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var isDone: Boolean;
+			private var text: String;
+			
+			private var _isCreationCompleted: Boolean = false;
+			
+			public function initContent(isDoneP:Boolean, textP: String):void
+			{
+				isDone = isDoneP;
+				text = textP;
+				
+				if(_isCreationCompleted)
+				{
+					ruleDoneImage.visible = false;
+					ruleFailImage.visible = false;
+					
+					if(isDone)
+					{
+						ruleDoneImage.visible = true;
+						textLabel.setStyle("color", 0xc5ff21);
+					}else
+					{
+						ruleFailImage.visible = true; 
+						textLabel.setStyle("color", 0xff7d8c);
+					}
+					
+					textLabel.text = text;
+				}
+			}
+			
+			private function init(): void
+			{
+				_isCreationCompleted = true;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group>
+		<s:BitmapImage id="ruleDoneImage" source="@Embed(source='assets/pageworld/worlds/locationenter/ruleDone.png')" />
+		<s:BitmapImage id="ruleFailImage" source="@Embed(source='assets/pageworld/worlds/locationenter/ruleFail.png')" />
+	</s:Group>
+	
+	<s:Label id="textLabel" fontFamily="mpbc" fontSize="20" />
+	
+	
+</s:HGroup>

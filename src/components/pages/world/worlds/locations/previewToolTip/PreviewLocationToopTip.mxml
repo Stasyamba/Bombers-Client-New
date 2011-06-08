@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         visible="{_previewVisible}"
+		 creationComplete="init();">
+
+    <fx:Declarations>
+
+        <s:Parallel id="apearingA">
+            <s:Animate target="{this}" duration="200"
+                       effectStart="{this.alpha = 0; _previewVisible = true;}"
+                    >
+                <s:SimpleMotionPath property="alpha" valueFrom="{this.alpha}" valueTo="1.0"/>
+            </s:Animate>
+
+            <!--	<s:Animate target="{blurFilter}" duration="20">
+                   <s:SimpleMotionPath property="blurX" valueFrom="20" valueTo="0" />
+                   <s:SimpleMotionPath property="blurY" valueFrom="20" valueTo="0" />
+               </s:Animate>-->
+        </s:Parallel>
+
+        <s:Parallel id="disapearingA">
+            <s:Animate target="{this}" duration="200"
+                       effectEnd="{ _previewVisible = false;}"
+                    >
+                <s:SimpleMotionPath property="alpha" valueFrom="{this.alpha}" valueTo="0.0"/>
+            </s:Animate>
+        </s:Parallel>
+
+    </fx:Declarations>
+
+    <s:filters>
+        <s:BlurFilter id="blurFilter" blurX="0" blurY="0"/>
+    </s:filters>
+
+    <fx:Script>
+		<![CDATA[
+        [Bindable]
+        private var _previewVisible:Boolean = false;
+
+        [Bindable]
+        public var locationName: String;
+			
+		private function init(): void
+		{
+			if(locationName.length >13)
+			{
+				locationNameLabel.setStyle("fontSize", 13); 
+				locationNameLabel.setStyle("fontFamily", "mpr"); 
+			}
+		}	
+		
+        public function get previewVisible():Boolean {
+            return _previewVisible;
+
+        }
+
+        public function set previewVisible(value:Boolean):void {
+            apearingA.stop();
+            disapearingA.stop();
+
+            if (value) {
+                apearingA.play();
+            } else {
+                disapearingA.play();
+            }
+        }
+
+        ]]>
+	</fx:Script>
+
+
+    <s:BitmapImage id="bgToolTipImage"
+                   source="@Embed(source='assets/pageworld/worlds/locations/tip.jpg')"/>
+    <s:HGroup width="100%" height="100%"
+              horizontalAlign="center" verticalAlign="middle"
+			  >
+        <s:Label id="locationNameLabel" text="{locationName}"
+                 fontSize="18" fontFamily="mpbc"
+                 color="0xffd33d"
+                />
+    </s:HGroup>
+
+
+</s:Group>

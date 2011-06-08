@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:flexcomponents="components.common.flexcomponents.*"
+         xmlns:bottompanel="components.pages.game.bottompanel.*"
+         height="33" width="37"
+        >
+
+    <fx:Declarations>
+    </fx:Declarations>
+
+    <fx:Script>
+		<![CDATA[
+        import components.common.items.ItemObject;
+        import components.common.items.ItemProfileObject;
+        import components.common.items.ItemType;
+        import components.common.items.ItemViewObject;
+        import components.common.items.categories.ItemCategory;
+        import components.common.utils.adjustcolor.Color;
+        import components.common.utils.adjustcolor.ColorMatrix;
+        import components.common.utils.adjustcolor.ColorMatrixObject;
+        
+        import engine.EngineContext;
+        
+        import mx.collections.ArrayCollection;
+        
+        import spark.events.IndexChangeEvent;
+
+        private var _itemProfileObject:ItemProfileObject = null;
+
+        [Bindable]
+        private var itemViewObject:ItemViewObject = null;
+        [Bindable]
+        private var itemCountStringView:String = "0";
+        [Bindable]
+        private var noneGroupVisible:Boolean = false;
+        [Bindable]
+        private var countGroupVisible:Boolean = false;
+        [Bindable]
+        private var bgCountRectColor:uint = 0xffffff;
+
+        [Bindable]
+        private var allItemsWeapon:Array = new Array();
+
+
+        private function setBorderSelection(selection:Boolean):void {
+            if (selection) {
+                strokeColor.color = 0xfff276;
+            } else {
+                strokeColor.color = 0x3e3e3e;
+            }
+        }
+
+
+        public function initContent(itemProfileObjectP:ItemProfileObject):void {
+            _itemProfileObject = itemProfileObjectP;
+
+            if (_itemProfileObject != null) 
+			{
+                var itemObject:ItemObject = Context.Model.itemsManager.getItem(_itemProfileObject.itemType);
+
+                itemViewObject = itemObject.viewObject;
+                noneGroupVisible = false;
+
+                weaponImage.smoothBitmapContent = true;
+                weaponImage.source = itemViewObject.smallImageURL;
+
+
+                if (_itemProfileObject.itemCount < 0) 
+				{
+                    itemCountStringView = "Б";
+                } else {
+					var count: int = _itemProfileObject.itemCount;
+					if(count > 99)
+					{
+						itemCountStringView = "99"		
+					}else
+					{
+						itemCountStringView = count.toString();
+					}
+                    
+                }
+                countGroupVisible = true;
+            } else {
+                weaponImage.source = "";
+                noneGroupVisible = true;
+                countGroupVisible = false;
+            }
+
+            allItemsWeapon = new Array();
+            for each(var ipo:ItemProfileObject in Context.Model.currentSettings.gameProfile.gotItems) 
+			{
+                if (Context.Model.itemsCategoryManager.getItemCategory(ipo.itemType) == ItemCategory.WEAPON) 
+				{
+                    allItemsWeapon.push(ipo);
+                }
+            }
+
+        }
+
+			
+        ]]>
+	</fx:Script>
+
+    <s:Group id="baseGroup"
+             mouseOver="setBorderSelection(true);"
+             mouseOut="setBorderSelection(false);"
+            >
+
+        <s:Rect width="32" height="32">
+            <s:fill>
+                <s:SolidColor color="0x000000"/>
+            </s:fill>
+            <s:stroke>
+                <s:SolidColorStroke id="strokeColor" color="0x3e3e3e" weight="2"/>
+            </s:stroke>
+            <s:filters>
+                <s:BlurFilter blurX="1" blurY="2"/>
+            </s:filters>
+        </s:Rect>
+
+        <s:HGroup width="32" height="32"
+                  horizontalAlign="center" verticalAlign="middle"
+                >
+            <mx:Image id="weaponImage"
+                      smoothBitmapContent="true"
+                      scaleX="0.81" scaleY="0.81"
+                      trustContent="{Context.Model.trustContent}"
+                    />
+        </s:HGroup>
+
+        <s:HGroup width="33" height="33"
+                  horizontalAlign="center" verticalAlign="middle"
+                  visible="{noneGroupVisible}"
+
+                >
+            <s:Label text="Нет" color="0xffffff" fontFamily="mpr" fontSize="11"/>
+        </s:HGroup>
+
+		<s:Group x="23" y="20"
+				 visible="{countGroupVisible}"
+				 >
+			<s:Rect id="bgCountRect"
+					width="15" height="11"
+					alpha="0.69"
+					>
+				<s:fill>
+					<s:SolidColor color="0xf2ed7f"/>
+				</s:fill>
+				<s:stroke>
+					<s:SolidColorStroke color="0xc2b76a" />
+				</s:stroke>
+			</s:Rect>
+			<s:HGroup width="100%" height="100%"
+					  horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="countLabel"
+						 text="{itemCountStringView}"
+						 color="0x3a2810" fontFamily="mpr" fontSize="10"
+						 />
+			</s:HGroup>
+		</s:Group>
+		
+    </s:Group>
+
+</s:Group>

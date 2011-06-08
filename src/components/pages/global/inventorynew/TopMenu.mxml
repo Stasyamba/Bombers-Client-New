@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 height="72" width="100%"
+		 creationComplete="init();"
+		 >
+	
+	<fx:Metadata>
+		[Event(name="stateChanged", type="ContextEvent")]
+	</fx:Metadata>
+	
+	<fx:Declarations>
+		<s:Parallel id="toMarketA">
+			<s:Animate duration="100" target="{selectedLeft}">
+				<s:SimpleMotionPath property="alpha" valueFrom="{selectedLeft.alpha}" valueTo="1" />
+			</s:Animate>
+			
+			<s:Animate duration="100" target="{selectedRight}">
+				<s:SimpleMotionPath property="alpha" valueFrom="{selectedRight.alpha}" valueTo="0" />
+			</s:Animate>
+			
+			<s:Animate duration="100" target="{rightFilter}">
+				<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="0" />
+			</s:Animate>
+			<s:Animate duration="100" target="{rightSign}">
+				<s:SimpleMotionPath property="alpha" valueFrom="{rightSign.alpha}" valueTo="0" />
+			</s:Animate>
+			
+			<s:Animate duration="100" target="{leftFilter}">
+				<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1" />
+			</s:Animate>
+			<s:Animate duration="100" target="{leftSign}">
+				<s:SimpleMotionPath property="alpha" valueFrom="{rightSign.alpha}" valueTo="1" />
+			</s:Animate>
+			
+		</s:Parallel>
+		
+		<s:Parallel id="toInventoryA">
+			
+			<s:Animate duration="100" target="{selectedLeft}">
+				<s:SimpleMotionPath property="alpha" valueFrom="{selectedLeft.alpha}" valueTo="0" />
+			</s:Animate>
+			
+			<s:Animate duration="100" target="{selectedRight}">
+				<s:SimpleMotionPath property="alpha" valueFrom="{selectedRight.alpha}" valueTo="1" />
+			</s:Animate>
+			
+			<s:Animate duration="100" target="{rightFilter}">
+				<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1" />
+			</s:Animate>
+			<s:Animate duration="100" target="{rightSign}">
+				<s:SimpleMotionPath property="alpha" valueFrom="{rightSign.alpha}" valueTo="1" />
+			</s:Animate>
+			
+			<s:Animate duration="100" target="{leftFilter}">
+				<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="0" />
+			</s:Animate>
+			<s:Animate duration="100" target="{leftSign}">
+				<s:SimpleMotionPath property="alpha" valueFrom="{rightSign.alpha}" valueTo="0" />
+			</s:Animate>
+			
+		</s:Parallel>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.utils.adjustcolor.ColorMatrix;
+			
+			public static const STATE_MARKET: int = 0;
+			public static const STATE_INVENOTRY: int = 1;
+			
+			private var _selectedState: int;
+			
+			public function get selectedState():int
+			{
+				return _selectedState;
+			}
+			
+			public function set selectedState(value:int):void
+			{
+				if(value != _selectedState)
+				{
+					dispatchEvent(new ContextEvent("stateChanged", false, false, value));
+					
+					toMarketA.stop();
+					toInventoryA.stop();
+					
+					switch(value)
+					{
+						case STATE_MARKET:
+							toMarketA.play();
+							break;
+						case STATE_INVENOTRY:
+							toInventoryA.play();
+							break;
+					}
+				}
+				
+				_selectedState = value;
+			}
+			
+			public function init(): void
+			{
+				var cm: ColorMatrix = new ColorMatrix();
+				cm.adjustBrightness(-10,-10,-10);
+				
+				selectedGroup.filters = [cm.filter];
+				
+				/* set start state */
+				selectedState = STATE_INVENOTRY;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer id="bg"
+					   width="100%" height="57" 
+					   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   borderVisible="false"
+					   cornerRadius="30"
+					   />
+	
+	<s:BorderContainer id="bgMaskCorners"
+					   width="100%" height="35"
+					   y="37"
+					   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   borderVisible="false"
+					   />
+	
+	
+	
+	<s:Group id="selectedGroup">
+		<s:Group id="selectedRight">
+			<s:BorderContainer id="selectedRight1"
+							   width="380" height="72" 
+							   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   borderVisible="false"
+							   cornerRadius="30"
+							   x="380"
+							   />
+			
+			<s:BorderContainer id="selectedRight2"
+							   width="30" height="72" 
+							   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   borderVisible="false"
+							   cornerRadius="0"
+							   x="380"
+							   />
+			<s:BorderContainer id="selectedRight3"
+							   width="30" height="36" 
+							   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   borderVisible="false"
+							   cornerRadius="0"
+							   x="{380+380-30}" y="36"
+							   />
+		</s:Group>
+		
+		
+		<s:Group id="selectedLeft">
+			<s:BorderContainer id="selectedLeft1"
+							   width="380" height="72" 
+							   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   borderVisible="false"
+							   cornerRadius="30"
+							   x="0"
+							   />
+			
+			<s:BorderContainer id="selectedLeft2"
+							   width="30" height="72" 
+							   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   borderVisible="false"
+							   cornerRadius="0"
+							   x="{380-30}"
+							   />
+			<s:BorderContainer id="selectedLeft3"
+							   width="30" height="36" 
+							   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   borderVisible="false"
+							   cornerRadius="0"
+							   x="0" y="36"
+							   />
+		</s:Group>
+		
+	</s:Group>
+	
+	
+	
+	
+	<s:HGroup useHandCursor="true" buttonMode="true" width="100%" height="100%"
+			  horizontalAlign="center" verticalAlign="middle">
+		
+		<s:HGroup click="{selectedState = STATE_MARKET;}" width="380" horizontalAlign="center" verticalAlign="middle">
+			<s:Group id="leftSign">
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/topPanelSelectedSign.png')" />
+			</s:Group>
+			<s:Label text="Магазин" color="0xfec935" fontFamily="mpbc" fontSize="36" />
+			
+			<s:filters>
+				<s:GlowFilter id="leftFilter" blurX="15" blurY="15" color="0x92500a" alpha="0" />
+			</s:filters>
+			
+		</s:HGroup>
+		
+		<s:HGroup click="{selectedState = STATE_INVENOTRY;}" width="380" horizontalAlign="center" verticalAlign="middle">
+			<s:Group id="rightSign">
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/topPanelSelectedSign.png')" />
+			</s:Group>
+			<s:Label text="Инвентарь" color="0xfec935" fontFamily="mpbc" fontSize="36" />
+
+			<s:filters>
+				<s:GlowFilter id="rightFilter" blurX="15" blurY="15" color="0x92500a" alpha="0" />
+			</s:filters>
+			
+		</s:HGroup>
+		
+	</s:HGroup>
+	
+	
+</s:Group>

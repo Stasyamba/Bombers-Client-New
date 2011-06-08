@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:pack="components.pages.global.inventorynew.inventory.pack.*" 
+		 xmlns:equip="components.pages.global.inventorynew.inventory.equip.*"
+		 width="100%" height="100%" 
+		 horizontalAlign="center" verticalAlign="middle"
+		 gap="15"
+		 creationComplete="init();"
+		 >
+	
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.items.collections.ItemCollectionType;
+			import components.pages.global.inventorynew.inventory.equip.collection.CollectionView;
+			
+			private function init(): void
+			{
+				Context.Model.addCustomListener(ContextEvent.IM_SHOW_COLLECTION, showCollection);
+				Context.Model.addCustomListener(ContextEvent.IM_HIDE_COLLECTION, hideCollection);
+			}
+			
+			public function destroy(): void
+			{
+				/* called before window close */
+				Context.Model.removeCustomEventListener(ContextEvent.IM_SHOW_COLLECTION, showCollection);
+				Context.Model.removeCustomEventListener(ContextEvent.IM_HIDE_COLLECTION, hideCollection);
+				
+				equipView.destroy();
+			}
+			
+			
+			private function hideCollection(e: ContextEvent): void
+			{
+				if(collectionView.numElements != 0)
+				{
+					collectionView.removeAllElements();
+					bomberView.alpha = 1; 
+				}
+			}
+			
+			private function showCollection(e: ContextEvent): void
+			{
+				bomberView.alpha = 0;
+				collectionView.removeAllElements();
+				
+				var content:CollectionView = new CollectionView();
+				
+				if (e.data != null && e.data is ItemCollectionType) 
+				{
+					content.initContent(e.data);
+				}
+				
+				collectionView.addElement(content);  
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup paddingLeft="10">
+		<pack:PackView />
+	</s:HGroup>
+	
+	<s:Group height="300">
+		<s:HGroup id="bomberView" paddingTop="-7">
+			<equip:EquipView id="equipView" />
+		</s:HGroup>
+		<s:HGroup paddingTop="-14" paddingLeft="10">
+			<s:Group id="collectionView" />
+		</s:HGroup>
+	</s:Group>
+	
+
+	
+	
+	
+</s:HGroup>

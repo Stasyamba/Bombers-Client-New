@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 creationComplete="init();"
+			 >
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[
+		[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	
+	<s:transitions>
+		
+		<s:Transition toState="over">
+			<s:Parallel>
+				<s:Fade target="{buttonImageOver}" alphaFrom="0" alphaTo="0.3" duration="100"/>
+				
+			</s:Parallel>
+		</s:Transition>
+		
+		
+		<s:Transition toState="up">
+			<s:Parallel>
+				<s:Fade target="{buttonImageOver}" alphaFrom="0.3" alphaTo="0" duration="100"/>
+				
+			</s:Parallel>
+		</s:Transition>
+		
+		
+		
+	</s:transitions>
+	
+	<fx:Script>
+		<![CDATA[
+			/* Define the skin elements that should not be colorized.
+			For toggle button, the graphics are colorized but the label is not. */
+			static private const exclusions:Array = [];
+			
+			override public function get colorizeExclusions():Array {
+				return exclusions;
+			}
+			
+			// may be need color matrix filter
+			
+			private function init():void {
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<s:Group id="imagesGroup">
+		<s:BitmapImage id="buttonImage"
+					   source="@Embed(source='assets/pageworld/bottompanel/buttons/inventoryBg.png')"
+					   smooth="true"
+					   scaleX="1" scaleY="1"
+					   />
+		<s:BitmapImage id="buttonImageOver"
+					   source="@Embed(source='assets/pageworld/bottompanel/buttons/inventoryBg.png')"
+					   smooth="true"
+					   scaleX="1" scaleY="1"
+					   blendMode="screen"
+					   alpha="0"
+					   />
+	</s:Group>
+	
+	<s:HGroup width="100%" height="100%"
+			  horizontalAlign="center" verticalAlign="middle"
+			  >
+		<s:Label text="Рюкзак" fontFamily="mpbc" fontSize="22" color="0xffc600" />
+		
+		<s:filters>
+			<s:GlowFilter blurX="10" blurY="10" color="0xb53700" alpha="1"
+						  />
+		</s:filters>
+	</s:HGroup>
+	
+	
+</s:SparkSkin>

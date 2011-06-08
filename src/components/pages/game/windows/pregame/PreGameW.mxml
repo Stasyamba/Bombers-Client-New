@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="486" height="406"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*" xmlns:pregame="components.pages.game.windows.pregame.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0" valueTo="1"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourceType;
+			import components.common.quests.medals.MedalType;
+			import components.common.quests.medals.MedalObject;
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.itemrule.AccessItemRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.worlds.locations.LocationType;
+			import components.common.worlds.locations.LocationViewObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public function close():void {
+				//Context.Model.windowsManager.deleteWindow(this);
+				Context.Model.removeCustomEventListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			//public var i
+			
+			private function panelCreationComplete():void {
+				//Context.Model.windowsManager.closeAll(true);
+				//Context.Model.windowsManager.addWindow(this);
+				
+				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
+				
+				
+				switchContent(CONTENT_READY);
+				
+				/* testing */
+				// switchContent(CONTENT_NOT_ENOUGH_ENERGY);
+			}
+			
+			private function switchToReady(e: ContextEvent): void
+			{
+				switchContent(CONTENT_READY);
+			}
+			
+			private static const CONTENT_READY: int = 0;
+			private static const CONTENT_NOT_ENOUGH_ENERGY: int = 1;
+			private var currentContentState: int = -1;
+			
+			private function switchContent(contentState: int): void
+			{
+				if(currentContentState != contentState)
+				{
+					needEnergyContent.visible = false;
+					readyContent.visible = false;
+					
+					currentContentState = contentState;
+					
+					switch(contentState)
+					{
+						case CONTENT_NOT_ENOUGH_ENERGY:
+							needEnergyContent.visible = true;
+							break;
+						
+						case CONTENT_READY:
+							readyContent.visible = true;
+							break;
+						
+						default:
+							break;
+					}
+				}
+			}
+			
+			private function quitTheGame(): void
+			{
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="60"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="480" x="3" y="3" height="123"
+					   cornerRadius="60"
+					   borderVisible="false"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="480" x="3" height="70"
+					   y="61"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="480" x="3" y="{406-123}" height="123"
+					   cornerRadius="60"
+					   borderVisible="false"
+					   />
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="480" x="3" height="70"
+					   y="{406-124}"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="15">
+		
+		<s:HGroup width="100%" height="57"
+				  horizontalAlign="center" verticalAlign="middle">
+			<s:Label text="Вы присоединились к игре" fontFamily="mpbc" color="0xbbb17a" fontSize="26" />
+		</s:HGroup>
+		
+		<s:Group id="baseContentGroup" width="100%" height="100%">
+			<pregame:EnergyBuyContent id="needEnergyContent" visible="false" />
+			<pregame:PregameContent id="readyContent" visible="false"  />
+		</s:Group>
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="420" y="15" scale="0.8"
+								click="quitTheGame();"
+								/>
+	
+	
+	<s:filters>
+		<s:DropShadowFilter alpha="0.3" />
+ 	</s:filters>
+	
+	<s:controlBarContent/>
+</s:Panel>

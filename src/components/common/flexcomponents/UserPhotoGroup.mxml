@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Declarations>
+		<s:Animate id="appearingA" target="{userPhotoGroup}" duration="500">
+			<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1" />
+		</s:Animate>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			public var basePhotoSizeW: int = 42;
+			[Bindable]
+			public var basePhotoSizeH: int = 56;
+			
+			[Bindable]
+			public var borderWitdh: int = 1;
+			[Bindable]
+			public var borderHeight: int = 1;
+			
+			[Bindable] public var addBottom: int = 0;
+			[Bindable] public var addTop: int = 0;
+			[Bindable] public var addLeft: int = 0;
+			[Bindable] public var addRight: int = 0;
+			
+			[Bindable] public var borderVisible: Boolean = false;
+			
+			[Bindable] public var radiusBg: int = 3;
+			
+			[Bindable]
+			public var bgColor: uint = 0xb4a58b;
+			
+			public function initPhoto(imageURL: String): void
+			{
+				userPhotoImage.source = imageURL;
+			}
+			
+			private function correctBounds(): void
+			{
+				var w: int = userPhotoImage.content.width;
+				var h: int = userPhotoImage.content.height;
+				
+				userPhotoImage.maxWidth = w;
+				userPhotoImage.maxHeight = h; 
+				
+				var scaledHeight: int = int( userPhotoImage.content.height * basePhotoSizeW /userPhotoImage.content.width);
+				var scaledWidth: int = int(userPhotoImage.content.width * basePhotoSizeH /userPhotoImage.content.height)
+				
+				if(w >= h)
+				{
+					userPhotoImage.y = 0;
+					userPhotoImage.maxHeight = basePhotoSizeH;
+					
+					userPhotoImage.x = -(scaledWidth/2 - basePhotoSizeW/2);
+				}else
+				{
+					userPhotoImage.x = 0;
+					userPhotoImage.maxWidth = basePhotoSizeW;
+				}
+				
+				appearingA.play();
+			} 
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group id="userImagegroup">
+		<!--
+		<s:Rect id="bgRect" width="{basePhotoSizeW + borderWitdh*2 + addLeft + }" height="{basePhotoSizeH + borderHeight * 2}" radiusX="3" radiusY="3">
+			<s:fill>
+				<s:SolidColor id="bgRectColor" color="{bgColor}" />
+			</s:fill>
+		</s:Rect>-->
+		
+		
+		<s:Rect id="bgRect" width="{basePhotoSizeW + borderWitdh*2 + addLeft + addRight}" 
+				height="{basePhotoSizeH + borderHeight * 2 + addBottom + addTop}" 
+				radiusX="{radiusBg}" radiusY="{radiusBg}"
+				visible="{borderVisible}"
+				>
+			<s:fill>
+				<s:SolidColor id="bgRectColor" color="{bgColor}" />
+			</s:fill>
+		</s:Rect>
+		
+		<s:Group id="userPhotoGroup" x="{borderWitdh + addLeft}" y="{borderHeight + addTop}" 
+				 width="{basePhotoSizeW+ addLeft + addRight}" height="{basePhotoSizeH+ addBottom + addTop}"
+				 >
+			
+			<mx:Image id="userPhotoImage" complete="correctBounds();" 
+					  smoothBitmapContent="true" 
+					  mask="{userPhotoImageMask}"
+					  useHandCursor="true" buttonMode="true"
+					  trustContent="{Context.Model.trustContent}"
+					  />
+			<s:BorderContainer id="userPhotoImageMask" backgroundColor="0x00000" width="{basePhotoSizeW}" height="{basePhotoSizeH}" />
+		</s:Group>
+	</s:Group>
+	
+</s:Group>
