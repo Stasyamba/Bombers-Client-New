@@ -83,9 +83,6 @@
         }
 
         private function init():void {
-            Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_ERROR, function(e:ContextEvent):void {
-                openErrorWindow(e.data);
-            });
 
             Context.Model.addCustomListener(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, function(e:ContextEvent):void {
                 var index:int = getTabIndexByName(e.data);
@@ -134,7 +131,7 @@
 			});
 			
 
-			Context.Model.addCustomListener(ContextEvent.NEED_TO_OPEN_TUTORIAL, function (e: ContextEvent):void
+			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN, function (e: ContextEvent):void
 			{
 				parentApplication.setStyle("modalTransparencyBlur",0);
 				
@@ -190,14 +187,14 @@
 			
 			
 			/* testing */
-			Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_TUTORIAL);
+			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_TUTORIAL);
 			
-			 bgSound = new Sound();
+			/* bgSound = new Sound();
 			bgSoundChannel = new SoundChannel();
 			
 			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
 			
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded); 
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);  */
         }
 			
 		private function repeatSound(e: Event): void	
@@ -253,14 +250,6 @@
             PopUpManager.centerPopUp(tw);
 
             tw.y -= 102;
-        }
-
-        private function openErrorWindow(data:String):void {
-            //var errorW: ErrorW = new ErrorW();
-            //errorW.errorText = data;
-
-            //PopUpManager.addPopUp(errorW, this, true);
-            //PopUpManager.centerPopUp(errorW);
         }
 
         // immitation

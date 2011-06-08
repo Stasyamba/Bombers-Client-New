@@ -37,7 +37,7 @@
 				Context.Model.addCustomListener(ContextEvent.MAIN_TAB_CHANGED, function (e:ContextEvent):void {
 					if (e.data == ApplicationView.TAB_NAME_QUEST) {
 						focusGroup.visible = false;
-						
+						Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);  
 					}
 				});
 				
@@ -73,12 +73,12 @@
 				
 				/* testing */
 				//Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);  
-				 Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW,
+				/* Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW,
 					new QuestResultObject(
 						true, 
-						MedalType.GOLD_MEDAL, 
-						Context.Model.questManager.getQuestObject(QuestType.GRASS_Q1))
-				); 
+						MedalType.GOLD_MEDAL
+					)
+				);  */
 				
 			}
 			

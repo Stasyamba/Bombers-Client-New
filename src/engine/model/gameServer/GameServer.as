@@ -649,7 +649,8 @@ public class GameServer extends SmartFox {
                     Context.Model.dispatchCustomEvent(ContextEvent.RS_BUY_FAILED)
                     return
                 } else {
-                    var en:int = responseParams.getInt("interface.buyResources.result.fields.resourceType4")
+                    var en:int = responseParams.getInt("interface.buyResources.result.fields.resourceType4");
+					
                     if (en == 0) {
                         var rp:ResourcePrice = new ResourcePrice(responseParams.getInt("interface.buyResources.result.fields.resourceType0"),
                                 responseParams.getInt("interface.buyResources.result.fields.resourceType1"),
@@ -660,11 +661,11 @@ public class GameServer extends SmartFox {
                         Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED)
                     } else {
                         Context.Model.currentSettings.gameProfile.energy += en;
-                        Context.Model.dispatchCustomEvent(ContextEvent.EN_BUY_SUCCESS, en)
-                        // GP event dispatched in EnergyMarketW
+                        Context.Model.dispatchCustomEvent(ContextEvent.EN_BUY_SUCCESS, en);
                     }
                 }
                 break;
+			
             case INT_BUY_ITEM_RESULT:
                 trace("item bought");
                 status = responseParams.getBool("interface.buyItem.result.fields.status")
@@ -689,8 +690,8 @@ public class GameServer extends SmartFox {
                 Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED)
                 Context.Model.dispatchCustomEvent(ContextEvent.IM_ITEMBUY_SUCCESS, iType)
 
-                Context.Model.dispatchCustomEvent(ContextEvent.RGAME_NEED_TO_SET_WEAPON_TO_HAND, iType);
                 break;
+			
             case INT_GAME_NAME_RESULT:
                 newGameNameObtained.dispatch(responseParams.getUtfString("interface.gameManager.findGameName.result.fields.gameName"))
                 break;

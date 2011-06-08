@@ -96,7 +96,7 @@
 			public function close():void {
 				Context.Model.removeCustomEventListener(ContextEvent.NEED_TO_CLOSE_LOCATION_QUESTS, closeWrapper1);
 				
-				Context.Model.windowsManager.deleteWindow(this);
+				//Context.Model.windowsManager.deleteWindow(this);
 				PopUpManager.removePopUp(this);
 			}
 			
@@ -105,8 +105,8 @@
 			}
 			
 			private function panelCreationComplete():void {
-				Context.Model.windowsManager.closeAll(true);
-				Context.Model.windowsManager.addWindow(this);
+				//Context.Model.windowsManager.closeAll(true);
+				//Context.Model.windowsManager.addWindow(this);
 				
 				if(locationType != null)
 				{

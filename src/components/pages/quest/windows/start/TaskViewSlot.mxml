@@ -2,7 +2,7 @@
 <s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 verticalAlign="middle" xmlns:regard="components.pages.quest.windows.start.regard.*"
+		 verticalAlign="middle" xmlns:reward="components.pages.quest.windows.start.reward.*"
 		 >
 	
 	<fx:Declarations>
@@ -61,7 +61,7 @@
 	
 	<s:Label id="describeLabel" fontFamily="mpbc" fontSize="14" color="0xfdbd2b" width="125" />
 	
-	<regard:TaskRegardSlot id="regards" />
+	<reward:TaskRewardSlot id="regards" />
 	
 </s:HGroup>
 

@@ -7,13 +7,13 @@ package components.common.game.questgameresult
 	{
 		public var isNew: Boolean;
 		public var medalType: MedalType;
-		public var questObject: QuestObject;
+		//public var questObject: QuestObject;
 		
-		public function QuestResultObject(isNewP: Boolean, medalTypeP: MedalType, questObjectP: QuestObject)
+		public function QuestResultObject(isNewP: Boolean, medalTypeP: MedalType) //questObjectP: QuestObject)
 		{
 			isNew = isNewP;
 			medalType = medalTypeP;
-			questObject = questObjectP;
+			//questObject = questObjectP;
 		}
 	}
 }

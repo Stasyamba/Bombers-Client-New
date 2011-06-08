@@ -55,7 +55,7 @@ package components.common.base.access.rules.medalrule
 			if(Context.Model.currentSettings.gameProfile.medals.length == 0)
 			{
 				/* no medals ever */
-				Alert.show("No medals!");
+				//Alert.show("No medals!");
 			}
 			
 			if(_needAnyMedalInEachQuestBefore)

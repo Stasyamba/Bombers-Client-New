@@ -2,7 +2,6 @@ package {
 import flash.events.Event;
 
 public class ContextEvent extends Event {
-    public static const USERS_PROFILES_LOADED:String = "UsersProfileLoaded";
 
     public static const MAIN_TAB_CHANGED:String = "MainTabChanged";
     public static const NEED_TO_CHANGE_MAIN_TAB:String = "NeedToChangeMainTab";
@@ -10,17 +9,14 @@ public class ContextEvent extends Event {
 
     public static const SHOW_MAIN_PREALODER:String = "ShowMainPreloder";
     // pass: Boolean -> preloader visible
-    public static const NEED_TO_SHOW_ERROR:String = "NeedToShowError";
+	
     public static const NEED_TO_SHOW_DISCONNECTED_WINDOW:String = "NeedToShowDisconnectedWindow"
     public static const NEED_TO_SHOW_CANT_CONNECT_WINDOW:String = "NeedToShowCantConnectWindow"
-	public static const NEED_TO_OPEN_TAKE_LOOT_WINDOW: String = "NeedToOpenTakeLootWindow";	
 	public static const NEED_TO_OPEN_GAME_CREATING_WINDOW: String = "NeedToOpenGameCreatingWindow";
 	
 	public static const NEED_TO_OPEN_LOCATION_QUESTS: String = "NeedToOpenLocationQuests";
 	public static const NEED_TO_CLOSE_LOCATION_QUESTS: String = "NeedToCloseLocationQuests";
 	// pass: LocationType
-	public static const NEED_TO_OPEN_TUTORIAL: String = "NeedToOpenTutorial";
-	
 	
 	
     /***** worlds and locations *****/
@@ -73,22 +69,15 @@ public class ContextEvent extends Event {
     public static const GPAGE_NEED_TO_SHOW_PREGAME_WINDOW:String = "GPAGENeedToShowPregameWindow";
     public static const GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW:String = "GPAGENeedToShowResultsWindow";
     // pass: GameResults
-    public static const GPAGE_NEED_TO_CLOSE_GAME_IS_CREATED_WINDOW:String = "GPAGENeedToCloseGameIsCreatedWindow"
-    public static const GPAGE_NEED_TO_CLOSE_GAME_READY_WINDOW:String = "GPAGENeedToCloseGameReadyWindow"
 
     public static const GPAGE_MY_PARAMETERS_IS_CHANGED:String = "GPAGEMyParametersIsChanged";
     public static const GPAGE_UPDATE_GAME_WEAPONS:String = "GPAGEUpdateGameWeapons";
 	public static const GPAGE_NEED_TO_SET_GAME_FOCUS:String = "GPAGENeedToSetGameFocus";
 	
 	/** result game window events **/
-	public static const RGAME_NEED_TO_SET_WEAPON_TO_HAND:String = "RGAMENeedToSetWeaponToHand";
-	// pass: ItemType
-	
 	
 	/***** buy events: resources(RS), energy(EN), items(IT) *****/
-	
-	
-	
+
     public static const RS_BUY_FAILED:String = "RSBuyFailed"
     public static const RS_BUY_SUCCESS:String = "RSBuySuccess"
     //pass: ResourcePrice -> how much bought each resource
@@ -105,17 +94,14 @@ public class ContextEvent extends Event {
     public static const BOMBER_CHANGED:String = "BomberChanged";
     public static const GAME_PROFILE_LOADED:String = "GameProfileLoaded";
 
-	
+	/**** tutorial events ****/
 	public static const TUTORIAL_NEXT_STEP: String = "TUTORIALNextStep";
+	public static const TUTORIAL_OPEN: String = "NeedToOpenTutorial";
 	
 	/** vk events **/
 	public static const VK_SEND_TO_WALL:String = "VKSendToWall";
 	// pass: SendWallObject
  	
-	/** wall events **/
-	public static const WALL_TRY_COUNT_CHANGED: String = "WALLTryCountChanged";
-	public static const WALL_FAST_LOGINED: String = "WALLFastLogined";
-	// pass: boolean -> lottery type (const in WallChest.mxml)
 	
     public var data:*;
 

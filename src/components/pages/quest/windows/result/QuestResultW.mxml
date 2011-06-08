@@ -80,9 +80,9 @@
 			import mx.managers.PopUpManager;
 			
 			public var questResultObject: QuestResultObject = null;
+			private var questObject: QuestObject;
 			
 			public function close():void {
-				//Context.Model.windowsManager.deleteWindow(this);
 				PopUpManager.removePopUp(this);
 			}
 			
@@ -91,13 +91,12 @@
 			}
 			
 			private function panelCreationComplete():void {
-				//Context.Model.windowsManager.closeAll(true);
-				//Context.Model.windowsManager.addWindow(this);
+				
+				questObject = Context.Model.questManager.getQuestObject(Context.Model.questTypeLastOpened);
+				energyCostLabel.text = questObject.energyCost.toString();
 				
 				if(questResultObject != null)
 				{
-					//questContent.initContent(questObject);
-					
 					/* medal from own profile */
 					
 					var medals: Array = Context.Model.currentSettings.gameProfile.medals.concat();
@@ -105,7 +104,7 @@
 					
 					for each(var mo:MedalObject in medals)
 					{
-						if(mo.questType == questResultObject.questObject.questType)
+						if(mo.questType == Context.Model.questTypeLastOpened)
 						{
 							currentMedalType = mo.medalType;
 							break;
@@ -132,9 +131,9 @@
 							break;
 					}
 					
-					goldTask.initTask(questResultObject.questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
-					silverTask.initTask(questResultObject.questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
-					bronzeTask.initTask(questResultObject.questObject.getTask(MedalType.BRONZE_MEDAL), gotBronze);
+					goldTask.initTask(questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
+					silverTask.initTask(questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
+					bronzeTask.initTask(questObject.getTask(MedalType.BRONZE_MEDAL), gotBronze);
 					
 					if(questResultObject.isNew)
 					{
@@ -170,7 +169,14 @@
 			
 			private function startQuest(): void
 			{
-				
+				if(Context.Model.currentSettings.gameProfile.energy < questObject.energyCost)
+				{
+					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
+				}else
+				{
+					closeWrapper();
+					Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);  
+				}
 			}
 			
 			private function quit(): void

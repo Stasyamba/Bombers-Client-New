@@ -141,9 +141,17 @@
 			private function doQuest(): void
 			{
 				/* send server request close quest window */
-				Context.Model.questTypeLastOpened = qo.questType;
-				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_QUEST);
-				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CLOSE_LOCATION_QUESTS);
+				
+				if(Context.Model.currentSettings.gameProfile.energy < qo.energyCost)
+				{
+					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
+				}else
+				{
+					Context.Model.questTypeLastOpened = qo.questType;
+					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_QUEST);
+					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CLOSE_LOCATION_QUESTS);
+				}
+				
 			}
 			
 			
