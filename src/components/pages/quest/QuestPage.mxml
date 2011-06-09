@@ -72,7 +72,6 @@
 				stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 				
 				/* testing */
-				//Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);  
 				/* Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW,
 					new QuestResultObject(
 						true, 

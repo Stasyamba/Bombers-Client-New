@@ -46,6 +46,7 @@ public class ContextEvent extends Event {
 	/**** quest window ****/
 	public static const QUEST_START_SHOW: String = "QUESTStartShow";
 	// pass: QuestType
+	public static const QUEST_START_CLOSE: String = "QUESTStartClose";
 	public static const QUEST_END_SHOW: String = "QUESTEndShow";
 	// pass: QuestResultObject
 	

@@ -67,7 +67,7 @@
 			public var questObject: QuestObject = null;
 			
 			public function close():void {
-				//Context.Model.windowsManager.deleteWindow(this);
+				Context.Model.removeCustomEventListener(ContextEvent.QUEST_START_CLOSE, closeWrapper1);
 				PopUpManager.removePopUp(this);
 			}
 			
@@ -76,8 +76,7 @@
 			}
 			
 			private function panelCreationComplete():void {
-				//Context.Model.windowsManager.closeAll(true);
-				//Context.Model.windowsManager.addWindow(this);
+				Context.Model.addCustomListener(ContextEvent.QUEST_START_CLOSE, closeWrapper1);
 				
 				if(questObject != null)
 				{
@@ -87,6 +86,11 @@
 					Alert.show("Error with passing data | QuestStartW.mxml");
 					close();
 				}
+			}
+			
+			private function closeWrapper1(e: ContextEvent):void
+			{
+				closeWrapper();
 			}
 			
 			private function startQuest(): void

@@ -639,7 +639,8 @@ public class GameServer extends SmartFox {
 
                 Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
                 Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-
+				
+				Context.Model.currentSettings.gameProfile.energy = 130;
 
                 break;
             case INT_BUY_RESOURCES_RESULT:
