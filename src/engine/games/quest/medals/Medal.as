@@ -15,9 +15,9 @@ import engine.games.quest.goals.IGoal
 
 public class Medal {
 
-    public static const BRONZE:Medal = new Medal(1,"BRONZE")
-    public static const SILVER:Medal = new Medal(2,"SILVER")
-    public static const GOLD:Medal = new Medal(4,"GOLD")
+    public static const BRONZE:Medal = new Medal(2,"BRONZE")
+    public static const SILVER:Medal = new Medal(1,"SILVER")
+    public static const GOLD:Medal = new Medal(0,"GOLD")
 
     private var _value:int
     private var _string:String

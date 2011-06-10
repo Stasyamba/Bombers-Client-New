@@ -33,6 +33,8 @@
         import components.common.resources.ResourceViewObject;
         import components.common.utils.adjustcolor.ColorMatrix;
 
+        import components.common.worlds.locations.LocationType
+
         import mx.controls.Alert;
         import mx.utils.ObjectUtil;
 
@@ -135,10 +137,19 @@
                 Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
             } else {
                 /* server withdraw energy */
+                Context.gameModel.createQuestFailed.addOnce(function():void {
+                   Alert.show("Create Quest Failed");
+                });
+
+                Context.gameModel.questGameCreated.addOnce(function ():void {
+                    Context.Model.windowsManager.closeAll(true);
+
+                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_QUEST);
+                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CLOSE_LOCATION_QUESTS);
+                })
 
                 Context.Model.questIdLastOpened = qo.id;
-                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_QUEST);
-                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CLOSE_LOCATION_QUESTS);
+                Context.gameModel.tryCreateQuest(qo.id, LocationType.byValue(qo.locationId))
             }
 
         }

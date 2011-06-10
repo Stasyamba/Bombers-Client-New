@@ -104,6 +104,8 @@ public class GameModel {
     public var isPlayingNow:Boolean = false
 
     private var _quests:Array = new Array()
+    private var _questId:String
+    private var _gameId:String
 
     function GameModel() {
     }
@@ -176,12 +178,11 @@ public class GameModel {
 }
 
     public function getQuestObject(id:String):EngineQuestObject {
-        var loc_id:int = id.substr(1, 2) as int
-        for each (var q:EngineQuestObject in _quests[loc_id]) {
+        for each (var q:EngineQuestObject in _quests) {
             if (q.id == id)
                 return q
         }
-        throw new Error("no quest with loc_id = " + loc_id + " and id = " + id)
+        throw new Error("no quest with id = " + id)
     }
 
     private function onGameServerConnected():void {
@@ -204,17 +205,13 @@ public class GameModel {
         questGameCreated.dispatch(questId, 666)
     }
 
-    public function createQuestGame(questId:String, gameId:String):void {
+    private function createQuestGame(questId:String, gameId:String):void {
 
         Context.game = gameBuilder.makeQuest(getQuestObject(questId), gameId);
         threeSecondsToStart.dispatch(null, 0)
     }
 
-    // quest handlers
-    private function onQuestCreated(questId:String, gameId:String):void {
-        createQuestFailed.removeAll()
-        questGameCreated.removeAll()
-        leftQuest.add(onLeftQuest)
+    public function startCurrentQuest():void{
 
         questStarted.addOnce(function():void {
             isPlayingNow = true
@@ -231,18 +228,29 @@ public class GameModel {
         })
 
         if (readyToCreateQuest()) {
-            TweenMax.delayedCall(0.2, createQuestGame, [questId, gameId])
+            TweenMax.delayedCall(0.2, createQuestGame, [_questId, _gameId])
         } else {
             var taskSignal:Signal = new Signal()
             taskSignal.addOnce(function():void {
-                createQuestGame(questId, gameId)
+                createQuestGame(_questId, _gameId)
             })
             BombersContentLoader.addTask(taskSignal, [currentLocation.stringId,"bombers","common"])
 
         }
     }
 
+    // quest handlers
+    private function onQuestCreated(questId:String, gameId:String):void {
+        createQuestFailed.removeAll()
+        questGameCreated.removeAll()
+        leftQuest.add(onLeftQuest)
+        _questId = questId;
+        _gameId = gameId;
+    }
+
     private function onLeftQuest():void {
+        _questId = null
+        _gameId = null;
         isPlayingNow = false
         EngineContext.clear()
 
