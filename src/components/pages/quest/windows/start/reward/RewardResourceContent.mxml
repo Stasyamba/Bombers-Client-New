@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 verticalAlign="middle">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.quests.regard.RegardObject;
+			import components.common.quests.regard.RegardType;
+			import components.common.resources.ResourceType;
+			import components.common.resources.ResourceViewObject;
+			
+			public function initContent(ro: RegardObject): void
+			{
+				var resourceType: ResourceType = ResourceType.CRYSTALS;
+				
+				switch(ro.type)
+				{
+					case RegardType.RESOURCE_ADAMANT:
+						resourceType = ResourceType.ADAMANT;
+						
+						break;
+					case RegardType.RESOURCE_ANTIMATTER:
+						resourceType = ResourceType.ANTIMATTER;
+						
+						break;
+					case RegardType.RESOURCE_CRYSTALS:
+						resourceType = ResourceType.CRYSTALS;
+						
+						break;
+					case RegardType.RESOURCE_GOLD:
+						resourceType = ResourceType.GOLD;
+						
+						break
+				}
+				
+				var resourceVObject:ResourceViewObject = Context.Model.resourceViewManager.getResourceViewObject(resourceType);
+				resourceImage.source = resourceVObject.smallImage;
+				amountLabel.text = ro.amount.toString();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Label id="amountLabel" fontFamily="mpbc" fontSize="14" color="0xfdbd2b" />
+	<s:BitmapImage id="resourceImage" />
+	
+</s:HGroup>
