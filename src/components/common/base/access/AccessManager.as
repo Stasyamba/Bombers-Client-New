@@ -2,7 +2,6 @@ package components.common.base.access {
 import components.common.items.ItemObject;
 import components.common.items.ItemType;
 import components.common.quests.QuestObject;
-import components.common.quests.QuestType;
 import components.common.worlds.locations.LocationObject;
 import components.common.worlds.locations.LocationType;
 
@@ -51,13 +50,13 @@ public class AccessManager {
     }
 	
 	
-	public static function checkAccessQuest(questType: QuestType): Array
+	public static function checkAccessQuest(questId: String): Array
 	{
 		var res:Array = new Array();
 		
 		for each(var i:QuestObject in Context.Model.questManager.getAllQuests())
 		{
-			if(i.questType == questType)
+			if(i.id == questId)
 			{
 				res = i.checkAccess();
 				break;

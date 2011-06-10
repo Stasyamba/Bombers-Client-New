@@ -1,15 +1,13 @@
 package components.common.quests.medals
 {
-	import components.common.quests.QuestType;
-
 	public class MedalObject
 	{
-		public var questType: QuestType;
+		public var questId: String;
 		public var medalType: MedalType;
 		
-		public function MedalObject(qt: QuestType, mt: MedalType)
+		public function MedalObject(qt: String, mt: MedalType)
 		{
-			questType = qt;
+			questId = qt;
 			medalType = mt;
 		}
 	}

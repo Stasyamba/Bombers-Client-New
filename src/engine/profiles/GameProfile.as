@@ -5,7 +5,6 @@ import com.smartfoxserver.v2.entities.data.ISFSObject;
 import components.common.bombers.BomberType;
 import components.common.items.ItemProfileObject;
 import components.common.items.ItemType;
-import components.common.quests.QuestType;
 import components.common.quests.medals.MedalObject;
 import components.common.quests.medals.MedalType;
 import components.common.resources.ResourcePrice;

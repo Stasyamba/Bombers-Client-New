@@ -4,46 +4,52 @@
  */
 
 package engine.model {
-import components.common.items.ItemProfileObject
-import components.common.items.categories.ItemCategory
-import components.common.worlds.locations.LocationType
+import components.common.base.expirance.ExperianceObject;
+import components.common.items.ItemProfileObject;
+import components.common.items.categories.ItemCategory;
+import components.common.quests.QuestObject;
+import components.common.quests.medals.MedalType;
+import components.common.quests.regard.RegardObject;
+import components.common.quests.regard.RegardType;
+import components.common.quests.tasks.TaskObject;
+import components.common.resources.ResourceObject;
+import components.common.resources.ResourceType;
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.data.Consts
-import engine.data.quests.Quests
-import engine.games.GameBuilder
-import engine.games.GameType
-import engine.games.quest.QuestFailReason
-import engine.games.quest.QuestObject
-import engine.games.quest.medals.Medal
-import engine.model.signals.GameEndedSignal
-import engine.model.signals.GameReadySignal
-import engine.model.signals.MapLoadedSignal
-import engine.model.signals.ReadyToPlayAgainSignal
-import engine.model.signals.manage.GameStartedSignal
-import engine.model.signals.manage.JoinedToGameSignal
-import engine.model.signals.manage.JoinedToRoomSignal
-import engine.model.signals.manage.LeftGameSignal
-import engine.model.signals.manage.PlayerReadyChangedSignal
-import engine.model.signals.manage.ReadyToCreateGameSignal
-import engine.model.signals.manage.SomeoneJoinedToGameSignal
-import engine.model.signals.manage.SomeoneLeftGameSignal
-import engine.model.signals.manage.ThreeSecondsToStartSignal
-import engine.profiles.GameProfile
-import engine.profiles.LobbyProfile
-import engine.profiles.PlayerGameProfile
+import engine.EngineContext;
+import engine.data.quests.Quests;
+import engine.games.GameBuilder;
+import engine.games.GameType;
+import engine.games.quest.EngineQuestObject;
+import engine.games.quest.QuestFailReason;
+import engine.games.quest.medals.Medal;
+import engine.games.quest.medals.MedalBase;
+import engine.model.signals.GameEndedSignal;
+import engine.model.signals.GameReadySignal;
+import engine.model.signals.MapLoadedSignal;
+import engine.model.signals.ReadyToPlayAgainSignal;
+import engine.model.signals.manage.GameStartedSignal;
+import engine.model.signals.manage.JoinedToGameSignal;
+import engine.model.signals.manage.JoinedToRoomSignal;
+import engine.model.signals.manage.LeftGameSignal;
+import engine.model.signals.manage.PlayerReadyChangedSignal;
+import engine.model.signals.manage.ReadyToCreateGameSignal;
+import engine.model.signals.manage.SomeoneJoinedToGameSignal;
+import engine.model.signals.manage.SomeoneLeftGameSignal;
+import engine.model.signals.manage.ThreeSecondsToStartSignal;
+import engine.profiles.GameProfile;
+import engine.profiles.LobbyProfile;
+import engine.profiles.PlayerGameProfile;
 
-import greensock.TweenMax
-import greensock.loading.ImageLoader
-import greensock.loading.LoaderMax
-import greensock.loading.SWFLoader
-import greensock.loading.XMLLoader
+import greensock.TweenMax;
+import greensock.loading.ImageLoader;
+import greensock.loading.LoaderMax;
+import greensock.loading.SWFLoader;
+import greensock.loading.XMLLoader;
 
-import loading.BombersContentLoader
+import loading.BombersContentLoader;
 
-import mx.collections.ArrayCollection
-
-import org.osflash.signals.Signal
+import org.osflash.signals.Signal;
 
 public class GameModel {
 
@@ -77,7 +83,7 @@ public class GameModel {
     public var questFailed:Signal = new Signal(QuestFailReason)
     public var leftQuest:Signal = new Signal()
     public var questStarted:Signal = new Signal()
-    public var questEnded:Signal = new Signal(Boolean,Medal) //success,medal
+    public var questEnded:Signal = new Signal(Boolean, Medal) //success,medal
     public var questReady:Signal = new Signal()
 
 
@@ -97,7 +103,7 @@ public class GameModel {
     public var gamePass:String
     public var isPlayingNow:Boolean = false
 
-    private var _quests:ArrayCollection = new ArrayCollection()
+    private var _quests:Array = new Array()
 
     function GameModel() {
     }
@@ -124,27 +130,54 @@ public class GameModel {
     }
 
     private function fillQuests():void {
-        for (var i:int = 0; i < Consts.LOCATIONS_COUNT; i++)
-            _quests.addItem(new ArrayCollection())
         for each(var name:String in Quests.questsNames) {
             var xml:XML = Quests.questXml(name)
-            var lId:int = xml.location;
-            var q:QuestObject = new QuestObject(xml);
-            (_quests[lId] as ArrayCollection).addItem(q)
+            var q:EngineQuestObject = new EngineQuestObject(xml);
+            _quests.push(q)
         }
-        //check
-        for (var i:int = 0; i < _quests.length; i++) {
-            var arr:ArrayCollection = _quests[i];
-            for (var j:int = 0; j < arr.length; j++) {
-                var qObj:QuestObject = arr[j];
-                trace("quest " + qObj.name + " at loc " + i + ": " + qObj.description)
-            }
+        var compare_quest:Function = function(q1:EngineQuestObject, q2:EngineQuestObject):int {
+            if (q1.id < q2.id) return -1
+            if (q1.id > q2.id) return 1
+            return 0
         }
-    }
+        _quests = _quests.sort(compare_quest)
+        var _commonQuests:Array = _quests.map(
+            function (item:EngineQuestObject, index:int, array:Array):QuestObject {
 
-    public function getQuestObject(id:String):QuestObject {
+                var tasks:Array = [item.goldMedal,item.silverMedal,item.bronzeMedal].map(function (medal:MedalBase, index:int, array:Array):TaskObject {
+                    var rewards:Array = medal.prizes.map(function (reward:*, index:int, array:Array):RegardObject {
+                        if (reward is ResourceObject) {
+                            var ro:ResourceObject = reward
+                            switch (ro.type) {
+                                case ResourceType.ADAMANT:
+                                    return new RegardObject(RegardType.RESOURCE_ADAMANT, ro.value)
+                                case ResourceType.ANTIMATTER:
+                                    return new RegardObject(RegardType.RESOURCE_ANTIMATTER, ro.value)
+                                case ResourceType.GOLD:
+                                    return new RegardObject(RegardType.RESOURCE_GOLD, ro.value)
+                                case ResourceType.CRYSTALS:
+                                    return new RegardObject(RegardType.RESOURCE_CRYSTALS, ro.value)
+                                case ResourceType.ENERGY:
+                                    return new RegardObject(RegardType.RESOURCE_ENERGY, ro.value)
+                            }
+                        } else if (reward is ExperianceObject)
+                            return new RegardObject(RegardType.RESOURCE_EXP, (reward as ExperianceObject).experiance)
+                        else if (reward is ItemProfileObject)
+                            return new RegardObject(RegardType.RESOURCE_ITEM, 1)
+                        throw new Error("Unknown reward")
+                    })
+                    return new TaskObject(index, medal.text, rewards, MedalType.byValue(index))
+                })
+
+                return new QuestObject(item.id, item.locationId, item.imageURL, item.name, item.energyCost, item.accessRules, tasks, item.description, item.previewImageURL)
+
+            })
+        Context.Model.questManager.addQuests(_commonQuests)
+}
+
+    public function getQuestObject(id:String):EngineQuestObject {
         var loc_id:int = id.substr(1, 2) as int
-        for each (var q:QuestObject in _quests[loc_id]) {
+        for each (var q:EngineQuestObject in _quests[loc_id]) {
             if (q.id == id)
                 return q
         }
@@ -185,7 +218,7 @@ public class GameModel {
 
         questStarted.addOnce(function():void {
             isPlayingNow = true
-            questEnded.addOnce(function(p1:*,p2:*):void {
+            questEnded.addOnce(function(p1:*, p2:*):void {
                 leftQuest.dispatch()
             })
         })
@@ -416,13 +449,13 @@ public class GameModel {
         if (gp.selectedWeaponLeftHand == null) {
             var newW:ItemProfileObject = getNextWeapon(-1)
             if (newW != null)
-				gp.setWeaponLeftHand(newW.itemType);
+                gp.setWeaponLeftHand(newW.itemType);
         } else {
             for (var i:int = 0; i < gp.gotItems.length; i++) {
                 var obj:ItemProfileObject = gp.gotItems[i];
                 if (obj.itemType == gp.selectedWeaponLeftHand.itemType) {
                     var newW:ItemProfileObject = getNextWeapon(i)
-					gp.setWeaponLeftHand(newW.itemType);
+                    gp.setWeaponLeftHand(newW.itemType);
                     break
                 }
             }

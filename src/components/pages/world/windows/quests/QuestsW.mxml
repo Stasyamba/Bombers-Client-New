@@ -138,7 +138,7 @@
 					
 					for each(var q: QuestObject in quests)
 					{
-						var accessObjects: Array = AccessManager.checkAccessQuest(q.questType);
+						var accessObjects: Array = AccessManager.checkAccessQuest(q.id);
 						
 						for each(var aro: AccessRuleObject in accessObjects) 
 						{
@@ -163,7 +163,7 @@
 						
 						for each(var mo: MedalObject in Context.Model.currentSettings.gameProfile.medals)
 						{
-							if(mo.questType == q.questType)
+							if(mo.questId == q.id)
 							{
 								q.setMedal(mo.medalType);
 								break;

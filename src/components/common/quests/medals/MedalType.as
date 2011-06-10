@@ -59,6 +59,13 @@ package components.common.quests.medals{
 			
 			return res;
 		}
-		
-	}
+
+        public static function byValue(value:int):MedalType {
+            var a:Array = [GOLD_MEDAL,SILVER_MEDAL,BRONZE_MEDAL]
+            var res:MedalType = a[value]
+            if (!res)
+                throw new Error("Unknown medal value")
+            return res
+        }
+    }
 }

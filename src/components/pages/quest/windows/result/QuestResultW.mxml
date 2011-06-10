@@ -57,134 +57,122 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import components.ApplicationView;
-			import components.common.game.questgameresult.QuestResultObject;
-			import components.common.quests.QuestObject;
-			import components.common.resources.ResourceType;
-			import components.common.quests.medals.MedalType;
-			import components.common.quests.medals.MedalObject;
-			import components.common.base.access.AccessManager;
-			import components.common.base.access.rules.AccessRuleObject;
-			import components.common.base.access.rules.AccessRuleType;
-			import components.common.base.access.rules.IAccessRule;
-			import components.common.base.access.rules.itemrule.AccessItemRule;
-			import components.common.base.access.rules.levelrule.AccessLevelRule;
-			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
-			import components.common.items.ItemProfileObject;
-			import components.common.items.ItemType;
-			import components.common.worlds.locations.LocationType;
-			import components.common.worlds.locations.LocationViewObject;
-			
-			import mx.controls.Alert;
-			import mx.core.IVisualElement;
-			import mx.managers.PopUpManager;
-			
-			public var questResultObject: QuestResultObject = null;
-			private var questObject: QuestObject;
-			
-			public function close():void {
-				PopUpManager.removePopUp(this);
-			}
-			
-			public function closeWrapper():void {
-				disapearingAnimation.play();
-			}
-			
-			private function panelCreationComplete():void {
-				
-				questObject = Context.Model.questManager.getQuestObject(Context.Model.questTypeLastOpened);
-				energyCostLabel.text = questObject.energyCost.toString();
-				
-				if(questResultObject != null)
-				{
-					/* medal from own profile */
-					
-					var medals: Array = Context.Model.currentSettings.gameProfile.medals.concat();
-					var currentMedalType: MedalType = null;
-					
-					for each(var mo:MedalObject in medals)
-					{
-						if(mo.questType == Context.Model.questTypeLastOpened)
-						{
-							currentMedalType = mo.medalType;
-							break;
-						}
-					}
-					
-					var gotGold: Boolean = false;
-					var gotSilver: Boolean = false;
-					var gotBronze: Boolean = false;
-					
-					switch(currentMedalType)
-					{
-						case MedalType.GOLD_MEDAL:
-							gotGold = true;
-							gotSilver = true;
-							gotBronze = true;
-							break;
-						case MedalType.SILVER_MEDAL:
-							gotSilver = true;
-							gotBronze = true;
-							break;
-						case MedalType.BRONZE_MEDAL:
-							gotBronze = true;
-							break;
-					}
-					
-					goldTask.initTask(questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
-					silverTask.initTask(questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
-					bronzeTask.initTask(questObject.getTask(MedalType.BRONZE_MEDAL), gotBronze);
-					
-					if(questResultObject.isNew)
-					{
-						resultTitleLabel.text = "Новая медаль!";
-						pulseA.play();
-						
-						switch(currentMedalType)
-						{
-							case MedalType.GOLD_MEDAL:
-								goldMedal.visible = true;
-								break;
-							case MedalType.SILVER_MEDAL:
-								silverMedal.visible = true;
-								break;
-							case MedalType.BRONZE_MEDAL:
-								bronzeMedal.visible = true;
-								break;
-						}
-						
-						goldMedal.visible = gotGold;
-						
-					}else
-					{
-						resultTitleLabel.text = "Нет новых медалей";
-					}
-					
-				}else
-				{
-					Alert.show("Error with passing data | QuestResultW.mxml");
-					close();
-				}
-			}
-			
-			private function startQuest(): void
-			{
-				if(Context.Model.currentSettings.gameProfile.energy < questObject.energyCost)
-				{
-					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
-				}else
-				{
-					closeWrapper();
-					Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);  
-				}
-			}
-			
-			private function quit(): void
-			{
-				closeWrapper();
-				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
-			}
-		]]>
+        import components.ApplicationView;
+        import components.common.game.questgameresult.QuestResultObject;
+        import components.common.quests.QuestObject;
+        import components.common.resources.ResourceType;
+        import components.common.quests.medals.MedalType;
+        import components.common.quests.medals.MedalObject;
+        import components.common.base.access.AccessManager;
+        import components.common.base.access.rules.AccessRuleObject;
+        import components.common.base.access.rules.AccessRuleType;
+        import components.common.base.access.rules.IAccessRule;
+        import components.common.base.access.rules.itemrule.AccessItemRule;
+        import components.common.base.access.rules.levelrule.AccessLevelRule;
+        import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+        import components.common.items.ItemProfileObject;
+        import components.common.items.ItemType;
+        import components.common.worlds.locations.LocationType;
+        import components.common.worlds.locations.LocationViewObject;
+
+        import mx.controls.Alert;
+        import mx.core.IVisualElement;
+        import mx.managers.PopUpManager;
+
+        public var questResultObject:QuestResultObject = null;
+        private var questObject:QuestObject;
+
+        public function close():void {
+            PopUpManager.removePopUp(this);
+        }
+
+        public function closeWrapper():void {
+            disapearingAnimation.play();
+        }
+
+        private function panelCreationComplete():void {
+
+            questObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
+            energyCostLabel.text = questObject.energyCost.toString();
+
+            if (questResultObject != null) {
+                /* medal from own profile */
+
+                var medals:Array = Context.Model.currentSettings.gameProfile.medals.concat();
+                var currentMedalType:MedalType = null;
+
+                for each(var mo:MedalObject in medals) {
+                    if (mo.questId == Context.Model.questIdLastOpened) {
+                        currentMedalType = mo.medalType;
+                        break;
+                    }
+                }
+
+                var gotGold:Boolean = false;
+                var gotSilver:Boolean = false;
+                var gotBronze:Boolean = false;
+
+                switch (currentMedalType) {
+                    case MedalType.GOLD_MEDAL:
+                        gotGold = true;
+                        gotSilver = true;
+                        gotBronze = true;
+                        break;
+                    case MedalType.SILVER_MEDAL:
+                        gotSilver = true;
+                        gotBronze = true;
+                        break;
+                    case MedalType.BRONZE_MEDAL:
+                        gotBronze = true;
+                        break;
+                }
+
+                goldTask.initTask(questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
+                silverTask.initTask(questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
+                bronzeTask.initTask(questObject.getTask(MedalType.BRONZE_MEDAL), gotBronze);
+
+                if (questResultObject.isNew) {
+                    resultTitleLabel.text = "Новая медаль!";
+                    pulseA.play();
+
+                    switch (currentMedalType) {
+                        case MedalType.GOLD_MEDAL:
+                            goldMedal.visible = true;
+                            break;
+                        case MedalType.SILVER_MEDAL:
+                            silverMedal.visible = true;
+                            break;
+                        case MedalType.BRONZE_MEDAL:
+                            bronzeMedal.visible = true;
+                            break;
+                    }
+
+                    goldMedal.visible = gotGold;
+
+                } else {
+                    resultTitleLabel.text = "Нет новых медалей";
+                }
+
+            } else {
+                Alert.show("Error with passing data | QuestResultW.mxml");
+                close();
+            }
+        }
+
+        private function startQuest():void {
+            if (Context.Model.currentSettings.gameProfile.energy < questObject.energyCost) {
+                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
+            } else {
+                closeWrapper();
+                Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);
+            }
+        }
+
+        private function quit():void {
+            closeWrapper();
+            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
+        }
+        ]]>
 	</fx:Script>
 	<s:layout>
 		<s:BasicLayout/>

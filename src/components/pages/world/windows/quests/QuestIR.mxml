@@ -25,137 +25,124 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import components.ApplicationView;
-			import components.common.base.access.rules.medalrule.AccessMedalRule;
-			import components.common.quests.QuestObject;
-			import components.common.quests.medals.MedalType;
-			import components.common.resources.ResourceType;
-			import components.common.resources.ResourceViewObject;
-			import components.common.utils.adjustcolor.ColorMatrix;
-			
-			import mx.controls.Alert;
-			import mx.utils.ObjectUtil;
-			
-			private var qo: QuestObject;
-			
-			override public function set data( value:Object ) : void {
-				super.data = value;
-				qo = data as QuestObject;
-				
-				costLabel.text = qo.energyCost.toString();
-				
-				/* set dark side */
-				
-				 var cm: ColorMatrix = new ColorMatrix();
-				cm.adjustBrightness(-5,-5,-5);
-				baseDarkBg.filters = [cm.filter.clone()]; 
-				
-				cm = new ColorMatrix();
-				cm.adjustSaturation(0);
-				deniedGroup.filters = [cm.filter.clone()];
-				
-				/* data type = QuestObject */
-				
-				
-				nameLabel.text = (data as QuestObject).view.name;
-				previewImage.source = (data as QuestObject).view.imageURL;
-				
-				/* Рассматриваем только одно правило, либо оно есть и это правило медали, либо его нету и вооюще ничего нету */
-				
-				if((data as QuestObject).view.accessFailedRules.length == 0)
-				{
-					deniedGroup.visible = false;
-					actionGroup.visible = true;
-					
-					statusLabel.text = "Нет наград";
-					statusLabel.visible = true;
-					medalGroup.visible = false;
-					
-					if((data as QuestObject).view.medalHave != null)
-					{
-						statusLabel.visible = false;
-						
-						medal1.visible = true;
-						medal2.visible = true;
-						medal3.visible = true;
-						
-						switch((data as QuestObject).view.medalHave)
-						{
-							case MedalType.GOLD_MEDAL:
-								break;
-							case MedalType.SILVER_MEDAL:
-								medal1.visible = false;
-								break;
-							case MedalType.BRONZE_MEDAL:
-								medal1.visible = false;
-								medal2.visible = false;
-								break;
-						}
-						
-						medalGroup.visible = true;
-						statusLabel.visible = false;
-					}
-				}else
-				{
-					deniedGroup.visible = true;
-					actionGroup.visible = false;
-					
-					statusLabel.visible = false;
-					medalGroup.visible = false;
-					
-					cm = new ColorMatrix();
-					cm.adjustSaturation(0);
-					this.alpha = 0.8;
-					
-					this.filters = [cm.filter.clone()];
-					
-					/* check for one rule only */
-					for each(var rule: AccessMedalRule in (data as QuestObject).view.accessFailedRules)
-					{
-						if(rule.needAnyMedalInQuestsBefore)	
-						{
-							deniedLabel.text = "Взять любые медали \n в пред квестах";
-						}else
-						{
-							deniedLabel.text = "Нужны "+rule.medalsCount.toString();
-							
-							switch(rule.medalsType)
-							{
-								case MedalType.GOLD_MEDAL:
-									deniedLabel.text += " зол. ";
-									break;
-								case MedalType.SILVER_MEDAL:
-									deniedLabel.text += " сер. ";
-									break;
-								case MedalType.BRONZE_MEDAL:
-									deniedLabel.text += " бронз. ";
-									break;
-							}
-							
-							deniedLabel.text += "медали\nза прошлые квесты";
-						}
-					}
-				}
-			}
-			
-			private function doQuest(): void
-			{
-				if(Context.Model.currentSettings.gameProfile.energy < qo.energyCost)
-				{
-					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
-				}else
-				{
-					/* server withdraw energy */
-					
-					Context.Model.questTypeLastOpened = qo.questType;
-					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_QUEST);
-					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CLOSE_LOCATION_QUESTS);
-				}
-				
-			}
-			
-			
-		]]>
+        import components.ApplicationView;
+        import components.common.base.access.rules.medalrule.AccessMedalRule;
+        import components.common.quests.QuestObject;
+        import components.common.quests.medals.MedalType;
+        import components.common.resources.ResourceType;
+        import components.common.resources.ResourceViewObject;
+        import components.common.utils.adjustcolor.ColorMatrix;
+
+        import mx.controls.Alert;
+        import mx.utils.ObjectUtil;
+
+        private var qo:QuestObject;
+
+        override public function set data(value:Object):void {
+            super.data = value;
+            qo = data as QuestObject;
+
+            costLabel.text = qo.energyCost.toString();
+
+            /* set dark side */
+
+            var cm:ColorMatrix = new ColorMatrix();
+            cm.adjustBrightness(-5, -5, -5);
+            baseDarkBg.filters = [cm.filter.clone()];
+
+            cm = new ColorMatrix();
+            cm.adjustSaturation(0);
+            deniedGroup.filters = [cm.filter.clone()];
+
+            /* data type = QuestObject */
+
+
+            nameLabel.text = (data as QuestObject).view.name;
+            previewImage.source = (data as QuestObject).view.imageURL;
+
+            /* Рассматриваем только одно правило, либо оно есть и это правило медали, либо его нету и вооюще ничего нету */
+
+            if ((data as QuestObject).view.accessFailedRules.length == 0) {
+                deniedGroup.visible = false;
+                actionGroup.visible = true;
+
+                statusLabel.text = "Нет наград";
+                statusLabel.visible = true;
+                medalGroup.visible = false;
+
+                if ((data as QuestObject).view.medalHave != null) {
+                    statusLabel.visible = false;
+
+                    medal1.visible = true;
+                    medal2.visible = true;
+                    medal3.visible = true;
+
+                    switch ((data as QuestObject).view.medalHave) {
+                        case MedalType.GOLD_MEDAL:
+                            break;
+                        case MedalType.SILVER_MEDAL:
+                            medal1.visible = false;
+                            break;
+                        case MedalType.BRONZE_MEDAL:
+                            medal1.visible = false;
+                            medal2.visible = false;
+                            break;
+                    }
+
+                    medalGroup.visible = true;
+                    statusLabel.visible = false;
+                }
+            } else {
+                deniedGroup.visible = true;
+                actionGroup.visible = false;
+
+                statusLabel.visible = false;
+                medalGroup.visible = false;
+
+                cm = new ColorMatrix();
+                cm.adjustSaturation(0);
+                this.alpha = 0.8;
+
+                this.filters = [cm.filter.clone()];
+
+                /* check for one rule only */
+                for each(var rule:AccessMedalRule in (data as QuestObject).view.accessFailedRules) {
+                    if (rule.needAnyMedalInQuestsBefore) {
+                        deniedLabel.text = "Взять любые медали \n в пред квестах";
+                    } else {
+                        deniedLabel.text = "Нужны " + rule.medalsCount.toString();
+
+                        switch (rule.medalsType) {
+                            case MedalType.GOLD_MEDAL:
+                                deniedLabel.text += " зол. ";
+                                break;
+                            case MedalType.SILVER_MEDAL:
+                                deniedLabel.text += " сер. ";
+                                break;
+                            case MedalType.BRONZE_MEDAL:
+                                deniedLabel.text += " бронз. ";
+                                break;
+                        }
+
+                        deniedLabel.text += "медали\nза прошлые квесты";
+                    }
+                }
+            }
+        }
+
+        private function doQuest():void {
+            if (Context.Model.currentSettings.gameProfile.energy < qo.energyCost) {
+                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
+            } else {
+                /* server withdraw energy */
+
+                Context.Model.questIdLastOpened = qo.id;
+                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_QUEST);
+                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CLOSE_LOCATION_QUESTS);
+            }
+
+        }
+        ]]>
 	</fx:Script>
 	
 	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
