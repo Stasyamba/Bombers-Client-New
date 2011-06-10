@@ -2,7 +2,8 @@ package components.common.quests
 {
 	import components.common.base.access.rules.AccessRuleObject;
 	import components.common.base.access.rules.IAccessRule;
-	import components.common.quests.medals.MedalType;
+import components.common.base.server.ImagesPrefixes
+import components.common.quests.medals.MedalType;
 	import components.pages.world.windows.locationenter.RuleView;
 	
 	import engine.profiles.GameProfile;
@@ -26,8 +27,8 @@ package components.common.quests
 										imageAdditionalURLP: String = ""
 		)
 		{
-			imageURL = imageURLP;
-			additionalImageURL = imageAdditionalURLP;
+			imageURL = ImagesPrefixes.QUESTS_PREVIEW_PREFIX + imageURLP;
+			additionalImageURL = ImagesPrefixes.QUESTS_ADDITIONAL_PREVIEW_PREFIX + imageAdditionalURLP;
 			name = nameP;
 			
 			medalHave = medalP;

@@ -46,6 +46,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.quests.QuestObject;
+			import components.common.quests.QuestManager;
 			import components.common.resources.ResourceType;
 			import components.common.quests.medals.MedalType;
 			import components.common.quests.medals.MedalObject;
@@ -158,7 +160,8 @@
 							
 							for each(var m: MedalObject in Context.Model.currentSettings.gameProfile.medals)
 							{
-								if(m.questType.locationType == locationType)
+								var qo:QuestObject = Context.Model.questManager.getQuestObject(m.questId)
+								if(qo.locationId == locationType.value)
 								{
 									switch(m.medalType)
 									{

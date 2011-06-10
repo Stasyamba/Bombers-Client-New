@@ -8,7 +8,7 @@ import components.common.worlds.locations.LocationType
 
 import engine.data.quests.Quests
 import engine.games.quest.QuestGame
-import engine.games.quest.QuestObject
+import engine.games.quest.EngineQuestObject
 import engine.games.quest.medals.Medal
 import engine.games.quest.monsters.MonsterType
 import engine.games.quest.monsters.walking.WalkingStrategy
@@ -48,7 +48,7 @@ public class GameBuilder {
         return game;
     }
 
-    public function makeQuest(quest:QuestObject, gameId:String):IGame {
+    public function makeQuest(quest:EngineQuestObject, gameId:String):IGame {
         var xml:XML = Quests.questXml(quest.id)
         var game:QuestGame = new QuestGame(gameId, quest);
         //todo:deal with colors

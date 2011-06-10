@@ -15,9 +15,9 @@ import engine.games.quest.goals.IGoal
 
 public class Medal {
 
-    public static const BRONZE:Medal = new Medal(1,"BRONZE")
-    public static const SILVER:Medal = new Medal(2,"SILVER")
-    public static const GOLD:Medal = new Medal(4,"GOLD")
+    public static const BRONZE:Medal = new Medal(2,"BRONZE")
+    public static const SILVER:Medal = new Medal(1,"SILVER")
+    public static const GOLD:Medal = new Medal(0,"GOLD")
 
     private var _value:int
     private var _string:String
@@ -39,13 +39,13 @@ public class Medal {
     private static function prizes(xml:XML):Array {
         var res:Array = new Array()
         for each (var r:XML in xml.prize.Resource) {
-            res.push(new ResourceObject(ResourceType.byId(r.id), r.val))
+            res.push(new ResourceObject(ResourceType.byId(r.@id), r.@val))
         }
         for each (var e:XML in xml.prize.Experience) {
-            res.push(new ExperianceObject(0, r.val))
+            res.push(new ExperianceObject(0, r.@val))
         }
         for each (var o:XML in xml.prize.Object) {
-            res.push(new ItemProfileObject(ItemType.byValue(o.id), o.val))
+            res.push(new ItemProfileObject(ItemType.byValue(o.@id), o.@val))
         }
         return res
     }

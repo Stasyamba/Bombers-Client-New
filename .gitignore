@@ -1,2 +1,9 @@
 /bin-debug/
 /bin-release/
+/Bombers.iml
+/.actionScriptProperties
+/.flexProperties
+/.project
+/.idea/
+/*.actionScriptProperties
+/*.project

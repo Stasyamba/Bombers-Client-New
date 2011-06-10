@@ -2,14 +2,18 @@ package components.common.quests
 {
 	import components.common.base.access.rules.AccessRuleObject;
 	import components.common.base.access.rules.IAccessRule;
-	import components.common.quests.medals.MedalType;
+import components.common.base.server.ImagesPrefixes
+import components.common.quests.medals.MedalType;
 	import components.common.quests.tasks.TaskObject;
 	import components.common.worlds.locations.LocationType;
 
 	public class QuestObject
 	{
-		public var questType: QuestType;
-		
+
+        public var id:String;
+
+        public var locationId:int;
+
 		public var view: QuestViewObject;
 		
 		public var energyCost: int;
@@ -17,7 +21,8 @@ package components.common.quests
 		
 		public var tasks: Array;
 		
-		public function QuestObject(questTypeP: QuestType, 
+		public function QuestObject(idP: String,
+                                    locationIdP:int,
 									imageURLP: String, 
 									nameP: String, 
 									energyCostP: int, 
@@ -27,7 +32,8 @@ package components.common.quests
 									additionalImageURL: String = ""
 		)
 		{
-			questType = questTypeP;				
+			id = idP;
+            locationId = locationIdP;
 			energyCost = energyCostP;
 			
 			view = new QuestViewObject(imageURLP, nameP, null, null, null, describe, additionalImageURL);

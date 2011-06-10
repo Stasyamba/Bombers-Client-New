@@ -7,9 +7,14 @@
     <location>0</location>
     <name>Тестовая миссия 1</name>
     <description>В этой миссии вы должны выпилить дверь за минимально возможное время.</description>
-    <questImage>http://www.vensella.ru/eg/bombers/furyJoe/furyJoeBigImage.png</questImage>
-    <previewImage>http://www.vensella.ru/eg/bombers/furyJoe/furyJoeBigImage.png</previewImage>
+    <questImage>1.jpg</questImage>
+    <previewImage>marshrums.png</previewImage>
+    <energyCost>15</energyCost>
     <timeLimit>190</timeLimit>
+    <accessRules>
+        <AllBefore/>
+        <!--<CountMedals type="1" value="3" />-->
+    </accessRules>
     <map>
         <Map>
             <size width="21" height="17"/>
@@ -169,21 +174,21 @@
            - ReachCoordsGoal-->
     <!--todo: time goals-->
     <medals>
-        <Bronze>
-            <goal t="CollectObjectsGoal" type="1012" amount="15" text="Собрать 15 желтых грибов"/>
+        <Bronze  text="Собрать 15 желтых грибов">
+            <goal t="CollectObjectsGoal" type="1012" amount="15"/>
             <prize>
                 <Resource id="00" val="100"/>
             </prize>
         </Bronze>
-        <Silver>
-            <goal t="CollectObjectsGoal" type="1013" amount="10" text="Собрать 10 красных грибов"/>
+        <Silver  text="Собрать 10 красных грибов">
+            <goal t="CollectObjectsGoal" type="1013" amount="10"/>
             <prize>
                 <Resource id="00" val="300"/>
                 <Experience val="20"/>
             </prize>
         </Silver>
-        <Gold>
-            <goal t="CollectObjectsGoal" type="1011" amount="3" text="Собрать 3 фиолетовых гриба"/>
+        <Gold text="Собрать 3 фиолетовых гриба">
+            <goal t="CollectObjectsGoal" type="1011" amount="3" />
             <prize>
                 <Resource id="00" val="500"/>
                 <Experience val="30"/>

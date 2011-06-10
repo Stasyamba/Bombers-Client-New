@@ -49,14 +49,14 @@ public class QuestGame extends GameBase implements IQuestGame {
     private var _gameStats:GameStats = new GameStats();
 
     private var _gameId:String
-    private var _questObject:QuestObject
+    private var _questObject:EngineQuestObject
 
     private var _monstersManager:MonstersManager
     private var _bronzeGoal:IGoal
     private var _silverGoal:IGoal
     private var _goldGoal:IGoal
 
-    public function QuestGame(gameId:String, quest:QuestObject) {
+    public function QuestGame(gameId:String, quest:EngineQuestObject) {
         super(LocationType.byValue(quest.locationId))
         _gameId = gameId
         _questObject = quest
@@ -285,7 +285,7 @@ public class QuestGame extends GameBase implements IQuestGame {
         return _monstersManager
     }
 
-    public function get questObject():QuestObject {
+    public function get questObject():EngineQuestObject {
         return _questObject
     }
 

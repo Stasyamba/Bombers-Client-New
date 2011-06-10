@@ -95,7 +95,8 @@
 			
 			private function startQuest(): void
 			{
-				
+                Context.gameModel.startCurrentQuest()
+				closeWrapper()
 			}
 		]]>
 	</fx:Script>

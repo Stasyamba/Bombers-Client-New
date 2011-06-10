@@ -10,7 +10,6 @@ import components.common.items.ItemsManager;
 import components.common.items.categories.ItemsCategoriesManager;
 import components.common.items.collections.ItemCollectionManager;
 import components.common.quests.QuestManager;
-import components.common.quests.QuestType;
 import components.common.resources.ResourceViewManager;
 import components.common.worlds.locations.LocationManager;
 import components.common.worlds.locations.LocationViewManager;
@@ -139,7 +138,7 @@ public class ApplicationModel extends VkontakteApplicationModel {
 	public var questManager: QuestManager = new QuestManager();
 	
 	/* quests */
-	public var questTypeLastOpened: QuestType = null;
+	public var questIdLastOpened: String = null;
 	
 	
     public var disp:EventDispatcher;
