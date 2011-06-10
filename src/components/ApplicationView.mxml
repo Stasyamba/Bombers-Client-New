@@ -17,10 +17,13 @@
 			import api.vkontakte.VkontakteGlobals;
 			
 			import components.common.profiles.VkontakteProfile;
+			import components.common.superoffer.SuperOfferObject;
+			import components.common.superoffer.SuperOfferType;
 			import components.common.worlds.locations.LocationType;
 			import components.pages.global.energymarket.EnergyMarketW;
 			import components.pages.global.inventorynew.InventoryW;
 			import components.pages.world.windows.quests.QuestsW;
+			import components.pages.world.windows.superoffer.freeenenergy.SuperQuestEnergyW;
 			import components.pages.world.windows.tutorial.TutorialW;
 			import components.wall.SendWallObject;
 			
@@ -130,6 +133,30 @@
 				}
 			});
 			
+			Context.Model.addCustomListener(ContextEvent.SUPER_OFFER_OPEN, function (e: ContextEvent):void
+			{
+				parentApplication.setStyle("modalTransparencyBlur",3);
+				
+				if(e.data is SuperOfferObject)
+				{
+					switch((e.data as SuperOfferObject).type)
+					{
+						case SuperOfferType.ENERGY:
+							var sqew: SuperQuestEnergyW = new SuperQuestEnergyW();
+							sqew.superOfferObject = e.data;
+							
+							PopUpManager.addPopUp(sqew, (parentApplication as Bombers), true);
+							PopUpManager.centerPopUp(sqew);
+							
+							sqew.y += 20;
+							break;
+					}
+				}else
+				{
+					Alert.show("Error: data is not SuperOfferobject | ApplicationView");
+				}
+			});
+			
 
 			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN, function (e: ContextEvent):void
 			{
@@ -187,6 +214,16 @@
 			
 			
 			/* testing */
+			/* Context.Model.dispatchCustomEvent(ContextEvent.SUPER_OFFER_OPEN, 
+				new SuperOfferObject(
+					SuperOfferType.ENERGY,
+					1,
+					"http://www.vensella.ru/eg/superQuestEnergy.jpg",
+					"",
+					2,
+					null
+					)); */
+				
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_TUTORIAL);
 			
 			/* bgSound = new Sound();

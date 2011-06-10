@@ -26,6 +26,8 @@
 			import components.common.base.access.AccessManager;
 			import components.common.base.access.rules.AccessRuleObject;
 			import components.common.base.access.rules.AccessRuleType;
+			import components.common.superoffer.SuperOfferObject;
+			import components.common.superoffer.SuperOfferType;
 			import components.common.utils.HitTester;
 			import components.common.worlds.locations.ILocationPreview;
 			import components.common.worlds.locations.LocationType;
@@ -33,6 +35,8 @@
 			import components.pages.world.windows.locationenter.LocationEnterW;
 			
 			import mx.managers.PopUpManager;
+			
+			import skins.buttons.OfferButtonS;
 
 			private var selectedLocation:ILocationPreview = null;
 			
@@ -190,6 +194,21 @@
 				
 				waterSprite.addChild(new Water());
 			}
+			
+			private function openOffer(): void
+			{
+				/* teting */
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.SUPER_OFFER_OPEN, 
+					new SuperOfferObject(
+						SuperOfferType.ENERGY,
+						1,
+						"http://www.vensella.ru/eg/superQuestEnergy.jpg",
+						"",
+						2,
+						null
+					));
+			}
 
         ]]>
 	</fx:Script>
@@ -221,7 +240,9 @@
 			<moon:LocationPreview x="124" y="10"/>
 		</s:Group>
 		
-		
+		<s:Button x="10" y="20" skinClass="skins.buttons.OfferButtonS" buttonMode="true" useHandCursor="true"
+				  click="openOffer();"
+				  />
 		
 	</s:BorderContainer>
 	

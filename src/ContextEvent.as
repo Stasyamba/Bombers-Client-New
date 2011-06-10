@@ -19,6 +19,10 @@ public class ContextEvent extends Event {
 	// pass: LocationType
 	
 	
+	/**** super offer event ****/
+	public static const SUPER_OFFER_OPEN: String = "SuperOfferOpen";
+	// pass: 
+	
     /***** worlds and locations *****/
     public static const NEED_TO_CHANGE_LOCATION:String = "NeedToChangeLocation";
 
