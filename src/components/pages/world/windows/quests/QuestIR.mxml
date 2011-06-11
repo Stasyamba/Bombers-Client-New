@@ -72,28 +72,32 @@
                 statusLabel.visible = true;
                 medalGroup.visible = false;
 
-                if ((data as QuestObject).view.medalHave != null) {
-                    statusLabel.visible = false;
-
-                    medal1.visible = true;
-                    medal2.visible = true;
-                    medal3.visible = true;
-
-                    switch ((data as QuestObject).view.medalHave) {
-                        case MedalType.GOLD_MEDAL:
-                            break;
-                        case MedalType.SILVER_MEDAL:
-                            medal1.visible = false;
-                            break;
-                        case MedalType.BRONZE_MEDAL:
-                            medal1.visible = false;
-                            medal2.visible = false;
-                            break;
-                    }
-
-                    medalGroup.visible = true;
-                    statusLabel.visible = false;
-                }
+				if ((data as QuestObject).view.medalsHave.length != 0)
+				{
+					statusLabel.visible = false;
+					
+					medal1.visible = false;
+					medal2.visible = false;
+					medal3.visible = false;
+					
+					for each(var mt: MedalType in (data as QuestObject).view.medalsHave) 
+					{
+						switch (mt) {
+							case MedalType.GOLD_MEDAL:
+								medal1.visible = true;
+								break;
+							case MedalType.SILVER_MEDAL:
+								medal2.visible = true;
+								break;
+							case MedalType.BRONZE_MEDAL:
+								medal3.visible = true;
+								break;
+						}
+					} 
+					
+					medalGroup.visible = true;
+				}
+				
             } else {
                 deniedGroup.visible = true;
                 actionGroup.visible = false;
@@ -109,7 +113,8 @@
 
                 /* check for one rule only */
                 for each(var rule:AccessMedalRule in (data as QuestObject).view.accessFailedRules) {
-                    if (rule.needAnyMedalInQuestsBefore) {
+                    if (rule.needAnyMedalInQuestsBefore) 
+					{
                         deniedLabel.text = "Взять любые медали \n в пред квестах";
                     } else {
                         deniedLabel.text = "Нужны " + rule.medalsCount.toString();

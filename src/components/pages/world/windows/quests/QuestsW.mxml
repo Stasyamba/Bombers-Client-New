@@ -155,17 +155,16 @@
 						}
 						
 						/* 
-							getFrom profile and set it
-							
-						q.setMedals()
 						   	q.setBestPlayer()
 						*/
+						
+						q.clearMedals();
 						
 						for each(var mo: MedalObject in Context.Model.currentSettings.gameProfile.medals)
 						{
 							if(mo.questId == q.id)
 							{
-								q.setMedal(mo.medalType);
+								q.addMedal(mo.medalType);
 								break;
 							}
 						}

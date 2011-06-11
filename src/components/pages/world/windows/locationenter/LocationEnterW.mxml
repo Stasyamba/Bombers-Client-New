@@ -166,10 +166,10 @@
 									switch(m.medalType)
 									{
 										case MedalType.GOLD_MEDAL:
-											myMedals += 3;
+											myMedals += 1;
 											break;
 										case MedalType.SILVER_MEDAL:
-											myMedals += 2;
+											myMedals += 1;
 											break;
 										case MedalType.BRONZE_MEDAL:
 											myMedals += 1;

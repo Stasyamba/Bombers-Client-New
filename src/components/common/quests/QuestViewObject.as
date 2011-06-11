@@ -2,8 +2,8 @@ package components.common.quests
 {
 	import components.common.base.access.rules.AccessRuleObject;
 	import components.common.base.access.rules.IAccessRule;
-import components.common.base.server.ImagesPrefixes
-import components.common.quests.medals.MedalType;
+	import components.common.base.server.ImagesPrefixes;
+	import components.common.quests.medals.MedalType;
 	import components.pages.world.windows.locationenter.RuleView;
 	
 	import engine.profiles.GameProfile;
@@ -14,13 +14,13 @@ import components.common.quests.medals.MedalType;
 		public var name: String;
 		public var accessFailedRules: Array;
 		public var bestPlayer: GameProfile;
-		public var medalHave: MedalType;
+		public var medalsHave: Array;
 		public var describe: String;
 		public var additionalImageURL: String;
 		
 		public function QuestViewObject(imageURLP: String, 
 										nameP: String,
-										medalP: MedalType = null,
+										medalP: Array = null,
 										bestPlayerP: GameProfile = null,
 										accessFailedRulesP: Array = null,
 										describeP: String = "",
@@ -31,7 +31,15 @@ import components.common.quests.medals.MedalType;
 			additionalImageURL = ImagesPrefixes.QUESTS_ADDITIONAL_PREVIEW_PREFIX + imageAdditionalURLP;
 			name = nameP;
 			
-			medalHave = medalP;
+			medalsHave = new Array();
+			if(medalP != null)
+			{
+				for each(var mt:MedalType in medalP)
+				{
+					medalsHave.push(mt);
+				}
+			}
+			
 			
 			bestPlayer = bestPlayerP;
 			
@@ -52,9 +60,27 @@ import components.common.quests.medals.MedalType;
 			accessFailedRules.push(failedRule);
 		}
 		
-		public function setMedal(medalType: MedalType): void
+		public function clearMedals():void
 		{
-			medalHave = medalType;
+			medalsHave = new Array();
+		}
+		
+		public function addMedal(medalType: MedalType): void
+		{
+			var isFinded: Boolean = false;
+			
+			for each(var mt:MedalType in medalsHave)
+			{
+				if(mt == medalType)
+				{
+					isFinded = true;
+				}
+			}
+			
+			if(!isFinded)
+			{
+				medalsHave.push(medalType);
+			}
 		}
 		
 		public function setBestPlayer():void

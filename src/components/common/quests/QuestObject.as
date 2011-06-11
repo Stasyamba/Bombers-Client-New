@@ -76,9 +76,14 @@ import components.common.quests.medals.MedalType;
 			return res;
 		}
 		
-		public function setMedal(medalType: MedalType):void
+		public function clearMedals(): void
 		{
-			view.setMedal(medalType);
+			view.clearMedals();
+		}
+		
+		public function addMedal(medalType: MedalType):void
+		{
+			view.addMedal(medalType);
 		}
 		
 		public function addFailRule(failRule: IAccessRule): void

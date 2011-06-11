@@ -1,9 +1,9 @@
 package components.common.base.access.rules.medalrule {
-import components.common.base.access.rules.AccessRuleType
-import components.common.base.access.rules.IAccessRule
-import components.common.quests.QuestObject
-import components.common.quests.medals.MedalObject
-import components.common.quests.medals.MedalType
+import components.common.base.access.rules.AccessRuleType;
+import components.common.base.access.rules.IAccessRule;
+import components.common.quests.QuestObject;
+import components.common.quests.medals.MedalObject;
+import components.common.quests.medals.MedalType;
 
 public class AccessMedalRule implements IAccessRule {
     private var type:AccessRuleType;
@@ -68,13 +68,23 @@ public class AccessMedalRule implements IAccessRule {
         } else {
             var mCount:int = 0;
 
-            for (i = 0; i <= quests.length - 1; i++) {
-                if ((quests[i] as QuestObject).id != _questId) {
-                    for each(mo in Context.Model.currentSettings.gameProfile.medals) {
-                        if ((quests[i] as QuestObject).id == mo.questId) {
-                            if (_medalsType.isLessOrEqual((mo as MedalObject).medalType)) {
+            for (i = 0; i <= quests.length - 1; i++) 
+			{
+                if ((quests[i] as QuestObject).id != _questId) 
+				{
+                    for each(mo in Context.Model.currentSettings.gameProfile.medals) 
+					{
+                        if ((quests[i] as QuestObject).id == mo.questId) 
+						{
+                           /* if (_medalsType.isLessOrEqual((mo as MedalObject).medalType)) {
                                 mCount++;
                             }
+							*/
+							
+							if(_medalsType == (mo as MedalObject).medalType)
+							{
+								mCount++;
+							}
 
                             break;
                         }

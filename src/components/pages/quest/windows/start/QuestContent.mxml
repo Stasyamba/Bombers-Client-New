@@ -32,36 +32,33 @@
 					/* medal from own profile */
 					
 					var medals: Array = Context.Model.currentSettings.gameProfile.medals.concat();
-					var currentMedalType: MedalType = null;
+					var currentMedalsType: Array = new Array();
 						
-					for each(var mo:MedalObject in medals)
+					var gotGold:Boolean = false;
+					var gotSilver:Boolean = false;
+					var gotBronze:Boolean = false;
+					
+					for each(var mo:MedalObject in medals) 
 					{
-						if(mo.questId == qo.id)
+						if (mo.questId == Context.Model.questIdLastOpened) 
 						{
-							currentMedalType = mo.medalType;
+							currentMedalsType.push(mo.medalType);
+							
+							switch (mo.medalType) {
+								case MedalType.GOLD_MEDAL:
+									gotGold = true;
+									break;
+								case MedalType.SILVER_MEDAL:
+									gotSilver = true;
+									break;
+								case MedalType.BRONZE_MEDAL:
+									gotBronze = true;
+									break;
+							}
+							
 							break;
 						}
-					}
-					
-					var gotGold: Boolean = false;
-					var gotSilver: Boolean = false;
-					var gotBronze: Boolean = false;
-					
-					switch(currentMedalType)
-					{
-						case MedalType.GOLD_MEDAL:
-							gotGold = true;
-							gotSilver = true;
-							gotBronze = true;
-							break;
-						case MedalType.SILVER_MEDAL:
-							gotSilver = true;
-							gotBronze = true;
-							break;
-						case MedalType.BRONZE_MEDAL:
-							gotBronze = true;
-							break;
-					}
+					} 
 					
 					goldTask.initTask(questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
 					silverTask.initTask(questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
