@@ -23,41 +23,41 @@ public class LocationManager
 
         locations.push(new LocationObject(
                 LocationType.WORLD1_SNOWPEAK,
-                [new AccessLevelRule(5), new AccessBetaRule()]
+                [new AccessLevelRule(9), new AccessBetaRule()]
                 ));
 
         locations.push(new LocationObject(
                 LocationType.WORLD1_MINE,
-                [new AccessLevelRule(5), new AccessBetaRule()]
+                [new AccessLevelRule(7), new AccessBetaRule()]
                 ));
 
 
         locations.push(new LocationObject(
                 LocationType.WORLD1_UFO,
-                [new AccessOpenedLocationsRule([LocationType.WORLD1_SNOWPEAK], true)]
+                [new AccessLevelRule(13),new AccessOpenedLocationsRule([LocationType.WORLD1_SNOWPEAK], true)]
                 ));
 
         locations.push(new LocationObject(
                 LocationType.WORLD1_SEA,
-                [new AccessLevelRule(4),new AccessOpenedLocationsRule([LocationType.WORLD1_CASTLE], true), new AccessBetaRule()]
+                [new AccessLevelRule(15),new AccessOpenedLocationsRule([LocationType.WORLD1_CASTLE], true), new AccessBetaRule()]
                 ));
 
 
         locations.push(new LocationObject(
                 LocationType.WORLD1_ROCKET,
-                [new AccessLevelRule(5),
+                [new AccessLevelRule(20),
                     new AccessOpenedLocationsRule([LocationType.WORLD1_SEA, LocationType.WORLD1_UFO], true)]
                 ));
 
         locations.push(new LocationObject(
                 LocationType.WORLD1_SATTELITE,
-                [new AccessOpenedLocationsRule([LocationType.WORLD1_ROCKET], true)]
+                [new AccessLevelRule(25), new AccessOpenedLocationsRule([LocationType.WORLD1_ROCKET], true)]
                 ));
 
 
         locations.push(new LocationObject(
                 LocationType.WORLD1_MOON,
-                [new AccessOpenedLocationsRule([LocationType.WORLD1_SATTELITE], true)]
+                [new AccessLevelRule(30),new AccessOpenedLocationsRule([LocationType.WORLD1_SATTELITE], true)]
                 ));
     }
 

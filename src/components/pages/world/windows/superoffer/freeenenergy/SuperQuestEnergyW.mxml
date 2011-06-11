@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="529" height="342"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 y="-450" alpha="0" xmlns:superoffer="components.pages.world.windows.superoffer.*" xmlns:common="components.pages.world.windows.superoffer.common.*" xmlns:offerreward="components.pages.world.windows.superoffer.common.offerreward.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.Pattern3ButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Parallel id="apearingAnimation" startDelay="400">
+			<s:Sequence><!--effectStart="{this.y = -450}"-->
+				<s:Animate target="{this}" duration="650">
+					<s:SimpleMotionPath property="y"
+										valueFrom="-450" valueTo="130"
+										/>
+				</s:Animate>
+				<s:Animate target="{this}" duration="200">
+					<s:SimpleMotionPath property="y"
+										valueFrom="130" valueTo="80"
+										/>
+				</s:Animate>
+			</s:Sequence>
+			
+			<s:Animate target="{this}" duration="500">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="1"
+									/>
+			</s:Animate>
+		</s:Parallel>
+		
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.superoffer.SuperOfferObject;
+			import greensock.TweenMax;
+			import skins.quests.scroller.ScrollerS;
+			import components.common.quests.medals.MedalObject;
+			import mx.collections.ArrayCollection;
+			import components.common.base.access.rules.medalrule.AccessMedalRule;
+			import components.common.quests.QuestObject;
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.itemrule.AccessItemRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.worlds.locations.LocationType;
+			import components.common.worlds.locations.LocationViewObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public var superOfferObject: SuperOfferObject;
+			
+			public function close():void {
+				
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				apearingAnimation.play();
+				
+				if(superOfferObject != null)
+				{
+					questPreview.source = superOfferObject.imageURL;
+					
+					/* testing inint */
+					
+					for(var i: int = 0; i<= friendSlotsGroup.numElements - 1; i++)
+					{
+						if(i != 2)
+						{
+							var el: * = friendSlotsGroup.getElementAt(i);
+							
+							if(el is FriendInviteSlot)
+							{
+								(el as FriendInviteSlot).initContent(FriendInviteSlot.STATE_WAITING, Context.Model.currentSettings.apiResult.friends[i]);
+							}	
+						}
+						
+						if(i == 1)
+						{
+							(el as FriendInviteSlot).initContent(FriendInviteSlot.STATE_GOT_HELP, Context.Model.currentSettings.apiResult.friends[4]);
+						}
+					}
+					
+					rewardSlot.initContent(superOfferObject.reward);
+					
+				}else
+				{
+					// close
+				}
+			}
+			
+			private function closeWrapper1(e:ContextEvent): void
+			{
+				closeWrapper();
+			}
+			
+			private function initContent():void {
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="529" height="100%"
+					   cornerRadius="35"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="523" height="85"
+					   x="3" y="3"
+					   cornerRadius="35"
+					   borderVisible="false"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="40"
+					   y="50"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="15">
+		
+		<s:HGroup width="100%" height="50"
+				  horizontalAlign="center" verticalAlign="middle">
+			<s:Label id="superQuestLabel" text="Энергетический взрыв" fontFamily="mpbc" color="0xffc300" fontSize="24" />
+			<s:Label id="superQuestTimeLabel" text="2дн 3ч 45мин" fontFamily="mpbc" color="0xff6c00" fontSize="24" />
+		</s:HGroup>
+		<s:HGroup gap="25">
+			<s:BorderContainer backgroundColor="0xffffff"
+							   cornerRadius="2"
+							   width="99" height="99"
+							   borderColor="0x2c2514" borderWeight="3"
+							   borderVisible="true"
+							   >
+				<mx:Image id="questPreview" x="0" y="0"
+						  trustContent="{Context.Model.trustContent}"
+						  smoothBitmapContent="true"
+						  alpha="1"
+						  />
+			</s:BorderContainer>
+			
+			<s:VGroup verticalAlign="middle" gap="10">
+				
+				<s:HGroup verticalAlign="middle">
+					<s:Label text="Сложность:"
+							 fontFamily="mpr" fontSize="16" color="0xffc300"
+							 />
+					<s:HGroup id="difficultGroup">
+						<s:BitmapImage source="@Embed(source='assets/windows/superoffer/skull.png')" />
+					</s:HGroup>
+				</s:HGroup>
+				
+				<s:Label text="{'На этой неделе, компанией Бомбастерия inc \nбыло обнаружено новое месторажение энергии\nспешите за своей порцией!'}"
+						 fontFamily="mpr" fontSize="16" color="0xffc300"
+						 />
+				
+			</s:VGroup>
+		</s:HGroup>
+		
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+						   backgroundImageFillMode="repeat"
+						   width="100%" height="104"
+						   cornerRadius="0"
+						   borderVisible="false"
+						   >
+			<s:HGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center" gap="25">
+				<s:Label text="{'Для начала квеста\nнужна помощь\nдрузей'}"
+						 textAlign="right"
+						 fontFamily="mpr" fontSize="14" color="0xffc300"
+						 />
+				<s:HGroup id="friendSlotsGroup">
+					<common:FriendInviteSlot id="friendSlot1" />
+					<common:FriendInviteSlot id="friendSlot2" />
+					<common:FriendInviteSlot id="friendSlot3" />
+				</s:HGroup>
+			</s:HGroup>
+		</s:BorderContainer>
+		
+		<s:HGroup verticalAlign="middle" gap="25">
+			<s:HGroup verticalAlign="middle">
+				<s:Label text="Награда: " fontFamily="mpr" fontSize="18" color="0xffc300" />
+				<offerreward:RewardSlot id="rewardSlot" />
+			</s:HGroup>
+		
+			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS" customLabel="Забрать"
+										  fontSize="30" fontSizeOver="30"
+										  fontColor="0xfff19f"
+										  scaleX="0.7" scaleY="0.7"
+										  enabled="false"
+										  />
+		</s:HGroup>
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="480" y="15" scale="0.7"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

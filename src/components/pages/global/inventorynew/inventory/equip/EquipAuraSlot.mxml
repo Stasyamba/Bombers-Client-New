@@ -27,6 +27,7 @@
 					auraImage.source = imageURL;
 				}else
 				{
+					itemType = null;
 					bgEmptyAura.visible = true;
 					auraImage.source = "";
 				}
@@ -34,7 +35,10 @@
 			
 			private function deleteAura():void 
 			{
-				Context.Model.currentSettings.gameProfile.deleteAura(itemType, true);
+				if(itemType != null)
+				{
+					Context.Model.currentSettings.gameProfile.deleteAura(itemType, true);
+				}
 			}
 			
 		]]>

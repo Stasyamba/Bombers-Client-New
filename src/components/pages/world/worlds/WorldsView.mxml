@@ -26,6 +26,8 @@
 			import components.common.base.access.AccessManager;
 			import components.common.base.access.rules.AccessRuleObject;
 			import components.common.base.access.rules.AccessRuleType;
+			import components.common.quests.regard.RegardObject;
+			import components.common.quests.regard.RegardType;
 			import components.common.superoffer.SuperOfferObject;
 			import components.common.superoffer.SuperOfferType;
 			import components.common.utils.HitTester;
@@ -206,7 +208,10 @@
 						"http://www.vensella.ru/eg/superQuestEnergy.jpg",
 						"",
 						2,
-						null
+						[
+							new RegardObject(RegardType.RESOURCE_ENERGY, 30)
+						],
+						0
 					));
 			}
 

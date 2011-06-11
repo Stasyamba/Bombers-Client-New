@@ -95,8 +95,8 @@
 			
 			private function startQuest(): void
 			{
-                Context.gameModel.startCurrentQuest()
-				closeWrapper()
+                Context.gameModel.startCurrentQuest();
+				closeWrapper();
 			}
 		]]>
 	</fx:Script>
@@ -165,8 +165,8 @@
 		
 	</s:VGroup>
 	
-	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="420" y="15" scale="0.8"
-								/>
+	<!--<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="420" y="15" scale="0.8"
+								/>-->
 	
 	
 	<s:filters>

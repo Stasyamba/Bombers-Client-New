@@ -42,8 +42,11 @@
 			
 			private function deleteWeapon():void 
 			{
-				baseContentGroup.alpha = 0;
-				Context.Model.currentSettings.gameProfile.setWeaponLeftHand(null);
+				if(itemType != null)
+				{
+					baseContentGroup.alpha = 0;
+					Context.Model.currentSettings.gameProfile.setWeaponLeftHand(null);
+				}
 			}
 			
 		]]>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 creationComplete="init();"
+			 >
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[
+		[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	
+	<s:transitions>
+		
+		<s:Transition toState="over">
+			<s:Parallel>
+				<s:Fade target="{buttonGlow}" alphaFrom="0" alphaTo="1" duration="100"/>
+				<s:Fade target="{overImageGroup}" alphaFrom="0" alphaTo="1" duration="100"/>
+			</s:Parallel>
+		</s:Transition>
+		
+		
+		<s:Transition toState="up">
+			<s:Parallel>
+				<s:Fade target="{buttonGlow}" alphaFrom="1" alphaTo="0" duration="100"/>
+				<s:Fade target="{overImageGroup}" alphaFrom="1" alphaTo="0" duration="100"/>
+			</s:Parallel>
+			
+		</s:Transition>
+		
+	</s:transitions>
+	
+	<fx:Script>
+		<![CDATA[
+			/* Define the skin elements that should not be colorized.
+			For toggle button, the graphics are colorized but the label is not. */
+			static private const exclusions:Array = [];
+			
+			override public function get colorizeExclusions():Array {
+				return exclusions;
+			}
+			
+			// may be need color matrix filter
+			
+			private function init():void {
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup verticalAlign="middle">
+		<s:BitmapImage source="@Embed(source='assets/commonbuttons/offerButton.png')" smooth="true" />
+	</s:HGroup>
+	
+	<s:HGroup id="overImageGroup" paddingLeft="58" y="38" alpha="0" width="100%" horizontalAlign="right">
+		<s:BitmapImage x="30" y="10" source="@Embed(source='assets/commonbuttons/offerButton2.png')" smooth="true" />
+	</s:HGroup>
+	
+	<s:filters>
+		<s:GlowFilter id="buttonGlow" blurX="5" blurY="5" color="0xffffff" alpha="0"
+					  strength="1.5"
+					  />
+	</s:filters>
+	
+	
+</s:SparkSkin>

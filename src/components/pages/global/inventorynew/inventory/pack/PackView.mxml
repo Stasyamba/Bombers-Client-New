@@ -17,6 +17,7 @@
 			import components.common.items.collections.ItemCollectionType;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			
 			import skins.buttons.pack.LeftArrowPackButtonS;
 			import skins.buttons.pack.RightArrowPackButtonS;
@@ -49,40 +50,46 @@
 				
 				for each(var io:ItemProfileObject in Context.Model.currentSettings.gameProfile.packItems) 
 				{
-					var currentItemCategory:ItemCategory = Context.Model.itemsCategoryManager.getItemCategory(io.itemType);
-					
-					if(currentItemCategory == ItemCategory.AURA 
-						|| currentItemCategory ==ItemCategory.PART 
-						|| currentItemCategory == ItemCategory.WEAPON
-					) 
+					if(io == null)
 					{
-						if(currentItemCategory != ItemCategory.PART)
+						Alert.show("Error io is null | PackView.mxml");
+					}else
+					{
+						var currentItemCategory:ItemCategory = Context.Model.itemsCategoryManager.getItemCategory(io.itemType);
+						
+						if(currentItemCategory == ItemCategory.AURA 
+							|| currentItemCategory ==ItemCategory.PART 
+							|| currentItemCategory == ItemCategory.WEAPON
+						) 
 						{
-							itemsCollection.addItem(io);
-						}else
-						{
-							// кладем в коллекцию всего 1 часть из каждой коллекции, а отображается по 1ой части превью коллекции
-							
-							var collectionType: ItemCollectionType = Context.Model.itemCollectionsManager.getCollection(io.itemType).type;
-							var isFinded: Boolean = false;
-							
-							for each(var c: ItemCollectionType in itemCollectionsTypes)
+							if(currentItemCategory != ItemCategory.PART)
 							{
-								if(collectionType == c)
-								{
-									isFinded = true;
-									break;
-								}
-							}
-							
-							if(!isFinded)
+								itemsCollection.addItem(io);
+							}else
 							{
-								if(collectionType != null)
+								// кладем в коллекцию всего 1 часть из каждой коллекции, а отображается по 1ой части превью коллекции
+								
+								var collectionType: ItemCollectionType = Context.Model.itemCollectionsManager.getCollection(io.itemType).type;
+								var isFinded: Boolean = false;
+								
+								for each(var c: ItemCollectionType in itemCollectionsTypes)
 								{
-									itemCollectionsTypes.push(collectionType);
+									if(collectionType == c)
+									{
+										isFinded = true;
+										break;
+									}
 								}
 								
-								itemsCollection.addItem(io);
+								if(!isFinded)
+								{
+									if(collectionType != null)
+									{
+										itemCollectionsTypes.push(collectionType);
+									}
+									
+									itemsCollection.addItem(io);
+								}
 							}
 						}
 					}
