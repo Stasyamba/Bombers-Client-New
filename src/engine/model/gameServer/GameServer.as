@@ -20,6 +20,7 @@ import components.common.base.access.rules.levelrule.AccessLevelRule;
 import components.common.base.expirance.ExperianceObject;
 import components.common.base.market.ItemMarketObject;
 import components.common.bombers.BomberType;
+import components.common.friendslent.FriendObject;
 import components.common.items.ItemObject;
 import components.common.items.ItemProfileObject;
 import components.common.items.ItemType;
@@ -642,6 +643,24 @@ public class GameServer extends SmartFox {
 				
 				Context.Model.currentSettings.gameProfile.energy = 130;
 
+				
+				var friendsArr: Array = new Array();
+				var gp: GameProfile = new GameProfile();
+				gp.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
+				friendsArr.push(new FriendObject(gp, true, null));
+				
+				var gp1: GameProfile = new GameProfile();
+				gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
+				friendsArr.push(new FriendObject(gp1, true, null));
+				
+				
+				var gp2: GameProfile = new GameProfile();
+				gp2.photoURL = "http://cs10029.vkontakte.ru/u34230304/a_f5649b2f.jpg";
+				friendsArr.push(new FriendObject(gp2, false, null));
+				
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_FRIENDS_IS_LOADED, friendsArr);
+				
                 break;
             case INT_BUY_RESOURCES_RESULT:
                 trace("resources bought");

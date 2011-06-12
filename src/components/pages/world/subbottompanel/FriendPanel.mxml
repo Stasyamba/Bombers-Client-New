@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
+		 verticalAlign="middle">
+	
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.friendslent.FriendObject;
+			
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var friendsCurrentCollection: ArrayCollection;
+			private var friends: Array;
+			private var currentPage: int = 0;
+			private static const FRIENDS_PER_PAGE: int = 7;
+			
+			private function init(): void
+			{
+				Context.Model.addCustomListener(ContextEvent.GLOBAL_FRIENDS_IS_LOADED, friendsLoaded);
+			}
+			
+			private function friendsLoaded(e: ContextEvent): void
+			{
+				friends = new Array();
+				
+				if(e.data is Array)
+				{
+					for each(var fo:FriendObject in e.data)
+					{
+						friends.push(fo);
+					}
+				}
+				
+				setPage(0);
+			}
+			
+			private function setPage(page: int): void
+			{
+				if(page * FRIENDS_PER_PAGE < friends.length && page >= 0)
+				{
+					backButton.enabled = true;
+					forwardButton.enabled = true;
+					
+					if(page == 0)
+					{
+						backButton.enabled = false;
+					}
+					
+					friendsCurrentCollection = new ArrayCollection();
+					
+					for(var i: int = page*FRIENDS_PER_PAGE; i< (page + 1)*FRIENDS_PER_PAGE; i++)
+					{
+						if(i < friends.length)
+						{
+							friendsCurrentCollection.addItem(friends[i].clone());
+							
+							if(i == friends.length - 1)
+							{
+								forwardButton.enabled = false;
+							}
+						}else
+						{
+							forwardButton.enabled = false;
+							break;
+						}
+					}
+					
+					if(friendsCurrentCollection.length < FRIENDS_PER_PAGE - 1)
+					{
+						for(var j: int = friendsCurrentCollection.length; j<= FRIENDS_PER_PAGE - 1; j++)
+						{
+							friendsCurrentCollection.addItem(null);
+						}	
+					}
+					
+					friendsCurrentCollection.refresh();
+					currentPage = page;
+				}
+			}
+			
+			private function changePage(sign:int): void
+			{
+				setPage(currentPage + sign);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Button id="backButton" skinClass="skins.buttons.friendslent.LeftArrowButtonS" />
+	
+	<s:List dataProvider="{friendsCurrentCollection}" itemRenderer="components.pages.world.subbottompanel.FriendIR"
+			contentBackgroundAlpha="0" borderVisible="false"
+			>
+		<s:layout>
+			<s:HorizontalLayout requestedColumnCount="7" gap="-17" />
+		</s:layout>
+	</s:List>
+	
+	<s:Button id="forwardButton" skinClass="skins.buttons.friendslent.RightArrowButtonS" />
+	
+</s:HGroup>

@@ -2,7 +2,7 @@ package components.common.superoffer
 {
 	public class SuperOfferType
 	{
-		public static const ENERGY: SuperOfferType = new SuperOfferType(0, "FURY_JOE");
+		public static const GET_PRIZE: SuperOfferType = new SuperOfferType(0, "FURY_JOE");
 		public static const QUEST: SuperOfferType = new SuperOfferType(1, "R2D3");
 		
 		private var _value:int;
@@ -32,8 +32,8 @@ package components.common.superoffer
 			
 			switch(value)
 			{
-				case ENERGY._value:
-					res = ENERGY;
+				case GET_PRIZE._value:
+					res = GET_PRIZE;
 					break;
 				case QUEST._value:
 					res = QUEST;

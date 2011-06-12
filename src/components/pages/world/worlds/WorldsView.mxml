@@ -203,7 +203,7 @@
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.SUPER_OFFER_OPEN, 
 					new SuperOfferObject(
-						SuperOfferType.ENERGY,
+						SuperOfferType.GET_PRIZE,
 						1,
 						"http://www.vensella.ru/eg/superQuestEnergy.jpg",
 						"",

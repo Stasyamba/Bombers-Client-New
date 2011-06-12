@@ -18,6 +18,7 @@ public class ContextEvent extends Event {
 	public static const NEED_TO_CLOSE_LOCATION_QUESTS: String = "NeedToCloseLocationQuests";
 	// pass: LocationType
 	
+	public static const GLOBAL_FRIENDS_IS_LOADED: String = "GLOBALFriendsIsLoaded";
 	
 	/**** super offer event ****/
 	public static const SUPER_OFFER_OPEN: String = "SuperOfferOpen";
