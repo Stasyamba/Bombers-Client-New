@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 creationComplete="init();"
+			 >
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[
+		[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	
+	<s:transitions>
+		
+		<s:Transition toState="over">
+			<s:Parallel>
+				<s:Fade target="{baseImageGroup}" alphaFrom="0.8" alphaTo="1" duration="100"/>
+				<s:Fade target="{overImageGroup}" alphaFrom="0" alphaTo="1" duration="100"/>
+			</s:Parallel>
+		</s:Transition>
+		
+		
+		<s:Transition toState="up">
+			<s:Parallel>
+				<s:Fade target="{baseImageGroup}" alphaFrom="1" alphaTo="0.8" duration="100"/>
+				<s:Fade target="{overImageGroup}" alphaFrom="1" alphaTo="0" duration="100"/>
+			</s:Parallel>
+			
+		</s:Transition>
+		
+	</s:transitions>
+	
+	<fx:Script>
+		<![CDATA[
+			/* Define the skin elements that should not be colorized.
+			For toggle button, the graphics are colorized but the label is not. */
+			static private const exclusions:Array = [];
+			
+			override public function get colorizeExclusions():Array {
+				return exclusions;
+			}
+			
+			// may be need color matrix filter
+			
+			private function init():void {
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup id="baseImageGroup" alpha="0.8" verticalAlign="middle">
+		<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/askSign.png')" smooth="true" />
+	</s:HGroup>
+	
+	<s:HGroup id="overImageGroup" alpha="0" y="42">
+		<s:Label text="{'Нажми\nчтобы помочь'}" fontFamily="mpbc" fontSize="16" color="0x462c00" textAlign="left" lineHeight="{14}">
+			<s:filters>
+				<s:GlowFilter color="0xffffbe" strength="2" />
+				<s:GlowFilter color="0xffffbe" />
+				<s:GlowFilter color="0xffffbe" />
+				<s:GlowFilter color="0xffffbe" />
+			</s:filters>
+		</s:Label>
+	</s:HGroup>
+	
+	
+	
+</s:SparkSkin>

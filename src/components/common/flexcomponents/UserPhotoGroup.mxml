@@ -31,6 +31,8 @@
 			
 			[Bindable] public var radiusBg: int = 3;
 			
+			[Bindable] public var isHandCursor: Boolean = false;
+			
 			[Bindable]
 			public var bgColor: uint = 0xb4a58b;
 			
@@ -95,7 +97,7 @@
 			<mx:Image id="userPhotoImage" complete="correctBounds();" 
 					  smoothBitmapContent="true" 
 					  mask="{userPhotoImageMask}"
-					  useHandCursor="true" buttonMode="true"
+					  useHandCursor="{isHandCursor}" buttonMode="{isHandCursor}"
 					  trustContent="{Context.Model.trustContent}"
 					  />
 			<s:BorderContainer id="userPhotoImageMask" backgroundColor="0x00000" width="{basePhotoSizeW}" height="{basePhotoSizeH}" />
