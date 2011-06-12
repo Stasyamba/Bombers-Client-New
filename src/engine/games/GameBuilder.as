@@ -84,7 +84,8 @@ public class GameBuilder {
                 game.addObject(-1, b.x, b.y, DynObjectType.byValue(id))
             }
         }
-
+        if (quest.hasCommonGoal)
+            game.addGoal(null,quest.commonGoal)
         game.addGoal(Medal.BRONZE, quest.bronzeMedal.goal);
         game.addGoal(Medal.SILVER, quest.silverMedal.goal);
         game.addGoal(Medal.GOLD, quest.goldMedal.goal);

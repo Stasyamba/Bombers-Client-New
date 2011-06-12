@@ -40,6 +40,10 @@ import engine.weapons.WeaponBuilder
 import engine.weapons.WeaponType
 import engine.weapons.interfaces.IActivatableWeapon
 
+import flash.events.Event
+import flash.events.TimerEvent
+import flash.utils.Timer
+
 import greensock.TweenMax
 
 import mx.controls.Alert
@@ -52,9 +56,17 @@ public class QuestGame extends GameBase implements IQuestGame {
     private var _questObject:EngineQuestObject
 
     private var _monstersManager:MonstersManager
+
     private var _bronzeGoal:IGoal
     private var _silverGoal:IGoal
     private var _goldGoal:IGoal
+
+    private var _commonGoal:IGoal
+    private var _hasCommonGoal:Boolean;
+    private var _currentMedal:Medal = null;
+
+    private var _time:int = 0
+    private var _timeTimer:Timer
 
     public function QuestGame(gameId:String, quest:EngineQuestObject) {
         super(LocationType.byValue(quest.locationId))
@@ -77,6 +89,7 @@ public class QuestGame extends GameBase implements IQuestGame {
         _dynObjectManager = new QuestDOManager(playerManager, monstersManager, mapManager);
         weaponBuilder = new WeaponBuilder(_mapManager)
         playersBuilder = new PlayersBuilder(weaponBuilder)
+
         //game events
         Context.gameModel.questStarted.addOnce(function():void {
 
@@ -102,7 +115,7 @@ public class QuestGame extends GameBase implements IQuestGame {
             EngineContext.qNeedToAddMonster.add(onNeedToAddMonster)
 
             //goals
-            EngineContext.frameEntered.add(checkGoals);
+            EngineContext.frameEntered.add(checkFinishOnGoals);
 
             Context.gameModel.questCompleted.add(onQuestCompleted)
 
@@ -116,13 +129,29 @@ public class QuestGame extends GameBase implements IQuestGame {
             if (questObject.timeLimit > 0) {
                 TweenMax.delayedCall(questObject.timeLimit, EngineContext.qTimeOut.dispatch)
             }
+
+            _timeTimer = new Timer(1000, questObject.timeLimit)
+            _timeTimer.addEventListener(TimerEvent.TIMER, onTimeTimer)
+            _timeTimer.start()
         })
 
 
     }
 
+    private function onTimeTimer(e:Event):void {
+        _time++;
+    }
+
     private function onTimeOut():void {
-        Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
+        Context.gameModel.isPlayingNow = false
+        if (_questObject.finishOnGoal)
+            Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
+        else {
+            if (_currentMedal)
+                Context.gameModel.questCompleted.dispatch(_currentMedal)
+            else
+                Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
+        }
     }
 
     private function onQuestFailed(qfr:QuestFailReason):void {
@@ -141,13 +170,18 @@ public class QuestGame extends GameBase implements IQuestGame {
     }
 
     private function destroy():void {
-        EngineContext.frameEntered.remove(checkGoals);
+        EngineContext.frameEntered.remove(checkFinishOnGoals);
         EngineContext.frameEntered.remove(playerManager.movePlayer);
         EngineContext.frameEntered.remove(monstersManager.moveMonsters);
         EngineContext.frameEntered.remove(explosionsManager.checkExplosions);
         EngineContext.frameEntered.remove(dynObjectManager.checkObjectsActivated);
         EngineContext.frameEntered.remove(monstersManager.checkMonstersHitPlayer);
         EngineContext.frameEntered.remove((playerManager as QuestPlayerManager).checkPlayerMetActiveBlock);
+
+		if(_timeTimer != null){
+	        _timeTimer.removeEventListener(TimerEvent.TIMER, onTimeTimer)
+	        _timeTimer = null
+		}
     }
 
     private function onEndedLG():void {
@@ -190,8 +224,33 @@ public class QuestGame extends GameBase implements IQuestGame {
         Context.gameModel.questEnded.dispatch(true, medal);
     }
 
-    private function checkGoals(p0:int):Boolean {
+    private function checkFinishOnGoals(p0:int):Boolean {
         if (!Context.gameModel.isPlayingNow) return false;
+
+        if (_hasCommonGoal) {
+            if (_commonGoal.check(this)) {
+                Context.gameModel.isPlayingNow = false
+                Context.gameModel.questCompleted.dispatch(checkMedalGoals())
+                return true;
+            }
+        } else {
+            var m:Medal = checkMedalGoals()
+            if (m != null) {
+                if (_questObject.finishOnGoal) {
+                    Context.gameModel.isPlayingNow = false
+                    Context.gameModel.questCompleted.dispatch(m)
+                    return true;
+                } else {
+                    if (m.betterThan(_currentMedal)) {
+                        _currentMedal = m
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    private function checkMedalGoals():Medal {
         var m:Medal = null
         if (_bronzeGoal.check(this))
             m = Medal.BRONZE
@@ -199,12 +258,7 @@ public class QuestGame extends GameBase implements IQuestGame {
             m = Medal.SILVER
         if (_goldGoal.check(this))
             m = Medal.GOLD
-        if (m != null) {
-            Context.gameModel.isPlayingNow = false
-            Context.gameModel.questCompleted.dispatch(m)
-            return true;
-        }
-        return false
+        return m
     }
 
     private function onWeaponUsed(slot:int, x:int, y:int, type:WeaponType):void {
@@ -227,21 +281,26 @@ public class QuestGame extends GameBase implements IQuestGame {
     }
 
     public function addGoal(medal:Medal, goal:IGoal):void {
-        if (goal == null || medal == null)
-            throw new Error("goal or medal == null")
+        if (goal == null)
+            throw new Error("goal == null")
         trace(medal, Medal.BRONZE, Medal.SILVER, Medal.GOLD)
-        switch (medal) {
-            case Medal.BRONZE:
-                _bronzeGoal = goal
-                break
-            case Medal.SILVER:
-                _silverGoal = goal
-                break
-            case Medal.GOLD:
-                _goldGoal = goal
-                break
-            default:
-                throw new Error("no such medal: " + medal.value)
+        if (medal == null) {
+            _commonGoal = goal
+            _hasCommonGoal = true;
+        } else {
+            switch (medal) {
+                case Medal.BRONZE:
+                    _bronzeGoal = goal
+                    break
+                case Medal.SILVER:
+                    _silverGoal = goal
+                    break
+                case Medal.GOLD:
+                    _goldGoal = goal
+                    break
+                default:
+                    throw new Error("no such medal: " + medal.value)
+            }
         }
     }
 
@@ -303,6 +362,10 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     public function get gameId():String {
         return _gameId
+    }
+
+    public function get timePassed():int {
+        return _time
     }
 }
 }

@@ -362,7 +362,7 @@ public class GameServer extends SmartFox {
     }
 
     private function stopMeasure():void {
-        _measureMode = 0
+        _measureMode = false
         tenSecondsTimer.start()
     }
 

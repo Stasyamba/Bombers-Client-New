@@ -11,9 +11,10 @@
     <previewImage>marshrums.png</previewImage>
     <energyCost>15</energyCost>
     <timeLimit>190</timeLimit>
+    <finishOnGoal/> <!--убрать, если надо чтобы время точно завершилось-->
     <accessRules>
         <AllBefore/>
-        <!--<CountMedals type="1" value="3" />-->
+        <!--<CountMedals type="1" count="3" />-->
     </accessRules>
     <map>
         <Map>
@@ -174,14 +175,17 @@
            - ReachCoordsGoal-->
     <!--todo: time goals-->
     <medals>
+        <!-- если задание одно, а медали отличаются по времени, то оно указывается здесь, а
+        в медалях просто <goal t="TimeGoal" time="45"/> -->
+        <!--<goal t="CollectObjectsGoal" type="1012" amount="15" text="Собрать 15 желтых грибов"/>-->
         <Bronze  text="Собрать 15 желтых грибов">
             <goal t="CollectObjectsGoal" type="1012" amount="15"/>
             <prize>
                 <Resource id="00" val="100"/>
             </prize>
         </Bronze>
-        <Silver  text="Собрать 10 красных грибов">
-            <goal t="CollectObjectsGoal" type="1013" amount="10"/>
+        <Silver  text="Собрать 2 красных гриба">
+            <goal t="CollectObjectsGoal" type="1013" amount="2"/>
             <prize>
                 <Resource id="00" val="300"/>
                 <Experience val="20"/>

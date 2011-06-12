@@ -1,6 +1,6 @@
 package components.common.base.access.rules.levelrule {
-import components.common.base.access.rules.AccessRuleType
-import components.common.base.access.rules.IAccessRule
+import components.common.base.access.rules.AccessRuleType;
+import components.common.base.access.rules.IAccessRule;
 
 public class AccessLevelRule implements IAccessRule {
     private var type:AccessRuleType;
@@ -23,7 +23,9 @@ public class AccessLevelRule implements IAccessRule {
 		
 		if(Context.Model.currentSettings.gameProfile != null)
 		{
-        	currentLevel = Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience).level;
+			try{
+        		currentLevel = Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience).level;
+			}catch(e:Error){}
 		}
 		
         if (currentLevel >= minimumLevel) {

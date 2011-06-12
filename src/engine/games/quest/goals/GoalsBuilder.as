@@ -37,8 +37,15 @@ public class GoalsBuilder {
                 return makeActivateBOGoal(xml)
             case SelectiveGoal.name:
                 return makeSelectiveGoal(xml)
+
+            case TimeGoal.name:
+                return makeTimeGoal(xml)
         }
         throw new ArgumentError("invalid goal xml " + xml.@t)
+    }
+
+    private static function makeTimeGoal(xml:XML):TimeGoal {
+        return new TimeGoal(xml.@text,int(xml.@time))
     }
 
     private static function makeSelectiveGoal(xml:XML):IGoal {

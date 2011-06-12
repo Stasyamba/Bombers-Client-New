@@ -22,18 +22,12 @@ public class Medal {
     private var _value:int
     private var _string:String
 
-    public static function fromXml(xml:XML, commonGoal:IGoal = null):MedalBase {
-        if (commonGoal != null)
-            return timeMedal(xml, commonGoal)
-        return countMedal(xml)
+    public static function fromXml(xml:XML):MedalBase {
+        return regularMedal(xml)
     }
 
-    private static function countMedal(xml:XML):MedalBase {
-        return new CountMedal(xml.@text, prizes(xml), GoalsBuilder.makeFromXml(xml.goal[0]))
-    }
-
-    private static function timeMedal(xml:XML, commonGoal:IGoal):MedalBase {
-        return new TimeMedal(xml.@text, prizes(xml), commonGoal, xml.@time)
+    private static function regularMedal(xml:XML):MedalBase {
+        return new RegularMedal(xml.@text, prizes(xml), GoalsBuilder.makeFromXml(xml.goal[0]))
     }
 
     private static function prizes(xml:XML):Array {
@@ -61,6 +55,10 @@ public class Medal {
     public function Medal(value:int,string:String) {
         _value = value
         _string = string
+    }
+
+    public function betterThan(other:Medal):Boolean {
+        return other == null || _value < other.value
     }
 }
 }

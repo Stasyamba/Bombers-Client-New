@@ -19,6 +19,8 @@ public class EngineQuestObject {
 
     private var _xml:XML
 
+    private var _commonGoal:IGoal
+
     private var _goldMedal:MedalBase
     private var _silverMedal:MedalBase
     private var _bronzeMedal:MedalBase
@@ -38,14 +40,13 @@ public class EngineQuestObject {
     public function EngineQuestObject(xml:XML) {
         _xml = xml;
 
-        var commonGoal:IGoal = null
-        if (xml.medals.commonGoal[0] != null) {
-            commonGoal = GoalsBuilder.makeFromXml(xml.medals.commonGoal[0])
+        if (xml.medals.goal[0] != null) {
+            _commonGoal = GoalsBuilder.makeFromXml(xml.medals.goal[0])
         }
 
-        _bronzeMedal = Medal.fromXml(xml.medals.Bronze[0], commonGoal)
-        _silverMedal = Medal.fromXml(xml.medals.Silver[0], commonGoal)
-        _goldMedal = Medal.fromXml(xml.medals.Gold[0], commonGoal)
+        _bronzeMedal = Medal.fromXml(xml.medals.Bronze[0])
+        _silverMedal = Medal.fromXml(xml.medals.Silver[0])
+        _goldMedal = Medal.fromXml(xml.medals.Gold[0])
 
         _timeLimit = xml.timeLimit
 
@@ -106,6 +107,18 @@ public class EngineQuestObject {
 
     public function get accessRules():Array {
         return _accessRules
+    }
+
+    public function get finishOnGoal():Boolean {
+         return _xml.finishOnGoal.length() > 0
+    }
+
+    public function get hasCommonGoal():Boolean{
+        return _commonGoal != null
+    }
+
+    public function get commonGoal():IGoal{
+        return _commonGoal
     }
 }
 }
