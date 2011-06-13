@@ -74,7 +74,6 @@
 			import mx.managers.PopUpManager;
 			
 			public function close():void {
-				//Context.Model.windowsManager.deleteWindow(this);
 				PopUpManager.removePopUp(this);
 			}
 			
@@ -87,9 +86,12 @@
 			private var currentPrizeCollection: ArrayCollection;
 			private var prizes: Array;
 			
+			private var closeTimer: Timer = new Timer(1000, 10);
+			
 			private function panelCreationComplete():void {
-				//Context.Model.windowsManager.closeAll(true);
-				//Context.Model.windowsManager.addWindow(this);
+				
+				closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, openPregame);
+				closeTimer.start();
 				
 				/* set score */
 				
@@ -143,11 +145,15 @@
 				
 				/* set prizes */
 				
+				
+				// prizes = Context.gameModel.lastPrizes.concat();
+				
 				/* testing */
 				prizes = new Array();
 				prizes.push(new PrizeObject(
 					PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
 				);
+				
 				/* prizes.push(new PrizeObject(
 					PrizeType.CUP, ResourceType.CRYSTALS, 1, PlaceType.SECOND)
 				);
@@ -164,10 +170,6 @@
 					PrizeType.RESOURCE, ResourceType.CRYSTALS, 4)
 				); */
 				 
-				
-				
-				
-				
 				
 				setPage(0);
 			}
@@ -244,6 +246,13 @@
 				setPage(currentPage + sign);
 			}
 			
+			
+			private function openPregame(e: TimerEvent): void
+			{
+				closeTimer.stop();
+				closeWrapper();
+				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW);
+			}
 		]]>
 	</fx:Script>
 	<s:layout>
@@ -308,6 +317,7 @@
 	</s:VGroup>
 	
 	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="420" y="15" scale="0.8"
+								click="openPregame(null);"
 								/>
 	
 	

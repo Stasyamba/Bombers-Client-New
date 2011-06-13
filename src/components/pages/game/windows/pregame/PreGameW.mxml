@@ -42,6 +42,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.common.resources.ResourceType;
 			import components.common.quests.medals.MedalType;
 			import components.common.quests.medals.MedalObject;
@@ -62,7 +63,6 @@
 			import mx.managers.PopUpManager;
 			
 			public function close():void {
-				//Context.Model.windowsManager.deleteWindow(this);
 				Context.Model.removeCustomEventListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
 				PopUpManager.removePopUp(this);
 			}
@@ -71,19 +71,17 @@
 				disapearingAnimation.play();
 			}
 			
-			//public var i
-			
-			private function panelCreationComplete():void {
-				//Context.Model.windowsManager.closeAll(true);
-				//Context.Model.windowsManager.addWindow(this);
-				
+			private function panelCreationComplete():void 
+			{
 				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
 				
-				
-				switchContent(CONTENT_READY);
-				
-				/* testing */
-				// switchContent(CONTENT_NOT_ENOUGH_ENERGY);
+				if(Context.Model.currentSettings.gameProfile.energy >= CommonConstans.COMMON_GAME_COST)
+				{
+					switchContent(CONTENT_READY);
+				}else
+				{
+					switchContent(CONTENT_NOT_ENOUGH_ENERGY);
+				}
 			}
 			
 			private function switchToReady(e: ContextEvent): void
@@ -112,6 +110,7 @@
 						
 						case CONTENT_READY:
 							readyContent.visible = true;
+							readyContent.initContent();
 							break;
 						
 						default:

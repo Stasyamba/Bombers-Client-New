@@ -32,10 +32,16 @@
                 if (e.data == ApplicationView.TAB_NAME_GAME) {
 					focusGroup.visible = false;
 					
-                    gameView.everyGameTabOpeningInit();
+                    //gameView.everyGameTabOpeningInit();
                 }
             });
 
+
+			Context.Model.addCustomListener(ContextEvent.GPAGE_NEED_TO_SET_GAME_FOCUS, function (e: ContextEvent): void
+			{	
+				focusGroup.visible = true;	
+			});
+			
             Context.Model.addCustomListener(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW, function (e:ContextEvent):void {
 				//Context.gameModel.readyToPlayAgain.dispatch();
 				
@@ -48,11 +54,6 @@
 				rw.x += 40;
 				
             });
-
-			Context.Model.addCustomListener(ContextEvent.GPAGE_NEED_TO_SET_GAME_FOCUS, function (e: ContextEvent): void
-			{	
-				focusGroup.visible = true;	
-			});
 			
 			Context.Model.addCustomListener(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW, function (e: ContextEvent): void
 			{	
@@ -71,7 +72,7 @@
             stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 			
 			/* testing */
-			Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW, true);
+			Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW);
 			//Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW, true);
 			
         }
