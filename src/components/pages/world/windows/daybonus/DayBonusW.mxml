@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="541" height="304"
+		 y="-450" alpha="0" xmlns:daybonus="components.pages.world.windows.daybonus.*" xmlns:flexcomponents="components.common.flexcomponents.*" 
+		 >
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourceType;
+			
+			import skins.buttons.Pattern2ButtonS;
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Parallel id="apearingAnimation" startDelay="400" effectEnd="{charsApearingA.play()}">
+			<s:Sequence><!--effectStart="{this.y = -450}"-->
+				<s:Animate target="{this}" duration="650">
+					<s:SimpleMotionPath property="y"
+										valueFrom="-450" valueTo="130"
+										/>
+				</s:Animate>
+				<s:Animate target="{this}" duration="200">
+					<s:SimpleMotionPath property="y"
+										valueFrom="130" valueTo="100"
+										/>
+				</s:Animate>
+			</s:Sequence>
+			
+			<s:Animate target="{this}" duration="500">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="1"
+									/>
+			</s:Animate>
+		</s:Parallel>
+		
+		
+		<s:Parallel id="charsApearingA">
+		
+			<s:Animate target="{joeChar}" duration="650">
+				<s:SimpleMotionPath property="x"
+									valueFrom="40" valueTo="-150"
+									/>
+			</s:Animate>
+			
+			<s:Animate target="{r2d3Char}" duration="650">
+				<s:SimpleMotionPath property="x"
+									valueFrom="450" valueTo="540"
+									/>
+			</s:Animate>
+			
+		</s:Parallel>
+		
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.superoffer.SuperOfferObject;
+			
+			import mx.managers.PopUpManager;
+			
+			[Bindable] public var currentDay: int = 2;
+			
+			public function close():void {
+				
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				apearingAnimation.play();
+				
+				for(var i: int = 0; i <= bonusSlotsGroup.numElements - 1; i++)
+				{
+					var el: * = bonusSlotsGroup.getElementAt(i);
+					
+					if(el is BonusSlot)
+					{
+						var day: int = (el as BonusSlot).day;
+						if(day <= currentDay)
+						{
+							(el as BonusSlot).initContent(true);
+						}else
+						{
+							(el as BonusSlot).initContent(false);
+						}
+					}
+				}
+			}
+			
+			private function closeWrapper1(e:ContextEvent): void
+			{
+				closeWrapper();
+			}
+			
+			private function initContent():void {
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+
+	<s:BitmapImage id="joeChar" x="40" y="130" source="@Embed(source='assets/pageworld/tutorial/joe.png')" smooth="true" rotation="-38" />
+	<s:BitmapImage id="r2d3Char" x="450" source="@Embed(source='assets/pageworld/tutorial/r2d3.png')" smooth="true" rotation="40" />
+	
+	
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="35"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="4"
+					   >
+		<s:filters>
+			<s:DropShadowFilter alpha="0.4" distance="3" />
+		</s:filters>
+	</s:BorderContainer>
+	
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="30" paddingTop="25">
+		
+		<s:Label text="{'Заходите в игру несколько дней подряд и получайте\nкрутые бонусы!'}" textAlign="center"
+				 fontFamily="mpr" fontSize="18"
+				 color="0xffd23c"
+				 />
+		
+		<s:Label text="Вы заходите: {currentDay} день"  
+				 fontFamily="mpbc" fontSize="36"
+				 color="0xff9c00"
+				 />
+		
+		<s:VGroup horizontalAlign="center" gap="15">
+			<s:HGroup id="bonusSlotsGroup" gap="-35">
+				<daybonus:BonusSlot day="1" resourceType="{ResourceType.GOLD}" amount="10" isFirst="true"
+									dayText="1 день"
+									/>
+				
+				<daybonus:BonusSlot day="2" resourceType="{ResourceType.GOLD}" amount="20"
+									dayText="2 дня"
+									/>
+				
+				<daybonus:BonusSlot day="5" resourceType="{ResourceType.CRYSTALS}" amount="30"
+									dayText="5 дней"
+									/>
+				
+				<daybonus:BonusSlot day="10" resourceType="{ResourceType.ADAMANT}" amount="3"
+									dayText="10 дней"
+									/>
+			</s:HGroup>
+			<flexcomponents:PatternButton customLabel="Забрать" skinClass="skins.buttons.Pattern3ButtonS"
+										  fontSize="26" fontSizeOver="26"
+										  scale="0.8"
+										  fontColor="0xfff19f"
+										  />
+		</s:VGroup> 
+		
+		
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="490" y="15" scale="0.7"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

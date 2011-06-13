@@ -14,24 +14,25 @@
 
     <fx:Script>
 		<![CDATA[
-		import api.vkontakte.VkontakteGlobals;
-		
-		import components.common.profiles.VkontakteProfile;
-		import components.common.superoffer.SuperOfferObject;
-		import components.common.superoffer.SuperOfferType;
-		import components.common.worlds.locations.LocationType;
-		import components.pages.global.energymarket.EnergyMarketW;
-		import components.pages.global.inventorynew.InventoryW;
-		import components.pages.world.windows.quests.QuestsW;
-		import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW;
-		import components.pages.world.windows.tutorial.TutorialW;
-		import components.wall.SendWallObject;
-		
-		import loading.BombersContentLoader;
-		
-		import mx.controls.Alert;
-		import mx.core.IVisualElement;
-		import mx.managers.PopUpManager;
+			import api.vkontakte.VkontakteGlobals;
+			
+			import components.common.profiles.VkontakteProfile;
+			import components.common.superoffer.SuperOfferObject;
+			import components.common.superoffer.SuperOfferType;
+			import components.common.worlds.locations.LocationType;
+			import components.pages.global.energymarket.EnergyMarketW;
+			import components.pages.global.inventorynew.InventoryW;
+			import components.pages.world.windows.daybonus.DayBonusW;
+			import components.pages.world.windows.quests.QuestsW;
+			import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW;
+			import components.pages.world.windows.tutorial.TutorialW;
+			import components.wall.SendWallObject;
+			
+			import loading.BombersContentLoader;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
 
         public static const TAB_NAME_WORLD:String = "WorldPage";
         public static const TAB_NAME_GAME:String = "GamePage";
@@ -181,6 +182,19 @@
 				iw.y -= 90;
 			});
 			
+			Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_DAY_BONUS, function (e: ContextEvent): void
+			{
+				parentApplication.setStyle("modalTransparencyBlur",3);
+				
+				var dbw: DayBonusW = new DayBonusW();
+				dbw.currentDay = e.data;
+				
+				PopUpManager.addPopUp(dbw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(dbw);
+				
+				dbw.y -= 90;
+			});
+			
             /*disconnected*/
             Context.gameServer.disconnected.add(onDisconnected);
 
@@ -212,7 +226,6 @@
             }
 			
 			
-			
 			/* testing */
 			/* Context.Model.dispatchCustomEvent(ContextEvent.SUPER_OFFER_OPEN, 
 				new SuperOfferObject(
@@ -225,13 +238,14 @@
 					)); */
 				
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_TUTORIAL);
+			Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 			
-			 bgSound = new Sound();
+		/* 	bgSound = new Sound();
 			bgSoundChannel = new SoundChannel();
 			
 			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
 			
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);  
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);   */
         }
 			
 		private function repeatSound(e: Event): void	
