@@ -21,7 +21,7 @@
 	<fx:Declarations>
 		
 		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="300">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="{this.alpha}"
 									valueTo="0"
@@ -30,7 +30,7 @@
 		</s:Sequence>
 		
 		<s:Sequence id="apearingAnimation">
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="300">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="0" valueTo="1"
 									/>
@@ -42,6 +42,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.ApplicationView;
+			import appmodel.ApplicationModel;
 			import components.common.base.CommonConstans;
 			import components.common.resources.ResourceType;
 			import components.common.quests.medals.MedalType;
@@ -73,6 +75,8 @@
 			
 			private function panelCreationComplete():void 
 			{
+				apearingAnimation.play();
+				
 				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
 				
 				if(Context.Model.currentSettings.gameProfile.energy >= CommonConstans.COMMON_GAME_COST)
@@ -121,7 +125,8 @@
 			
 			private function quitTheGame(): void
 			{
-				
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
+				/* dispatch server some events */
 			}
 			
 		]]>

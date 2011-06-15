@@ -158,7 +158,7 @@
 				 />
 		
 		<s:VGroup horizontalAlign="center" gap="15">
-			<s:HGroup id="bonusSlotsGroup" gap="-35">
+			<s:HGroup id="bonusSlotsGroup" gap="-40">
 				<daybonus:BonusSlot day="1" resourceType="{ResourceType.GOLD}" amount="10" isFirst="true"
 									dayText="1 день"
 									/>

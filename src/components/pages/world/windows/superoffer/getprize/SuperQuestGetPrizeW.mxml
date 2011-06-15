@@ -176,7 +176,7 @@
 			<s:Label id="superQuestTimeLabel" text="2дн 3ч 45мин" fontFamily="mpbc" color="0xff6c00" fontSize="24" />
 		</s:HGroup>
 		<s:HGroup gap="25">
-			<s:BorderContainer backgroundColor="0xffffff"
+			<s:BorderContainer backgroundColor="0x000000"
 							   cornerRadius="2"
 							   width="99" height="99"
 							   borderColor="0x2c2514" borderWeight="3"

@@ -24,7 +24,7 @@
 	<fx:Declarations>
 		
 		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="300">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="{this.alpha}"
 									valueTo="0"
@@ -33,7 +33,7 @@
 		</s:Sequence>
 		
 		<s:Sequence id="apearingAnimation">
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="300">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="0" valueTo="1"
 									/>
@@ -45,6 +45,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.pages.game.windows.results.slots.PrizeCupSlot;
 			import components.common.game.multygameresult.PlaceType;
 			import components.pages.game.windows.results.slots.PrizeResourceSlot;
@@ -86,9 +87,10 @@
 			private var currentPrizeCollection: ArrayCollection;
 			private var prizes: Array;
 			
-			private var closeTimer: Timer = new Timer(1000, 10);
+			private var closeTimer: Timer = new Timer(1000, CommonConstans.TIME_TO_CLOSE_RESULT_GAME_WINDOW);
 			
 			private function panelCreationComplete():void {
+				apearingAnimation.play();
 				
 				closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, openPregame);
 				closeTimer.start();
@@ -154,7 +156,7 @@
 					PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
 				);
 				
-				/* prizes.push(new PrizeObject(
+				prizes.push(new PrizeObject(
 					PrizeType.CUP, ResourceType.CRYSTALS, 1, PlaceType.SECOND)
 				);
 				prizes.push(new PrizeObject(
@@ -162,13 +164,20 @@
 				);
 				prizes.push(new PrizeObject(
 					PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
-				); */
-				/* prizes.push(new PrizeObject(
+				);
+				prizes.push(new PrizeObject(
 					PrizeType.RESOURCE, ResourceType.GOLD, 6)
-				); */
-				/* prizes.push(new PrizeObject(
+				);
+				prizes.push(new PrizeObject(
 					PrizeType.RESOURCE, ResourceType.CRYSTALS, 4)
-				); */
+				);
+				
+				prizes.push(new PrizeObject(
+					PrizeType.RESOURCE, ResourceType.ADAMANT, 40)
+				);
+				prizes.push(new PrizeObject(
+					PrizeType.RESOURCE, ResourceType.CRYSTALS, 5)
+				);
 				 
 				
 				setPage(0);
