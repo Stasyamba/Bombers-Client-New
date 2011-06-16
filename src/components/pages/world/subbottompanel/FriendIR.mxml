@@ -4,7 +4,8 @@
 				xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				autoDrawBackground="false"
-				width="110" height="110" xmlns:flexcomponents="components.common.flexcomponents.*"
+				width="110" height="110" 
+				xmlns:flexcomponents="components.common.flexcomponents.*"
 				>
 	<s:layout>
 		<s:BasicLayout />
@@ -28,9 +29,12 @@
 			import skins.buttons.AskButtonS;
 			import mx.controls.Alert;
 			import components.common.friendslent.FriendObject;
-		
+			
 			override public function set data(value:Object):void {
 				super.data = value;
+				
+				bonusGroup.visible = false;
+				bonusGroup.alpha = 1;
 				
 				gotFriendGroup.visible = false;
 				inviteFriendGroup.visible = false;
@@ -68,8 +72,43 @@
 				}
 			}
 			
+			private function getBonus(): void
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_GET_BONUS, (data as FriendObject));
+				
+				askButton.visible = false;
+				bonusA.play();
+			}
+			
 		]]>
 	</fx:Script>
+	
+	
+	<fx:Declarations>
+		
+		<s:Parallel id="bonusA" target="{bonusGroup}" effectStart="{bonusGroup.visible = true; this.depth = 1;}">
+			<s:Animate duration="700">
+				<s:SimpleMotionPath property="alpha" valueBy="0" valueFrom="1" />
+			</s:Animate>
+			
+			<s:Animate duration="600">
+				<s:SimpleMotionPath property="x" valueBy="-10" valueFrom="0" />
+			</s:Animate>
+			
+			<s:Animate duration="800">
+				<s:SimpleMotionPath property="y" valueBy="-40" valueFrom="0" />
+			</s:Animate>
+			
+			<s:Animate duration="800">
+				<s:SimpleMotionPath property="scaleX" valueBy="2" valueFrom="1" />
+			</s:Animate>
+			<s:Animate duration="800">
+				<s:SimpleMotionPath property="scaleY" valueBy="2" valueFrom="1" />
+			</s:Animate>
+		</s:Parallel>
+		
+	</fx:Declarations>
+	
 	<s:HGroup horizontalAlign="center" verticalAlign="middle"
 			  width="110" height="110">
 		<s:Group>
@@ -127,7 +166,17 @@
 			<s:Button id="askButton" x="-5" y="-5"
 					  skinClass="skins.buttons.AskButtonS" visible="false"
 					  useHandCursor="true" buttonMode="true"
+					  click="getBonus();"
 					  />
+			
+			
+			<s:HGroup width="40" height="40" x="20" y="20">
+				<s:Group id="bonusGroup" visible="false" alpha="1">
+					<s:Label text="+1" fontFamily="mpbc" fontSize="30" color="0xad00ee" />
+					<!-- <s:BitampImage source='@Embed(source='')' /> -->
+				</s:Group>
+			</s:HGroup>
+			
 			
 		</s:Group>
 	</s:HGroup>

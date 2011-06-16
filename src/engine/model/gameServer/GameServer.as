@@ -659,7 +659,7 @@ public class GameServer extends SmartFox {
 				friendsArr.push(new FriendObject(gp2, false, null));
 				
 				
-				Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_FRIENDS_IS_LOADED, friendsArr);
+				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsArr);
 				
                 break;
             case INT_BUY_RESOURCES_RESULT:

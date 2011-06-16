@@ -15,6 +15,7 @@
 			import components.common.friendslent.FriendObject;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			
 			[Bindable]
 			private var friendsCurrentCollection: ArrayCollection;
@@ -24,7 +25,26 @@
 			
 			private function init(): void
 			{
-				Context.Model.addCustomListener(ContextEvent.GLOBAL_FRIENDS_IS_LOADED, friendsLoaded);
+				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLoaded);
+				
+				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_GET_BONUS, function (e: ContextEvent): void
+				{
+					if(e.data is FriendObject)
+					{
+						for(var i: int = 0; i<= friends.length - 1; i++)
+						{
+							if((friends[i] as FriendObject).profile.id == (e.data as FriendObject).profile.id)	
+							{
+								(friends[i] as FriendObject).isAskingForHelp = false;
+							}
+						}
+						
+						//setPage(currentPage);
+					}else
+					{
+						Alert.show("Error e.data is not FriendObject | FriendPanel.mxml");
+					}
+				});
 			}
 			
 			private function friendsLoaded(e: ContextEvent): void

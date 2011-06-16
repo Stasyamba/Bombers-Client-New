@@ -21,7 +21,7 @@
 	<fx:Declarations>
 		
 		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
-			<s:Animate target="{this}" duration="300">
+			<s:Animate target="{this}" duration="500">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="{this.alpha}"
 									valueTo="0"
@@ -30,7 +30,7 @@
 		</s:Sequence>
 		
 		<s:Sequence id="apearingAnimation">
-			<s:Animate target="{this}" duration="300">
+			<s:Animate target="{this}" duration="500">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="0" valueTo="1"
 									/>
@@ -125,6 +125,7 @@
 			
 			private function quitTheGame(): void
 			{
+				close();
 				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
 				/* dispatch server some events */
 			}

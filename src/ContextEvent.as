@@ -21,8 +21,6 @@ public class ContextEvent extends Event {
 	public static const NEED_TO_SHOW_DAY_BONUS:String = "NeedToShowDayBonus";
 	// pass: int -> currentDay
 	
-	public static const GLOBAL_FRIENDS_IS_LOADED: String = "GLOBALFriendsIsLoaded";
-	
 	/**** super offer event ****/
 	public static const SUPER_OFFER_OPEN: String = "SuperOfferOpen";
 	// pass: 
@@ -112,6 +110,8 @@ public class ContextEvent extends Event {
 	// pass: SendWallObject
  	
 	
+	public static const FRIENDS_PANEL_GET_BONUS: String = "FRIENDSPANELGetBonus";
+	public static const FRIENDS_PANEL_FRIENDS_IS_LOADED: String = "FRIENDSPANELFriendsIsLoaded";
 	
 	
     public var data:*;

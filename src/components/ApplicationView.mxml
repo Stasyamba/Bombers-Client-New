@@ -176,6 +176,8 @@
 				parentApplication.setStyle("modalTransparencyBlur",3);
 				
 				var iw:InventoryW = new InventoryW();
+				iw.isShop = e.data;
+
 				PopUpManager.addPopUp(iw, (parentApplication as Bombers), true);
 				PopUpManager.centerPopUp(iw);
 

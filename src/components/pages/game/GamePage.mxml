@@ -72,8 +72,8 @@
             stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 			
 			/* testing */
-			Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW);
-			//Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW, true);
+			//Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW);
+			Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW, true);
 			
         }
 

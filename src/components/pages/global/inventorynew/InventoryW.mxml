@@ -76,10 +76,17 @@
 				disapearingA.play();
 			}
 			
+			public var isShop: Boolean = false;
+			
 			private function panelCreationComplete():void {
 				
 				//Context.Model.windowsManager.closeAll(true);
 				//Context.Model.windowsManager.addWindow(this);
+				if(isShop)
+				{
+					setTab(new ContextEvent("changeView", false, false, TopMenu.STATE_MARKET));
+					topMenu.selectedState = TopMenu.STATE_MARKET;
+				}
 				
 				apearingA.play();
 				
@@ -122,7 +129,7 @@
 	
 	<s:VGroup width="764" height="418" x="3" y="3" verticalAlign="top" gap="0">
 		
-		<inventorynew:TopMenu stateChanged="setTab(event);" />
+		<inventorynew:TopMenu id="topMenu" stateChanged="setTab(event);" />
 		<!-- content -->
 		<s:Group height="100%">
 			<inventory:InventoryView id="inventoryView" />
