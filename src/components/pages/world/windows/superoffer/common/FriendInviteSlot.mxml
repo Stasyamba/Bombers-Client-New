@@ -4,7 +4,7 @@
 		 		   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   backgroundImage="@Embed(source='assets/windows/superoffer/friendBg.jpg')"
 				   backgroundImageFillMode="repeat"
-				   width="61" height="61"
+				   width="81" height="81"
 				   cornerRadius="4"
 				   borderVisible="true"
 				   borderColor="0x2c2514" borderWeight="2"
@@ -114,7 +114,7 @@
 	<s:Group id="baseContentGroup" width="61" height="61">
 		
 		<s:Group id="noFriendGroup" visible="false" width="61" height="61"> 
-			<s:BitmapImage x="10" source="@Embed(source='assets/windows/superoffer/friend.png')" />
+			<s:BitmapImage x="22" y="14" source="@Embed(source='assets/windows/superoffer/friend.png')" />
 			
 			<s:BitmapImage x="4" y="4" source="@Embed(source='assets/windows/superoffer/plus.png')">
 				<s:filters>
@@ -123,39 +123,39 @@
 			</s:BitmapImage>
 		</s:Group>
 		
-		<s:Group x="-1" y="-1" id="hasFriendGroup" visible="false" width="61" height="61"> 
+		<s:Group x="-1" y="-1" id="hasFriendGroup" visible="false" width="81" height="81"> 
 			<flexcomponents:UserPhotoGroup id="userPhoto" 
-										   basePhotoSizeH="59" basePhotoSizeW="59" 
+										   basePhotoSizeH="79" basePhotoSizeW="79" 
 										   borderHeight="0" borderWitdh="0" 
 										   borderVisible="false" />
 			
-			<s:HGroup height="59" width="59" 
+			<s:HGroup height="79" width="79" 
 					  horizontalAlign="center" verticalAlign="top">
 				
 				<s:Group>
 					<s:Group id="waitingGroup">
-						<s:Rect height="18" width="59" alpha="0.85"
-								radiusX="7" radiusY="7">
+						<s:Rect height="18" width="79" alpha="0.85"
+								radiusX="2" radiusY="2">
 							<s:fill>
 								<s:SolidColor color="0xfff000" />
 							</s:fill>
 						</s:Rect>
 						
-						<s:HGroup height="18" width="59"
+						<s:HGroup height="18" width="79"
 								  horizontalAlign="center" verticalAlign="middle">
 							<s:Label text="Ждем" fontFamily="mpbc" fontSize="14" color="0x372400" />
 						</s:HGroup>
 					</s:Group>
 					
 					<s:Group id="gotHelpGroup">
-						<s:Rect height="18" width="59" alpha="0.85"
-								radiusX="7" radiusY="7">
+						<s:Rect height="18" width="79" alpha="0.85"
+								radiusX="2" radiusY="2">
 							<s:fill>
 								<s:SolidColor color="0x59d100" />
 							</s:fill>
 						</s:Rect>
 						
-						<s:HGroup height="18" width="59"
+						<s:HGroup height="18" width="79"
 								  horizontalAlign="center" verticalAlign="middle">
 							<s:Label text="Помог" fontFamily="mpbc" fontSize="14" color="0x123700" />
 						</s:HGroup>

@@ -22,10 +22,10 @@
 	</fx:Script>
 	
 	<s:HGroup paddingTop="5">
-		<s:Label text="{amount}" id="amountLabel" fontFamily="mpbc" fontSize="18" color="0xfdbd2b" />
+		<s:Label text="{amount}" id="amountLabel" fontFamily="mpbc" fontSize="24" color="0xfdbd2b" />
 	</s:HGroup>
 	
-	<s:HGroup paddingTop="-4" scaleX="0.7" scaleY="0.7">
+	<s:HGroup paddingTop="-4" scaleX="0.9" scaleY="0.9">
 		<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
 					   smooth="true"
 					   />

@@ -28,16 +28,16 @@
 				for each(var ro:ResourceObject in arr) {
 					if (ro.value > 0) {
 						var hg:HGroup = new HGroup();
-						hg.gap = -3;
+						hg.gap = 3;
 						
 						var lab:Label = new Label();
 						var resourceImage:BitmapImage = new BitmapImage();
 						resourceImage.smooth = true;
-						resourceImage.scaleX = 0.7;
-						resourceImage.scaleY = 0.7;
+						resourceImage.scaleX = 1;//0.7;
+						resourceImage.scaleY = 1;//0.7;
 						
 						lab.setStyle("fontFamily", "mpbc");
-						lab.setStyle("fontSize", 14);
+						lab.setStyle("fontSize", 16);
 						lab.setStyle("color", 0xfbd98a);
 						
 						lab.text = ro.value.toString();
@@ -58,6 +58,6 @@
 		]]>
 	</fx:Script>
 	
-	<s:HGroup id="priceGroup" gap="15"/>
+	<s:HGroup id="priceGroup" gap="12"/>
 	
 </s:HGroup>

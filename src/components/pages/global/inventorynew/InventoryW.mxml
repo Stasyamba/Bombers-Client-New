@@ -14,7 +14,7 @@
 		 xmlns:inventorynew="components.pages.global.inventorynew.*" 
 		 xmlns:inventory="components.pages.global.inventorynew.inventory.*" 
 		 xmlns:flexcomponents="components.common.flexcomponents.*" 
-		 xmlns:market="components.pages.global.inventorynew.market.*" 
+		 xmlns:market="components.pages.global.inventorynew.market.*" xmlns:resources="components.pages.world.toppanel.resources.*" 
 		 >
 	
 	<fx:Declarations>
@@ -70,6 +70,9 @@
 			public function close():void {
 				//Context.Model.windowsManager.deleteWindow(this);
 				PopUpManager.removePopUp(this);
+				
+				inventoryView.destroy();
+				marketView.destroy();
 			}
 			
 			public function closeWrapper():void {
@@ -91,9 +94,10 @@
 				apearingA.play();
 				
 				/* check flag */
-				/* if new item =  */
-				Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, false);
-				
+				if(!isShop)
+				{
+					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, false);
+				}
 				/* if new shop item =  */
 			}
 			
@@ -102,6 +106,7 @@
 				switch(e.data)
 				{
 					case TopMenu.STATE_INVENOTRY:
+						Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, false);
 						marketView.visible = false;
 						inventoryView.visible = true;
 						break;
@@ -140,6 +145,8 @@
 	</s:VGroup>
 	
 	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" scale="0.7" x="722" y="10" click="closeWrapper();" />
+	
+	<resources:ResourcesView y="-42" x="406" />
 	
 	<s:controlBarContent/>
 </s:Panel>
