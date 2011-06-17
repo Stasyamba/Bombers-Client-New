@@ -18,10 +18,12 @@ import flash.utils.Dictionary
 import greensock.events.LoaderEvent
 import greensock.loading.LoaderMax
 import greensock.loading.LoaderStatus
+import greensock.loading.MP3Loader
 import greensock.loading.SWFLoader
 import greensock.loading.XMLLoader
 import greensock.loading.core.LoaderCore
 import greensock.loading.data.LoaderMaxVars
+import greensock.loading.data.MP3LoaderVars
 import greensock.loading.data.SWFLoaderVars
 import greensock.loading.data.XMLLoaderVars
 
@@ -428,6 +430,46 @@ public class BombersContentLoader {
         taskSignal.dispatch()
     }
 
+    //sounds
+    private static const SOUNDS_ADDRESS:String = "http://www.vensella.ru/vp/sounds/"
+    private static const _soundsNames:Array = ["acustech","01","03"]
+    public static function loadSounds():void {
+
+        var queue:LoaderMax = new LoaderMax(new LoaderMaxVars()
+                .name("sounds")
+                .onComplete((
+                function(e:LoaderEvent) {
+                    trace("all sounds loaded")
+                }))
+                .onError(
+                function(e:LoaderEvent) {
+                    throw new Error("Error loading sounds: " + e.target.text)
+                })
+                )
+        for each (var name:String in _soundsNames) {
+            queue.append(new MP3Loader(name + ".mp3", new MP3LoaderVars()
+                    .name(name + ".mp3")
+                    .noCache(true)
+					.autoPlay(false)
+                    .onError(
+                    function(e:LoaderEvent) {
+                        throw new Error("Error loading sound " + e.target.name + ": " + e.target.text)
+                    })
+                    .onComplete(
+                    function(e:LoaderEvent) {
+                        trace("sound " + name + " loaded")
+                        _sounds[e.target.name] = e.target
+                    })))
+        }
+        queue.prependURLs(SOUNDS_ADDRESS)
+        queue.load()
+    }
+
+    private static var _sounds:Object = new Object()
+
+    public static function sound(file:String):MP3Loader {
+        return _sounds[file]
+    }
 
 }
 }

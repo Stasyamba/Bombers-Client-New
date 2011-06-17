@@ -122,6 +122,7 @@ public class GameModel {
         BombersContentLoader.loadBO()
         BombersContentLoader.readyToUseAppView.addOnce(function() {
             BombersContentLoader.loadGraphics()
+            BombersContentLoader.loadSounds()
             Context.gameServer.measurePing()
 
             Context.gameServer.connected.add(onGameServerConnected);

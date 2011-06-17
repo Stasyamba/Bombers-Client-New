@@ -14,6 +14,8 @@
 		<![CDATA[
         import components.common.resources.ResourceType
 
+        import loading.SoundManager
+
         [Embed(source="assets/sounds/pageworld/rPFO_1.mp3")]
         [Bindable]
         public var sndDropDownClass:Class;
@@ -44,8 +46,8 @@
 
         private function resourceFocusOver(e:Event):void {
             // play some sound
-            sndChannel = sndDropDown.play();
-
+//            sndChannel = sndDropDown.play();
+            SoundManager.play("03.mp3")
             for (var i:int = 0; i <= resourcesGroup.numElements - 1; i++) {
                 var el:* = resourcesGroup.getElementAt(i);
                 if (el is IResourceView && el != e.currentTarget) {
