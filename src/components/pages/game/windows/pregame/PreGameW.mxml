@@ -21,7 +21,7 @@
 	<fx:Declarations>
 		
 		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="500">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="{this.alpha}"
 									valueTo="0"
@@ -30,7 +30,7 @@
 		</s:Sequence>
 		
 		<s:Sequence id="apearingAnimation">
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="500">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="0" valueTo="1"
 									/>
@@ -42,6 +42,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.ApplicationView;
+			import appmodel.ApplicationModel;
+			import components.common.base.CommonConstans;
 			import components.common.resources.ResourceType;
 			import components.common.quests.medals.MedalType;
 			import components.common.quests.medals.MedalObject;
@@ -62,7 +65,6 @@
 			import mx.managers.PopUpManager;
 			
 			public function close():void {
-				//Context.Model.windowsManager.deleteWindow(this);
 				Context.Model.removeCustomEventListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
 				PopUpManager.removePopUp(this);
 			}
@@ -71,19 +73,19 @@
 				disapearingAnimation.play();
 			}
 			
-			//public var i
-			
-			private function panelCreationComplete():void {
-				//Context.Model.windowsManager.closeAll(true);
-				//Context.Model.windowsManager.addWindow(this);
+			private function panelCreationComplete():void 
+			{
+				apearingAnimation.play();
 				
 				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
 				
-				
-				switchContent(CONTENT_READY);
-				
-				/* testing */
-				// switchContent(CONTENT_NOT_ENOUGH_ENERGY);
+				if(Context.Model.currentSettings.gameProfile.energy >= CommonConstans.COMMON_GAME_COST)
+				{
+					switchContent(CONTENT_READY);
+				}else
+				{
+					switchContent(CONTENT_NOT_ENOUGH_ENERGY);
+				}
 			}
 			
 			private function switchToReady(e: ContextEvent): void
@@ -112,6 +114,7 @@
 						
 						case CONTENT_READY:
 							readyContent.visible = true;
+							readyContent.initContent();
 							break;
 						
 						default:
@@ -122,7 +125,9 @@
 			
 			private function quitTheGame(): void
 			{
-				
+				close();
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
+				/* dispatch server some events */
 			}
 			
 		]]>

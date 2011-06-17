@@ -110,13 +110,13 @@
 							
 							if(el is FriendInviteSlot)
 							{
-								(el as FriendInviteSlot).initContent(FriendInviteSlot.STATE_WAITING, Context.Model.currentSettings.apiResult.friends[i]);
+								//(el as FriendInviteSlot).initContent(FriendInviteSlot.STATE_WAITING, Context.Model.currentSettings.apiResult.friends[i]);
 							}	
 						}
 						
 						if(i == 1)
 						{
-							(el as FriendInviteSlot).initContent(FriendInviteSlot.STATE_GOT_HELP, Context.Model.currentSettings.apiResult.friends[4]);
+							//(el as FriendInviteSlot).initContent(FriendInviteSlot.STATE_GOT_HELP, Context.Model.currentSettings.apiResult.friends[4]);
 						}
 					}
 					
@@ -135,6 +135,15 @@
 			
 			private function initContent():void {
 				
+			}
+			
+			private function openInviteW(e: MouseEvent): void
+			{
+				if(e.currentTarget is FriendInviteSlot)	
+				{
+					//Alert.show(e.currentTarget.id);
+					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_FRIENDS_HELP);
+				}
 			}
 			
 		]]>
@@ -176,7 +185,7 @@
 			<s:Label id="superQuestTimeLabel" text="2дн 3ч 45мин" fontFamily="mpbc" color="0xff6c00" fontSize="24" />
 		</s:HGroup>
 		<s:HGroup gap="25">
-			<s:BorderContainer backgroundColor="0xffffff"
+			<s:BorderContainer backgroundColor="0x000000"
 							   cornerRadius="2"
 							   width="99" height="99"
 							   borderColor="0x2c2514" borderWeight="3"
@@ -218,10 +227,11 @@
 						 textAlign="right"
 						 fontFamily="mpr" fontSize="14" color="0xffc300"
 						 />
-				<s:HGroup id="friendSlotsGroup">
-					<common:FriendInviteSlot id="friendSlot1" />
-					<common:FriendInviteSlot id="friendSlot2" />
-					<common:FriendInviteSlot id="friendSlot3" />
+				<s:HGroup id="friendSlotsGroup" >
+					<common:FriendInviteSlot id="friendSlot1" click="openInviteW(event);" />
+					<common:FriendInviteSlot id="friendSlot2" click="openInviteW(event);" />
+					<common:FriendInviteSlot id="friendSlot3" click="openInviteW(event);" />
+					<common:FriendInviteSlot id="friendSlot4" click="openInviteW(event);" />
 				</s:HGroup>
 			</s:HGroup>
 		</s:BorderContainer>

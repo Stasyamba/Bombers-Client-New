@@ -4,7 +4,8 @@
 				xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				autoDrawBackground="false"
-				width="110" height="110" xmlns:flexcomponents="components.common.flexcomponents.*"
+				width="110" height="110" 
+				xmlns:flexcomponents="components.common.flexcomponents.*"
 				>
 	<s:layout>
 		<s:BasicLayout />
@@ -15,23 +16,26 @@
 		<s:State name="normal" />
 		<s:State name="hovered" />
 		<s:State name="selected" />
-		<fx:Script>
-			<![CDATA[
-				import skins.buttons.Pattern3ButtonS;
-			]]>
-		</fx:Script>
 	</s:states>
 	
 	
+	<fx:Declarations>
+		
+		
+	</fx:Declarations>
+	
 	<fx:Script>
 		<![CDATA[
-			import skins.buttons.AskButtonS;
-			import mx.controls.Alert;
 			import components.common.friendslent.FriendObject;
-		
+			
+			import mx.controls.Alert;
+			
+			import skins.buttons.AskButtonS;
+			import skins.buttons.Pattern3ButtonS;
+			
 			override public function set data(value:Object):void {
 				super.data = value;
-				
+
 				gotFriendGroup.visible = false;
 				inviteFriendGroup.visible = false;
 				baseInsideBg.visible = true;
@@ -68,8 +72,18 @@
 				}
 			}
 			
+			private function getBonus(): void
+			{
+				askButton.visible = false;
+				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_GET_BONUS, data);
+			}
+			
 		]]>
 	</fx:Script>
+	
+	
+	
+	
 	<s:HGroup horizontalAlign="center" verticalAlign="middle"
 			  width="110" height="110">
 		<s:Group>
@@ -127,7 +141,9 @@
 			<s:Button id="askButton" x="-5" y="-5"
 					  skinClass="skins.buttons.AskButtonS" visible="false"
 					  useHandCursor="true" buttonMode="true"
+					  click="getBonus();"
 					  />
+			
 			
 		</s:Group>
 	</s:HGroup>

@@ -18,7 +18,10 @@ public class ContextEvent extends Event {
 	public static const NEED_TO_CLOSE_LOCATION_QUESTS: String = "NeedToCloseLocationQuests";
 	// pass: LocationType
 	
-	public static const GLOBAL_FRIENDS_IS_LOADED: String = "GLOBALFriendsIsLoaded";
+	public static const NEED_TO_SHOW_DAY_BONUS:String = "NeedToShowDayBonus";
+	// pass: int -> currentDay
+	
+	public static const NEED_TO_SHOW_FRIENDS_HELP: String = "NeedToShowFriendsHelp";
 	
 	/**** super offer event ****/
 	public static const SUPER_OFFER_OPEN: String = "SuperOfferOpen";
@@ -108,6 +111,11 @@ public class ContextEvent extends Event {
 	public static const VK_SEND_TO_WALL:String = "VKSendToWall";
 	// pass: SendWallObject
  	
+	
+	public static const FRIENDS_PANEL_GET_BONUS: String = "FRIENDSPANELGetBonus";
+	public static const FRIENDS_PANEL_FRIENDS_IS_LOADED: String = "FRIENDSPANELFriendsIsLoaded";
+	public static const FRIENDS_PANEL_: String = "FRIENDSPANELFriendsIsLoaded";
+	
 	
     public var data:*;
 

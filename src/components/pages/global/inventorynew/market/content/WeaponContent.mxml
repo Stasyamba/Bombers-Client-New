@@ -91,14 +91,14 @@
 			
 			<s:Label id="itemCount" fontFamily="mpr" fontSize="12" color="0xc29b2f" text="10 шт." />
 			
-			<s:HGroup id="buyGroup" width="100%" horizontalAlign="center" visible="false">
+			<!--<s:HGroup id="buyGroup" width="100%" horizontalAlign="center" visible="false">
 				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
 											  scaleX="0.5" scaleY="0.5"
 											  customLabel="Купить"
 											  fontSize="32" fontSizeOver="32"
 											  fontColor="0xfff19f"
 											  />
-			</s:HGroup>
+			</s:HGroup>-->
 		</s:VGroup>
 		
 		<s:VGroup gap="10">
@@ -115,10 +115,21 @@
 		</s:VGroup>
 	</s:HGroup>
 	
-	<s:HGroup id="accessGroup" width="100%" horizontalAlign="center" visible="false">
-		<s:Label id="accessLevelRuleFailed" fontFamily="mpr" fontSize="24" color="0xe86a05" />
-	</s:HGroup>
-
+	<s:Group width="100%">
+		<s:HGroup id="accessGroup" width="100%" horizontalAlign="center" visible="false">
+			<s:Label id="accessLevelRuleFailed" fontFamily="mpr" fontSize="24" color="0xe86a05" />
+		</s:HGroup>
+		<s:HGroup id="buyGroup" width="100%" horizontalAlign="center" visible="false">
+			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+										  scaleX="0.8" scaleY="0.8"
+										  customLabel="Купить"
+										  fontSize="28" fontSizeOver="28"
+										  fontColor="0xfff19f"
+										  />
+		</s:HGroup>
+	</s:Group>
+	
+	
 	
 	
 </s:VGroup>

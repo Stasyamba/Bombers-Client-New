@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourceType;
+			import components.common.resources.ResourceViewObject;
+			
+			public var isFirst: Boolean = false;	
+			public var resourceType: ResourceType;
+			[Bindable] public var amount:int;
+			
+			public var day: int = 1;
+			[Bindable] public var dayText: String = "";
+			
+			private function init(): void
+			{
+				if(isFirst)
+				{
+					/* M 0 0
+					H 95
+					L 140 40
+					L 95 80
+					H 0
+					V 0 */
+					
+					bgPath.data = "M 10 0 H 95 L 140 40 L 95 80 H 10 V 0";
+				}else
+				{
+					/* M 0 0
+					H 95
+					L 140 40
+					L 95 80
+					H 0
+					L 45 40
+					L 0 0*/
+					
+					bgPath.data = "M 0 0 H 95 L 140 40 L 95 80 H 0 L 45 40 L 0 0";
+				}
+				
+				
+				var rwo: ResourceViewObject = Context.Model.resourceViewManager.getResourceViewObject(resourceType);
+				resourceImage.source = rwo.bigImage;
+				
+				switch(resourceType)
+				{
+					case ResourceType.GOLD:
+						resourceImage.scaleX=0.35;
+						resourceImage.scaleY=0.35;
+						
+						resourceAmount.setStyle("color", 0xffd746);
+						
+						break;
+					case ResourceType.CRYSTALS:
+						resourceImage.scaleX=0.25;
+						resourceImage.scaleY=0.25;
+						
+						resourceAmount.setStyle("color", 0xd96eff);
+						
+						break;
+					case ResourceType.ADAMANT:
+						resourceImage.scaleX=0.45;
+						resourceImage.scaleY=0.45;
+						
+						resourceAmount.setStyle("color", 0xe0e0e0);
+						
+						break;
+					case ResourceType.ANTIMATTER:
+						resourceImage.scaleX=0.33;
+						resourceImage.scaleY=0.33;
+						
+						resourceAmount.setStyle("color", 0x6dbede);
+						
+						break;
+				}
+			}
+			
+			public function initContent(isChoosen: Boolean): void
+			{
+				if(isChoosen)
+				{
+					bgPath.alpha = 0.26;
+				}else
+				{
+					bgPath.alpha = 0.1;
+				}
+			}
+			 
+			
+		]]>
+	</fx:Script>
+	
+	<s:Path id="bgPath"  
+			data="
+			 M 0 0
+			 H 95
+			 L 140 40
+			 L 95 80
+			 H 0
+			 V 0
+			 ">
+		<s:fill>
+			<s:SolidColor color="0x000000" alpha="1" />
+		</s:fill>
+	</s:Path>
+	
+	<s:VGroup height="80" width="140" 
+			  horizontalAlign="center" verticalAlign="middle"
+			  gap="15"
+			  >
+	
+		<s:Label id="dayLabel" text="{dayText}" fontFamily="mpbc" fontSize="18" color="0xffd23c" />
+		
+		<s:HGroup verticalAlign="middle" paddingLeft="10">
+			<s:HGroup>
+				<s:Label id="resourceAmount" paddingLeft="-5" text="{amount}" fontFamily="mpr" fontSize="24" />
+			</s:HGroup>
+			<s:BitmapImage id="resourceImage" smooth="true" />
+		</s:HGroup>
+			
+			
+	</s:VGroup>
+	
+</s:Group>

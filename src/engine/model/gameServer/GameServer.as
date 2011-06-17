@@ -644,22 +644,25 @@ public class GameServer extends SmartFox {
 				Context.Model.currentSettings.gameProfile.energy = 130;
 
 				
-				var friendsArr: Array = new Array();
+				var appFriendsArr: Array = new Array();
 				var gp: GameProfile = new GameProfile();
+				gp.id = "1";
 				gp.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
-				friendsArr.push(new FriendObject(gp, true, null));
+				appFriendsArr.push(new FriendObject(gp, true, null));
 				
 				var gp1: GameProfile = new GameProfile();
+				gp1.id = "2";
 				gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
-				friendsArr.push(new FriendObject(gp1, true, null));
+				appFriendsArr.push(new FriendObject(gp1, true, null));
 				
 				
 				var gp2: GameProfile = new GameProfile();
+				gp2.id = "3";
 				gp2.photoURL = "http://cs10029.vkontakte.ru/u34230304/a_f5649b2f.jpg";
-				friendsArr.push(new FriendObject(gp2, false, null));
+				appFriendsArr.push(new FriendObject(gp2, false, null));
 				
 				
-				Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_FRIENDS_IS_LOADED, friendsArr);
+				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, appFriendsArr);
 				
                 break;
             case INT_BUY_RESOURCES_RESULT:

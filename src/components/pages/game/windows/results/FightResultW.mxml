@@ -24,7 +24,7 @@
 	<fx:Declarations>
 		
 		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="500">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="{this.alpha}"
 									valueTo="0"
@@ -33,7 +33,7 @@
 		</s:Sequence>
 		
 		<s:Sequence id="apearingAnimation">
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="500">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="0" valueTo="1"
 									/>
@@ -45,6 +45,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.pages.game.windows.results.slots.PrizeCupSlot;
 			import components.common.game.multygameresult.PlaceType;
 			import components.pages.game.windows.results.slots.PrizeResourceSlot;
@@ -74,7 +75,6 @@
 			import mx.managers.PopUpManager;
 			
 			public function close():void {
-				//Context.Model.windowsManager.deleteWindow(this);
 				PopUpManager.removePopUp(this);
 			}
 			
@@ -87,9 +87,13 @@
 			private var currentPrizeCollection: ArrayCollection;
 			private var prizes: Array;
 			
+			private var closeTimer: Timer = new Timer(1000, CommonConstans.TIME_TO_CLOSE_RESULT_GAME_WINDOW);
+			
 			private function panelCreationComplete():void {
-				//Context.Model.windowsManager.closeAll(true);
-				//Context.Model.windowsManager.addWindow(this);
+				apearingAnimation.play();
+				
+				closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, openPregame);
+				closeTimer.start();
 				
 				/* set score */
 				
@@ -143,12 +147,16 @@
 				
 				/* set prizes */
 				
+				
+				// prizes = Context.gameModel.lastPrizes.concat();
+				
 				/* testing */
 				prizes = new Array();
 				prizes.push(new PrizeObject(
 					PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
 				);
-				/* prizes.push(new PrizeObject(
+				
+				prizes.push(new PrizeObject(
 					PrizeType.CUP, ResourceType.CRYSTALS, 1, PlaceType.SECOND)
 				);
 				prizes.push(new PrizeObject(
@@ -156,18 +164,21 @@
 				);
 				prizes.push(new PrizeObject(
 					PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
-				); */
-				/* prizes.push(new PrizeObject(
+				);
+				prizes.push(new PrizeObject(
 					PrizeType.RESOURCE, ResourceType.GOLD, 6)
-				); */
-				/* prizes.push(new PrizeObject(
+				);
+				prizes.push(new PrizeObject(
 					PrizeType.RESOURCE, ResourceType.CRYSTALS, 4)
-				); */
+				);
+				
+				prizes.push(new PrizeObject(
+					PrizeType.RESOURCE, ResourceType.ADAMANT, 40)
+				);
+				prizes.push(new PrizeObject(
+					PrizeType.RESOURCE, ResourceType.CRYSTALS, 5)
+				);
 				 
-				
-				
-				
-				
 				
 				setPage(0);
 			}
@@ -244,6 +255,13 @@
 				setPage(currentPage + sign);
 			}
 			
+			
+			private function openPregame(e: TimerEvent): void
+			{
+				closeTimer.stop();
+				closeWrapper();
+				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW);
+			}
 		]]>
 	</fx:Script>
 	<s:layout>
@@ -308,6 +326,7 @@
 	</s:VGroup>
 	
 	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="420" y="15" scale="0.8"
+								click="openPregame(null);"
 								/>
 	
 	

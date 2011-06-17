@@ -1,20 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 creationComplete="init();"
-		 verticalAlign="middle">
+		 >
 	
 	
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<s:Parallel id="bonusA" target="{bonusGroup}"
+					effectStart="{bonusGroup.visible = true}"
+					effectEnd="{bonusGroup.visible = false}"
+					>
+			<s:Animate duration="2800">
+				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0"  />
+			</s:Animate>
+			
+			<s:Animate duration="2800">
+			<s:SimpleMotionPath property="x" valueTo="{bonusX-35}" valueFrom="{bonusGroup.x}" />
+			</s:Animate>
+			
+			<s:Animate duration="2800">
+			<s:SimpleMotionPath property="y" valueTo="{bonusY-40}" valueFrom="{bonusGroup.y}" />
+			</s:Animate>
+			
+			<s:Animate duration="800">
+			<s:SimpleMotionPath property="scaleX" valueTo="1.5" valueFrom="1" />
+			</s:Animate>
+			<s:Animate duration="800">
+			<s:SimpleMotionPath property="scaleY" valueTo="1.5" valueFrom="1" />
+			</s:Animate>
+		</s:Parallel>
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
 			import components.common.friendslent.FriendObject;
 			
+			import engine.maps.mapObjects.bonuses.BonusExperience;
+			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			
 			[Bindable]
 			private var friendsCurrentCollection: ArrayCollection;
@@ -22,9 +48,42 @@
 			private var currentPage: int = 0;
 			private static const FRIENDS_PER_PAGE: int = 7;
 			
+			[Bindable] private var bonusX: int;
+			[Bindable] private var bonusY: int;
+			
 			private function init(): void
 			{
-				Context.Model.addCustomListener(ContextEvent.GLOBAL_FRIENDS_IS_LOADED, friendsLoaded);
+				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLoaded);
+				
+				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_GET_BONUS, getBonus);
+			}
+			
+			private function getBonus(e: ContextEvent): void
+			{
+				if(e.data is FriendObject)
+				{
+					for(var i: int = 0; i<= friends.length - 1; i++)
+					{
+						if((friends[i] as FriendObject).profile.id == (e.data as FriendObject).profile.id)	
+						{
+							(friends[i] as FriendObject).isAskingForHelp = false;
+							break;
+						}
+					}
+					
+					setPage(currentPage);
+					
+					var p: Point = new Point(mouseX, mouseY);
+					
+					bonusX = bonusGroup.x = p.x;
+					bonusY = bonusGroup.y = p.y;
+					
+					bonusA.stop();
+					bonusA.play();
+				}else
+				{
+					Alert.show("Error e.data is not FriendObject | FriendPanel.mxml");
+				}
 			}
 			
 			private function friendsLoaded(e: ContextEvent): void
@@ -93,16 +152,28 @@
 			
 		]]>
 	</fx:Script>
-	<s:Button id="backButton" skinClass="skins.buttons.friendslent.LeftArrowButtonS" />
+	<s:HGroup verticalAlign="middle" height="170">
+		<s:Button id="backButton" skinClass="skins.buttons.friendslent.LeftArrowButtonS" />
+		
+		<s:List id="friendsList" dataProvider="{friendsCurrentCollection}" itemRenderer="components.pages.world.subbottompanel.FriendIR"
+				contentBackgroundAlpha="0" borderVisible="false"
+				>
+			<s:layout>
+				<s:HorizontalLayout requestedColumnCount="7" gap="-17" />
+			</s:layout>
+		</s:List>
+		
+		<s:Button id="forwardButton" skinClass="skins.buttons.friendslent.RightArrowButtonS" />
+	</s:HGroup>
 	
-	<s:List dataProvider="{friendsCurrentCollection}" itemRenderer="components.pages.world.subbottompanel.FriendIR"
-			contentBackgroundAlpha="0" borderVisible="false"
-			>
-		<s:layout>
-			<s:HorizontalLayout requestedColumnCount="7" gap="-17" />
-		</s:layout>
-	</s:List>
+	<s:HGroup id="bonusGroup" visible="false" verticalAlign="middle">
+		<s:Label text="+20" fontFamily="mpbc" fontSize="34" color="0xfeceff" />
+		<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/star.png')" smooth="true" />
+		
+		<s:filters>
+			<s:GlowFilter color="0xfc00ff" strength="2" />
+			<s:GlowFilter color="0xfc00ff" strength="1" blurX="20" blurY="20" />
+		</s:filters>
+	</s:HGroup>
 	
-	<s:Button id="forwardButton" skinClass="skins.buttons.friendslent.RightArrowButtonS" />
-	
-</s:HGroup>
+</s:Group>

@@ -92,6 +92,7 @@
 			
 			import loading.BombersContentLoader;
 			
+			import mx.controls.Alert;
 			import mx.core.IVisualElement;
 				
 				public static const APP_STARTED_FROM_WALL:int = 0;
@@ -223,19 +224,15 @@
 						});
 						
 						Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_CANT_CONNECT_WINDOW, function(e:ContextEvent):void {
-							basePreloaderGroup.visible = false
-							disconnectedText.text = "Не удалось подключиться к серверу"
-							disconnectedWindow.visible = true;
+							cannotConntectToServer();
 						});
 						
 						Context.gameServer.loginError.addOnce(function():void {
-							basePreloaderGroup.visible = false
-							disconnectedText.text = "Не удалось войти на сервер.\nСкорее всего, у вас просто\nоткрыто еще одно окно\nБомбастеров"
-							disconnectedWindow.visible = true;
+							loginFailed();
 						})
 						
 						Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_DISCONNECTED_WINDOW, function(e:ContextEvent):void {
-							disconnectedWindow.visible = true;
+							disconnect();
 						});
 						
 						if (isWrapperExists) {
@@ -257,9 +254,34 @@
 				}
 			}
 			
+			private function disconnect(): void
+			{
+				basePreloaderGroup.visible = false;
+				disconnectedText.text = "Произошло отключение";
+				disconnectedWindow.visible = true;
+			}
+			
+			private function cannotConntectToServer(): void
+			{
+				basePreloaderGroup.visible = false;
+				disconnectedText.text = "Не удалось подключиться к серверу";
+				disconnectedWindow.visible = true;
+			}
+			
+			private function loginFailed(): void
+			{
+				basePreloaderGroup.visible = false;
+				disconnectedText.text = "Не удалось войти на сервер.\nСкорее всего, у вас просто\nоткрыто еще одно окно\nБомбастеров";
+				disconnectedWindow.visible = true;
+			}
+			
 			private function retry():void {
-				if (isWrapperExists) {
+				if (isWrapperExists) 
+				{
 					VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(ApplicationModel.APPLICATION_LINK))
+				}else
+				{
+					Alert.show("No way dude, you're in local version");
 				}
 			}
 			
@@ -294,8 +316,8 @@
 				  horizontalAlign="center" verticalAlign="middle"
 				  paddingTop="-200"
 				  >
-			<preloaders:Spinner tickColor="0xeeeeee" tickWidth="6" size="60"/>
-			<s:Label text="Загружаю всякий стафф" fontFamily="mpbc" fontSize="50" color="0xeeeeee"/>
+			<preloaders:Spinner tickColor="0xffe760" tickWidth="6" size="60"/>
+			<s:Label text="Загружаю игровой мир" fontFamily="mpbc" fontSize="50" color="0xffe760"/>
 		</s:HGroup>
 	</s:Group>
 	
@@ -312,13 +334,13 @@
 				  horizontalAlign="center" verticalAlign="middle"
 				  paddingTop="-200"
 				  >
-			<s:Label id="disconnectedText" text="Произошло отключение от сервера" fontFamily="mpbc" fontSize="50"
-					 color="0xeeeeee" textAlign="center"/>
+			<s:Label id="disconnectedText" text="Произошло отключение от сервера" lineHeight="60" fontFamily="mpbc" fontSize="50"
+					 color="0xffe760" textAlign="center"/>
 			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
 										  customLabel="Еще раз"
 										  fontSize="30"
 										  fontSizeOver="30"
-										  click="retry()"
+										  click="retry();"
 										  />
 		</s:VGroup>
 	</s:Group>

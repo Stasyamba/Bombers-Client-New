@@ -5,7 +5,7 @@
              xmlns:mx="library://ns.adobe.com/flex/mx"
              minWidth="21" minHeight="21"
              creationComplete="init();"
-             alpha.disabled="0.5"
+             alpha.disabled="0.3"
         >
 
     <!-- states -->
