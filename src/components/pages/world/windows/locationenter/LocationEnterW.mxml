@@ -30,7 +30,7 @@
 			</s:Animate>
 		</s:Sequence>
 		
-		<s:Sequence id="apearingAnimation" effectStart="{SoundManager.play(SoundManager.WINDOW_MOVE_OPENING);}">
+		<s:Sequence id="apearingAnimation" effectStart="{SoundManager.play(SoundManager.WINDOW_MOVE_OPENING,0.6);}">
 			<s:Animate target="{this}" duration="400">
 				<s:SimpleMotionPath property="x"
 									valueFrom="800" valueTo="140"
