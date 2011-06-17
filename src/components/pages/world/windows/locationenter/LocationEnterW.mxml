@@ -13,6 +13,8 @@
 		 >
 	<fx:Script>
 		<![CDATA[
+			import loading.SoundManager;
+			
 			import skins.buttons.CloseButtonOriginS;
 		]]>
 	</fx:Script>
@@ -28,8 +30,8 @@
 			</s:Animate>
 		</s:Sequence>
 		
-		<s:Sequence id="apearingAnimation">
-			<s:Animate target="{this}" duration="550">
+		<s:Sequence id="apearingAnimation" effectStart="{SoundManager.play(SoundManager.WINDOW_MOVE_OPENING);}">
+			<s:Animate target="{this}" duration="400">
 				<s:SimpleMotionPath property="x"
 									valueFrom="800" valueTo="140"
 									/>

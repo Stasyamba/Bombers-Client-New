@@ -255,12 +255,12 @@
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_TUTORIAL);
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 			
-		/*  	bgSound = new Sound();
+		  	bgSound = new Sound();
 			bgSoundChannel = new SoundChannel();
 			
 			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
 			
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);    */
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);    
         }
 			
 		private function repeatSound(e: Event): void	
