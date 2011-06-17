@@ -21,6 +21,8 @@ public class ContextEvent extends Event {
 	public static const NEED_TO_SHOW_DAY_BONUS:String = "NeedToShowDayBonus";
 	// pass: int -> currentDay
 	
+	public static const NEED_TO_SHOW_FRIENDS_HELP: String = "NeedToShowFriendsHelp";
+	
 	/**** super offer event ****/
 	public static const SUPER_OFFER_OPEN: String = "SuperOfferOpen";
 	// pass: 

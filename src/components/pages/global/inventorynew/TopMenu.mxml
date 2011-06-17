@@ -13,11 +13,11 @@
 	<fx:Declarations>
 		<s:Parallel id="toMarketA">
 			<s:Animate duration="100" target="{selectedLeft}">
-				<s:SimpleMotionPath property="alpha" valueFrom="{selectedLeft.alpha}" valueTo="1" />
+				<s:SimpleMotionPath property="alpha" valueFrom="{selectedLeft.alpha}" valueTo="0" />
 			</s:Animate>
 			
 			<s:Animate duration="100" target="{selectedRight}">
-				<s:SimpleMotionPath property="alpha" valueFrom="{selectedRight.alpha}" valueTo="0" />
+				<s:SimpleMotionPath property="alpha" valueFrom="{selectedRight.alpha}" valueTo="1" />
 			</s:Animate>
 			
 			<s:Animate duration="100" target="{rightFilter}">
@@ -39,11 +39,11 @@
 		<s:Parallel id="toInventoryA">
 			
 			<s:Animate duration="100" target="{selectedLeft}">
-				<s:SimpleMotionPath property="alpha" valueFrom="{selectedLeft.alpha}" valueTo="0" />
+				<s:SimpleMotionPath property="alpha" valueFrom="{selectedLeft.alpha}" valueTo="1" />
 			</s:Animate>
 			
 			<s:Animate duration="100" target="{selectedRight}">
-				<s:SimpleMotionPath property="alpha" valueFrom="{selectedRight.alpha}" valueTo="1" />
+				<s:SimpleMotionPath property="alpha" valueFrom="{selectedRight.alpha}" valueTo="0" />
 			</s:Animate>
 			
 			<s:Animate duration="100" target="{rightFilter}">

@@ -168,7 +168,7 @@
 	
 	<s:HGroup id="bonusGroup" visible="false" verticalAlign="middle">
 		<s:Label text="+20" fontFamily="mpbc" fontSize="34" color="0xfeceff" />
-		<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/star.png')" />
+		<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/star.png')" smooth="true" />
 		
 		<s:filters>
 			<s:GlowFilter color="0xfc00ff" strength="2" />

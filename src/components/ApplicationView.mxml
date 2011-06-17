@@ -23,6 +23,7 @@
 			import components.pages.global.energymarket.EnergyMarketW;
 			import components.pages.global.inventorynew.InventoryW;
 			import components.pages.world.windows.daybonus.DayBonusW;
+			import components.pages.world.windows.invite.InviteW;
 			import components.pages.world.windows.quests.QuestsW;
 			import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW;
 			import components.pages.world.windows.tutorial.TutorialW;
@@ -197,6 +198,18 @@
 				dbw.y -= 90;
 			});
 			
+			Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_FRIENDS_HELP, function (e: ContextEvent): void
+			{
+				//parentApplication.setStyle("modalTransparencyBlur",0);
+				
+				var iw: InviteW = new InviteW();
+				
+				PopUpManager.addPopUp(iw, (parentApplication as Bombers), false);
+				PopUpManager.centerPopUp(iw);
+				
+				iw.y -= 95;
+			});
+			
             /*disconnected*/
             Context.gameServer.disconnected.add(onDisconnected);
 
@@ -242,12 +255,12 @@
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_TUTORIAL);
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 			
-		 	bgSound = new Sound();
+		/*  	bgSound = new Sound();
 			bgSoundChannel = new SoundChannel();
 			
 			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
 			
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);   
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);    */
         }
 			
 		private function repeatSound(e: Event): void	
