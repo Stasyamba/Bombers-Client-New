@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="272" height="308"
+		 borderColor="0x2d2713" borderWeight="2"
+		 backgroundColor="0x322b15"
+		 creationComplete="init();"
+		 >
+	
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.profiles.ISocialProfile;
+			import components.common.profiles.SocialProfile;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			
+			import skins.vk.scroller.ScrollerS;
+			
+			private var _friendsSearchingText: String = "";
+			
+			[Bindable]
+			public var	friendsCollection: ArrayCollection = new ArrayCollection();
+			
+			public function get friendsSearchingText():String
+			{
+				return _friendsSearchingText;
+			}
+			[Bindable]
+			public function set friendsSearchingText(value:String):void
+			{
+				_friendsSearchingText = value;
+			}
+
+			private function init(): void
+			{
+				var notAppFriends: Array = Context.Model.currentSettings.socialProfile.getFriends(SocialProfile.TYPE_ALL);
+				
+				var arrOnline: ArrayCollection = new ArrayCollection();
+				var arrNotOnline: ArrayCollection = new ArrayCollection();
+				
+				for each(var fr: ISocialProfile in notAppFriends)
+				{
+					if(fr.isUserOnline)
+					{
+						arrOnline.addItem(fr);
+					}else
+					{
+						arrNotOnline.addItem(fr);
+					}
+				}
+				
+				// sort by online and alphabet
+				
+				var dataSortField:SortField = new SortField("name");
+				dataSortField.numeric = false;
+				
+				var nameDataSort:Sort = new Sort();
+				nameDataSort.fields = [dataSortField];
+				 
+				arrOnline.sort = nameDataSort;
+				arrNotOnline.sort = nameDataSort;
+				
+				arrOnline.refresh();
+				arrNotOnline.refresh();
+				
+				friendsCollection = new ArrayCollection(arrOnline.source.concat(arrNotOnline.source));
+				friendsCollection.refresh();
+				
+				friendsCollection.filterFunction = findPartNameFunc;
+				
+				friendList.scroller.setStyle("skinClass", ScrollerS);
+			}
+			
+			
+			/* text filters */
+			
+			public function convertFromTranslit(inputString:String):String 
+			{	
+				var ru2en:Object= {
+					ru_str : "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя",
+					en_str : ['A','B','V','G','D','E','JO','ZH','Z','I','J','K','L','M','N','O','P','R','S','T',
+						'U','F','H','TS','CH','SH','SHH',String.fromCharCode(35),'Y',String.fromCharCode(39),'YE','YU',
+						'YA','a','b','v','g','d','e','jo','zh','z','i','j','k','l','m','n','o','p','r','s','t','u','f',
+						'h','ts','ch','sh','shh',String.fromCharCode(35),'y',String.fromCharCode(39),'ye','yu','ya']
+				};
+				var tmp_str:Array;
+				
+				for (var i:Number = 3; i > 0; i--) {
+					for (var key:String in ru2en.en_str) {
+						if (ru2en.en_str[key].length == i) {
+							inputString = inputString.replace(new RegExp(ru2en.en_str[key], "g"), ru2en.ru_str.charAt(key));
+						}
+					}
+				}
+				
+				return inputString;
+			}
+			
+			public function findPartNameFunc(item:Object):Boolean {
+				if(friendsSearchingText == "")
+				{
+					return true;
+				}
+				
+				var textInputValue: String = friendsSearchingText.toLocaleLowerCase();
+				if(item.name.toLowerCase().search(textInputValue) == -1 && convertFromTranslit(item.name.toLowerCase()).search(textInputValue) == -1 && item.surname.toLowerCase().search(textInputValue) == -1 && convertFromTranslit(item.surname.toLowerCase()).search(textInputValue) == -1)
+				{
+					return false;
+				}
+				
+				return true;
+			} 
+		]]>
+	</fx:Script>
+
+	<s:VGroup width="100%" height="100%" verticalAlign="top" horizontalAlign="center"
+			  gap="1"
+			  >
+		<s:BitmapImage id="vkLogoImage" source="@Embed(source='assets/pageworld/invite/vk/vkLogo.jpg')" />
+		
+		<s:Group width="100%" height="100%">
+			<s:HGroup width="100%" height="100%" horizontalAlign="right">
+				<s:BorderContainer id="bgRect"
+								   backgroundColor="0x7f7f7f"
+								   cornerRadius="0"
+								   width="18" height="100%"
+								   borderVisible="false"
+								   />
+			</s:HGroup>
+			
+			<s:List itemRenderer="components.pages.world.windows.invite.vk.FriendIR"
+					dataProvider="{friendsCollection}"
+					contentBackgroundAlpha="0" borderVisible="false" 
+					id="friendList"
+					>
+				<s:layout>
+					<s:VerticalLayout requestedRowCount="4" gap="1" />
+				</s:layout>
+			</s:List>
+		</s:Group>
+		
+	</s:VGroup>
+	
+	
+	
+</s:BorderContainer>

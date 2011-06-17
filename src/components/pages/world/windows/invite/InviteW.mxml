@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="584" height="352"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 y="65" alpha="0" xmlns:superoffer="components.pages.world.windows.superoffer.*" xmlns:common="components.pages.world.windows.superoffer.common.*" xmlns:offerreward="components.pages.world.windows.superoffer.common.offerreward.*" xmlns:vk="components.pages.world.windows.invite.vk.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Parallel id="apearingAnimation" startDelay="100">
+			<!--<s:Sequence>
+				<s:Animate target="{this}" duration="650">
+					<s:SimpleMotionPath property="y"
+										valueFrom="-450" valueTo="130"
+										/>
+				</s:Animate>
+				<s:Animate target="{this}" duration="200">
+					<s:SimpleMotionPath property="y"
+										valueFrom="130" valueTo="80"
+										/>
+				</s:Animate>
+			</s:Sequence>-->
+			
+			<s:Animate target="{this}" duration="300">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="1"
+									/>
+			</s:Animate>
+		</s:Parallel>
+		
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public function close():void {
+				
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				apearingAnimation.play();
+				
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="584" height="352"
+					   cornerRadius="55"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100" height="346"
+					   x="3" y="3"
+					   cornerRadius="55"
+					   borderVisible="false"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="60" height="346"
+					   x="60" y="3"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	
+	<s:HGroup width="100%" height="100%" horizontalAlign="left" verticalAlign="middle" gap="15">
+		
+		<s:HGroup width="60" />
+		
+		<s:VGroup width="193" height="314" horizontalAlign="left" gap="15">
+			<s:Label text="Выберите друга:" fontFamily="mpbc" fontSize="30" color="0xffc500" />
+			<s:Label text="{'Чем больше вы просите\nдрузей, тем быстрее они\nвам помогут получить\nбонусы!'}" 
+					 fontFamily="mpr" fontSize="16" color="0xffc500" 
+					 />
+			
+			<s:VGroup height="100%" verticalAlign="bottom">
+				
+				<s:HGroup gap="0">
+					<s:Rect height="31" width="5">
+						<s:fill>
+							<s:SolidColor color="0x2b2412" />
+						</s:fill>
+					</s:Rect>
+					
+					<s:Group>
+						<s:TextInput borderVisible="false" contentBackgroundColor="0x302914" color="0xffc500" fontFamily="mpr"
+									 height="31" width="155" focusAlpha="0"
+									 fontSize="18"
+									 paddingLeft="26"
+									 id="friendsSearchingTextBox"
+									 change="{invitePanel.friendsCollection.refresh();}"
+									 />
+
+						<s:BitmapImage source="@Embed(source='assets/pageworld/invite/mag.png')" x="3" y="7" />
+					</s:Group>
+					
+				</s:HGroup>
+				
+				<s:Label text="{'Для быстрого поиска,\nначни вводить имя друга'}" 
+						 fontFamily="mpr" fontSize="14" color="0xffc500" 
+						 />
+				
+			</s:VGroup>
+		</s:VGroup>
+		
+		<vk:FriendPanel id="invitePanel" friendsSearchingText="{friendsSearchingTextBox.text}" />
+		
+	</s:HGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="20" y="20" scale="0.7"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

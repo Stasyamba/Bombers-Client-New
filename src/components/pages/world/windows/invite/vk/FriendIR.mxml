@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:mx1="http://ns.adobe.com/mxml/mx"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false"
+				useHandCursor="true"
+				buttonMode="true"
+				width="249" height="67" xmlns:flexcomponents="components.common.flexcomponents.*"
+				>
+	<s:layout>
+		<s:BasicLayout />
+	</s:layout>
+	
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	
+	<fx:Declarations>
+		
+		<!--<s:Parallel  id="fadeAnimation">
+		<s:Animate target="{userImage}"  duration="300">
+		<s:SimpleMotionPath property="alpha" valueFrom="0.0" valueTo="1.0" />
+		</s:Animate>	
+		
+		<s:Animate target="{blurFilter}"  duration="300">
+		<s:SimpleMotionPath property="blurX" valueFrom="5.0" valueTo="0.0" />
+		</s:Animate>
+		<s:Animate target="{blurFilter}"  duration="300">
+		<s:SimpleMotionPath property="blurY" valueFrom="5.0" valueTo="0.0" />
+		</s:Animate>	
+		
+		</s:Parallel>-->
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.profiles.ISocialProfile;
+			
+			import mx.core.IVisualElement;
+			
+			import skins.vk.CommonButtonS;
+			
+			override public function set data( value:Object ) : void {
+				super.data = value;
+				nameLabel.text = data.name+"\n"+data.surname;
+				userPhoto.initPhoto((data as ISocialProfile).photoURL);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:LinearGradient rotation="-90">
+				<s:GradientEntry ratio="0" color="0xa7a7a6" />
+				<s:GradientEntry ratio="0.6" color="0xc0c1c1" />
+				<s:GradientEntry ratio="1" color="0xc6c6c6" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<s:HGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="left" paddingLeft="8">
+		<s:HGroup paddingTop="0">
+			<flexcomponents:UserPhotoGroup id="userPhoto" basePhotoSizeH="49" basePhotoSizeW="49"
+										   borderHeight="0" borderWitdh="0"
+										   borderVisible="false"
+										   maxHeight="49" maxWidth="49"
+										   />
+		</s:HGroup>
+		
+		<s:VGroup>
+			<s:Label id="nameLabel" fontFamily="mpк" fontSize="13"
+					 color="0x414141"
+					 />
+			
+			<s:Group>
+				<s:Group visible="{data.isUserOnline}">
+					<s:Label text="Онлайн" fontFamily="mpr" fontSize="11" color="0x3e7821" />
+				</s:Group>
+				
+				<s:Group visible="{!data.isUserOnline}">
+					<s:Label text="Оффлайн" fontFamily="mpr" fontSize="11" color="0x8d8d8d" />
+				</s:Group>
+			</s:Group>
+		</s:VGroup>
+		
+		<s:HGroup width="100%" horizontalAlign="right" paddingRight="10">
+			<s:Button label="Выручай" skinClass="skins.vk.CommonButtonS" />
+		</s:HGroup>
+		
+	</s:HGroup>
+	
+	
+		
+</s:ItemRenderer>
