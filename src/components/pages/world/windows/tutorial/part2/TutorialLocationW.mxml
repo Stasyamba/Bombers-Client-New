@@ -38,7 +38,7 @@
 			</s:Animate>
 		</s:Sequence>
 		
-		<s:Sequence id="apearingAnimation" startDelay="300">
+		<s:Sequence id="apearingAnimation" startDelay="100">
 			<s:Animate target="{this}" duration="550">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="0"
