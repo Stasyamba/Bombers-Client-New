@@ -184,7 +184,7 @@
 					{
 						closeButton.visible = false;
 						tutorialGroup.addElement(new TutorialQuestsEnterToolTip());
-						questList.setStyle("verticalScrollPolicy",ScrollPolicy.OFF);
+						questList.setStyle("verticalScrollPolicy", ScrollPolicy.OFF);
 					}else
 					{
 						tutorialGroup.removeAllElements();

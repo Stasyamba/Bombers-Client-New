@@ -146,7 +146,10 @@
 				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_CLOSE_TUTORIAL_LOCATION);
 			}
 			
-            if (Context.Model.currentSettings.gameProfile.energy < qo.energyCost) {
+			Alert.show(Context.Model.currentSettings.gameProfile.energy.toString());
+			
+            if (Context.Model.currentSettings.gameProfile.energy < qo.energyCost) 
+			{
                 Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
             } else {
                 /* server withdraw energy */
