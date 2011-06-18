@@ -2,7 +2,7 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" 
-		 width="272" height="308"
+		 width="272" height="312"
 		 borderColor="0x2d2713" borderWeight="2"
 		 backgroundColor="0x322b15"
 		 creationComplete="init();"

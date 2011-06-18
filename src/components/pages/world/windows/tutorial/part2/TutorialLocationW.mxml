@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*" 
+		 xmlns:progress="components.pages.world.windows.tutorial.part1.progress.*" 
+		 xmlns:tutorial="components.pages.world.windows.tutorial.*"
+		 alpha="0"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.tutorial.LocationButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<!--<s:Animate target="{this}" duration="500">
+			<s:SimpleMotionPath property="x"
+			valueFrom="100"
+			valueTo="800"
+			/>
+			</s:Animate>-->
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation" startDelay="300">
+			<s:Animate target="{this}" duration="550">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0"
+									valueTo="1"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.pages.world.windows.locationenter.LocationEnterW;
+			import components.pages.world.windows.tutorial.part1.steps.Step6;
+			import components.pages.world.windows.tutorial.part1.steps.Step5;
+			import components.pages.world.windows.tutorial.part1.steps.Step4;
+			import components.pages.world.windows.tutorial.part1.steps.Step3;
+			import components.pages.world.windows.tutorial.part1.steps.Step2;
+			import components.pages.world.windows.tutorial.part1.steps.Step1;
+			import components.common.resources.ResourceType;
+			import components.common.quests.medals.MedalType;
+			import components.common.quests.medals.MedalObject;
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.itemrule.AccessItemRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.worlds.locations.LocationType;
+			import components.common.worlds.locations.LocationViewObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			
+			public function close():void {
+				
+				//Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			public function closeWrapper1(e: ContextEvent):void {
+				close();
+			}
+			
+			private function panelCreationComplete():void {
+				//Context.Model.windowsManager.closeAll(true);
+				//Context.Model.windowsManager.addWindow(this);
+				apearingAnimation.play();
+			
+				Context.Model.addCustomListener(ContextEvent.TUTORIAL_CLOSE_TUTORIAL_LOCATION, closeWrapper1);
+			}
+			
+			
+			
+			private function openLocationEnter():void
+			{
+				var locationViewObject:LocationViewObject = Context.Model.locationViewManager.getLocationViewObject(LocationType.WORLD1_GRASSFIELDS);
+				
+				if (locationViewObject != null) {
+					
+					Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
+					
+					parentApplication.setStyle("modalTransparencyBlur",0);
+					parentApplication.setStyle("modalTransparency", 0);
+					
+					tArrow.visible = false;
+					tText.visible = false;
+					locationEnterButton.visible = false;
+					
+					var lew:LocationEnterW = new LocationEnterW();
+					lew.locationType = LocationType.WORLD1_GRASSFIELDS;
+					lew.y = 98;
+					
+					PopUpManager.addPopUp(lew, (parentApplication as Bombers), true);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundColor="0x000000"
+					   alpha="0.5"
+					   width="1000" height="1000"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	
+	<s:Button id="locationEnterButton" label="test" skinClass="skins.buttons.tutorial.LocationButtonS"
+			  useHandCursor="true" buttonMode="true"
+			  x="240" y="289"
+			  click="openLocationEnter();"
+			  />
+		
+	<tutorial:Arrow id="tArrow" selectedState="{Arrow.STATE_LINEAR_PUPMED}" 
+					x="350" y="249"
+					customRotation="180"
+					/>
+	
+	
+	<s:Label id="tText" x="420" y="209" text="{'Нажмите чтобы\nоткрыть локацию'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Label>
+	
+	<s:controlBarContent/>
+</s:Panel>

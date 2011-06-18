@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
+		 >
+	
+	
+	<fx:Declarations>
+		<s:Sequence id="linearPupmA" target="{baseImageGroup}" 
+					repeatCount="10000"
+					>
+			<s:Animate duration="700">
+				<s:SimpleMotionPath property="y" valueFrom="0" valueTo="-30" />
+			</s:Animate>
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="y" valueFrom="-30" valueTo="0" />
+			</s:Animate>
+		</s:Sequence>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			public static const STATE_NONE: int = 0;
+			public static const STATE_LINEAR_PUPMED: int = 1;
+			
+			private var _selectedState: int = STATE_NONE;
+			private var _isCreationCompleted: Boolean = false;
+			
+			[Bindable]
+			public var customRotation: Number = 0;
+			
+			[Bindable]
+			public var customScale: Number = 1;
+			
+			[Bindable]
+			public var customGlowBlur:int = 15;
+			
+			[Bindable]
+			public var glowAlpha:Number = 0;
+			
+			[Bindable]
+			public var glowColor: uint = 0xffffbe;
+			
+			public function get selectedState():int
+			{
+				return _selectedState;
+			}
+			
+			public function set selectedState(value:int):void
+			{
+				if(_isCreationCompleted)
+				{
+					switch(value)
+					{
+						case STATE_LINEAR_PUPMED:
+							linearPupmA.play();
+							break;
+						case STATE_NONE:
+							break;
+					}
+				}
+				
+				_selectedState = value;
+			}
+			
+			private function init(): void
+			{
+				_isCreationCompleted = true;
+				selectedState = _selectedState;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group id="baseImageRotationGroup" rotation="{customRotation}" scaleX="{customScale}" scaleY="{customScale}">
+		<s:Group id="baseImageGroup" x="0" y="0">
+			<s:BitmapImage id="baseImage" x="{-baseImage.width * 0.5}" y="{-baseImage.height * 0.5}" 
+						   source="@Embed(source='assets/pageworld/tutorial/arrow.png')" 
+						   smooth="true"
+						   >
+				<s:filters>
+					<s:GlowFilter id="glow1" blurX="{customGlowBlur}" blurY="{customGlowBlur}" color="{glowColor}" alpha="{glowAlpha}" />
+					<s:GlowFilter id="glow2" blurX="{customGlowBlur}" blurY="{customGlowBlur}" color="{glowColor}" alpha="{glowAlpha}"/>
+					<s:GlowFilter id="glow3" blurX="{customGlowBlur}" blurY="{customGlowBlur}" color="{glowColor}" alpha="{glowAlpha}"/>
+					<s:GlowFilter id="glow4" blurX="{customGlowBlur}" blurY="{customGlowBlur}" color="{glowColor}" alpha="{glowAlpha}"/>
+				</s:filters>
+			</s:BitmapImage>
+		</s:Group>
+	</s:Group>
+	
+	
+	
+</s:Group>

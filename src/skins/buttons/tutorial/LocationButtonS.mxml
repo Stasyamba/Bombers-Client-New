@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 creationComplete="init();" xmlns:previewToolTip="components.pages.world.worlds.locations.previewToolTip.*"
+			 >
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[
+		[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	
+	<s:transitions>
+		
+		<s:Transition toState="over">
+			<s:Parallel>
+				<s:Fade target="{overImageGroup}" alphaFrom="0" alphaTo="1" duration="100"/>
+			</s:Parallel>
+		</s:Transition>
+		
+		
+		<s:Transition toState="up">
+			<s:Parallel>
+				<s:Fade target="{overImageGroup}" alphaFrom="1" alphaTo="0" duration="100"/>
+			</s:Parallel>
+			
+		</s:Transition>
+		
+	</s:transitions>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.utils.adjustcolor.ColorMatrix;
+			/* Define the skin elements that should not be colorized.
+			For toggle button, the graphics are colorized but the label is not. */
+			static private const exclusions:Array = [];
+			
+			override public function get colorizeExclusions():Array {
+				return exclusions;
+			}
+			
+			// may be need color matrix filter
+			
+			private function init():void {
+				
+				var saturationShift:Number = 3.5;
+				var hueShift:int = 35;
+				
+				var cm:ColorMatrix = new ColorMatrix();
+				cm.adjustHue(hueShift);
+				cm.adjustSaturation(saturationShift);
+				
+				imageGlowUp.filters = [cm.filter];
+				
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<s:HGroup id="baseImageGroup">
+		<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/locations/fieldLocation.png')" />
+	</s:HGroup>	
+	
+	<s:Group id="overImageGroup" alpha="0">
+		<s:BitmapImage id="imageGlowUp" source="@Embed(source='assets/pageworld/worlds/locations/fieldLocationOver.png')" />
+		
+		<s:Group y="130" x="50">
+			<s:BitmapImage id="bgToolTipImage"
+						   source="@Embed(source='assets/pageworld/worlds/locations/tip.jpg')"/>
+			<s:HGroup width="100%" height="100%"
+					  horizontalAlign="center" verticalAlign="middle"
+					  >
+				<s:Label id="locationNameLabel" text="Минные поля"
+						 fontSize="18" fontFamily="mpbc"
+						 color="0xffd33d"
+						 />
+			</s:HGroup>
+		</s:Group>
+		
+	</s:Group>
+	
+	
+	
+	
+</s:SparkSkin>

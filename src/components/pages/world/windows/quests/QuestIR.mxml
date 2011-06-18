@@ -25,6 +25,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.tutorial.TutorialPartType;
         import components.ApplicationView;
         import components.common.base.access.rules.medalrule.AccessMedalRule;
         import components.common.quests.QuestObject;
@@ -138,6 +139,13 @@
         }
 
         private function doQuest():void {
+			
+			/* is tutorial now */
+			if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_CLOSE_TUTORIAL_LOCATION);
+			}
+			
             if (Context.Model.currentSettings.gameProfile.energy < qo.energyCost) {
                 Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
             } else {

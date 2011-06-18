@@ -95,7 +95,7 @@
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
 				
-				public static const APP_STARTED_FROM_WALL:int = 0;
+			public static const APP_STARTED_FROM_WALL:int = 0;
 			public static const APP_STARTED_COMMON:int = 1;
 			public static const WALL_LOTTERY_EMULATION:int = 2;
 			public static const APP_STARTED_DEVELOPMENT:int = 3;
@@ -107,6 +107,12 @@
 			mx.controls.Alert.show(ObjectUtil.toString({target: e.target.toString()}));
 			} */
 			
+			private function setDefaultModalStyle(e: ContextEvent): void
+			{
+				parentApplication.setStyle("modalTransparencyBlur",3);
+				parentApplication.setStyle("modalTransparency",0.5);
+				parentApplication.setStyle("modalTransparencyColor",0x000000);
+			}
 			
 			override protected function onAddedToStage(e:Event):void {
 				super.onAddedToStage(e);
@@ -118,6 +124,8 @@
 					//VkontakteGlobals.wrapper.addEventListener("onSettingsChanged", onSettingsChanged);
 					//VkontakteGlobals.wrapper.addEventListener("onApplicationAdded", onApplicationAdded);
 					//VkontakteGlobals.wrapper.addEventListener("onLocationChanged", onLocationChanged);
+					
+					Context.Model.addCustomListener(ContextEvent.MODAL_SET_STYLE_DEFAULT, setDefaultModalStyle);
 					
 					Context.Model.viewer.id = VkontakteGlobals.wrapper.application.parameters.viewer_id;
 					
@@ -235,11 +243,16 @@
 							disconnect();
 						});
 						
-						if (isWrapperExists) {
-							Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, true)
-							BombersContentLoader.readyToUseAppView.addOnce(function():void {
-								Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false)
-							})
+						if (isWrapperExists) 
+						{
+							Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, true);
+							
+							BombersContentLoader.readyToUseAppView.addOnce(
+								function():void 
+								{
+									Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false)
+								});
+							
 							Context.gameModel.init();
 						}
 						

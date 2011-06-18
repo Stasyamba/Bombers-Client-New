@@ -21,12 +21,14 @@
 					this.addElement(new StepPoint());
 				}
 				
-				setStep(1);
+				setStep(0);
 			}
 			
 			public function setStep(step: int): void
 			{
-				if(step < this.numElements - 1)
+				step = step + 1;
+				
+				if(step <= this.numElements)
 				{
 					for(var i: int = 0; i<= step - 1; i++)	
 					{

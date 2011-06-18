@@ -358,8 +358,15 @@ public class GameModel {
         Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED)
         Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED)
 
-        Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false)
+		Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false);
+		//TweenMax.delayedCall(10, hideMainPreloader);
+       
     }
+	
+	/*private function hideMainPreloader(): void
+	{
+		Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false);
+	}*/
 
     private function onLoggedIn(name:String):void {
         Context.gameServer.joinDefaultRoom();

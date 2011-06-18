@@ -48,6 +48,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.tutorial.TutorialPartType;
+			import components.pages.world.windows.tutorial.part2.TutorialLocationEnterToolTip;
 			import components.common.quests.QuestObject;
 			import components.common.quests.QuestManager;
 			import components.common.resources.ResourceType;
@@ -193,6 +195,21 @@
 						actionsGroup.addElement(content);
 					}
 					
+					/* is tutorial now */
+					if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+					{
+						closeButton.visible = false;
+						
+						if(content is OpenedContent)
+						{
+							(content as OpenedContent).initTutorial();
+							tutorialGroup.addElement(new TutorialLocationEnterToolTip());
+						}else
+						{
+							Alert.show("Error wrong location | LocationEnterW.mxml");
+						}
+					}
+					
 					apearingAnimation.play();
 				} else 
 				{
@@ -211,6 +228,12 @@
 				}else
 				{
 					/* isQuest */
+					
+					if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+					{
+						tutorialGroup.removeAllElements();
+					}
+					
 					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_LOCATION_QUESTS, locationType);
 				}
 				
@@ -264,10 +287,12 @@
 		
 	</s:VGroup>
 	
-	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="380" y="15" scale="0.8"
+	<flexcomponents:CloseButton id="closeButton" skinClass="skins.buttons.CloseButtonOriginS" x="380" y="15" scale="0.8"
 								click="closeWrapper();"
 								/>
 	
+	
+	<s:Group id="tutorialGroup" x="132" y="362" />
 	
 	<s:controlBarContent/>
 </s:Panel>

@@ -11,7 +11,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import components.pages.world.windows.tutorial.TutorialW;
+			import components.pages.world.windows.tutorial.part1.TutorialW;
 			
 			import skins.buttons.Pattern3ButtonS;
 			
@@ -66,14 +66,14 @@
 						<s:BitmapImage source="@Embed(source='assets/pageworld/tutorial/experiance.png')" />
 					</s:HGroup>
 					
-					<s:Label text="Это твой уровень и опыт" fontFamily="mpr" fontSize="12" color="0xffd746" />
+					<s:Label text="Это твой уровень и опыт" fontFamily="mpr" fontSize="14" color="0xffd746" />
 				</s:HGroup>
 				
 				<s:HGroup gap="30">
 					<s:HGroup width="162" horizontalAlign="right"> 
 						<s:BitmapImage source="@Embed(source='assets/pageworld/tutorial/energy.png')" />
 					</s:HGroup>
-					<s:Label text="{'На энергию ты сражаешься и\nвыполняешь интересные задания'}" fontFamily="mpr" fontSize="12" color="0xffd746" />
+					<s:Label text="{'На энергию ты сражаешься и\nвыполняешь интересные задания'}" fontFamily="mpr" fontSize="14" color="0xffd746" />
 				</s:HGroup>
 			</s:VGroup>
 			

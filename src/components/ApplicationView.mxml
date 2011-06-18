@@ -19,6 +19,7 @@
 			import components.common.profiles.VkontakteProfile;
 			import components.common.superoffer.SuperOfferObject;
 			import components.common.superoffer.SuperOfferType;
+			import components.common.tutorial.TutorialPartType;
 			import components.common.worlds.locations.LocationType;
 			import components.pages.global.energymarket.EnergyMarketW;
 			import components.pages.global.inventorynew.InventoryW;
@@ -26,7 +27,8 @@
 			import components.pages.world.windows.invite.InviteW;
 			import components.pages.world.windows.quests.QuestsW;
 			import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW;
-			import components.pages.world.windows.tutorial.TutorialW;
+			import components.pages.world.windows.tutorial.part1.TutorialW;
+			import components.pages.world.windows.tutorial.part2.TutorialLocationW;
 			import components.wall.SendWallObject;
 			
 			import loading.BombersContentLoader;
@@ -127,7 +129,20 @@
 					var qw: QuestsW = new QuestsW();
 					qw.locationType = e.data;
 					
-					PopUpManager.addPopUp(qw, (parentApplication as Bombers), false);
+					/* is tutorial now */
+					if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+					{
+						Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
+						
+						parentApplication.setStyle("modalTransparencyBlur",0);
+						parentApplication.setStyle("modalTransparency", 0);
+						
+						PopUpManager.addPopUp(qw, (parentApplication as Bombers), true);
+					}else
+					{
+						PopUpManager.addPopUp(qw, (parentApplication as Bombers), false);
+					}
+					
 					PopUpManager.centerPopUp(qw);
 				}else
 				{
@@ -159,18 +174,7 @@
 				}
 			});
 			
-
-			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN, function (e: ContextEvent):void
-			{
-				parentApplication.setStyle("modalTransparencyBlur",0);
-				
-				var tw: TutorialW = new TutorialW();
-				
-				PopUpManager.addPopUp(tw, (parentApplication as Bombers), true);
-				PopUpManager.centerPopUp(tw);
-				
-				tw.y -= 100;
-			});
+			
 			
 			Context.Model.addCustomListener(ContextEvent.IM_SHOW, function (e: ContextEvent): void
 			{
@@ -200,8 +204,6 @@
 			
 			Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_FRIENDS_HELP, function (e: ContextEvent): void
 			{
-				//parentApplication.setStyle("modalTransparencyBlur",0);
-				
 				var iw: InviteW = new InviteW();
 				
 				PopUpManager.addPopUp(iw, (parentApplication as Bombers), false);
@@ -210,7 +212,7 @@
 				iw.y -= 95;
 			});
 			
-            /*disconnected*/
+            /* disconnected */
             Context.gameServer.disconnected.add(onDisconnected);
 
 				
@@ -241,7 +243,34 @@
             }
 			
 			
+			/* tutorial */
+			
+			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART1, function (e: ContextEvent):void
+			{
+				parentApplication.setStyle("modalTransparencyBlur",0);
+				
+				var tw: TutorialW = new TutorialW();
+				
+				PopUpManager.addPopUp(tw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(tw);
+				
+				tw.y -= 100;
+			});
+			
+			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART2, function (e: ContextEvent):void
+			{	
+				var lw: TutorialLocationW = new TutorialLocationW();	
+				PopUpManager.addPopUp(lw, (parentApplication as Bombers), false);
+			});
+			
+			
 			/* testing */
+			
+			//setId(2);
+			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+			
+			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
+			
 			/* Context.Model.dispatchCustomEvent(ContextEvent.SUPER_OFFER_OPEN, 
 				new SuperOfferObject(
 					SuperOfferType.ENERGY,
@@ -252,7 +281,7 @@
 					null
 					)); */
 				
-			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_TUTORIAL);
+			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 			
 		  	bgSound = new Sound();

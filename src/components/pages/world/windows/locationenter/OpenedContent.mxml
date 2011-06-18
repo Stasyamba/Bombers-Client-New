@@ -38,6 +38,11 @@
 			
 			private var rType: Array;
 			
+			public function initTutorial(): void
+			{
+				fightButton.enabled = false;
+			}
+			
 			public function initContent(missionsMedalsCountP: int, 
 										medalsCountP: int,
 										playersCountP: int,
@@ -125,7 +130,7 @@
 					</s:HGroup>
 				</s:VGroup>
 			</s:HGroup>
-			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
+			<flexcomponents:PatternButton id="fightButton" skinClass="skins.buttons.Pattern3ButtonS"
 										  customLabel="В бой"
 										  scaleX="0.6" scaleY="0.6"
 										  fontSize="30" fontSizeOver="30"

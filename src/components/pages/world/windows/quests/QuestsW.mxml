@@ -15,6 +15,8 @@
 		 >
 	<fx:Script>
 		<![CDATA[
+			import loading.SoundManager;
+			
 			import skins.buttons.CloseButtonOriginS;
 		]]>
 	</fx:Script>
@@ -38,12 +40,12 @@
 		
 		<s:Parallel id="apearingAnimation" startDelay="400">
 			<s:Sequence><!--effectStart="{this.y = -450}"-->
-				<s:Animate target="{this}" duration="650">
+				<s:Animate target="{this}" duration="500" effectStart="{SoundManager.play(SoundManager.WINDOW_MOVE_OPENING,0.6);}">
 					<s:SimpleMotionPath property="y"
 										valueFrom="-450" valueTo="100"
 										/>
 				</s:Animate>
-				<s:Animate target="{this}" duration="200">
+				<s:Animate target="{this}" duration="100">
 					<s:SimpleMotionPath property="y"
 										valueFrom="100" valueTo="60"
 										/>
@@ -64,6 +66,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.tutorial.TutorialPartType;
+			import mx.core.ScrollPolicy;
+			import components.pages.world.windows.tutorial.part2.TutorialQuestsEnterToolTip;
 			import greensock.TweenMax;
 			import skins.quests.scroller.ScrollerS;
 			import components.common.quests.medals.MedalObject;
@@ -174,6 +179,17 @@
 					questsCollection = new ArrayCollection(quests);
 					questsCollection.refresh();
 					
+					/* is tutorial now */
+					if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+					{
+						closeButton.visible = false;
+						tutorialGroup.addElement(new TutorialQuestsEnterToolTip());
+						questList.setStyle("verticalScrollPolicy",ScrollPolicy.OFF);
+					}else
+					{
+						tutorialGroup.removeAllElements();
+					}
+					
 					apearingAnimation.play();
 				} else 
 				{
@@ -218,9 +234,9 @@
 			<s:Label id="locationLabel" fontFamily="mpr" color="0xffe760" fontSize="18" />
 		</s:HGroup>
 		
-		<s:List dataProvider="{questsCollection}" itemRenderer="components.pages.world.windows.quests.QuestIR"
+		<s:List id="questList" dataProvider="{questsCollection}" itemRenderer="components.pages.world.windows.quests.QuestIR"
 				borderVisible="false" contentBackgroundAlpha="0"
-				id="questList">
+				>
 			<s:layout>
 				<s:VerticalLayout requestedRowCount="3" gap="7" />
 			</s:layout>
@@ -228,10 +244,12 @@
 		
 	</s:VGroup>
 	
-	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="380" y="15" scale="0.8"
+	<flexcomponents:CloseButton id="closeButton" skinClass="skins.buttons.CloseButtonOriginS" x="380" y="15" scale="0.8"
 								click="closeWrapper();"
 								/>
 	
+	
+	<s:Group id="tutorialGroup" x="274" y="263" />
 	
 	<s:controlBarContent/>
 </s:Panel>

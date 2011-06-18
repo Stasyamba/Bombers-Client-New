@@ -3,6 +3,8 @@ import flash.events.Event;
 
 public class ContextEvent extends Event {
 
+	public static const MODAL_SET_STYLE_DEFAULT:String= "MODALSetStyleDefault";
+	
     public static const MAIN_TAB_CHANGED:String = "MainTabChanged";
     public static const NEED_TO_CHANGE_MAIN_TAB:String = "NeedToChangeMainTab";
     // pass: String (const) -> tab name (const in ApplicationView)
@@ -105,7 +107,9 @@ public class ContextEvent extends Event {
 
 	/**** tutorial events ****/
 	public static const TUTORIAL_NEXT_STEP: String = "TUTORIALNextStep";
-	public static const TUTORIAL_OPEN: String = "NeedToOpenTutorial";
+	public static const TUTORIAL_OPEN_PART1: String = "TUTORIALPart1Tutorial";
+	public static const TUTORIAL_OPEN_PART2: String = "TUTORIALPart2Tutorial";
+	public static const TUTORIAL_CLOSE_TUTORIAL_LOCATION: String = "TUTORIALCloseTutorialLocation";
 	
 	/** vk events **/
 	public static const VK_SEND_TO_WALL:String = "VKSendToWall";

@@ -245,7 +245,7 @@
 			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS" customLabel="Забрать"
 										  fontSize="30" fontSizeOver="30"
 										  fontColor="0xfff19f"
-										  scaleX="0.7" scaleY="0.7"
+										  scaleX="0.9" scaleY="0.9"
 										  enabled="false"
 										  />
 		</s:HGroup>

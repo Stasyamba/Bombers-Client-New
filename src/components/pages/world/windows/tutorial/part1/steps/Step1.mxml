@@ -9,7 +9,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import components.pages.world.windows.tutorial.TutorialW;
+			import components.pages.world.windows.tutorial.part1.TutorialW;
 			
 			import engine.profiles.GameProfile;
 			

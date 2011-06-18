@@ -12,7 +12,7 @@
 	<fx:Script>
 		<![CDATA[
 			import components.pages.global.inventorynew.InventoryW;
-			import components.pages.world.windows.tutorial.TutorialW;
+			import components.pages.world.windows.tutorial.part1.TutorialW;
 			
 			import mx.managers.PopUpManager;
 			
@@ -67,6 +67,9 @@
 										   x="74" y="-5"
 										   />
 						</s:Group>
+					
+						<s:BitmapImage source="@Embed(source='assets/commonbuttons/marketcart2.png')"
+									   />
 					
 				</s:HGroup>
 			</s:BorderContainer>

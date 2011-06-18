@@ -10,7 +10,7 @@
 		 width="641" height="365"
 		 xmlns:flexcomponents="components.common.flexcomponents.*"
 		 implements="components.common.base.window.IWindow" 
-		 xmlns:preloaders="components.common.utils.preloaders.*" xmlns:progress="components.pages.world.windows.tutorial.progress.*"
+		 xmlns:preloaders="components.common.utils.preloaders.*" xmlns:progress="components.pages.world.windows.tutorial.part1.progress.*"
 		 >
 	<fx:Script>
 		<![CDATA[
@@ -53,11 +53,12 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import components.pages.world.windows.tutorial.steps.Step5;
-			import components.pages.world.windows.tutorial.steps.Step4;
-			import components.pages.world.windows.tutorial.steps.Step3;
-			import components.pages.world.windows.tutorial.steps.Step2;
-			import components.pages.world.windows.tutorial.steps.Step1;
+			import components.pages.world.windows.tutorial.part1.steps.Step6;
+			import components.pages.world.windows.tutorial.part1.steps.Step5;
+			import components.pages.world.windows.tutorial.part1.steps.Step4;
+			import components.pages.world.windows.tutorial.part1.steps.Step3;
+			import components.pages.world.windows.tutorial.part1.steps.Step2;
+			import components.pages.world.windows.tutorial.part1.steps.Step1;
 			import components.common.resources.ResourceType;
 			import components.common.quests.medals.MedalType;
 			import components.common.quests.medals.MedalObject;
@@ -77,7 +78,7 @@
 			import mx.core.IVisualElement;
 			import mx.managers.PopUpManager;
 			
-			private var steps: Array = [new Step1(), new Step2(), new Step3(), new Step4(), new Step5()];
+			private var steps: Array = [new Step1(), new Step2(), new Step3(), new Step4(), new Step5(), new Step6()];
 			private var currentStep: int = 0;
 			
 			public var bombasterName: String;
@@ -105,7 +106,7 @@
 			{
 				stepGroup.removeAllElements();
 				stepGroup.addElement(steps[step]);
-				process.setStep(step+1);
+				process.setStep(step);
 			}
 			
 			private function nextStep(e: ContextEvent):void
@@ -115,6 +116,10 @@
 				if(currentStep < steps.length)
 				{
 					setStep(currentStep);
+				}else
+				{
+					Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
+					closeWrapper();
 				}
 			}
 			

@@ -624,17 +624,7 @@ public class GameServer extends SmartFox {
                 var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
                 profileLoaded.dispatch(gp);
 
-                // lottery
-                Context.Model.currentSettings.lotteryResourcePrize = new ResourcePrice(
-                        responseParams.getInt("GoldPrize"),
-                        responseParams.getInt("CrystalPrize"),
-                        responseParams.getInt("AdamantiumPrize"),
-                        responseParams.getInt("AntimatterPrize")
-                        );
-
-                Context.Model.currentSettings.lotteryTryToWinCount = responseParams.getInt("LuckCount");
-
-                // immitation
+                /* testing */
                 Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 1));
                 Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 1));
 
@@ -663,6 +653,7 @@ public class GameServer extends SmartFox {
 				
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, appFriendsArr);
+				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 				
                 break;
             case INT_BUY_RESOURCES_RESULT:
