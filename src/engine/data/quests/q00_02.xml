@@ -14,6 +14,7 @@
     <finishOnGoal/>
     <!--убрать, если надо чтобы время точно завершилось-->
     <accessRules>
+        <AllBefore/>
         <!--<CountMedals type="1" count="20" />-->
     </accessRules>
     <map>

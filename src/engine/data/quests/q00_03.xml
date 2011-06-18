@@ -3,16 +3,19 @@
   ~ Pavkin Vladimir
   -->
 <Game>
-    <id>q00_01</id>
+    <id>q00_03</id>
     <location>0</location>
-    <name>Тестовая миссия 2</name>
-    <description>Времени всего 20 секунд!!!</description>
+    <name>Тестовая миссия 4</name>
+    <description>Собрать 1 желтый гриб.</description>
     <questImage>1.jpg</questImage>
     <previewImage>marshrums.png</previewImage>
     <energyCost>15</energyCost>
     <timeLimit>20</timeLimit>
+    <finishOnGoal/>
+    <!--убрать, если надо чтобы время точно завершилось-->
     <accessRules>
         <AllBefore/>
+        <!--<CountMedals type="1" count="20" />-->
     </accessRules>
     <map>
         <Map>
@@ -175,22 +178,22 @@
     <medals>
         <!-- если задание одно, а медали отличаются по времени, то оно указывается здесь, а
         в медалях просто <goal t="TimeGoal" time="45"/> -->
-        <!--<goal t="CollectObjectsGoal" type="1012" amount="15" text="Собрать 15 желтых грибов"/>-->
-        <Bronze text="Собрать 1 желтых грибов">
-            <goal t="CollectObjectsGoal" type="1012" amount="1"/>
+        <goal t="CollectObjectsGoal" type="1012" amount="1" text="Собрать 1 желтый гриб"/>
+        <Bronze text="Успеть за 20 секунд">
+            <goal t="TimeGoal" time="20"/>
             <prize>
                 <Resource id="00" val="100"/>
             </prize>
         </Bronze>
-        <Silver text="Собрать 1 красных гриба">
-            <goal t="CollectObjectsGoal" type="1013" amount="1"/>
+        <Silver text="Успеть за 12 секунд">
+            <goal t="TimeGoal" time="12"/>
             <prize>
                 <Resource id="00" val="300"/>
                 <Experience val="20"/>
             </prize>
         </Silver>
-        <Gold text="Собрать 1 фиолетовый гриб">
-            <goal t="CollectObjectsGoal" type="1011" amount="1"/>
+        <Gold text="Успеть за 7 секунд">
+            <goal t="TimeGoal" time="7"/>
             <prize>
                 <Resource id="00" val="500"/>
                 <Experience val="30"/>
