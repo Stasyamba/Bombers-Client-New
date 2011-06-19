@@ -34,9 +34,14 @@
 
             Context.Model.addCustomListener(ContextEvent.MAIN_TAB_CHANGED, function (e:ContextEvent):void {
                 if (e.data == ApplicationView.TAB_NAME_QUEST) {
-                    focusGroup.visible = false;
+                    
+					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, false);
+					
+					focusGroup.visible = false;
                     Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);
                     gameView.everyGameTabOpeningInit();
+					
+					
                 }
             });
 

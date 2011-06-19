@@ -182,7 +182,7 @@
 			private function init():void 
 			{	
 				if (!mainWorldGroup.hasEventListener(MouseEvent.MOUSE_MOVE)) {
-					//mainWorldGroup.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+					mainWorldGroup.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 				}
 				
 				if (!mainWorldGroup.hasEventListener(MouseEvent.CLICK)) {
@@ -191,12 +191,65 @@
 				
 				/* set background animations */
 				
+				/* snowSprite1.addChild(new Snow());
+				snowSprite2.addChild(new Snow());
+				snowSprite3.addChild(new Snow());
+				snowSprite4.addChild(new Snow());
+				*/
+				
+				waterSprite.addChild(new Water());
+				
+				Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, function (e: ContextEvent): void
+				{
+					if(e.data)
+					{
+						hideAnimations();
+						showAnimations();
+					}else
+					{
+						hideAnimations();
+					}
+				});
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, true);
+			}
+			
+			private function showAnimations(): void
+			{
 				snowSprite1.addChild(new Snow());
 				snowSprite2.addChild(new Snow());
 				snowSprite3.addChild(new Snow());
 				snowSprite4.addChild(new Snow());
 				
 				waterSprite.addChild(new Water());
+			}
+			
+			private function hideAnimations(): void
+			{
+				for(var i: int = 0; i<= snowSprite1.numChildren - 1; i++)
+				{
+					snowSprite1.removeChildAt(i);
+				}
+				
+				for(i = 0; i<= snowSprite2.numChildren - 1; i++)
+				{
+					snowSprite2.removeChildAt(i);
+				}
+				
+				for(i = 0; i<= snowSprite3.numChildren - 1; i++)
+				{
+					snowSprite3.removeChildAt(i);
+				}
+				
+				for(i = 0; i<= snowSprite4.numChildren - 1; i++)
+				{
+					snowSprite4.removeChildAt(i);
+				}
+				
+				for(i = 0; i<= waterSprite.numChildren - 1; i++)
+				{
+					waterSprite.removeChildAt(i);
+				}
 			}
 			
 			private function openOffer(): void
@@ -228,10 +281,10 @@
 		
 		<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/worldBg.jpg')"/>
 		
-		<s:SpriteVisualElement id="snowSprite1" x="0" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" />
-		<s:SpriteVisualElement id="snowSprite2" x="232" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" />
-		<s:SpriteVisualElement id="snowSprite3" x="499" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" />
-		<s:SpriteVisualElement id="snowSprite4" x="716" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" />
+		<s:SpriteVisualElement id="snowSprite1" x="0" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" alpha="0.6" />
+		<s:SpriteVisualElement id="snowSprite2" x="242" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" alpha="0.7" />
+		<s:SpriteVisualElement id="snowSprite3" x="489" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" alpha="0.7" />
+		<s:SpriteVisualElement id="snowSprite4" x="716" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" alpha="0.6" />
 		
 		<s:SpriteVisualElement id="waterSprite" x="0" y="176" scaleX="1" scaleY="1" blendMode="lighten" alpha="0.4" />
 		

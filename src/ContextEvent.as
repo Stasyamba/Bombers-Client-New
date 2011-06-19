@@ -3,6 +3,9 @@ import flash.events.Event;
 
 public class ContextEvent extends Event {
 
+	public static const NEED_TO_SHOW_WORLD_ANIMATION: String = "NeedToShowWorldAnimation";
+	// pass: Boolean
+	
 	public static const MODAL_SET_STYLE_DEFAULT:String= "MODALSetStyleDefault";
 	
     public static const MAIN_TAB_CHANGED:String = "MainTabChanged";

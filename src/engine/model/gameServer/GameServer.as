@@ -654,7 +654,7 @@ public class GameServer extends SmartFox {
 				
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, appFriendsArr);
-				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+				//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 				
                 break;
             case INT_BUY_RESOURCES_RESULT:
