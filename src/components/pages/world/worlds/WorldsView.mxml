@@ -199,7 +199,7 @@
 				
 				waterSprite.addChild(new Water());
 				
-				Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, function (e: ContextEvent): void
+				/* Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, function (e: ContextEvent): void
 				{
 					if(e.data)
 					{
@@ -211,10 +211,10 @@
 					}
 				});
 				
-				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, true);
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, true); */
 			}
 			
-			private function showAnimations(): void
+			/* private function showAnimations(): void
 			{
 				snowSprite1.addChild(new Snow());
 				snowSprite2.addChild(new Snow());
@@ -251,6 +251,7 @@
 					waterSprite.removeChildAt(i);
 				}
 			}
+			 */
 			
 			private function openOffer(): void
 			{

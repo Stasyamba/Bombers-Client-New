@@ -44,6 +44,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.tutorial.TutorialPartType;
+			import components.pages.world.windows.tutorial.part2.TutorialQuestStartToolTip;
 			import components.common.quests.QuestObject;
 			import components.common.resources.ResourceType;
 			import components.common.quests.medals.MedalType;
@@ -81,6 +83,12 @@
 				if(questObject != null)
 				{
 					questContent.initContent(questObject);
+					questName.text = questObject.view.name;
+					
+					if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+					{
+						bonusGroup.addElement(new TutorialQuestStartToolTip());
+					}
 				}else
 				{
 					Alert.show("Error with passing data | QuestStartW.mxml");
@@ -95,8 +103,12 @@
 			
 			private function startQuest(): void
 			{
-                Context.gameModel.startCurrentQuest();
+				startButton.enabled = false;
+				
 				closeWrapper();
+                Context.gameModel.startCurrentQuest();
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_SET_GAME_FOCUS, true);
 			}
 		]]>
 	</fx:Script>
@@ -148,18 +160,19 @@
 		
 		<s:HGroup width="100%" height="57"
 				  horizontalAlign="center" verticalAlign="middle">
-			<s:Label text="Вы зашли в квест" fontFamily="mpbc" color="0xbbb17a" fontSize="26" />
+			<s:Label id="questName" text="Вы зашли в квест" fontFamily="mpbc" color="0xbbb17a" fontSize="26" />
 		</s:HGroup>
 		
 		<start:QuestContent id="questContent" width="100%" height="289" />
 		
 		<s:HGroup width="100%" horizontalAlign="center" paddingTop="-10">
-			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
+			<flexcomponents:PatternButton id="startButton" skinClass="skins.buttons.Pattern3ButtonS"
 										  buttonMode="true" useHandCursor="true"
 										  customLabel="Начать"
 										  fontSize="32" fontSizeOver="32"
 										  scaleX="0.8" scaleY="0.8"
 										  click="startQuest();"
+										  focusEnabled="false"
 										  />
 		</s:HGroup>
 		
@@ -168,6 +181,7 @@
 	<!--<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="420" y="15" scale="0.8"
 								/>-->
 	
+	<s:Group id="bonusGroup" x="240" y="509" />
 	
 	<s:filters>
 		<s:DropShadowFilter alpha="0.3" />

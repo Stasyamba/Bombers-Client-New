@@ -352,10 +352,10 @@
             Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
             Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
             idGroup.visible = false;
-            Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, true)
+            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
 				
             BombersContentLoader.readyToUseAppView.addOnce(function():void {
-                Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false)
+                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
             });
 			
             Context.gameModel.init();

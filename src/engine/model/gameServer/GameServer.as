@@ -48,6 +48,7 @@ import flash.utils.Timer;
 
 import greensock.TweenMax;
 
+import mx.controls.Alert;
 import mx.utils.ObjectUtil;
 
 import org.osflash.signals.Signal;
@@ -633,7 +634,6 @@ public class GameServer extends SmartFox {
                 Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
 				
 				Context.Model.currentSettings.gameProfile.energy = 130;
-
 				
 				var appFriendsArr: Array = new Array();
 				var gp3: GameProfile = new GameProfile();

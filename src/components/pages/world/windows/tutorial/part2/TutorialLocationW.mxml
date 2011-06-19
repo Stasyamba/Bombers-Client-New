@@ -98,7 +98,7 @@
 				//Context.Model.windowsManager.addWindow(this);
 				apearingAnimation.play();
 			
-				Context.Model.addCustomListener(ContextEvent.TUTORIAL_CLOSE_TUTORIAL_LOCATION, closeWrapper1);
+				Context.Model.addCustomListener(ContextEvent.TUTORIAL_CLOSE_TUTORIAL_LOCATION_WINDOW, closeWrapper1);
 			}
 			
 			

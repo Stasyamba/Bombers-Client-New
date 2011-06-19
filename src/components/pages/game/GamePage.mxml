@@ -110,14 +110,15 @@
 
     <game:GameView id="gameView" y="{topPanel.height + 2}" x="{leftPanel.width}"/>
 	
-	<s:Group y="{topPanel.height + 7}" x="{leftPanel.width + 5}" 
-			 id="focusGroup" click="{focusGroup.visible = false;}"
+	<s:Group id="focusGroup"
+			 y="{topPanel.height + 7}" x="{leftPanel.width + 5}" 
+			 click="{focusGroup.visible = false;}"
 			 visible="false"
 			 buttonMode="true" useHandCursor="true"
 			 >
 		<s:Rect width="671" height="430"
-				radiusX="30" radiusY="30"
-				alpha="0.8"
+				radiusX="55" radiusY="55"
+				alpha="0.84"
 				>
 			<s:fill>
 				<s:SolidColor color="0x000000" />
@@ -126,7 +127,7 @@
 		
 		<s:HGroup width="671" height="430"
 				  horizontalAlign="center" verticalAlign="middle">
-			<s:Label text="Кликни сюда" fontFamily="mpbc" fontSize="80" color="0xffffff" />
+			<s:Label text="{'Кликни сюда\nдля начала'}" fontFamily="mpbc" fontSize="72" color="0xfed000" textAlign="center" />
 		</s:HGroup>
 	</s:Group>
     

@@ -57,6 +57,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.pages.world.windows.tutorial.part2.TutorialQuestEndToolTip;
+			import components.common.tutorial.TutorialPartType;
         import components.ApplicationView;
         import components.common.game.questgameresult.QuestResultObject;
         import components.common.quests.QuestObject;
@@ -156,6 +158,13 @@
                 } else {
                     resultTitleLabel.text = "Нет новых медалей";
                 }
+				
+				
+				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+				{
+					bonusGroup.addElement(new TutorialQuestEndToolTip());
+					startQuestButton.enabled = false;
+				}
 
             } else {
                 Alert.show("Error with passing data | QuestResultW.mxml");
@@ -173,6 +182,13 @@
         }
 
         private function quit():void {
+			
+			if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+			{
+				/* send server request */
+				Context.Model.currentTutorialPart = TutorialPartType.PART3;
+			}
+			
             closeWrapper();
             Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
         }
@@ -182,107 +198,111 @@
 		<s:BasicLayout/>
 	</s:layout>
 	
-	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
-					   backgroundImageFillMode="repeat"
-					   width="100%" height="100%"
-					   cornerRadius="60"
-					   borderVisible="true"
-					   borderColor="0x322a17" borderWeight="3"
-					   />
-	
-	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
-					   backgroundImageFillMode="repeat"
-					   width="331" x="3" y="3" height="123"
-					   cornerRadius="60"
-					   borderVisible="false"
-					   />
-	
-	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
-					   backgroundImageFillMode="repeat"
-					   width="331" x="3" height="70"
-					   y="61"
-					   cornerRadius="0"
-					   borderVisible="false"
-					   />
-	
-	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
-					   backgroundImageFillMode="repeat"
-					   width="331" x="3" y="{274-123}" height="123"
-					   cornerRadius="60"
-					   borderVisible="false"
-					   />
-	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
-					   backgroundImageFillMode="repeat"
-					   width="331" x="3" height="70"
-					   y="{274-124}"
-					   cornerRadius="0"
-					   borderVisible="false"
-					   />
-	
-	<s:VGroup width="100%" height="100%" 
-			  horizontalAlign="center" verticalAlign="top" 
-			  gap="15"
-			  >
+	<s:Group>
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+						   backgroundImageFillMode="repeat"
+						   width="100%" height="100%"
+						   cornerRadius="60"
+						   borderVisible="true"
+						   borderColor="0x322a17" borderWeight="3"
+						   />
 		
-		<s:HGroup width="100%" height="57"
-				  horizontalAlign="center" verticalAlign="middle">
-			<s:Label id="resultTitleLabel" text="Нет новых медалей" fontFamily="mpbc" color="0xbbb17a" fontSize="22" />
-		</s:HGroup>
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+						   backgroundImageFillMode="repeat"
+						   width="331" x="3" y="3" height="123"
+						   cornerRadius="60"
+						   borderVisible="false"
+						   />
 		
-		<s:VGroup height="153" horizontalAlign="left" verticalAlign="top"
-				  paddingTop="15">
-			<start:TaskViewSlot id="bronzeTask" />
-			<start:TaskViewSlot id="silverTask" />
-			<start:TaskViewSlot id="goldTask" />
-		</s:VGroup>
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+						   backgroundImageFillMode="repeat"
+						   width="331" x="3" height="70"
+						   y="61"
+						   cornerRadius="0"
+						   borderVisible="false"
+						   />
 		
-		<s:HGroup width="100%" horizontalAlign="center" paddingTop="-7" >
-			<s:HGroup verticalAlign="middle" paddingLeft="-40">
-				
-				<s:HGroup  width="76" horizontalAlign="right">
-					<s:Label id="energyCostLabel" text="5" color="0xfed400" fontFamily="mpbc" fontSize="30" />
-					<s:HGroup paddingTop="-5" scaleX="0.7" scaleY="0.7">
-						<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
-									   smooth="true"
-									   />
-					</s:HGroup>
-				</s:HGroup>
-				
-				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
-											  buttonMode="true" useHandCursor="true"
-											  customLabel="Повторить"
-											  fontSize="28" fontSizeOver="28"
-											  fontColor="0xffeeca"
-											  scaleX="0.8" scaleY="0.8"
-											  click="startQuest();"
-											  />
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+						   backgroundImageFillMode="repeat"
+						   width="331" x="3" y="{274-123}" height="123"
+						   cornerRadius="60"
+						   borderVisible="false"
+						   />
+		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+						   backgroundImageFillMode="repeat"
+						   width="331" x="3" height="70"
+						   y="{274-124}"
+						   cornerRadius="0"
+						   borderVisible="false"
+						   />
+		
+		<s:VGroup width="100%" height="100%" 
+				  horizontalAlign="center" verticalAlign="top" 
+				  gap="15"
+				  >
+			
+			<s:HGroup width="100%" height="57"
+					  horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="resultTitleLabel" text="Нет новых медалей" fontFamily="mpbc" color="0xbbb17a" fontSize="22" />
 			</s:HGroup>
 			
-		</s:HGroup>
+			<s:VGroup height="153" horizontalAlign="left" verticalAlign="top"
+					  paddingTop="15">
+				<start:TaskViewSlot id="bronzeTask" />
+				<start:TaskViewSlot id="silverTask" />
+				<start:TaskViewSlot id="goldTask" />
+			</s:VGroup>
+			
+			<s:HGroup width="100%" horizontalAlign="center" paddingTop="-7" >
+				<s:HGroup verticalAlign="middle" paddingLeft="-40">
+					
+					<s:HGroup  width="76" horizontalAlign="right">
+						<s:Label id="energyCostLabel" text="5" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+						<s:HGroup paddingTop="-5" scaleX="0.7" scaleY="0.7">
+							<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
+										   smooth="true"
+										   />
+						</s:HGroup>
+					</s:HGroup>
+					
+					<flexcomponents:PatternButton id="startQuestButton" skinClass="skins.buttons.Pattern3ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  customLabel="Повторить"
+												  fontSize="28" fontSizeOver="28"
+												  fontColor="0xffeeca"
+												  scaleX="0.8" scaleY="0.8"
+												  click="startQuest();"
+												  />
+				</s:HGroup>
+				
+			</s:HGroup>
+			
+		</s:VGroup>
 		
-	</s:VGroup>
-	
-	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="270" y="15" scale="0.6"
-								click="quit();"
-								/>
-	
-	<s:Group x="-30" y="-30">
-		<s:BitmapImage id="bronzeMedal" visible="false" source="@Embed(source='assets/pagequests/medals/bronze.png')" />
-		<s:BitmapImage id="silverMedal" visible="false" source="@Embed(source='assets/pagequests/medals/silver.png')" />
-		<s:BitmapImage id="goldMedal" visible="false" source="@Embed(source='assets/pagequests/medals/gold.png')" />
+		<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="270" y="15" scale="0.6"
+									click="quit();"
+									/>
+		
+		<s:Group x="-30" y="-30">
+			<s:BitmapImage id="bronzeMedal" visible="false" source="@Embed(source='assets/pagequests/medals/bronze.png')" />
+			<s:BitmapImage id="silverMedal" visible="false" source="@Embed(source='assets/pagequests/medals/silver.png')" />
+			<s:BitmapImage id="goldMedal" visible="false" source="@Embed(source='assets/pagequests/medals/gold.png')" />
+			
+			<s:filters>
+				<s:GlowFilter id="glowFilter3" alpha="1" color="0xffb400" strength="1" blurX="35" blurY="35" />
+				<!--<s:GlowFilter id="glowFilter4" alpha="1" color="0xffb400" strength="1" blurX="35" blurY="35" />-->
+			</s:filters>
+			
+		</s:Group>
 		
 		<s:filters>
-			<s:GlowFilter id="glowFilter3" alpha="1" color="0xffb400" strength="1" blurX="35" blurY="35" />
-			<!--<s:GlowFilter id="glowFilter4" alpha="1" color="0xffb400" strength="1" blurX="35" blurY="35" />-->
+			<s:DropShadowFilter alpha="0.3" />
+			<s:GlowFilter id="glowFilter1" alpha="0" color="0xffb400" strength="1" blurX="35" blurY="35" />
+			<s:GlowFilter id="glowFilter2" alpha="0" color="0xffb400" strength="1" blurX="35" blurY="35" />
 		</s:filters>
-		
 	</s:Group>
 	
-	<s:filters>
-		<s:DropShadowFilter alpha="0.3" />
-		<s:GlowFilter id="glowFilter1" alpha="0" color="0xffb400" strength="1" blurX="35" blurY="35" />
-		<s:GlowFilter id="glowFilter2" alpha="0" color="0xffb400" strength="1" blurX="35" blurY="35" />
-	</s:filters>
+	<s:Group id="bonusGroup" x="353" y="56" />
 	
 	<s:controlBarContent/>
 </s:Panel>
