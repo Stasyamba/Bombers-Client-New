@@ -40,6 +40,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import loading.SoundManager;
 			/* Define the skin elements that should not be colorized.
 			For toggle button, the graphics are colorized but the label is not. */
 			static private const exclusions:Array = [];
@@ -56,16 +57,6 @@
 	</fx:Script>
 	
 	<s:HGroup verticalAlign="middle">
-		<s:HGroup gap="5" paddingTop="5">
-			<s:Label id="energyLabel"
-					 text="5" color="0xfed43d"
-					 fontFamily="mpbc" fontSize="30"
-					 />
-			<s:HGroup paddingTop="-5">
-				<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')" />
-			</s:HGroup>
-			
-		</s:HGroup>
 		
 		<s:Label id="labelDisplay"
 				 visible="true"

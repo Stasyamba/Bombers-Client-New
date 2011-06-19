@@ -14,6 +14,8 @@
 			import components.pages.global.inventorynew.InventoryW;
 			import components.pages.world.windows.joingame.JoinGameW;
 			
+			import loading.SoundManager;
+			
 			import mx.managers.PopUpManager;
 			
 			import skins.buttons.InventoryButtonS;
@@ -69,17 +71,34 @@
 			  >
 		
 		<s:HGroup height="41" paddingTop="-13">
-			<flexcomponents:InventoryButton click="openInventory();" />
+			<flexcomponents:InventoryButton click="openInventory();" 
+											rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
 		</s:HGroup>
 		<s:HGroup height="41" paddingTop="-22" paddingLeft="15">
 			<s:Button label="Market" click="openInventoryMarket();" skinClass="skins.buttons.MarketButtonS"
-					  buttonMode="true" useHandCursor="true"/>
+					  buttonMode="true" useHandCursor="true"
+					  rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
 		</s:HGroup>
 		
 		<s:HGroup width="100%" />
-		<s:Button label="Играть" id="randomGameButton" click="joinGame();" skinClass="skins.buttons.PlayGameButtonS"
-				  useHandCursor="true" buttonMode="true"
-				  />
+		<s:HGroup verticalAlign="middle">
+			
+			<s:HGroup gap="5" paddingTop="5">
+				<s:Label id="energyLabel"
+						 text="5" color="0xfed43d"
+						 fontFamily="mpbc" fontSize="30"
+						 />
+				<s:HGroup paddingTop="-5">
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')" />
+				</s:HGroup>
+			</s:HGroup>
+			
+			<s:Button label="Играть" id="randomGameButton" click="joinGame();" skinClass="skins.buttons.PlayGameButtonS"
+					  useHandCursor="true" buttonMode="true"
+					  rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
+					  />
+		</s:HGroup>
+		
 
     </s:HGroup>
 

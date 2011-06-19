@@ -148,7 +148,7 @@
 		
 		<s:HGroup width="100%" height="57"
 				  horizontalAlign="center" verticalAlign="middle">
-			<s:Label text="Вы присоединились к игре" fontFamily="mpbc" color="0xbbb17a" fontSize="26" />
+			<s:Label text="Вы зашли в квест" fontFamily="mpbc" color="0xbbb17a" fontSize="26" />
 		</s:HGroup>
 		
 		<start:QuestContent id="questContent" width="100%" height="289" />

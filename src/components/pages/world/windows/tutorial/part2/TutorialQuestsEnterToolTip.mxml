@@ -7,7 +7,12 @@
 	</fx:Declarations>
 	
 	
-	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="42" height="326"
+					   x="124" y="-200"
+					   borderVisible="false"
+					   />
 	
 	<tutorial:Arrow id="tArrow" customRotation="0" selectedState="{Arrow.STATE_LINEAR_PUPMED}" />
 	
@@ -18,5 +23,7 @@
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
 		</s:filters>
 	</s:Label>
+	
+	
 	
 </s:Group>

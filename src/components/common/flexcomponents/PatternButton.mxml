@@ -3,6 +3,7 @@
           xmlns:s="library://ns.adobe.com/flex/spark"
           xmlns:mx="library://ns.adobe.com/flex/mx"
           useHandCursor="true" buttonMode="true"
+		  click="{SoundManager.play(SoundManager.BUTTON_CLICK_30, 0.3);}"
         >
 
     <fx:Declarations>
@@ -11,7 +12,9 @@
 
     <fx:Script>
 		<![CDATA[
-        import components.common.utils.adjustcolor.ColorMatrixObject
+		import components.common.utils.adjustcolor.ColorMatrixObject;
+		
+		import loading.SoundManager;
 
         public var customLabel:String = "Label";
 

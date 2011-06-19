@@ -36,6 +36,8 @@
 			import components.common.worlds.locations.LocationViewObject;
 			import components.pages.world.windows.locationenter.LocationEnterW;
 			
+			import loading.SoundManager;
+			
 			import mx.managers.PopUpManager;
 			
 			import skins.buttons.OfferButtonS;
@@ -52,7 +54,7 @@
 					var gl:* = mainWorldGroup.getElementAt(i);
 					
 					if (gl is ILocationPreview) 
-					{
+					{	
 						if (HitTester.realHitTest(gl, new Point(mouseX, mouseY + 40))) // y="40" - parent
 						{
 							locationFinded = true;
@@ -234,7 +236,7 @@
 		<s:SpriteVisualElement id="waterSprite" x="0" y="176" scaleX="1" scaleY="1" blendMode="lighten" alpha="0.4" />
 		
 		<s:Group id="mainWorldGroup" width="100%" height="100%">
-			<fields:LocationPreview x="240" y="249"/>
+			<fields:LocationPreview x="240" y="249" />
 			<mines:LocationPreview x="0" y="270"/>
 			<castle:LocationPreview x="477" y="247"/>
 			<sea:LocationPreview x="664" y="221"/>

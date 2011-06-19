@@ -146,15 +146,13 @@
 				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_CLOSE_TUTORIAL_LOCATION);
 			}
 			
-			Alert.show(Context.Model.currentSettings.gameProfile.energy.toString());
-			
             if (Context.Model.currentSettings.gameProfile.energy < qo.energyCost) 
 			{
                 Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
             } else {
                 /* server withdraw energy */
                 Context.gameModel.createQuestFailed.addOnce(function():void {
-                   Alert.show("Create Quest Failed");
+                   Alert.show("Error - сreate Quest Failed | QuestIR.mxml");
                 });
 
                 Context.gameModel.questGameCreated.addOnce(function ():void {
@@ -217,9 +215,9 @@
 				</s:Group>
 				<s:Label id="statusLabel" text="Нет наград" fontFamily="mpr" color="0xac9064" fontSize="14" />
 				<s:Group id="actionGroup">
-					<s:HGroup x="64" y="32">
-						<s:HGroup  width="76" horizontalAlign="right" scaleX="0.55" scaleY="0.55">
-							<s:Label id="costLabel" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+					<s:HGroup x="61" y="32">
+						<s:HGroup  width="76" horizontalAlign="right" scaleX="0.65" scaleY="0.65">
+							<s:Label id="costLabel" color="0xfed400" fontFamily="mpbc" fontSize="32" />
 							<s:HGroup paddingTop="-5" scaleX="0.9" scaleY="0.9">
 								<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
 											   smooth="true"
@@ -228,7 +226,7 @@
 						</s:HGroup>
 						<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
 													  customLabel="Пройти"
-													  scaleX="0.45" scaleY="0.45"
+													  scaleX="0.5" scaleY="0.5"
 													  fontSize="30" fontSizeOver="30"
 													  fontColor="0xffeeca"
 													  click="doQuest();"

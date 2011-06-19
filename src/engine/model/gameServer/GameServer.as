@@ -622,6 +622,7 @@ public class GameServer extends SmartFox {
                 }
                 //gp
                 var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
+				gp.energy = 100;
                 profileLoaded.dispatch(gp);
 
                 /* testing */
@@ -635,15 +636,15 @@ public class GameServer extends SmartFox {
 
 				
 				var appFriendsArr: Array = new Array();
-				var gp: GameProfile = new GameProfile();
-				gp.id = "1";
-				gp.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
-				appFriendsArr.push(new FriendObject(gp, true, null));
+				var gp3: GameProfile = new GameProfile();
+				gp3.id = "1";
+				gp3.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
+				appFriendsArr.push(new FriendObject(gp3, false, null));
 				
 				var gp1: GameProfile = new GameProfile();
 				gp1.id = "2";
 				gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
-				appFriendsArr.push(new FriendObject(gp1, true, null));
+				appFriendsArr.push(new FriendObject(gp1, false, null));
 				
 				
 				var gp2: GameProfile = new GameProfile();
