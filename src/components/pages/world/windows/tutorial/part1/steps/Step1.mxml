@@ -18,7 +18,7 @@
 			private function nextStep(): void
 			{
 				/* testing */
-				Context.Model.currentSettings.gameProfile = new GameProfile();
+				//Context.Model.currentSettings.gameProfile = new GameProfile();
 				Context.Model.currentSettings.gameProfile.nick = nameTextInput.text;
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_NEXT_STEP);

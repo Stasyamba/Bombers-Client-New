@@ -284,12 +284,12 @@
 			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 			
-		  	bgSound = new Sound();
+		  	 bgSound = new Sound();
 			bgSoundChannel = new SoundChannel();
 			
 			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
 			
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);    
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);     
         }
 			
 		private function repeatSound(e: Event): void	
@@ -353,9 +353,11 @@
             Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
             idGroup.visible = false;
             Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, true)
+				
             BombersContentLoader.readyToUseAppView.addOnce(function():void {
                 Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false)
-            })
+            });
+			
             Context.gameModel.init();
         }
 			

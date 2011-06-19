@@ -78,7 +78,7 @@
 				});
 				
 				/* testing */
-				Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, true);
+				//Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, true);
 			}
 			
 			
@@ -89,7 +89,7 @@
 		<s:Button skinClass="skins.buttons.InventoryButtonS" 
 				  useHandCursor="true" buttonMode="true"
 				  />
-		<s:Group id="plusOneGroup" x="74" y="-5">
+		<s:Group id="plusOneGroup" x="74" y="-5" visible="false">
 			<s:BitmapImage source="@Embed(source='assets/pageworld/bottompanel/buttons/plusOne.png')" smooth="true" />
 		</s:Group>
 		

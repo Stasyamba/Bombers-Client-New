@@ -432,7 +432,16 @@ public class BombersContentLoader {
 
     //sounds
     private static const SOUNDS_ADDRESS:String = "http://www.vensella.ru/vp/sounds/"
-    private static const _soundsNames:Array = ["acustech","01","03","windowMoveOpen"]
+    private static const _soundsNames:Array = [
+		"acustech",
+		"01",
+		"03",
+		"windowMoveOpen",
+		"button_21",
+		"button_20",
+		"button_30",
+		"button_46"
+	]
     public static function loadSounds():void {
 
         var queue:LoaderMax = new LoaderMax(new LoaderMaxVars()

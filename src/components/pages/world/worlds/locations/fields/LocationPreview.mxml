@@ -11,8 +11,10 @@
 
     <fx:Script>
 		<![CDATA[
-        import components.common.utils.adjustcolor.ColorMatrix
-        import components.common.worlds.locations.LocationType
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.common.worlds.locations.LocationType;
+			
+			import loading.SoundManager;
 
         public function setOver(visible:Boolean, hueShift:int = 0, saturationShift:Number = 1):void {
 
@@ -40,8 +42,8 @@
 	</fx:Script>
 
 
-    <s:BitmapImage id="imageUp" source="@Embed(source='assets/pageworld/worlds/locations/fieldLocation.png')"
-            />
+	<s:BitmapImage id="imageUp" source="@Embed(source='assets/pageworld/worlds/locations/fieldLocation.png')" />
+    
     <s:BitmapImage id="imageUpGlow"
                    source="@Embed(source='assets/pageworld/worlds/locations/fieldLocationOver.png')"
                    visible="false"

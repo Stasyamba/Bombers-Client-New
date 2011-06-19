@@ -184,7 +184,8 @@
 					{
 						closeButton.visible = false;
 						tutorialGroup.addElement(new TutorialQuestsEnterToolTip());
-						questList.setStyle("verticalScrollPolicy", ScrollPolicy.OFF);
+						//questList.scroller.enabled = false;
+						//uestList.scroller.alpha = 0.3
 					}else
 					{
 						tutorialGroup.removeAllElements();
@@ -213,15 +214,16 @@
 	
 	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
 					   backgroundImageFillMode="repeat"
-					   width="100%" height="123"
+					   width="446" height="123"
+					   x="3" y="3"
 					   cornerRadius="50"
 					   borderVisible="false"
 					   />
 	
 	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
 					   backgroundImageFillMode="repeat"
-					   width="100%" height="70"
-					   y="56"
+					   width="446" height="70"
+					   y="56" x="3"
 					   cornerRadius="0"
 					   borderVisible="false"
 					   />
