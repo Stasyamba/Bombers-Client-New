@@ -4,15 +4,15 @@
  */
 
 package engine.maps {
-import components.common.worlds.locations.LocationType
+import components.common.worlds.locations.LocationType;
 
-import engine.data.Consts
-import engine.interfaces.IDestroyable
-import engine.interfaces.IDrawable
-import engine.maps.bigObjects.BigObjectBase
+import engine.data.Consts;
+import engine.interfaces.IDestroyable;
+import engine.interfaces.IDrawable;
+import engine.maps.bigObjects.BigObjectBase;
 
-import flash.display.BitmapData
-import flash.display.Sprite
+import flash.display.BitmapData;
+import flash.display.Sprite;
 
 public class MapView extends Sprite implements IDrawable,IDestroyable {
 
@@ -39,11 +39,12 @@ public class MapView extends Sprite implements IDrawable,IDestroyable {
 
         for each (var obj:BigObjectBase in map.decorations) {
             var sp:Sprite = new Sprite()
-//            sp.graphics.beginBitmapFill(Context.imageService.bigObject(obj.description.skin));
-//            sp.graphics.drawRect(0, 0, obj.description.width * Consts.BLOCK_SIZE, obj.description.height * Consts.BLOCK_SIZE);
-//            sp.graphics.endFill();
-            sp.x = obj.x * Consts.BLOCK_SIZE;
-            sp.y = obj.y * Consts.BLOCK_SIZE;
+			var bd:BitmapData = Context.imageService.graphic(obj.graphicsId)
+            sp.graphics.beginBitmapFill(bd,null,false);
+            sp.graphics.drawRect(0, 0, bd.width, bd.height);
+            sp.graphics.endFill();
+            sp.x = obj.x * Consts.BLOCK_SIZE + (obj.pixWidth - bd.width)/2;
+            sp.y = obj.y * Consts.BLOCK_SIZE + (obj.pixHeight - bd.height)/2;
             addChild(sp);
         }
     }

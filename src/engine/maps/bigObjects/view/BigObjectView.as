@@ -8,10 +8,12 @@ import engine.data.Consts
 import engine.explosionss.destroy.BasicDestroyExplosion
 import engine.interfaces.IDrawable
 import engine.maps.bigObjects.BigObjectBase
+import engine.maps.bigObjects.SimpleBigObject
 import engine.utils.IStatedView
 import engine.utils.ViewState
 import engine.utils.ViewStateManager
 
+import flash.display.BitmapData
 import flash.display.BlendMode
 import flash.display.Sprite
 
@@ -35,11 +37,18 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
         y = obj.y * Consts.BLOCK_SIZE;
 
         stateManager = new ViewStateManager(this)
-	//important, don't remove
-//        obj.explosionStarted.add(onExplosionStarted)
-//        obj.explosionStopped.add(onExplosionStopped)
-//        obj.destroyed.add(onDestroyed)
-        _self = Context.imageService.bigObjectSWF(object.graphicsId)
+        //important, don't remove
+        if (obj is SimpleBigObject) {
+
+            var so:SimpleBigObject = obj as SimpleBigObject
+            so.explosionStarted.add(onExplosionStarted)
+            so.explosionStopped.add(onExplosionStopped)
+            so.destroyed.add(onDestroyed)
+        }
+//        _self = Context.imageService.bigObjectSWF(object.graphicsId)
+        _self = new Sprite()
+        draw()
+
         addChild(_self)
     }
 
@@ -73,10 +82,13 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
 
     public function draw():void {
 
-//        graphics.clear();
-//        graphics.beginBitmapFill(Context.imageService.bigObject(object.description.skin));
-//        graphics.drawRect(0, 0, object.description.width * Consts.BLOCK_SIZE, object.description.height * Consts.BLOCK_SIZE);
-//        graphics.endFill();
+        _self.graphics.clear();
+        var bd:BitmapData = Context.imageService.graphic(object.graphicsId)
+        _self.graphics.beginBitmapFill(bd);
+        _self.graphics.drawRect(0, 0, bd.width, bd.height);
+        _self.graphics.endFill();
+        _self.x = (object.pixWidth - bd.width) / 2;
+        _self.y = (object.pixHeight - bd.height) / 2;
     }
 
     public function get tunableProperties():Object {

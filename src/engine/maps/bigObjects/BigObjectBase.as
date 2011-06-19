@@ -4,6 +4,7 @@
  */
 
 package engine.maps.bigObjects {
+import engine.data.Consts
 import engine.maps.IMap
 import engine.maps.builders.DynObjectBuilder
 import engine.maps.builders.MapBlockStateBuilder
@@ -77,6 +78,14 @@ public class BigObjectBase {
 
     public function get height():int {
         return _height
+    }
+
+    public function get pixWidth():int {
+        return _width * Consts.BLOCK_SIZE
+    }
+
+    public function get pixHeight():int {
+        return _height * Consts.BLOCK_SIZE
     }
 
     public function get layer():BigObjectLayer {

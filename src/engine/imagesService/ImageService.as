@@ -161,6 +161,13 @@ public class ImageService {
         return BombersContentLoader.boSwf
     }
 
+    public function graphic(id:String):BitmapData {
+        var ldo:LoadedObject = loadedStuff[id] as LoadedObject
+        if (ldo)
+            return ldo.content.bitmapData as BitmapData
+        return null
+    }
+
     public function smoke():BitmapData {
         return loadedObject("common.explosions.smoke").content.bitmapData as BitmapData
     }
