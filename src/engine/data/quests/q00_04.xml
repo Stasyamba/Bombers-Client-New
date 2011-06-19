@@ -1,0 +1,203 @@
+<!--
+  ~ Copyright (c) 2011.
+  ~ Pavkin Vladimir
+  -->
+<Game>
+    <id>q00_04</id>
+    <location>0</location>
+    <name>Тестовая миссия 1</name>
+    <description>В этой миссии вы должны выпилить дверь за минимально возможное время.</description>
+    <questImage>1.jpg</questImage>
+    <previewImage>marshrums.png</previewImage>
+    <energyCost>15</energyCost>
+    <timeLimit>190</timeLimit>
+    <finishOnGoal/> <!--убрать, если надо чтобы время точно завершилось-->
+    <accessRules>
+        <AllBefore/>
+        <!--<CountMedals type="1" count="3" />-->
+    </accessRules>
+    <map>
+        <Map>
+            <size width="21" height="17"/>
+            <spawns>
+                <Spawn x="19" y="15"/>
+                <!--frequency=[Hz], start=[sec]-->
+                <!--<MonsterSpawn x="5" y="2"-->
+                <!--monsterId="00.monsters.rat_02" freq="0.5" start="0" maxCount="3" object="2">-->
+                <!--<ws type="random" maxSec="4"/>-->
+                <!--</MonsterSpawn>-->
+            </spawns>
+            <rows>
+                <Row val="wwwwwwwwwbfbwwwwwwwww"/>
+                <Row val="wbfbffffffwffffffbfbw"/>
+                <Row val="wfbfwwfwwfffwwfwwfbfw"/>
+                <Row val="wbfwwfffwbbbwfffwwfbw"/>
+                <Row val="wfwwffwwwwbwwwwffwwfw"/>
+                <Row val="wffffbwfffffffwbffffw"/>
+                <Row val="wfwbfwwfFFFFFfwwfwwfw"/>
+                <Row val="bffwfbwfFwbwFfwbfwffb"/>
+                <Row val="fwfbfbbfFbfbFfbbfbfwf"/>
+                <Row val="bffwfbwfFwbwFfwbfwffb"/>
+                <Row val="wfwbfwwfFFFFFfwwfwwfw"/>
+                <Row val="wffffbwfffffffwbffffw"/>
+                <Row val="wfwwffwwwwbwwwwffwwfw"/>
+                <Row val="wbfwwfffwbbbwfffwwfbw"/>
+                <Row val="wfbfwwfwwfffwwfwwfbfw"/>
+                <Row val="wbfbffffffwffffffbffw"/>
+                <Row val="wwwwwwwwwbfbwwwwwwwww"/>
+            </rows>
+            <shadows>
+                <Shadow x="10" y="8" width="3" height="2" shape="rect"/>
+                <Shadow x="0" y="12" width="4" height="3" shape="ell"/>
+            </shadows>
+            <objects>
+                <!--violet: 2 rand-->
+                <Random id="1011" count="2" hide="box"/>
+                <Object id="1011" x="10" y="8"/>
+                <!--<Object id="1011" x="3" y="4"/>
+                <Object id="1011" x="3" y="5"/>-->
+                <!--yellow:7 rand-->
+                <Random id="1012" count="7" hide="box"/>
+                <Object id="1012" x="0" y="8"/>
+                <Object id="1012" x="10" y="0"/>
+                <Object id="1012" x="10" y="16"/>
+                <Object id="1012" x="20" y="8"/>
+                <Object id="1012" x="7" y="3"/>
+                <Object id="1012" x="7" y="13"/>
+                <Object id="1012" x="13" y="3"/>
+                <Object id="1012" x="13" y="13"/>
+                <!--red 2 rand-->
+                <Random id="1013" count="2" hide="box"/>
+                <Object id="1013" x="2" y="2"/>
+                <Object id="1013" x="2" y="14"/>
+                <Object id="1013" x="18" y="2"/>
+                <Object id="1013" x="18" y="14"/>
+                <Object id="1013" x="7" y="5"/>
+                <Object id="1013" x="7" y="11"/>
+                <Object id="1013" x="13" y="5"/>
+                <Object id="1013" x="13" y="11"/>
+                <!--bonuses-->
+                <Object id="104" x="10" y="7"/>
+                <Object id="104" x="10" y="9"/>
+                <Object id="104" x="9" y="8"/>
+                <Object id="104" x="11" y="8"/>
+
+                <Random id="101" count="2" hide="free"/>
+                <Random id="103" count="4" hide="free"/>
+            </objects>
+            <bigObjects>
+                <!--3 BO types-->
+                <!-- <BigObject t="activated" id="1" x="5" y="10" width="2" height="1" graphicsId="00.bo.gates_01"
+                           layer="lower">
+                    <blocks>
+                        <ObjectBlock x="0" y="0"
+                                     canGoThrough="false"
+                                     canSetBomb="false"
+                                     canExplosionGoThrough="false"
+                                     explodesAndStopsExplosion="true"
+                                     explodes="false"/>
+                        <ObjectBlock x="1" y="0"
+                                     canGoThrough="false"
+                                     canSetBomb="false"
+                                     canExplosionGoThrough="false"
+                                     explodesAndStopsExplosion="true"
+                                     explodes="false"/>
+                    </blocks>
+                </BigObject>
+                <BigObject t="activator" id="0" x="15" y="4" width="1" height="1" graphicsId="00.bo.keyLock_01"
+                           layer="lower"
+                           target="1">
+                    <blocks>
+                        <ObjectBlock x="0" y="0"
+                                     canGoThrough="true"
+                                     canSetBomb="false"
+                                     canExplosionGoThrough="false"
+                                     explodesAndStopsExplosion="true"
+                                     explodes="false"/>
+                    </blocks>
+                </BigObject>
+                <BigObject t="simple" id="2" x="8" y="10" width="2" height="1" graphicsId="00.bo.gates_01" layer="lower"
+                           life="100">
+                    <blocks>
+                        <ObjectBlock x="0" y="0"
+                                     canGoThrough="false"
+                                     canSetBomb="false"
+                                     canExplosionGoThrough="false"
+                                     explodesAndStopsExplosion="true"
+                                     explodes="true"/>
+                        <ObjectBlock x="1" y="0"
+                                     canGoThrough="false"
+                                     canSetBomb="false"
+                                     canExplosionGoThrough="false"
+                                     explodesAndStopsExplosion="true"
+                                     explodes="true"/>
+                    </blocks>
+                </BigObject>-->
+            </bigObjects>
+        </Map>
+    </map>
+    <monsters>
+        <Monster monsterId="00.monsters.rat_03" slot="2" x="7" y="5">
+            <ws type="ptp">
+                <Point x="7" y="5"/>
+                <Point x="13" y="5"/>
+                <Point x="13" y="11"/>
+                <Point x="7" y="11"/>
+                <Point x="7" y="5"/>
+            </ws>
+        </Monster>
+        <Monster monsterId="00.monsters.rat_03" slot="3" x="13" y="11">
+            <ws type="ptp">
+                <Point x="13" y="11"/>
+                <Point x="7" y="11"/>
+                <Point x="7" y="5"/>
+                <Point x="13" y="5"/>
+                <Point x="13" y="11"/>
+            </ws>
+        </Monster>
+    </monsters>
+
+    <!--done panel components:
+        - MonstersAlive (number)
+        - BOActivated (activated/all)
+        - BODestroyed (destroyed/all)
+        - ObjectsCollected (collected/all)
+        - TimeLeft (time)
+        - Boss'sLife (current/all)-->
+    <donePanel>
+        <Element t="enemiesAlive"/>
+    </donePanel>
+    <!--goals types:
+           - DefeatMonsterGoal
+           - CollectObjectsGoal
+           - DestroyBOGoal
+           - ActivateBOGoal
+           - ReachCoordsGoal-->
+    <!--todo: time goals-->
+    <medals>
+        <!-- если задание одно, а медали отличаются по времени, то оно указывается здесь, а
+        в медалях просто <goal t="TimeGoal" time="45"/> -->
+        <!--<goal t="CollectObjectsGoal" type="1012" amount="15" text="Собрать 15 желтых грибов"/>-->
+        <Bronze  text="Собрать 15 желтых грибов">
+            <goal t="CollectObjectsGoal" type="1012" amount="15"/>
+            <prize>
+                <Resource id="00" val="100"/>
+            </prize>
+        </Bronze>
+        <Silver  text="Собрать 2 красных гриба">
+            <goal t="CollectObjectsGoal" type="1013" amount="2"/>
+            <prize>
+                <Resource id="00" val="300"/>
+                <Experience val="20"/>
+            </prize>
+        </Silver>
+        <Gold text="Собрать 3 фиолетовых гриба">
+            <goal t="CollectObjectsGoal" type="1011" amount="3" />
+            <prize>
+                <Resource id="00" val="500"/>
+                <Experience val="30"/>
+                <Object id="03" val="1"/>
+            </prize>
+        </Gold>
+    </medals>
+</Game>

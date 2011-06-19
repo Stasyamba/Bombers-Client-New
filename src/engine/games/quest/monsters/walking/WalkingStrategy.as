@@ -22,6 +22,8 @@ public class WalkingStrategy {
                 return new PointToPointWS(a)
             case "random":
                 return new RandomDirectionWS(xml.@maxSec)
+            case "stand":
+                return new StandStillWS()
         }
         throw new Error("no walking strategy with id = " + xml.@type)
     }

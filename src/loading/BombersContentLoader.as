@@ -85,7 +85,7 @@ public class BombersContentLoader {
 
     // Quests
 
-    private static var _questsNames:Array = ["q00_00","q00_01","q00_02","q00_03"]
+    private static var _questsNames:Array = ["q00_00","q00_01","q00_02","q00_03","q00_04"]
 
     private static var _areQuestsLoaded:Boolean = false
     private static var _questXmls:Array = new Array()
