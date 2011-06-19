@@ -182,7 +182,7 @@
 			private function init():void 
 			{	
 				if (!mainWorldGroup.hasEventListener(MouseEvent.MOUSE_MOVE)) {
-					mainWorldGroup.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+					//mainWorldGroup.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 				}
 				
 				if (!mainWorldGroup.hasEventListener(MouseEvent.CLICK)) {

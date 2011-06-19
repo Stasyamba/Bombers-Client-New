@@ -12,16 +12,16 @@
 					effectStart="{bonusGroup.visible = true}"
 					effectEnd="{bonusGroup.visible = false}"
 					>
-			<s:Animate duration="2800">
+			<s:Animate duration="1800">
 				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0"  />
 			</s:Animate>
 			
-			<s:Animate duration="2800">
+			<s:Animate duration="1800">
 			<s:SimpleMotionPath property="x" valueTo="{bonusX-35}" valueFrom="{bonusGroup.x}" />
 			</s:Animate>
 			
-			<s:Animate duration="2800">
-			<s:SimpleMotionPath property="y" valueTo="{bonusY-40}" valueFrom="{bonusGroup.y}" />
+			<s:Animate duration="1800">
+			<s:SimpleMotionPath property="y" valueTo="{bonusY-20}" valueFrom="{bonusGroup.y}" />
 			</s:Animate>
 			
 			<s:Animate duration="800">
@@ -75,8 +75,8 @@
 					
 					var p: Point = new Point(mouseX, mouseY);
 					
-					bonusX = bonusGroup.x = p.x;
-					bonusY = bonusGroup.y = p.y;
+					bonusX = bonusGroup.x = p.x - 40;
+					bonusY = bonusGroup.y = p.y - 20;
 					
 					bonusA.stop();
 					bonusA.play();
@@ -168,11 +168,12 @@
 	
 	<s:HGroup id="bonusGroup" visible="false" verticalAlign="middle">
 		<s:Label text="+20" fontFamily="mpbc" fontSize="34" color="0xfeceff" />
-		<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/star.png')" smooth="true" />
+		<!--<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/star.png')" smooth="true" />-->
+		<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/askSign.png')" smooth="true" />
 		
 		<s:filters>
-			<s:GlowFilter color="0xfc00ff" strength="2" />
-			<s:GlowFilter color="0xfc00ff" strength="1" blurX="20" blurY="20" />
+			<s:GlowFilter color="0xeabeff" strength="2" />
+			<s:GlowFilter color="0xeabeff" strength="1" blurX="20" blurY="20" />
 		</s:filters>
 	</s:HGroup>
 	

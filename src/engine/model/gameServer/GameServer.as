@@ -639,12 +639,12 @@ public class GameServer extends SmartFox {
 				var gp3: GameProfile = new GameProfile();
 				gp3.id = "1";
 				gp3.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
-				appFriendsArr.push(new FriendObject(gp3, false, null));
+				appFriendsArr.push(new FriendObject(gp3, true, null));
 				
 				var gp1: GameProfile = new GameProfile();
 				gp1.id = "2";
 				gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
-				appFriendsArr.push(new FriendObject(gp1, false, null));
+				appFriendsArr.push(new FriendObject(gp1, true, null));
 				
 				
 				var gp2: GameProfile = new GameProfile();
