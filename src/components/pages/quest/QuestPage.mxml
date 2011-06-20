@@ -53,7 +53,7 @@
 
 				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
 				{
-					parentApplication.setStyle("modalTransparency",0.5);
+					parentApplication.setStyle("modalTransparency",0.4);
 					parentApplication.setStyle("modalTransparencyColor",0x000000);
 					
 					PopUpManager.addPopUp(qsw, (parentApplication as Bombers), true);
@@ -74,7 +74,7 @@
 
 				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
 				{
-					parentApplication.setStyle("modalTransparency",0.5);
+					parentApplication.setStyle("modalTransparency",0.4);
 					parentApplication.setStyle("modalTransparencyColor",0x000000);
 					PopUpManager.addPopUp(qew, (parentApplication as Bombers), true);
 				}else

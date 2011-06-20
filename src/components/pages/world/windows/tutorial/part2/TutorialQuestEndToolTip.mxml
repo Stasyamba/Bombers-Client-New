@@ -19,7 +19,7 @@
 		</s:filters>
 	</s:Label>
 	
-	<s:Label id="tText2" x="-390" y="252" text="{'Потом ты сможешь вернуться и\nулучшить свой результат'}" 
+	<s:Label id="tText2" x="-390" y="252" text="{'Потом ты сможешь повторить и\nулучшить свой результат'}" 
 			 fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center"
 			 >
 		<s:filters>

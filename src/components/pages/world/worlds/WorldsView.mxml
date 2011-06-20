@@ -30,6 +30,7 @@
 			import components.common.quests.regard.RegardType;
 			import components.common.superoffer.SuperOfferObject;
 			import components.common.superoffer.SuperOfferType;
+			import components.common.tutorial.TutorialPartType;
 			import components.common.utils.HitTester;
 			import components.common.worlds.locations.ILocationPreview;
 			import components.common.worlds.locations.LocationType;
@@ -54,22 +55,26 @@
 					var gl:* = mainWorldGroup.getElementAt(i);
 					
 					if (gl is ILocationPreview) 
-					{	
-						if (HitTester.realHitTest(gl, new Point(mouseX, mouseY + 40))) // y="40" - parent
+					{
+						if(Context.Model.currentTutorialPart == TutorialPartType.DONE)
 						{
-							locationFinded = true;
-							mainWorldGroup.getElementAt(i) as DisplayObject
-							
-							selectedLocation = mainWorldGroup.getElementAt(i) as ILocationPreview;
-							setLocationPreviewOverState(selectedLocation);
-							
-							// set over = false for rest locations
-							for (var j:int = i - 1; j >= 0; j--) {
-								(mainWorldGroup.getElementAt(j) as ILocationPreview).setOver(false);
+							if (HitTester.realHitTest(gl, new Point(mouseX, mouseY + 40))) // y="40" - parent
+							{
+								locationFinded = true;
+								mainWorldGroup.getElementAt(i) as DisplayObject
+								
+								selectedLocation = mainWorldGroup.getElementAt(i) as ILocationPreview;
+								setLocationPreviewOverState(selectedLocation);
+								
+								// set over = false for rest locations
+								for (var j:int = i - 1; j >= 0; j--) 
+								{
+									(mainWorldGroup.getElementAt(j) as ILocationPreview).setOver(false);
+								}
+								
+							} else {
+								(mainWorldGroup.getElementAt(i) as ILocationPreview).setOver(false);
 							}
-							
-						} else {
-							(mainWorldGroup.getElementAt(i) as ILocationPreview).setOver(false);
 						}
 					}
 				}
@@ -199,59 +204,7 @@
 				
 				waterSprite.addChild(new Water());
 				
-				/* Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, function (e: ContextEvent): void
-				{
-					if(e.data)
-					{
-						hideAnimations();
-						showAnimations();
-					}else
-					{
-						hideAnimations();
-					}
-				});
-				
-				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, true); */
 			}
-			
-			/* private function showAnimations(): void
-			{
-				snowSprite1.addChild(new Snow());
-				snowSprite2.addChild(new Snow());
-				snowSprite3.addChild(new Snow());
-				snowSprite4.addChild(new Snow());
-				
-				waterSprite.addChild(new Water());
-			}
-			
-			private function hideAnimations(): void
-			{
-				for(var i: int = 0; i<= snowSprite1.numChildren - 1; i++)
-				{
-					snowSprite1.removeChildAt(i);
-				}
-				
-				for(i = 0; i<= snowSprite2.numChildren - 1; i++)
-				{
-					snowSprite2.removeChildAt(i);
-				}
-				
-				for(i = 0; i<= snowSprite3.numChildren - 1; i++)
-				{
-					snowSprite3.removeChildAt(i);
-				}
-				
-				for(i = 0; i<= snowSprite4.numChildren - 1; i++)
-				{
-					snowSprite4.removeChildAt(i);
-				}
-				
-				for(i = 0; i<= waterSprite.numChildren - 1; i++)
-				{
-					waterSprite.removeChildAt(i);
-				}
-			}
-			 */
 			
 			private function openOffer(): void
 			{

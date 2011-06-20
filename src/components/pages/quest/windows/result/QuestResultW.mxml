@@ -187,6 +187,7 @@
 			{
 				/* send server request */
 				Context.Model.currentTutorialPart = TutorialPartType.PART3;
+				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
 			}
 			
             closeWrapper();

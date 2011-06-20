@@ -35,9 +35,11 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.common.friendslent.FriendObject;
 			
 			import engine.maps.mapObjects.bonuses.BonusExperience;
+			import engine.profiles.GameProfile;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -54,7 +56,6 @@
 			private function init(): void
 			{
 				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLoaded);
-				
 				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_GET_BONUS, getBonus);
 			}
 			
@@ -90,6 +91,15 @@
 			{
 				friends = new Array();
 				
+			 	var isFakeAsking: Boolean = false;
+				var fakeGP: GameProfile = new GameProfile();
+				fakeGP.photoURL = CommonConstans.FAKE_USER_IMAGE_URL;
+				fakeGP.experience = 0;
+			
+				var fakeFO: FriendObject = new FriendObject(fakeGP, isFakeAsking);
+				
+				friends.push(fakeFO);
+				 
 				if(e.data is Array)
 				{
 					for each(var fo:FriendObject in e.data)

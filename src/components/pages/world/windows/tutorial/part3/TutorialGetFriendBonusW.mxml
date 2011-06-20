@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*" 
+		 xmlns:progress="components.pages.world.windows.tutorial.part1.progress.*" 
+		 xmlns:tutorial="components.pages.world.windows.tutorial.*"
+		 alpha="0"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.tutorial.LocationButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<!--<s:Animate target="{this}" duration="500">
+			<s:SimpleMotionPath property="x"
+			valueFrom="100"
+			valueTo="800"
+			/>
+			</s:Animate>-->
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation" startDelay="100">
+			<s:Animate target="{this}" duration="550">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0"
+									valueTo="1"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Parallel id="bonusA" target="{bonusGroup}"
+					effectStart="{bonusGroup.visible = true}"
+					effectEnd="{bonusGroup.visible = false}"
+					>
+			<s:Animate duration="1500">
+				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0"  />
+			</s:Animate>
+			
+			<s:Animate duration="1500">
+				<s:SimpleMotionPath property="x" valueTo="{-35}" valueFrom="{bonusGroup.x}" />
+			</s:Animate>
+			
+			<s:Animate duration="1500">
+				<s:SimpleMotionPath property="y" valueTo="{-20}" valueFrom="{bonusGroup.y}" />
+			</s:Animate>
+			
+			<s:Animate duration="800">
+				<s:SimpleMotionPath property="scaleX" valueTo="1.5" valueFrom="1" />
+			</s:Animate>
+			<s:Animate duration="800">
+				<s:SimpleMotionPath property="scaleY" valueTo="1.5" valueFrom="1" />
+			</s:Animate>
+		</s:Parallel>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.base.CommonConstans;
+			import components.pages.world.windows.locationenter.LocationEnterW;
+			import components.pages.world.windows.tutorial.part1.steps.Step6;
+			import components.pages.world.windows.tutorial.part1.steps.Step5;
+			import components.pages.world.windows.tutorial.part1.steps.Step4;
+			import components.pages.world.windows.tutorial.part1.steps.Step3;
+			import components.pages.world.windows.tutorial.part1.steps.Step2;
+			import components.pages.world.windows.tutorial.part1.steps.Step1;
+			import components.common.resources.ResourceType;
+			import components.common.quests.medals.MedalType;
+			import components.common.quests.medals.MedalObject;
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.itemrule.AccessItemRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.base.access.rules.locationrule.AccessOpenedLocationsRule;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.worlds.locations.LocationType;
+			import components.common.worlds.locations.LocationViewObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			
+			public function close():void {
+				
+				//Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			public function closeWrapper1(e: ContextEvent):void {
+				close();
+			}
+			
+			private function panelCreationComplete():void {
+				//Context.Model.windowsManager.closeAll(true);
+				//Context.Model.windowsManager.addWindow(this);
+				apearingAnimation.play();
+				
+				userPhoto.initPhoto(CommonConstans.FAKE_USER_IMAGE_URL);
+			}
+			
+			
+			
+			private function openLocationEnter():void
+			{
+			}
+			
+			private function getBonus(): void
+			{
+				askButton.visible = false;
+				bonusA.play();
+				//askButton.visible = false;
+				//Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_GET_BONUS, data);
+			}
+			
+			private function nextTutorialStep(): void
+			{
+				closeWrapper();
+				/* new level window  */
+				//Context.Model.dispatchCustomEvent(ContextEvent.
+			}
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundColor="0x000000"
+					   alpha="0.5"
+					   width="1000" height="1000"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	
+	
+	
+	<s:HGroup x="71" y="558" 
+			  horizontalAlign="center" verticalAlign="middle"
+			  width="110" height="110"
+			  >
+		<s:Group>
+			<s:BorderContainer backgroundColor="0x2d2515"
+							   width="84" height="84"
+							   cornerRadius="0"
+							   borderVisible="false"
+							   id="baseBg"
+							   >
+				<s:filters>
+					<s:DropShadowFilter distance="2" alpha="0.5" />
+				</s:filters>
+			</s:BorderContainer>
+			
+			<s:BorderContainer backgroundImage="@Embed(source='assets/pageworld/subbottompanel/friendSlotInsideRectBg.jpg')"
+							   backgroundImageFillMode="repeat"
+							   width="72" height="72"
+							   cornerRadius="0"
+							   x="6" y="6"
+							   borderVisible="false"
+							   id="baseInsideBg"
+							   />
+			
+			<s:HGroup width="72" height="72"
+					  x="6" y="6"
+					  horizontalAlign="center" verticalAlign="middle"
+					  id="gotFriendGroup"
+					  visible="true"
+					  >
+				<flexcomponents:UserPhotoGroup id="userPhoto" 
+											   basePhotoSizeH="72" basePhotoSizeW="72" 
+											   borderHeight="0" borderWitdh="0"
+											   isHandCursor="false"
+											   />
+			</s:HGroup>
+			
+			<s:Group id="levelGroup" visible="true"
+					 x="38" y="59"
+					 >
+				<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/levelBg.png')" smooth="true" />
+				<s:HGroup width="100%" height="100%"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="levelLabel" text="30 ур." fontFamily="mpbc" fontSize="14" color="0xfdc600" />
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Group>
+				<s:Button id="askButton" x="-5" y="-5"
+						  skinClass="skins.buttons.AskButtonS" visible="true"
+						  useHandCursor="true" buttonMode="true"
+						  click="getBonus();"
+						  />
+				
+				<s:HGroup width="30" height="30">
+					<s:HGroup id="bonusGroup" visible="false" verticalAlign="middle">
+						<s:Label text="+20" fontFamily="mpbc" fontSize="34" color="0xfeceff" />
+						<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/askSign.png')" smooth="true" />
+						
+						<s:filters>
+							<s:GlowFilter color="0xeabeff" strength="2" />
+							<s:GlowFilter color="0xeabeff" strength="1" blurX="20" blurY="20" />
+						</s:filters>
+					</s:HGroup>
+				</s:HGroup>
+				
+			</s:Group>
+			
+			
+			
+		</s:Group>
+	</s:HGroup>
+	
+	<tutorial:Arrow id="tArrow" selectedState="{Arrow.STATE_LINEAR_PUPMED}" 
+					x="144" y="465"
+					customRotation="200"
+					/>
+	
+	
+	<s:Label id="tText" x="200" y="309" text="{'Кто-то нуждается в помощи!\nНажми на звезду и собери бонус,\nскорее!'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Label>
+	
+	<s:controlBarContent/>
+</s:Panel>
