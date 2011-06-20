@@ -30,7 +30,7 @@
 			valueTo="800"
 			/>
 			</s:Animate>-->
-			<s:Animate target="{this}" duration="200">
+			<s:Animate target="{this}" duration="100">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="{this.alpha}"
 									valueTo="0"
@@ -48,8 +48,8 @@
 		</s:Sequence>
 		
 		<s:Parallel id="bonusA" target="{bonusGroup}"
-					effectStart="{bonusGroup.visible = true}"
-					effectEnd="{bonusGroup.visible = false}"
+					effectStart="{bonusGroup.visible = true;}"
+					effectEnd="{bonusGroup.visible = false;}"
 					>
 			<s:Animate duration="1500">
 				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0"  />
@@ -63,7 +63,7 @@
 				<s:SimpleMotionPath property="y" valueTo="{-20}" valueFrom="{bonusGroup.y}" />
 			</s:Animate>
 			
-			<s:Animate duration="800">
+			<s:Animate duration="800" effectEnd="{nextTutorialStep();}">
 				<s:SimpleMotionPath property="scaleX" valueTo="1.5" valueFrom="1" />
 			</s:Animate>
 			<s:Animate duration="800">
@@ -142,8 +142,7 @@
 			private function nextTutorialStep(): void
 			{
 				closeWrapper();
-				/* new level window  */
-				//Context.Model.dispatchCustomEvent(ContextEvent.
+				Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
 			}
 			
 		]]>
