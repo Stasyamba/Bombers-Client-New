@@ -3,6 +3,8 @@ import flash.events.Event;
 
 public class ContextEvent extends Event {
 
+	public static const NEW_LEVEL_SHOW: String = "NEWLEVELShow";
+	
 	public static const NEED_TO_SHOW_WORLD_ANIMATION: String = "NeedToShowWorldAnimation";
 	// pass: Boolean
 	

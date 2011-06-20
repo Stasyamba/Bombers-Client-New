@@ -7,7 +7,7 @@
 		 borderVisible="false"
 		 dropShadowVisible="false"
 		 skinClass="skins.common.EmptyPopUpS"
-		 width="368" height="394"
+		 width="367" height="394"
 		 alpha="0" 
 		 xmlns:daybonus="components.pages.world.windows.daybonus.*" 
 		 xmlns:flexcomponents="components.common.flexcomponents.*" 
@@ -32,8 +32,8 @@
 			</s:Animate>
 		</s:Sequence>
 		
-		<s:Parallel id="apearingAnimation" startDelay="400">
-			<s:Animate target="{this}" duration="500">
+		<s:Parallel id="apearingAnimation" startDelay="200">
+			<s:Animate target="{this}" duration="300">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="{this.alpha}"
 									valueTo="1"
@@ -45,11 +45,17 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.pages.global.newlevel.rewards.RewardEnergyContent;
+			import components.pages.global.newlevel.rewards.RewardItemContent;
+			import components.pages.global.newlevel.rewards.RewardResourceContent;
+			import components.common.quests.regard.RegardType;
+			import components.common.quests.regard.RegardObject;
+			import components.common.game.multygameresult.PrizeObject;
 			import components.common.superoffer.SuperOfferObject;
 			
 			import mx.managers.PopUpManager;
 			
-			[Bindable] public var currentDay: int = 2;
+			[Bindable] public var currentExpeiance: int;
 			
 			public function close():void {
 				
@@ -63,20 +69,51 @@
 			private function panelCreationComplete():void {
 				apearingAnimation.play();
 				
-				for(var i: int = 0; i <= bonusSlotsGroup.numElements - 1; i++)
+				/* get level by experiance */
+				/* get pizes by level */
+				
+				/* testing */
+				var rewards: Array = new Array();
+				rewards.push(new RegardObject(RegardType.RESOURCE_GOLD, 100));
+				rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, 2));
+				
+				for each(var ro: RegardObject in rewards)
 				{
-					var el: * = bonusSlotsGroup.getElementAt(i);
+					var content: * = null;
 					
-					if(el is BonusSlot)
+					switch(ro.type)
 					{
-						var day: int = (el as BonusSlot).day;
-						if(day <= currentDay)
-						{
-							(el as BonusSlot).initContent(true);
-						}else
-						{
-							(el as BonusSlot).initContent(false);
-						}
+						case RegardType.RESOURCE_ADAMANT:
+						case RegardType.RESOURCE_ANTIMATTER:
+						case RegardType.RESOURCE_CRYSTALS:
+						case RegardType.RESOURCE_GOLD:
+							
+							content = new RewardResourceContent();
+							(content as RewardResourceContent).initContent(ro);
+							
+							break;
+						
+						case RegardType.RESOURCE_ITEM:
+							
+							content = new RewardItemContent();
+							(content as RewardItemContent).initContent(ro.amount);
+							
+							break;
+						
+						case RegardType.RESOURCE_ENERGY:
+							
+							content = new RewardEnergyContent();
+							(content as RewardEnergyContent).initContent(ro.amount);
+							
+							break;
+						
+						case RegardType.RESOURCE_EXP:
+							break;
+					}
+					
+					if(content != null)
+					{
+						this.addElement(content);
 					}
 				}
 			}
@@ -86,52 +123,89 @@
 				closeWrapper();
 			}
 			
-			private function initContent():void 
-			{	
-			}
-			
 		]]>
 	</fx:Script>
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
 	
-	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
 					   backgroundImageFillMode="repeat"
 					   width="100%" height="100%"
-					   cornerRadius="35"
-					   borderVisible="true"
-					   borderColor="0x322a17" borderWeight="4"
+					   cornerRadius="47"
+					   borderVisible="false"
 					   >
 		<s:filters>
-			<s:DropShadowFilter alpha="0.4" distance="3" />
+			<s:GlowFilter color="0xf6da00" alpha="0.8" blurX="20" blurY="20" />
+			<s:GlowFilter color="0xf6da00" alpha="0.8" blurX="30" blurY="30" />
+			<s:GlowFilter color="0xf6da00" alpha="0.8" blurX="40" blurY="40" />
 		</s:filters>
+		
 	</s:BorderContainer>
 	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="227" height="100%"
+					   x="0" y="0"
+					   cornerRadius="47"
+					   borderVisible="false"
+					   />
 	
-	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="30" paddingTop="25">
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="50" height="100%"
+					   x="177" y="0"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	<s:BitmapImage y="-1" source="@Embed(source='assets/windows/newlevel/topBg.png')" />
+	
+	<s:VGroup width="100%" height="100%" 
+			  horizontalAlign="center" 
+			  verticalAlign="top" gap="10"
+			  >
 		
-		<s:Label text="{'Заходите в игру несколько дней подряд и получайте\nкрутые бонусы!'}" textAlign="center"
-				 fontFamily="mpr" fontSize="18"
-				 color="0xffd23c"
-				 />
-		
-		<s:Label text="Вы заходите: {currentDay} день"  
-				 fontFamily="mpbc" fontSize="36"
-				 color="0xff9c00"
-				 />
-		
-		<s:VGroup horizontalAlign="center" gap="15">
+		<s:VGroup height="145" width="100%" horizontalAlign="center" verticalAlign="middle">
+			<s:Label text="Новый уровень" fontFamily="mpbc" fontSize="48" color="0xf6da00" />
+			<s:Label text="2" fontFamily="mpbc" fontSize="72" color="0xf6da00" />
 			
-			<flexcomponents:PatternButton customLabel="Забрать" skinClass="skins.buttons.Pattern3ButtonS"
-										  fontSize="26" fontSizeOver="26"
-										  scale="0.8"
-										  fontColor="0xfff19f"
-										  />
+			<s:filters>
+				<s:DropShadowFilter color="0x914500" distance="1" />
+			</s:filters>
 		</s:VGroup>
 		
+		<s:HGroup width="100%" height="100%" verticalAlign="top" horizontalAlign="center"
+				  paddingTop="20"
+				  >
+			<s:VGroup width="187" horizontalAlign="center">
+				<s:BitmapImage source="@Embed(source='assets/windows/energy/bg.png')" smooth="true" scaleX="0.8" scaleY="0.8" />
+				<s:Label text="{'Восстановление\nэнергии'}" color="0xf6da00" fontSize="18" fontFamily="mpbc"
+						 textAlign="center"
+						 />
+				
+				<s:filters>
+					<s:DropShadowFilter color="0x914500" distance="1" />
+				</s:filters>
+			</s:VGroup>
+			<s:VGroup width="100%">
+				
+				<s:VGroup id="prizeGroup" height="100%">
+					<s:filters>
+						<s:DropShadowFilter color="0x914500" distance="1" />
+					</s:filters>
+				</s:VGroup>
+				
+				<flexcomponents:PatternButton customLabel="Забрать" skinClass="skins.buttons.Pattern3ButtonS"
+											  fontSize="26" fontSizeOver="26"
+											  scale="1"
+											  fontColor="0xfff19f"
+											  />
+			</s:VGroup>
+			
+		</s:HGroup>
+		
 	</s:VGroup>
-	
 	
 	<s:controlBarContent/>
 </s:Panel>

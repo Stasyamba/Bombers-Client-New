@@ -23,6 +23,7 @@
 			import components.common.worlds.locations.LocationType;
 			import components.pages.global.energymarket.EnergyMarketW;
 			import components.pages.global.inventorynew.InventoryW;
+			import components.pages.global.newlevel.NewLevelW;
 			import components.pages.world.windows.daybonus.DayBonusW;
 			import components.pages.world.windows.invite.InviteW;
 			import components.pages.world.windows.quests.QuestsW;
@@ -274,6 +275,17 @@
 			});
 			
 			
+			
+			Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e: ContextEvent):void
+			{	
+				var nlw: NewLevelW = new NewLevelW();
+				
+				PopUpManager.addPopUp(nlw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(nlw);
+				
+				nlw.y -= 100;
+			});
+			
 			/* testing */
 			
 			//setId(2);
@@ -294,10 +306,10 @@
 			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 			 
-		  	bgSound = new Sound();
+		  	/* bgSound = new Sound();
 			bgSoundChannel = new SoundChannel();
 			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded); */
         }
 			
 		private function repeatSound(e: Event): void	
