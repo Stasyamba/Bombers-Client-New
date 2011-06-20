@@ -5,11 +5,11 @@
 <Game>
     <id>q00_00</id>
     <location>0</location>
-    <name>Обущающая миссия</name>
-    <description>Учись, салага!</description>
-    <questImage>t1.png</questImage>
-    <previewImage>marshrums.png</previewImage>
-    <energyCost>0</energyCost>
+    <name>Первые шаги</name>
+    <description>Добро пожаловать в бомбатсерию! Давай научимся ходить и ставить бомбы, а затем убьем нашего первого врага, коварного черного тарантула!</description>
+    <questImage>0.jpg</questImage>
+    <previewImage>tarantul.png</previewImage>
+    <energyCost>5</energyCost>
     <timeLimit>1200</timeLimit>
     <finishOnGoal/>
     <!--убрать, если надо чтобы время точно завершилось-->
@@ -39,6 +39,7 @@
             </rows>
             <objects>
                 <!--bonuses-->
+                <Object id="100" x="13" y="7" wt="01"/>
                 <Object id="103" x="20" y="5"/>
                 <Object id="103" x="20" y="7"/>
                 <Object id="102" x="21" y="6"/>
@@ -74,21 +75,21 @@
         <!-- если задание одно, а медали отличаются по времени, то оно указывается здесь, а
         в медалях просто <goal t="TimeGoal" time="45"/> -->
         <goal t="DefeatMonsterGoal" id="all"/>
-        <Bronze text="Совсем зелёным нужно уложиться в 20 минут">
+        <Bronze text="Убить за 20 мин.">
             <goal t="TimeGoal" time="1200"/>
             <prize>
                 <Resource id="00" val="100"/>
             </prize>
         </Bronze>
-        <Silver text="Без проблем можно пройти и за 4 минуты">
-            <goal t="TimeGoal" time="240"/>
+        <Silver text="Убить за 2 мин.">
+            <goal t="TimeGoal" time="120"/>
             <prize>
                 <Resource id="00" val="300"/>
                 <Experience val="20"/>
             </prize>
         </Silver>
-        <Gold text="Уложись в 2 минуты чтобы заслужить уважение дедов!">
-            <goal t="TimeGoal" time="120"/>
+        <Gold text="Убить за 1 мин.">
+            <goal t="TimeGoal" time="60"/>
             <prize>
                 <Resource id="00" val="500"/>
                 <Experience val="30"/>

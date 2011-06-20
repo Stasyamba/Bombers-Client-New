@@ -99,6 +99,6 @@ public interface IBomber {
 
     function get type():ICreatureType
 
-
+    function addWeaponBonus(_weapon:WeaponType):void
 }
 }

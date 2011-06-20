@@ -13,6 +13,7 @@ import engine.games.quest.medals.Medal
 import engine.games.quest.monsters.MonsterType
 import engine.games.quest.monsters.walking.WalkingStrategy
 import engine.games.regular.RegularGame
+import engine.maps.builders.DynObjectBuilder
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapBlocks.MapBlockType
 import engine.maps.mapObjects.DynObjectType
@@ -62,7 +63,7 @@ public class GameBuilder {
         game.applyMapXml(xml.map.Map[0])
 
         for each (var obj:XML in xml.map.Map.objects.Object) {
-            game.addObject(-1, obj.@x, obj.@y, DynObjectType.byValue(int(obj.@id)))
+            game.addObject(-1, obj.@x, obj.@y, DynObjectType.byValue(int(obj.@id)),DynObjectBuilder.params(obj))
         }
 
         for each (var rand:XML in xml.map.Map.objects.Random) {

@@ -22,6 +22,11 @@ public class ActivatableWeaponBase {
         trace("minus charges " + type.key + ", now " + _charges)
         EngineContext.weaponUnitSpent.dispatch(type)
     }
+	
+	public function incCharges():void {
+		_charges++
+		trace("+1 charges " + type.key + ", now " + _charges)
+	}
 
     public function get type():WeaponType {
         throw Error("abstract method call")

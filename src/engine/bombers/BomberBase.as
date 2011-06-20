@@ -147,5 +147,10 @@ public class BomberBase extends CreatureBase implements IBomber {
         }
         return false
     }
+
+
+    public function addWeaponBonus(_weapon:WeaponType):void {
+        throw new Error("abstract")
+    }
 }
 }

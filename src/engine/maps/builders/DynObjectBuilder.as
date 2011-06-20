@@ -22,16 +22,18 @@ import engine.maps.mapObjects.bonuses.BonusAddBombPower
 import engine.maps.mapObjects.bonuses.BonusAddSpeed
 import engine.maps.mapObjects.bonuses.BonusHeal
 import engine.maps.mapObjects.bonuses.BonusType
+import engine.maps.mapObjects.bonuses.BonusWeapon
 import engine.maps.mapObjects.mines.MineType
 import engine.maps.mapObjects.mines.RegularMine
 import engine.maps.mapObjects.special.SpecialObject
 import engine.maps.mapObjects.special.SpecialObjectType
+import engine.weapons.WeaponType
 
 public class DynObjectBuilder {
 
     private var explosionsBuilder:ExplosionsBuilder
 
-    public function make(objType:IDynObjectType, block:IMapBlock, owner:IBomber = null):IDynObject {
+    public function make(objType:IDynObjectType, block:IMapBlock, owner:IBomber = null,params:Object = null):IDynObject {
 
         if (objType is SpecialObjectType) {
             return new SpecialObject(block, objType as SpecialObjectType)
@@ -59,6 +61,8 @@ public class DynObjectBuilder {
                 return new BonusAddSpeed(block);
             case BonusType.HEAL:
                 return new BonusHeal(block);
+            case BonusType.WEAPON:
+                return new BonusWeapon(block,WeaponType.byValue(int(params["wt"])));
             //mines
             case MineType.REGULAR:
                 return new RegularMine(block, owner);
@@ -68,6 +72,15 @@ public class DynObjectBuilder {
 
     public function setExplosionsBuilder(explosionsBuilder:ExplosionsBuilder):void {
         this.explosionsBuilder = explosionsBuilder
+    }
+
+    public static function params(obj:XML):Object {
+        var res:Object = new Object()
+
+        if(obj.@wt){
+            res["wt"] = obj.@wt
+        }
+        return res
     }
 }
 }

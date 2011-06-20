@@ -21,5 +21,7 @@ public interface IActivatableWeapon extends IWeapon {
     function qActivateStatic(x:int, y:int,by:IBomber):void
 
     function decCharges():void
+
+    function incCharges():void
 }
 }

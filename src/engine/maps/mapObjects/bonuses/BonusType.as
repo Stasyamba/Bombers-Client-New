@@ -10,6 +10,8 @@ import loading.LoaderUtils
 
 public class BonusType implements IDynObjectType {
 
+    public static const WEAPON:BonusType = new BonusType(100,"WEAPON");
+
     public static const ADD_BOMB:BonusType = new BonusType(101, "ADD_BOMB");
     public static const ADD_BOMB_POWER:BonusType = new BonusType(102, "ADD_BOMB_POWER");
     public static const ADD_SPEED:BonusType = new BonusType(103, "ADD_SPEED");
@@ -23,20 +25,10 @@ public class BonusType implements IDynObjectType {
     private var _key:String;
 
     public static function byValue(value:int):BonusType {
-        switch (value) {
-            case 1:
-                return ADD_BOMB;
-            case 2:
-                return ADD_BOMB_POWER;
-            case 3:
-                return ADD_SPEED;
-            case 4:
-                return HEAL;
-            case 11:
-                return EXPERIENCE;
-            case 12:
-                return RESOURCE;
-        }
+        var r:BonusType = [WEAPON,ADD_BOMB, ADD_BOMB_POWER,ADD_SPEED,HEAL,RESOURCE,EXPERIENCE].filter(function (bt:BonusType):Boolean{
+            return bt.value == value
+        })[0]
+        if(r) return r;
         throw new ArgumentError("wrong bonus type value")
     }
 

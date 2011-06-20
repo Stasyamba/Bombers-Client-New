@@ -9,5 +9,6 @@ import engine.weapons.*
 public interface IWeapon {
 
     function get type():WeaponType;
+
 }
 }

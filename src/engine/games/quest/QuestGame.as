@@ -135,7 +135,6 @@ public class QuestGame extends GameBase implements IQuestGame {
             _timeTimer.start()
         })
 
-
     }
 
     private function onTimeTimer(e:Event):void {
@@ -193,11 +192,11 @@ public class QuestGame extends GameBase implements IQuestGame {
         gameStats.defeatedMonsters.addItem(new DefeatedMonsterObject(m.slot, m.monsterType))
     }
 
-    public function addObject(slot:int, x:int, y:int, type:IDynObjectType):void {
+    public function addObject(slot:int, x:int, y:int, type:IDynObjectType,params:Object = null):void {
         var b:IMapBlock = mapManager.map.getBlock(x, y);
         var player:IBomber = getPlayer(slot) as IBomber
 
-        var object:IDynObject = dynObjectBuilder.make(type, b, player);
+        var object:IDynObject = dynObjectBuilder.make(type, b, player,params);
         b.setObject(object)
 
         if (type.waitToAdd > 0)

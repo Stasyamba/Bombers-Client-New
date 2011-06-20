@@ -43,14 +43,15 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
         super(game, slot, gameProfile.currentBomberType.getEngineType(), gameProfile.nick, color, Context.imageService.bomberSkin(gameProfile.currentBomberType.getEngineType()), gameProfile.aursTurnedOn);
         _weaponBuilder = weaponBuilder
         this._gameProfile = gameProfile
-        for (var i:int = 0; i < _gameProfile.gotItems.length; i++) {
-            var ipo:ItemProfileObject = _gameProfile.gotItems[i];
-            if (Context.Model.itemsCategoryManager.getItemCategory(ipo.itemType) == ItemCategory.WEAPON) {
-                _weapons[ipo.itemType.value] = weaponBuilder.fromItemType(ipo.itemType, ipo.itemCount)
-            }
-        }
-        if (gameProfile.selectedWeaponLeftHand != null)
-            _currentWeapon = _weapons[gameProfile.selectedWeaponLeftHand.itemType.value]
+//        for (var i:int = 0; i < _gameProfile.gotItems.length; i++) {
+//            var ipo:ItemProfileObject = _gameProfile.gotItems[i];
+//            if (Context.Model.itemsCategoryManager.getItemCategory(ipo.itemType) == ItemCategory.WEAPON) {
+//                _weapons[ipo.itemType.value] = weaponBuilder.fromItemType(ipo.itemType, ipo.itemCount)
+//            }
+//        }
+
+//        if (gameProfile.selectedWeaponLeftHand != null)
+//            _currentWeapon = _weapons[gameProfile.selectedWeaponLeftHand.itemType.value]
         _direction = direction;
 
         EngineContext.currentWeaponChanged.add(onCurrentWeaponChanged)
@@ -61,16 +62,16 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     }
 
     private function onWeaponUnitSpent(type:WeaponType):void {
-        for (var i:int = 0; i < Context.Model.currentSettings.gameProfile.gotItems.length; i++) {
-            var obj:ItemProfileObject = Context.Model.currentSettings.gameProfile.gotItems[i];
-            if (obj.itemType.value == type.value) {
-                obj.itemCount--;
-                break
-            }
-        }
+//        for (var i:int = 0; i < Context.Model.currentSettings.gameProfile.gotItems.length; i++) {
+//            var obj:ItemProfileObject = Context.Model.currentSettings.gameProfile.gotItems[i];
+//            if (obj.itemType.value == type.value) {
+//                obj.itemCount--;
+//                break
+//            }
+//        }
         Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED)
-        Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED)
-        Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED)
+//        Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED)
+//        Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED)
         Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_UPDATE_GAME_WEAPONS);
     }
 
@@ -269,6 +270,16 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
         }
     }
 
+
+    public override function addWeaponBonus(wt:WeaponType):void {
+        if (_weapons[wt.value] is IActivatableWeapon) {
+            (_weapons[wt.value] as IActivatableWeapon).incCharges()
+        }
+        if (_weapons[wt.value] == null) {
+            _weapons[wt.value] = _weaponBuilder.fromWeaponType(wt,1);
+        }
+        Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_UPDATE_GAME_WEAPONS);
+    }
 
     override public function get direction():Direction {
         return _direction.direction
