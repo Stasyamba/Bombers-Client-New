@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:tutorial="components.pages.world.windows.tutorial.*" xmlns:flexcomponents="components.common.flexcomponents.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			public var sWidth: int = 452;
+			[Bindable]
+			public var sHeight: int = 186;
+			[Bindable]
+			public var sBorder: int = 6;
+			
+			
+			private function nextTutorialStep(): void
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_INVENTORY_TUTORIAL4);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group x="270" y="190">
+		<s:BorderContainer borderVisible="false"
+						   backgroundColor="0xf6da00"
+						   width="{sBorder}" height="{sHeight}" />
+		
+		<s:BorderContainer borderVisible="false"
+						   backgroundColor="0xf6da00"
+						   y="{sHeight-sBorder}" x="{sBorder}"
+						   width="{sWidth}" height="{sBorder}" />
+		
+		<s:BorderContainer borderVisible="false"
+						   backgroundColor="0xf6da00"
+						   y="0" x="{sWidth+sBorder}"
+						   width="{sBorder}" height="{sHeight}" />
+		
+		<s:BorderContainer borderVisible="false"
+						   backgroundColor="0xf6da00"
+						   y="0" x="0"
+						   width="{sWidth + sBorder}" height="{sBorder}" />
+		
+		
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Group>
+	
+	<tutorial:Arrow id="tArrow" y="186" x="206" selectedState="{Arrow.STATE_LINEAR_PUPMED}" customRotation="100" />
+	
+	
+	<flexcomponents:PatternButton x="350" y="490"
+								  customLabel="Супер" skinClass="skins.buttons.Pattern3ButtonS"
+								  fontSize="26" fontSizeOver="26"
+								  scale="1"
+								  fontColor="0xfff19f"
+								  click="nextTutorialStep();"
+								  />
+	
+	<s:Label id="tText" y="400" x="286" 
+			 text="{'А это твой бомбастер\nи его характеристики'}" 
+			 fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center"
+			 >
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Label>
+	
+</s:Group>

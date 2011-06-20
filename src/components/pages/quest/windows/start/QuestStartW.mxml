@@ -103,6 +103,8 @@
 			
 			private function startQuest(): void
 			{
+				Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, false);
+				
 				startButton.enabled = false;
 				
 				closeWrapper();

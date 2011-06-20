@@ -123,9 +123,9 @@
 		<s:HGroup click="{selectedState = CATEGORY_POTIONS;}">
 			<s:Label text="Зелья" color="0xdea300" fontFamily="mpr" fontSize="16" />
 		</s:HGroup>
-		<s:HGroup click="{selectedState = CATEGORY_BOMBERS;}">
+	<!--	<s:HGroup click="{selectedState = CATEGORY_BOMBERS;}">
 			<s:Label text="Бомбастеры" color="0xdea300" fontFamily="mpr" fontSize="16" />
-		</s:HGroup>
+		</s:HGroup>-->
 		
 		
 	</s:VGroup>

@@ -669,6 +669,12 @@ public class GameServer extends SmartFox {
 					case TutorialPartType.PART3:
 						Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
 						break;
+					case TutorialPartType.PART4:
+						Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
+						break;
+					case TutorialPartType.PART5:
+						Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
+						break;
 				}
 				
 				

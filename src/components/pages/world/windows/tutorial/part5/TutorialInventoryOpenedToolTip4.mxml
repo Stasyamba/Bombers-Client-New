@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:tutorial="components.pages.world.windows.tutorial.*" xmlns:flexcomponents="components.common.flexcomponents.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private function nextTutorialStep(): void
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_CLOSE);
+				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_SHOW_PLAY_BUTTON);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer backgroundColor="0x000000"
+					   alpha="0.5"
+					   width="1000" height="1000"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   x="-200" y="-200"
+					   />
+	
+	
+	<flexcomponents:CloseButton id="closeButton" skinClass="skins.buttons.CloseButtonOriginS" scale="0.7" x="722" y="10" 
+								click="nextTutorialStep();" 
+								/>
+	
+	<tutorial:Arrow id="tArrow" y="131" x="680" selectedState="{Arrow.STATE_LINEAR_PUPMED}"
+					customRotation="30"/>
+	
+	<s:Label id="tText" y="157" x="250" 
+			 text="{'Ты всегда сможешь вернуться\nсюда и рассмотреть подробнее,\nа сейчас пора уходить.'}" 
+			 fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center"
+			 >
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Label>
+	
+</s:Group>

@@ -6,6 +6,8 @@ package components.common.tutorial
 		public static const PART1:TutorialPartType = new TutorialPartType(1, "PART1");
 		public static const PART2:TutorialPartType = new TutorialPartType(2, "PART2");
 		public static const PART3:TutorialPartType = new TutorialPartType(3, "PART3");
+		public static const PART4:TutorialPartType = new TutorialPartType(4, "PART4");
+		public static const PART5:TutorialPartType = new TutorialPartType(5, "PART5");
 		
 		
 		private var _value:int;

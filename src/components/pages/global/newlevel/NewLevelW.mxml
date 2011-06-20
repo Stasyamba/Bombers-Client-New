@@ -33,15 +33,29 @@
 		</s:Sequence>
 		
 		<s:Parallel id="apearingAnimation" startDelay="200">
-			<s:Animate target="{this}" duration="300">
+			<s:Animate target="{this}" duration="700">
 				<s:SimpleMotionPath property="alpha"
 									valueFrom="{this.alpha}"
 									valueTo="1"
 									/>
 			</s:Animate>
+			
+			<s:Animate target="{this}" duration="700">
+				<s:SimpleMotionPath property="scaleX"
+									valueFrom="0.3"
+									valueTo="1"
+									/>
+			</s:Animate>
+			
+			<s:Animate target="{this}" duration="700">
+				<s:SimpleMotionPath property="scaleY"
+									valueFrom="0.3"
+									valueTo="1"
+									/>
+			</s:Animate>
 		</s:Parallel>
 		
-		<s:Sequence id="pulseA" repeatCount="1000"
+		<s:Sequence id="pulseA" repeatCount="400"
 					targets="{[glow1, glow2, glow3, glow4, glow5, glow6]}"
 					>
 			
@@ -67,6 +81,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.tutorial.TutorialPartType;
 			import components.pages.global.newlevel.rewards.RewardEnergyContent;
 			import components.pages.global.newlevel.rewards.RewardItemContent;
 			import components.pages.global.newlevel.rewards.RewardResourceContent;
@@ -143,6 +158,14 @@
 			
 			private function closeWrapper1(e:ContextEvent): void
 			{
+				closeWrapper();
+			}
+			
+			private function nextTutorialStep(): void
+			{
+				Context.Model.currentTutorialPart = TutorialPartType.PART5;
+				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
+				
 				closeWrapper();
 			}
 			
@@ -224,6 +247,7 @@
 												  fontSize="26" fontSizeOver="26"
 												  scale="1"
 												  fontColor="0xfff19f"
+												  click="nextTutorialStep();"
 												  />
 				</s:HGroup>
 			</s:VGroup>

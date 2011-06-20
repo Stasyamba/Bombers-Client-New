@@ -16,6 +16,8 @@
 		 >
 	<fx:Script>
 		<![CDATA[
+			import loading.SoundManager;
+			
 			import skins.buttons.CloseButtonOriginS;
 			import skins.buttons.tutorial.LocationButtonS;
 		]]>
@@ -47,28 +49,30 @@
 			</s:Animate>
 		</s:Sequence>
 		
-		<s:Parallel id="bonusA" target="{bonusGroup}"
-					effectStart="{bonusGroup.visible = true;}"
-					effectEnd="{bonusGroup.visible = false;}"
-					>
-			<s:Animate duration="1500">
-				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0"  />
-			</s:Animate>
+		<s:Parallel target="{plusOneGroup}" id="pulseA" repeatCount="10000">
+			<s:Sequence>
+				<s:Animate duration="500">
+					<s:SimpleMotionPath property="y" valueFrom="0" valueTo="-10" />
+				</s:Animate>
+				<s:Animate duration="300">
+					<s:SimpleMotionPath property="y" valueFrom="-10" valueTo="0" />
+				</s:Animate>
+			</s:Sequence>
 			
-			<s:Animate duration="1500">
-				<s:SimpleMotionPath property="x" valueTo="{-35}" valueFrom="{bonusGroup.x}" />
-			</s:Animate>
+			<s:Sequence>
+				<s:Animate duration="250">
+					<s:SimpleMotionPath property="scaleY" valueFrom="1" valueTo="0.95" />
+				</s:Animate>
+				<s:Animate duration="250">
+					<s:SimpleMotionPath property="scaleY" valueFrom="0.95" valueTo="0.75" />
+				</s:Animate>
+				
+				<s:Animate duration="300">
+					<s:SimpleMotionPath property="scaleY" valueFrom="0.75" valueTo="1" />
+				</s:Animate>
+				
+			</s:Sequence>
 			
-			<s:Animate duration="1500">
-				<s:SimpleMotionPath property="y" valueTo="{-20}" valueFrom="{bonusGroup.y}" />
-			</s:Animate>
-			
-			<s:Animate duration="800" effectEnd="{nextTutorialStep();}">
-				<s:SimpleMotionPath property="scaleX" valueTo="1.5" valueFrom="1" />
-			</s:Animate>
-			<s:Animate duration="800">
-				<s:SimpleMotionPath property="scaleY" valueTo="1.5" valueFrom="1" />
-			</s:Animate>
 		</s:Parallel>
 		
 	</fx:Declarations>
@@ -123,28 +127,16 @@
 				//Context.Model.windowsManager.addWindow(this);
 				apearingAnimation.play();
 				
-				userPhoto.initPhoto(CommonConstans.FAKE_USER_IMAGE_URL);
+				pulseA.play();
 			}
 			
-			
-			
-			private function openLocationEnter():void
-			{
-			}
-			
-			private function getBonus(): void
-			{
-				askButton.visible = false;
-				bonusA.play();
-				//askButton.visible = false;
-				//Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_GET_BONUS, data);
-			}
 			
 			private function nextTutorialStep(): void
 			{
 				closeWrapper();
-				Context.Model.currentTutorialPart = TutorialPartType.PART4;
-				Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
+				
+				/* dispatch event */
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW);
 			}
 			
 		]]>
@@ -160,97 +152,32 @@
 					   borderVisible="false"
 					   />
 	
-	
-	
-	
-	<s:HGroup x="71" y="558" 
-			  horizontalAlign="center" verticalAlign="middle"
-			  width="110" height="110"
-			  >
-		<s:Group>
-			<s:BorderContainer backgroundColor="0x2d2515"
-							   width="84" height="84"
-							   cornerRadius="0"
-							   borderVisible="false"
-							   id="baseBg"
-							   >
-				<s:filters>
-					<s:DropShadowFilter distance="2" alpha="0.5" />
-				</s:filters>
-			</s:BorderContainer>
-			
-			<s:BorderContainer backgroundImage="@Embed(source='assets/pageworld/subbottompanel/friendSlotInsideRectBg.jpg')"
-							   backgroundImageFillMode="repeat"
-							   width="72" height="72"
-							   cornerRadius="0"
-							   x="6" y="6"
-							   borderVisible="false"
-							   id="baseInsideBg"
-							   />
-			
-			<s:HGroup width="72" height="72"
-					  x="6" y="6"
-					  horizontalAlign="center" verticalAlign="middle"
-					  id="gotFriendGroup"
-					  visible="true"
-					  >
-				<flexcomponents:UserPhotoGroup id="userPhoto" 
-											   basePhotoSizeH="72" basePhotoSizeW="72" 
-											   borderHeight="0" borderWitdh="0"
-											   isHandCursor="false"
-											   borderVisible="false"
-											   />
-			</s:HGroup>
-			
-			<s:Group id="levelGroup" visible="true"
-					 x="38" y="59"
-					 >
-				<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/levelBg.png')" smooth="true" />
-				<s:HGroup width="100%" height="100%"
-						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label id="levelLabel" text="30 ур." fontFamily="mpbc" fontSize="14" color="0xfdc600" />
-				</s:HGroup>
-			</s:Group>
-			
-			<s:Group>
-				<s:Button id="askButton" x="-5" y="-5"
-						  skinClass="skins.buttons.AskButtonS" visible="true"
-						  useHandCursor="true" buttonMode="true"
-						  click="getBonus();"
-						  />
-				
-				<s:HGroup width="30" height="30">
-					<s:HGroup id="bonusGroup" visible="false" verticalAlign="middle">
-						<s:Label text="+20" fontFamily="mpbc" fontSize="34" color="0xfeceff" />
-						<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/askSign.png')" smooth="true" />
-						
-						<s:filters>
-							<s:GlowFilter color="0xeabeff" strength="2" />
-							<s:GlowFilter color="0xeabeff" strength="1" blurX="20" blurY="20" />
-						</s:filters>
-					</s:HGroup>
-				</s:HGroup>
-				
-			</s:Group>
-			
-			
-			
-		</s:Group>
-	</s:HGroup>
-	
-	<tutorial:Arrow id="tArrow" selectedState="{Arrow.STATE_LINEAR_PUPMED}" 
-					x="144" y="465"
-					customRotation="200"
-					/>
-	
-	
-	<s:Label id="tText" x="200" y="309" text="{'Кто-то нуждается в помощи!\nНажми на звезду и собери бонус,\nскорее!'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
+	<s:Label id="tText" x="150" y="259" text="{'Кажется в рюкзаке\nпоявился новый предмет\nнужно проверить!'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
 		<s:filters>
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
 		</s:filters>
 	</s:Label>
+	
+	
+	<s:Group x="12" y="474" click="nextTutorialStep();"
+			 rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
+			 >
+		<s:Button skinClass="skins.buttons.InventoryButtonS" 
+				  useHandCursor="true" buttonMode="true"
+				  />
+		<s:Group id="plusOneGroup" x="74" y="-5" visible="true">
+			<s:BitmapImage source="@Embed(source='assets/pageworld/bottompanel/buttons/plusOne.png')" smooth="true" />
+		</s:Group>
+		
+	</s:Group>
+	
+	
+	<tutorial:Arrow id="tArrow" selectedState="{Arrow.STATE_LINEAR_PUPMED}" 
+					x="84" y="375"
+					customRotation="180"
+					/>
 	
 	<s:controlBarContent/>
 </s:Panel>

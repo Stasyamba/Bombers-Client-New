@@ -12,6 +12,7 @@
     <fx:Script>
 		<![CDATA[
 			import components.ApplicationView;
+			
 			import engine.bombers.BomberType;
 			
 			import skins.buttons.InventoryButtonS;
@@ -39,8 +40,12 @@
                     /* updateFromBomberType() */
                 }
             });
-
-
+			
+			Context.Model.addCustomListener(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, function (e: ContextEvent): void
+			{
+				inventoryButton.enabled = e.data;
+			});
+			
             updateWeapon();
         }
 
@@ -89,7 +94,7 @@
               paddingLeft="10"
               gap="18">
 
-		<flexcomponents:InventoryButton click="openInventory();" />
+		<flexcomponents:InventoryButton id="inventoryButton" click="openInventory();" />
 		
 		<bottompanel:BombasterParameters />
 		

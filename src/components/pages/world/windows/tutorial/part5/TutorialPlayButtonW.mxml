@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*" 
+		 xmlns:progress="components.pages.world.windows.tutorial.part1.progress.*" 
+		 xmlns:tutorial="components.pages.world.windows.tutorial.*"
+		 alpha="0"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import loading.SoundManager;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<!--<s:Animate target="{this}" duration="500">
+			<s:SimpleMotionPath property="x"
+			valueFrom="100"
+			valueTo="800"
+			/>
+			</s:Animate>-->
+			<s:Animate target="{this}" duration="100">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation" startDelay="100">
+			<s:Animate target="{this}" duration="550">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0"
+									valueTo="1"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Parallel id="nextStateA" duration="777" effectStart="{marketButton.visible = true;}">
+			
+			<s:Animate target="{tArrow}">
+				<s:SimpleMotionPath property="x"
+									valueFrom="{tArrow.x}"
+									valueTo="213"
+									/>
+			</s:Animate>
+			
+			<s:Animate target="{tArrow}">
+				<s:SimpleMotionPath property="customRotation"
+									valueFrom="160"
+									valueTo="190"
+									/>
+			</s:Animate>
+			
+			<s:Animate target="{tText1}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="1"
+									valueTo="0"
+									/>
+			</s:Animate>
+			<s:Animate target="{tText2}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0"
+									valueTo="1"
+									/>
+			</s:Animate>
+			
+			<s:Animate target="{tText2}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0"
+									valueTo="1"
+									/>
+			</s:Animate>
+			
+			<s:Animate target="{marketButton}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0"
+									valueTo="1"
+									/>
+			</s:Animate>
+			
+		</s:Parallel>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.tutorial.TutorialPartType;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			
+			public function close():void {
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			public function closeWrapper1(e: ContextEvent):void {
+				close();
+			}
+			
+			private function panelCreationComplete():void {
+				apearingAnimation.play();
+
+			}
+			
+			
+			private function openMarket(): void
+			{
+				Context.Model.currentTutorialPart = TutorialPartType.DONE;
+				
+				closeWrapper();
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW, true);
+			}
+			
+			private function showMarket(): void
+			{
+				playButton.visible = false;
+				nextStateA.play();
+			}
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundColor="0x000000"
+					   alpha="0.5"
+					   width="1000" height="1000"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	<s:Label id="tText1" x="230" y="219" text="{'Мы подошли к концу,\n это арена - бой с реальными соперниками\nна случайной карте'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Label>
+	
+	<s:Label id="tText2" alpha="0" x="230" y="219" text="{'Но сначала изучи лавку торговца\nи снаряжение что там продается,\nдобро пожаловать в наш мир!'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Label>
+	
+	<tutorial:Arrow id="tArrow" selectedState="{Arrow.STATE_LINEAR_PUPMED}" 
+					x="666" y="385"
+					customRotation="160"
+					/>
+	
+	<s:Button id="playButton" x="696" y="489" 
+			  label="Играть" click="showMarket();" skinClass="skins.buttons.PlayGameButtonS"
+			  useHandCursor="true" buttonMode="true"
+			  rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
+			  />
+	
+	<s:Button id="marketButton" visible="false" alpha="0" y="466" x="131"
+			  label="Market" click="openMarket();" 
+			  skinClass="skins.buttons.MarketButtonS"
+			  buttonMode="true" useHandCursor="true"
+			  rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
+	
+	<s:controlBarContent/>
+</s:Panel>

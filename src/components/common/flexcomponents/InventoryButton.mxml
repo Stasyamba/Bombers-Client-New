@@ -57,6 +57,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import loading.SoundManager;
+			
 			import skins.buttons.InventoryButtonS;
 			
 			private function init(): void

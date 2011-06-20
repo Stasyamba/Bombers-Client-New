@@ -65,10 +65,22 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.pages.world.windows.tutorial.part5.TutorialInventoryOpenedToolTip3;
+			import components.pages.world.windows.tutorial.part5.TutorialInventoryOpenedToolTip2;
+			import components.pages.world.windows.tutorial.part5.TutorialInventoryOpenedToolTip4;
+			import components.pages.world.windows.tutorial.part5.TutorialInventoryOpenedToolTip1;
+			import components.common.tutorial.TutorialPartType;
 			import mx.managers.PopUpManager
 			
 			public function close():void {
 				//Context.Model.windowsManager.deleteWindow(this);
+				
+				/* tutorial */
+				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+				{
+					/* dispatch some event */
+				}
+				
 				PopUpManager.removePopUp(this);
 				
 				inventoryView.destroy();
@@ -79,12 +91,19 @@
 				disapearingA.play();
 			}
 			
+			public function closeWrapper1(e:ContextEvent):void {
+				closeWrapper();
+			}
+			
 			public var isShop: Boolean = false;
 			
 			private function panelCreationComplete():void {
 				
 				//Context.Model.windowsManager.closeAll(true);
 				//Context.Model.windowsManager.addWindow(this);
+				
+				Context.Model.addCustomListener(ContextEvent.IM_CLOSE, closeWrapper1);
+				
 				if(isShop)
 				{
 					setTab(new ContextEvent("changeView", false, false, TopMenu.STATE_MARKET));
@@ -99,6 +118,34 @@
 					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, false);
 				}
 				/* if new shop item =  */
+				
+				
+				/* tutorial */
+				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+				{
+					closeButton.visible = false;
+					topMenu.enabled = false;
+					tutorialGroup.addElement(new TutorialInventoryOpenedToolTip1());
+					
+					Context.Model.addCustomListener(ContextEvent.TUTORIAL_INVENTORY_TUTORIAL2, function (e: ContextEvent): void
+					{
+						tutorialGroup.removeAllElements();
+						tutorialGroup.addElement(new TutorialInventoryOpenedToolTip2());
+					});
+					
+					Context.Model.addCustomListener(ContextEvent.TUTORIAL_INVENTORY_TUTORIAL3, function (e: ContextEvent): void
+					{
+						tutorialGroup.removeAllElements();
+						tutorialGroup.addElement(new TutorialInventoryOpenedToolTip3());
+					});
+					
+					Context.Model.addCustomListener(ContextEvent.TUTORIAL_INVENTORY_TUTORIAL4, function (e: ContextEvent): void
+					{
+						tutorialGroup.removeAllElements();
+						tutorialGroup.addElement(new TutorialInventoryOpenedToolTip4());
+					});
+				}
+				
 			}
 			
 			private function setTab(e: ContextEvent): void
@@ -144,9 +191,11 @@
 		
 	</s:VGroup>
 	
-	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" scale="0.7" x="722" y="10" click="closeWrapper();" />
+	<flexcomponents:CloseButton id="closeButton" skinClass="skins.buttons.CloseButtonOriginS" scale="0.7" x="722" y="10" click="closeWrapper();" />
 	
 	<resources:ResourcesView y="-42" x="406" />
+	
+	<s:Group id="tutorialGroup" />
 	
 	<s:controlBarContent/>
 </s:Panel>

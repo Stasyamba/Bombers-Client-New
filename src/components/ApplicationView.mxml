@@ -31,6 +31,8 @@
 			import components.pages.world.windows.tutorial.part1.TutorialW;
 			import components.pages.world.windows.tutorial.part2.TutorialLocationW;
 			import components.pages.world.windows.tutorial.part3.TutorialGetFriendBonusW;
+			import components.pages.world.windows.tutorial.part5.TutorialOwnPackW;
+			import components.pages.world.windows.tutorial.part5.TutorialPlayButtonW;
 			import components.wall.SendWallObject;
 			
 			import greensock.TweenMax;
@@ -274,16 +276,31 @@
 				PopUpManager.addPopUp(fw, (parentApplication as Bombers), false);
 			});
 			
+			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART5, function (e: ContextEvent):void
+			{	
+				var opw: TutorialOwnPackW = new TutorialOwnPackW();
+				PopUpManager.addPopUp(opw, (parentApplication as Bombers), false); 
+			});
 			
+			Context.Model.addCustomListener(ContextEvent.TUTORIAL_SHOW_PLAY_BUTTON, function (e: ContextEvent):void
+			{	
+				var shpw: TutorialPlayButtonW = new TutorialPlayButtonW();
+				PopUpManager.addPopUp(shpw, (parentApplication as Bombers), false); 
+			});
 			
 			Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e: ContextEvent):void
 			{	
 				var nlw: NewLevelW = new NewLevelW();
 				
+				Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
+				
+				parentApplication.setStyle("modalTransparencyBlur",0);
+				parentApplication.setStyle("modalTransparency", 0.2);
+				
 				PopUpManager.addPopUp(nlw, (parentApplication as Bombers), true);
 				PopUpManager.centerPopUp(nlw);
 				
-				nlw.y -= 100;
+				nlw.y -= 80;
 			});
 			
 			/* testing */
@@ -306,10 +323,10 @@
 			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 			 
-		  	/* bgSound = new Sound();
+		  	bgSound = new Sound();
 			bgSoundChannel = new SoundChannel();
 			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded); */
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
         }
 			
 		private function repeatSound(e: Event): void	

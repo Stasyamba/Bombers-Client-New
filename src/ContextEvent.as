@@ -3,6 +3,8 @@ import flash.events.Event;
 
 public class ContextEvent extends Event {
 
+	public static const GLOBAL_INVENTORY_BUTTON_ENABLED: String = "GLOBALBlockInventoryButton";
+	
 	public static const NEW_LEVEL_SHOW: String = "NEWLEVELShow";
 	
 	public static const NEED_TO_SHOW_WORLD_ANIMATION: String = "NeedToShowWorldAnimation";
@@ -80,6 +82,8 @@ public class ContextEvent extends Event {
 	//pass: ItemType
 	public static const IM_NEW_ITEM:String = "IMNewItem";
 	//pass: Boolean
+	public static const IM_CLOSE:String = "IMClose";
+	
 	
     /***** enegry market events *****/
     public static const NEED_TO_OPEN_ENERGY_MARKET:String = "IMNeedToOpenEnergyMarket";
@@ -118,7 +122,12 @@ public class ContextEvent extends Event {
 	public static const TUTORIAL_OPEN_PART1: String = "TUTORIALPart1Tutorial";
 	public static const TUTORIAL_OPEN_PART2: String = "TUTORIALPart2Tutorial";
 	public static const TUTORIAL_OPEN_PART3: String = "TUTORIALPart3Tutorial";
+	public static const TUTORIAL_OPEN_PART5: String = "TUTORIALPart5Tutorial";
 	public static const TUTORIAL_CLOSE_TUTORIAL_LOCATION_WINDOW: String = "TUTORIALCloseTutorialLocation";
+	public static const TUTORIAL_INVENTORY_TUTORIAL2: String = "TUTORIALInventoryTutorial2";
+	public static const TUTORIAL_INVENTORY_TUTORIAL3: String = "TUTORIALInventoryTutorial3";
+	public static const TUTORIAL_INVENTORY_TUTORIAL4: String = "TUTORIALInventoryTutorial4";
+	public static const TUTORIAL_SHOW_PLAY_BUTTON: String = "TUTORIALShowPlayButton";
 	
 	/** vk events **/
 	public static const VK_SEND_TO_WALL:String = "VKSendToWall";
