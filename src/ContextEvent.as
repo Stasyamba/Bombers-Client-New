@@ -3,13 +3,16 @@ import flash.events.Event;
 
 public class ContextEvent extends Event {
 
+	public static const NEED_TO_SHOW_WORLD_ANIMATION: String = "NeedToShowWorldAnimation";
+	// pass: Boolean
+	
 	public static const MODAL_SET_STYLE_DEFAULT:String= "MODALSetStyleDefault";
 	
     public static const MAIN_TAB_CHANGED:String = "MainTabChanged";
     public static const NEED_TO_CHANGE_MAIN_TAB:String = "NeedToChangeMainTab";
     // pass: String (const) -> tab name (const in ApplicationView)
 
-    public static const SHOW_MAIN_PREALODER:String = "ShowMainPreloder";
+    public static const NEED_TO_SHOW_MAIN_PREALODER:String = "ShowMainPreloder";
     // pass: Boolean -> preloader visible
 	
     public static const NEED_TO_SHOW_DISCONNECTED_WINDOW:String = "NeedToShowDisconnectedWindow"
@@ -59,7 +62,8 @@ public class ContextEvent extends Event {
 	public static const QUEST_START_CLOSE: String = "QUESTStartClose";
 	public static const QUEST_END_SHOW: String = "QUESTEndShow";
 	// pass: QuestResultObject
-	
+	public static const QUEST_SET_GAME_FOCUS: String = "QUESTSetGameFocus";
+	// pass: Boolean -> game focus visible
 
     /***** inventory market events *****/
 	
@@ -109,7 +113,8 @@ public class ContextEvent extends Event {
 	public static const TUTORIAL_NEXT_STEP: String = "TUTORIALNextStep";
 	public static const TUTORIAL_OPEN_PART1: String = "TUTORIALPart1Tutorial";
 	public static const TUTORIAL_OPEN_PART2: String = "TUTORIALPart2Tutorial";
-	public static const TUTORIAL_CLOSE_TUTORIAL_LOCATION: String = "TUTORIALCloseTutorialLocation";
+	public static const TUTORIAL_OPEN_PART3: String = "TUTORIALPart3Tutorial";
+	public static const TUTORIAL_CLOSE_TUTORIAL_LOCATION_WINDOW: String = "TUTORIALCloseTutorialLocation";
 	
 	/** vk events **/
 	public static const VK_SEND_TO_WALL:String = "VKSendToWall";
@@ -118,8 +123,7 @@ public class ContextEvent extends Event {
 	
 	public static const FRIENDS_PANEL_GET_BONUS: String = "FRIENDSPANELGetBonus";
 	public static const FRIENDS_PANEL_FRIENDS_IS_LOADED: String = "FRIENDSPANELFriendsIsLoaded";
-	public static const FRIENDS_PANEL_: String = "FRIENDSPANELFriendsIsLoaded";
-	
+
 	
     public var data:*;
 

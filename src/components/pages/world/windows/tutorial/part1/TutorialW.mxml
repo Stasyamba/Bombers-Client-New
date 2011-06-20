@@ -53,6 +53,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.tutorial.TutorialPartType;
 			import components.pages.world.windows.tutorial.part1.steps.Step6;
 			import components.pages.world.windows.tutorial.part1.steps.Step5;
 			import components.pages.world.windows.tutorial.part1.steps.Step4;
@@ -118,6 +119,12 @@
 					setStep(currentStep);
 				}else
 				{
+					if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+					{
+						/* send server request */
+						Context.Model.currentTutorialPart = TutorialPartType.PART2;
+					}
+					
 					Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
 					closeWrapper();
 				}

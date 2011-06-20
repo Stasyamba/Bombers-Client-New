@@ -155,7 +155,7 @@ public class QuestGame extends GameBase implements IQuestGame {
     }
 
     private function onQuestFailed(qfr:QuestFailReason):void {
-        Alert.show(qfr.text);
+        //Alert.show(qfr.text);
         Context.gameModel.questEnded.dispatch(false, null)
     }
 
@@ -220,7 +220,7 @@ public class QuestGame extends GameBase implements IQuestGame {
     }
 
     private function onQuestCompleted(medal:Medal):void {
-        Alert.show("task accomplished with medal " + medal.string);
+        //Alert.show("task accomplished with medal " + medal.string);
         Context.gameModel.questEnded.dispatch(true, medal);
     }
 

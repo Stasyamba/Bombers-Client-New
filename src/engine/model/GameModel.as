@@ -358,7 +358,7 @@ public class GameModel {
         Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED)
         Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED)
 
-		Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false);
+		Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
        
     }
 

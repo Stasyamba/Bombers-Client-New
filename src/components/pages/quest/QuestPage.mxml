@@ -16,27 +16,33 @@
 	
 	<fx:Script>
 		<![CDATA[
-        import components.ApplicationView;
-        import components.common.game.questgameresult.QuestResultObject;
-        import components.common.quests.medals.MedalType;
-        import components.pages.game.windows.pregame.PreGameW;
-        import components.pages.game.windows.results.FightResultW;
-        import components.pages.quest.windows.result.QuestResultW;
-        import components.pages.quest.windows.start.QuestStartW;
-        import components.pages.world.windows.quests.QuestsW;
-
-        import engine.bombss.BombType;
-        import engine.utils.Utils;
-
-        import mx.managers.PopUpManager;
+			import components.ApplicationView;
+			import components.common.game.questgameresult.QuestResultObject;
+			import components.common.quests.medals.MedalType;
+			import components.common.tutorial.TutorialPartType;
+			import components.pages.game.windows.pregame.PreGameW;
+			import components.pages.game.windows.results.FightResultW;
+			import components.pages.quest.windows.result.QuestResultW;
+			import components.pages.quest.windows.start.QuestStartW;
+			import components.pages.world.windows.quests.QuestsW;
+			
+			import engine.bombss.BombType;
+			import engine.utils.Utils;
+			
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
 
         private function init():void {
 
             Context.Model.addCustomListener(ContextEvent.MAIN_TAB_CHANGED, function (e:ContextEvent):void {
                 if (e.data == ApplicationView.TAB_NAME_QUEST) {
-                    focusGroup.visible = false;
+                    
+					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, false);
+					
+					focusGroup.visible = false;
                     Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);
                     gameView.everyGameTabOpeningInit();
+					
                 }
             });
 
@@ -45,8 +51,17 @@
                 var qsw:QuestStartW = new QuestStartW();
                 qsw.questObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
 
-
-                PopUpManager.addPopUp(qsw, (parentApplication as Bombers), false);
+				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+				{
+					parentApplication.setStyle("modalTransparency",0.4);
+					parentApplication.setStyle("modalTransparencyColor",0x000000);
+					
+					PopUpManager.addPopUp(qsw, (parentApplication as Bombers), true);
+				}else
+				{
+                	PopUpManager.addPopUp(qsw, (parentApplication as Bombers), false);
+				}
+				
                 PopUpManager.centerPopUp(qsw);
 
                 qsw.y -= 90;
@@ -57,25 +72,39 @@
                 var qew:QuestResultW = new QuestResultW();
                 qew.questResultObject = e.data;
 
-                PopUpManager.addPopUp(qew, (parentApplication as Bombers), false);
+				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+				{
+					parentApplication.setStyle("modalTransparency",0.4);
+					parentApplication.setStyle("modalTransparencyColor",0x000000);
+					PopUpManager.addPopUp(qew, (parentApplication as Bombers), true);
+				}else
+				{
+					PopUpManager.addPopUp(qew, (parentApplication as Bombers), false);
+				}
+              
                 PopUpManager.centerPopUp(qew);
 
                 qew.y -= 90;
                 qew.x += 40;
             });
 
+			
+			Context.Model.addCustomListener(ContextEvent.QUEST_SET_GAME_FOCUS, function (e: ContextEvent): void
+			{	
+				focusGroup.visible = Boolean(e.data);	
+			});
 
             /* walk */
             stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
             stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 
             /* testing */
-            /* Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW,
+             /* Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW,
              new QuestResultObject(
              true,
              MedalType.GOLD_MEDAL
              )
-             );  */
+             );    */
 
         }
 
@@ -111,14 +140,15 @@
 	
 	<game:GameView id="gameView" y="{topPanel.height + 2}" x="{leftPanel.width}"/>
 	
-	<s:Group y="{topPanel.height + 7}" x="{leftPanel.width + 5}"
-			 id="focusGroup" click="{focusGroup.visible = false;}"
+	<s:Group id="focusGroup"
+			 y="{topPanel.height + 7}" x="{leftPanel.width + 5}" 
+			 click="{focusGroup.visible = false;}"
 			 visible="false"
 			 buttonMode="true" useHandCursor="true"
 			 >
 		<s:Rect width="671" height="430"
-				radiusX="30" radiusY="30"
-				alpha="0.8"
+				radiusX="55" radiusY="55"
+				alpha="0.84"
 				>
 			<s:fill>
 				<s:SolidColor color="0x000000" />
@@ -127,7 +157,7 @@
 		
 		<s:HGroup width="671" height="430"
 				  horizontalAlign="center" verticalAlign="middle">
-			<s:Label text="Кликни сюда" fontFamily="mpbc" fontSize="80" color="0xffffff" />
+			<s:Label text="{'Кликни сюда\nдля начала'}" fontFamily="mpbc" fontSize="72" color="0xfed000" textAlign="center" />
 		</s:HGroup>
 	</s:Group>
 	

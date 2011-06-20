@@ -29,9 +29,13 @@
 			import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW;
 			import components.pages.world.windows.tutorial.part1.TutorialW;
 			import components.pages.world.windows.tutorial.part2.TutorialLocationW;
+			import components.pages.world.windows.tutorial.part3.TutorialGetFriendBonusW;
 			import components.wall.SendWallObject;
 			
+			import greensock.TweenMax;
+			
 			import loading.BombersContentLoader;
+			import loading.SoundManager;
 			
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
@@ -263,6 +267,12 @@
 				PopUpManager.addPopUp(lw, (parentApplication as Bombers), false);
 			});
 			
+			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART3, function (e: ContextEvent):void
+			{	
+				var fw: TutorialGetFriendBonusW = new TutorialGetFriendBonusW();
+				PopUpManager.addPopUp(fw, (parentApplication as Bombers), false);
+			});
+			
 			
 			/* testing */
 			
@@ -283,13 +293,11 @@
 				
 			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
-			
+			 
 		  	bgSound = new Sound();
 			bgSoundChannel = new SoundChannel();
-			
 			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-			
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);     
+			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
         }
 			
 		private function repeatSound(e: Event): void	
@@ -352,10 +360,10 @@
             Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
             Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
             idGroup.visible = false;
-            Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, true)
+            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
 				
             BombersContentLoader.readyToUseAppView.addOnce(function():void {
-                Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false)
+                //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
             });
 			
             Context.gameModel.init();

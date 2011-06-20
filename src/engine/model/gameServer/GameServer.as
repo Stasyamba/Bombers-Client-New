@@ -26,6 +26,7 @@ import components.common.items.ItemProfileObject;
 import components.common.items.ItemType;
 import components.common.resources.ResourceObject;
 import components.common.resources.ResourcePrice;
+import components.common.tutorial.TutorialPartType;
 import components.common.worlds.locations.LocationType;
 
 import engine.EngineContext;
@@ -48,6 +49,7 @@ import flash.utils.Timer;
 
 import greensock.TweenMax;
 
+import mx.controls.Alert;
 import mx.utils.ObjectUtil;
 
 import org.osflash.signals.Signal;
@@ -633,7 +635,6 @@ public class GameServer extends SmartFox {
                 Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
 				
 				Context.Model.currentSettings.gameProfile.energy = 130;
-
 				
 				var appFriendsArr: Array = new Array();
 				var gp3: GameProfile = new GameProfile();
@@ -653,8 +654,23 @@ public class GameServer extends SmartFox {
 				appFriendsArr.push(new FriendObject(gp2, false, null));
 				
 				
-				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, appFriendsArr);
-				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, []);
+				//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
+				
+				switch(Context.Model.currentTutorialPart)
+				{
+					case TutorialPartType.PART1:
+						Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+						break;
+					case TutorialPartType.PART2:
+						Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
+						break;
+					case TutorialPartType.PART3:
+						Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
+						break;
+				}
+				
 				
                 break;
             case INT_BUY_RESOURCES_RESULT:

@@ -227,7 +227,7 @@
 						mainContentGroup = new ApplicationView();
 						mainApplicationGroup.addElement(mainContentGroup);
 						
-						Context.Model.addCustomListener(ContextEvent.SHOW_MAIN_PREALODER, function(e:ContextEvent):void {
+						Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, function(e:ContextEvent):void {
 							basePreloaderGroup.visible = e.data as Boolean;
 						});
 						
@@ -245,12 +245,12 @@
 						
 						if (isWrapperExists) 
 						{
-							Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, true);
+							Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true);
 							
 							BombersContentLoader.readyToUseAppView.addOnce(
 								function():void 
 								{
-									Context.Model.dispatchCustomEvent(ContextEvent.SHOW_MAIN_PREALODER, false)
+									Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
 								});
 							
 							Context.gameModel.init();

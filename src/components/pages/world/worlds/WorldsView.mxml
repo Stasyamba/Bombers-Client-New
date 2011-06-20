@@ -30,6 +30,7 @@
 			import components.common.quests.regard.RegardType;
 			import components.common.superoffer.SuperOfferObject;
 			import components.common.superoffer.SuperOfferType;
+			import components.common.tutorial.TutorialPartType;
 			import components.common.utils.HitTester;
 			import components.common.worlds.locations.ILocationPreview;
 			import components.common.worlds.locations.LocationType;
@@ -54,22 +55,26 @@
 					var gl:* = mainWorldGroup.getElementAt(i);
 					
 					if (gl is ILocationPreview) 
-					{	
-						if (HitTester.realHitTest(gl, new Point(mouseX, mouseY + 40))) // y="40" - parent
+					{
+						if(Context.Model.currentTutorialPart == TutorialPartType.DONE)
 						{
-							locationFinded = true;
-							mainWorldGroup.getElementAt(i) as DisplayObject
-							
-							selectedLocation = mainWorldGroup.getElementAt(i) as ILocationPreview;
-							setLocationPreviewOverState(selectedLocation);
-							
-							// set over = false for rest locations
-							for (var j:int = i - 1; j >= 0; j--) {
-								(mainWorldGroup.getElementAt(j) as ILocationPreview).setOver(false);
+							if (HitTester.realHitTest(gl, new Point(mouseX, mouseY + 40))) // y="40" - parent
+							{
+								locationFinded = true;
+								mainWorldGroup.getElementAt(i) as DisplayObject
+								
+								selectedLocation = mainWorldGroup.getElementAt(i) as ILocationPreview;
+								setLocationPreviewOverState(selectedLocation);
+								
+								// set over = false for rest locations
+								for (var j:int = i - 1; j >= 0; j--) 
+								{
+									(mainWorldGroup.getElementAt(j) as ILocationPreview).setOver(false);
+								}
+								
+							} else {
+								(mainWorldGroup.getElementAt(i) as ILocationPreview).setOver(false);
 							}
-							
-						} else {
-							(mainWorldGroup.getElementAt(i) as ILocationPreview).setOver(false);
 						}
 					}
 				}
@@ -182,7 +187,7 @@
 			private function init():void 
 			{	
 				if (!mainWorldGroup.hasEventListener(MouseEvent.MOUSE_MOVE)) {
-					//mainWorldGroup.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+					mainWorldGroup.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 				}
 				
 				if (!mainWorldGroup.hasEventListener(MouseEvent.CLICK)) {
@@ -191,12 +196,14 @@
 				
 				/* set background animations */
 				
-				snowSprite1.addChild(new Snow());
+				/* snowSprite1.addChild(new Snow());
 				snowSprite2.addChild(new Snow());
 				snowSprite3.addChild(new Snow());
 				snowSprite4.addChild(new Snow());
+				*/
 				
 				waterSprite.addChild(new Water());
+				
 			}
 			
 			private function openOffer(): void
@@ -228,10 +235,10 @@
 		
 		<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/worldBg.jpg')"/>
 		
-		<s:SpriteVisualElement id="snowSprite1" x="0" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" />
-		<s:SpriteVisualElement id="snowSprite2" x="232" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" />
-		<s:SpriteVisualElement id="snowSprite3" x="499" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" />
-		<s:SpriteVisualElement id="snowSprite4" x="716" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" />
+		<s:SpriteVisualElement id="snowSprite1" x="0" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" alpha="0.6" />
+		<s:SpriteVisualElement id="snowSprite2" x="242" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" alpha="0.7" />
+		<s:SpriteVisualElement id="snowSprite3" x="489" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" alpha="0.7" />
+		<s:SpriteVisualElement id="snowSprite4" x="716" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" alpha="0.6" />
 		
 		<s:SpriteVisualElement id="waterSprite" x="0" y="176" scaleX="1" scaleY="1" blendMode="lighten" alpha="0.4" />
 		

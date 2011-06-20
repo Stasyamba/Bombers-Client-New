@@ -47,11 +47,35 @@
 			</s:Animate>
 		</s:Sequence>
 		
+		<s:Parallel id="bonusA" target="{bonusGroup}"
+					effectStart="{bonusGroup.visible = true}"
+					effectEnd="{bonusGroup.visible = false}"
+					>
+			<s:Animate duration="1500">
+				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0"  />
+			</s:Animate>
+			
+			<s:Animate duration="1500">
+				<s:SimpleMotionPath property="x" valueTo="{-35}" valueFrom="{bonusGroup.x}" />
+			</s:Animate>
+			
+			<s:Animate duration="1500">
+				<s:SimpleMotionPath property="y" valueTo="{-20}" valueFrom="{bonusGroup.y}" />
+			</s:Animate>
+			
+			<s:Animate duration="800">
+				<s:SimpleMotionPath property="scaleX" valueTo="1.5" valueFrom="1" />
+			</s:Animate>
+			<s:Animate duration="800">
+				<s:SimpleMotionPath property="scaleY" valueTo="1.5" valueFrom="1" />
+			</s:Animate>
+		</s:Parallel>
 		
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.pages.world.windows.locationenter.LocationEnterW;
 			import components.pages.world.windows.tutorial.part1.steps.Step6;
 			import components.pages.world.windows.tutorial.part1.steps.Step5;
@@ -97,33 +121,29 @@
 				//Context.Model.windowsManager.closeAll(true);
 				//Context.Model.windowsManager.addWindow(this);
 				apearingAnimation.play();
-			
-				Context.Model.addCustomListener(ContextEvent.TUTORIAL_CLOSE_TUTORIAL_LOCATION_WINDOW, closeWrapper1);
+				
+				userPhoto.initPhoto(CommonConstans.FAKE_USER_IMAGE_URL);
 			}
 			
 			
 			
 			private function openLocationEnter():void
 			{
-				var locationViewObject:LocationViewObject = Context.Model.locationViewManager.getLocationViewObject(LocationType.WORLD1_GRASSFIELDS);
-				
-				if (locationViewObject != null) {
-					
-					Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
-					
-					parentApplication.setStyle("modalTransparencyBlur",0);
-					parentApplication.setStyle("modalTransparency", 0);
-					
-					tArrow.visible = false;
-					tText.visible = false;
-					locationEnterButton.visible = false;
-					
-					var lew:LocationEnterW = new LocationEnterW();
-					lew.locationType = LocationType.WORLD1_GRASSFIELDS;
-					lew.y = 98;
-					
-					PopUpManager.addPopUp(lew, (parentApplication as Bombers), true);
-				}
+			}
+			
+			private function getBonus(): void
+			{
+				askButton.visible = false;
+				bonusA.play();
+				//askButton.visible = false;
+				//Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_GET_BONUS, data);
+			}
+			
+			private function nextTutorialStep(): void
+			{
+				closeWrapper();
+				/* new level window  */
+				//Context.Model.dispatchCustomEvent(ContextEvent.
 			}
 			
 		]]>
@@ -140,19 +160,89 @@
 					   />
 	
 	
-	<s:Button id="locationEnterButton" label="test" skinClass="skins.buttons.tutorial.LocationButtonS"
-			  useHandCursor="true" buttonMode="true"
-			  x="240" y="289"
-			  click="openLocationEnter();"
-			  />
-		
+	
+	
+	<s:HGroup x="71" y="558" 
+			  horizontalAlign="center" verticalAlign="middle"
+			  width="110" height="110"
+			  >
+		<s:Group>
+			<s:BorderContainer backgroundColor="0x2d2515"
+							   width="84" height="84"
+							   cornerRadius="0"
+							   borderVisible="false"
+							   id="baseBg"
+							   >
+				<s:filters>
+					<s:DropShadowFilter distance="2" alpha="0.5" />
+				</s:filters>
+			</s:BorderContainer>
+			
+			<s:BorderContainer backgroundImage="@Embed(source='assets/pageworld/subbottompanel/friendSlotInsideRectBg.jpg')"
+							   backgroundImageFillMode="repeat"
+							   width="72" height="72"
+							   cornerRadius="0"
+							   x="6" y="6"
+							   borderVisible="false"
+							   id="baseInsideBg"
+							   />
+			
+			<s:HGroup width="72" height="72"
+					  x="6" y="6"
+					  horizontalAlign="center" verticalAlign="middle"
+					  id="gotFriendGroup"
+					  visible="true"
+					  >
+				<flexcomponents:UserPhotoGroup id="userPhoto" 
+											   basePhotoSizeH="72" basePhotoSizeW="72" 
+											   borderHeight="0" borderWitdh="0"
+											   isHandCursor="false"
+											   />
+			</s:HGroup>
+			
+			<s:Group id="levelGroup" visible="true"
+					 x="38" y="59"
+					 >
+				<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/levelBg.png')" smooth="true" />
+				<s:HGroup width="100%" height="100%"
+						  horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="levelLabel" text="30 ур." fontFamily="mpbc" fontSize="14" color="0xfdc600" />
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Group>
+				<s:Button id="askButton" x="-5" y="-5"
+						  skinClass="skins.buttons.AskButtonS" visible="true"
+						  useHandCursor="true" buttonMode="true"
+						  click="getBonus();"
+						  />
+				
+				<s:HGroup width="30" height="30">
+					<s:HGroup id="bonusGroup" visible="false" verticalAlign="middle">
+						<s:Label text="+20" fontFamily="mpbc" fontSize="34" color="0xfeceff" />
+						<s:BitmapImage source="@Embed(source='assets/pageworld/subbottompanel/askSign.png')" smooth="true" />
+						
+						<s:filters>
+							<s:GlowFilter color="0xeabeff" strength="2" />
+							<s:GlowFilter color="0xeabeff" strength="1" blurX="20" blurY="20" />
+						</s:filters>
+					</s:HGroup>
+				</s:HGroup>
+				
+			</s:Group>
+			
+			
+			
+		</s:Group>
+	</s:HGroup>
+	
 	<tutorial:Arrow id="tArrow" selectedState="{Arrow.STATE_LINEAR_PUPMED}" 
-					x="350" y="249"
-					customRotation="180"
+					x="144" y="465"
+					customRotation="200"
 					/>
 	
 	
-	<s:Label id="tText" x="420" y="209" text="{'Нажмите чтобы\nоткрыть локацию'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
+	<s:Label id="tText" x="200" y="309" text="{'Кто-то нуждается в помощи!\nНажми на звезду и собери бонус,\nскорее!'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
 		<s:filters>
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
