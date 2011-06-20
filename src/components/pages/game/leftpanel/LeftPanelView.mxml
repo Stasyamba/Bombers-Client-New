@@ -35,9 +35,9 @@
 			
 			
 			/* testing  */
-			addPlayer(new LobbyProfile("1", "Banana", "http://cs9678.vkontakte.ru/u86070/a_26c9fee5.jpg", 10, 0, true),0);
-			addPlayer(new LobbyProfile("2", "Banana", "http://cs10882.vkontakte.ru/u87322300/a_af56eaae.jpg", 10, 2, true),2);
-			addPlayer(new LobbyProfile("4", "Banana", "http://cs10888.vkontakte.ru/u35046782/a_135cf331.jpg", 10, 3, true),3);
+//			addPlayer(new LobbyProfile("1", "Banana", "http://cs9678.vkontakte.ru/u86070/a_26c9fee5.jpg", 10, 0, true),0);
+//			addPlayer(new LobbyProfile("2", "Banana", "http://cs10882.vkontakte.ru/u87322300/a_af56eaae.jpg", 10, 2, true),2);
+//			addPlayer(new LobbyProfile("4", "Banana", "http://cs10888.vkontakte.ru/u35046782/a_135cf331.jpg", 10, 3, true),3);
         }
 
         private function getPlayerSlot(slot:int):PlayerSlot {

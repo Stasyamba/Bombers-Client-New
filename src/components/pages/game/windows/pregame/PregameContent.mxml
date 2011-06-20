@@ -65,7 +65,8 @@
 				
 				readyButton.enabled = false;
 				
-				/* dispatch ready event */
+				var amIReady:Boolean = Context.gameModel.myLobbyProfile().isReady
+				Context.gameModel.setMeReady(!amIReady)
 			}
 			
 		]]>

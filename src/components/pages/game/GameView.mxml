@@ -58,7 +58,6 @@
             })
             //listener'll be removed in gameModel
             Context.gameModel.gameEnded.add(function (winnerId:String, winnerExp:int):void {
-
                 endGame();
             });
         }

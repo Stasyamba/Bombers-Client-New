@@ -45,6 +45,7 @@ public class DynObjectType implements IDynObjectType {
             case BonusType.HEAL.value:return BonusType.HEAL;
             case BonusType.EXPERIENCE.value:return BonusType.EXPERIENCE;
             case BonusType.RESOURCE.value:return BonusType.RESOURCE;
+			case BonusType.WEAPON.value:return BonusType.WEAPON;
 
             case BombType.REGULAR.value:return BombType.REGULAR
             case BombType.BOX.value:return BombType.BOX

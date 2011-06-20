@@ -10,41 +10,38 @@
         >
     <fx:Script>
 		<![CDATA[
-			import components.ApplicationView;
-			import components.pages.global.inventorynew.InventoryW;
-			import components.pages.world.windows.joingame.JoinGameW;
-			
-			import loading.SoundManager;
-			
-			import mx.managers.PopUpManager;
-			
-			import skins.buttons.InventoryButtonS;
-			import skins.buttons.MarketButtonS;
-			import skins.buttons.PlayGameButtonS;
-		
+        import components.ApplicationView
+
+        import loading.SoundManager
+
+        import mx.controls.Alert
+
         private function init():void {
         }
-			
-		private function joinGame(): void
-		{
-			/* var jgw:JoinGameW = new JoinGameW();
-			PopUpManager.addPopUp(jgw, (parentApplication as Bombers), false);
-			PopUpManager.centerPopUp(jgw);
-			
-			jgw.y -= 100; */
-			Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_GAME);
-		}
-			
-		private function openInventory(): void
-		{
-			Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW, false);
-		}
-			
-		private function openInventoryMarket(): void
-		{
-			Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW, true);
-		}
-			
+
+        private function joinGame():void {
+            /* var jgw:JoinGameW = new JoinGameW();
+             PopUpManager.addPopUp(jgw, (parentApplication as Bombers), false);
+             PopUpManager.centerPopUp(jgw);
+
+             jgw.y -= 100; */
+            Context.gameModel.fastJoin();
+            Context.gameModel.someoneJoinedToGame.addOnce(function (p1:*):void {
+                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_GAME);
+            });
+
+            Context.gameModel.fastJoinFailed.addOnce(function ():void {
+                Alert.show("Не удалось присоединиться к игре!")
+            });
+        }
+
+        private function openInventory():void {
+            Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW, false);
+        }
+
+        private function openInventoryMarket():void {
+            Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW, true);
+        }
         ]]>
 	</fx:Script>
 
@@ -68,37 +65,37 @@
     <s:HGroup width="100%" height="100%"
               verticalAlign="middle" horizontalAlign="right"
               paddingRight="20" paddingLeft="10"
-			  >
-		
-		<s:HGroup height="41" paddingTop="-13">
-			<flexcomponents:InventoryButton click="openInventory();" 
-											rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
-		</s:HGroup>
-		<s:HGroup height="41" paddingTop="-22" paddingLeft="15">
-			<s:Button label="Market" click="openInventoryMarket();" skinClass="skins.buttons.MarketButtonS"
-					  buttonMode="true" useHandCursor="true"
-					  rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
-		</s:HGroup>
-		
-		<s:HGroup width="100%" />
-		<s:HGroup verticalAlign="middle">
-			
-			<s:HGroup gap="5" paddingTop="5">
-				<s:Label id="energyLabel"
-						 text="5" color="0xfed43d"
-						 fontFamily="mpbc" fontSize="30"
-						 />
-				<s:HGroup paddingTop="-5">
-					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')" />
-				</s:HGroup>
-			</s:HGroup>
-			
-			<s:Button label="Играть" id="randomGameButton" click="joinGame();" skinClass="skins.buttons.PlayGameButtonS"
-					  useHandCursor="true" buttonMode="true"
-					  rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
-					  />
-		</s:HGroup>
-		
+            >
+
+        <s:HGroup height="41" paddingTop="-13">
+            <flexcomponents:InventoryButton click="openInventory();"
+                                            rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
+        </s:HGroup>
+        <s:HGroup height="41" paddingTop="-22" paddingLeft="15">
+            <s:Button label="Market" click="openInventoryMarket();" skinClass="skins.buttons.MarketButtonS"
+                      buttonMode="true" useHandCursor="true"
+                      rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
+        </s:HGroup>
+
+        <s:HGroup width="100%"/>
+        <s:HGroup verticalAlign="middle">
+
+            <s:HGroup gap="5" paddingTop="5">
+                <s:Label id="energyLabel"
+                         text="5" color="0xfed43d"
+                         fontFamily="mpbc" fontSize="30"
+                        />
+                <s:HGroup paddingTop="-5">
+                    <s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"/>
+                </s:HGroup>
+            </s:HGroup>
+
+            <s:Button label="Играть" id="randomGameButton" click="joinGame();" skinClass="skins.buttons.PlayGameButtonS"
+                      useHandCursor="true" buttonMode="true"
+                      rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
+                    />
+        </s:HGroup>
+
 
     </s:HGroup>
 

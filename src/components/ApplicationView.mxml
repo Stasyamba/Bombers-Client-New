@@ -367,8 +367,11 @@
             tw.y -= 102;
         }
 
+	   private var alreadyIn:Boolean = false;
         // immitation
        private function setId(id:int):void {
+		    if( alreadyIn) return;
+			alreadyIn = true;
             Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
             Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
             idGroup.visible = false;
