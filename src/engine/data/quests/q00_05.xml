@@ -1,0 +1,134 @@
+﻿<!--
+~ Copyright (c) 2011.
+~ Pavkin Vladimir
+-->
+<Game>
+    <id>q00_05</id>
+    <location>0</location>
+    <name>Настоящий квест, блеать</name>
+    <description>Смотри, не обосрись.</description>
+    <questImage>1.jpg</questImage>
+    <previewImage>marshrums.png</previewImage>
+    <energyCost>10</energyCost>
+    <timeLimit>120</timeLimit>
+    <finishOnGoal/>
+    <!--убрать, если надо чтобы время точно завершилось-->
+    <accessRules>
+        <!--<AllBefore/>-->
+        <!--<CountMedals type="1" count="20" />-->
+    </accessRules>
+    <map>
+        <Map>
+            <spawns>
+                <Spawn x="1" y="1"/>
+                <!--frequency=[Hz], start=[sec]-->
+                <!--<MonsterSpawn x="5" y="2"-->
+                <!--monsterId="00.monsters.rat_02" freq="0.5" start="0" maxCount="3" object="2">-->
+                <!--<ws type="random" maxSec="4"/>-->
+                <!--</MonsterSpawn>-->
+            </spawns>
+
+            <size width="51" height="31"/>
+            <rows>
+                <Row val="wwwwwwwwwwwwwwwwwwwwwwwwwwwffffffffffffffffffffffff"/>
+                <Row val="wfffffffbffffffffwbwbwffffwffffffffffffffffffffffff"/>
+                <Row val="wwwwwwwwwwwwwwwwffffffffffwffffffffffffffffffffffff"/>
+                <Row val="fffffffffffbbbbwwfwfwfwwffwffffffffffffffffffffffff"/>
+                <Row val="fbwwwffwffffbbbwfffffffwffwffffffffffffffffffffffff"/>
+                <Row val="fwwfffwwwfbwwwwwwwwwwwwwfwwwwwwwwwwwfffffffffffffff"/>
+                <Row val="fwffffwfwffbwffwbfbfffffffwffffffffwfffffffffffffff"/>
+                <Row val="fwffffwfwbfffffwfwwwwwwwwfwwbwbwbwfwfffffffffffffff"/>
+                <Row val="fwfwwwwfwwwwfffwfwbbbbbfwfffffffwffwfffwwwfffffffff"/>
+                <Row val="bbwwfffffffwwwwwbwbwbwwwwbwwwwfwbwfwfffwfwfffffffff"/>
+                <Row val="fffwwwwfwwwwffwwfwbwbwfffffffwfffffwfffwfwfffffffff"/>
+                <Row val="ffffffwfwffffffwfwfwbwfffffffwfwbwfwfffwbwfffffffff"/>
+                <Row val="fwffffwfwfffwffbfwwwfwffwbwffwfbwbffwffwbwfffffffff"/>
+                <Row val="fwwffbwwwbfwwbbffffffbffbfbffbfffffffwfwbwffffwwwww"/>
+                <Row val="ffffbbfwfbbffffbfwfwfwffwbwffwfwfwffffwwfwffffwfbfw"/>
+                <Row val="wwwwfwfbfwfwwwwwffwffwfffffffwffwffwwffwfwffffwfwfw"/>
+                <Row val="fffwwffwffwwfffwffwffwfffffffwffwffwfwfffwffffwfwfw"/>
+                <Row val="fffwwwfffwwwfffwfwfwfwwwwbwwwwfwfwfwffwffwffffwfwbw"/>
+                <Row val="fffwwwwwwwwwfffwbwffffbfffffbffffwbwfffwffwfffwfwfw"/>
+                <Row val="fffffffffffffffwbwwwfwfwbwbwfwfwwwbwffffwffwffwfwfw"/>
+                <Row val="fffffffffffffffwfbbfffbfffffbfffbbfwfffffwffwfwfwfw"/>
+                <Row val="fffffffffffffffwwwwwwwwwwfwwwwwwwwwwffffffwffwwfwfw"/>
+                <Row val="fffffffffffffffffffffffwfffwfffffffffffffffwffwfwfw"/>
+                <Row val="fffffffffffffffffffffffwbfbwffffffffffffffffwfffwfw"/>
+                <Row val="fffffffffffffffffffffffwbfbwwwwwwwwwwwwwwwwwwwwwwfw"/>
+                <Row val="fffffffffffffffffffffffwwfwwfffffffffffffffffbfffbf"/>
+                <Row val="fffffffffffffffffffffffwfbfwbwwwwwwwwwwwwwwwwwwwwww"/>
+                <Row val="fffffffffffffffffffffffwfwfwfffbffffffffffffffffffw"/>
+                <Row val="fffffffffffffffffffffffwbfbwwwwwwwwwwwwwwwwwwwwwwbw"/>
+                <Row val="fffffffffffffffffffffffwfffwffffffffffffffffffbfffw"/>
+                <Row val="fffffffffffffffffffffffwwwwwwwwwwwwwwwwwwwwwwwwwwww"/>
+            </rows>
+            <objects>
+                <!--<Object id="1011" x="10" y="8"/>-->
+            </objects>
+        </Map>
+    </map>
+    <monsters>
+        <!--<Monster monsterId="00.monsters.rat_03" slot="2" x="7" y="5">-->
+            <!--<ws type="ptp">-->
+                <!--<Point x="7" y="5"/>-->
+                <!--<Point x="13" y="5"/>-->
+                <!--<Point x="13" y="11"/>-->
+                <!--<Point x="7" y="11"/>-->
+                <!--<Point x="7" y="5"/>-->
+            <!--</ws>-->
+        <!--</Monster>-->
+        <!--<Monster monsterId="00.monsters.rat_03" slot="3" x="13" y="11">-->
+            <!--<ws type="ptp">-->
+                <!--<Point x="13" y="11"/>-->
+                <!--<Point x="7" y="11"/>-->
+                <!--<Point x="7" y="5"/>-->
+                <!--<Point x="13" y="5"/>-->
+                <!--<Point x="13" y="11"/>-->
+            <!--</ws>-->
+        <!--</Monster>-->
+    </monsters>
+
+    <!--done panel components:
+        - MonstersAlive (number)
+        - BOActivated (activated/all)
+        - BODestroyed (destroyed/all)
+        - ObjectsCollected (collected/all)
+        - TimeLeft (time)
+        - Boss'sLife (current/all)-->
+    <donePanel>
+        <Element t="enemiesAlive"/>
+    </donePanel>
+    <!--goals types:
+           - DefeatMonsterGoal
+           - CollectObjectsGoal
+           - DestroyBOGoal
+           - ActivateBOGoal
+           - ReachCoordsGoal-->
+    <!--todo: time goals-->
+    <medals>
+        <!-- если задание одно, а медали отличаются по времени, то оно указывается здесь, а
+        в медалях просто <goal t="TimeGoal" time="45"/> -->
+        <goal t="CollectObjectsGoal" type="1012" amount="1" text="Собрать 1 желтый гриб"/>
+        <Bronze text="Успеть за 20 секунд">
+            <goal t="TimeGoal" time="20"/>
+            <prize>
+                <Resource id="00" val="100"/>
+            </prize>
+        </Bronze>
+        <Silver text="Успеть за 12 секунд">
+            <goal t="TimeGoal" time="12"/>
+            <prize>
+                <Resource id="00" val="300"/>
+                <Experience val="20"/>
+            </prize>
+        </Silver>
+        <Gold text="Успеть за 7 секунд">
+            <goal t="TimeGoal" time="7"/>
+            <prize>
+                <Resource id="00" val="500"/>
+                <Experience val="30"/>
+                <Object id="03" val="1"/>
+            </prize>
+        </Gold>
+    </medals>
+</Game>
