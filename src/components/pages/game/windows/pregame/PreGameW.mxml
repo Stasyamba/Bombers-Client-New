@@ -78,6 +78,7 @@
 				apearingAnimation.play();
 				
 				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
+				Context.Model.addCustomListener(ContextEvent.GP_PREGAME_CLOSE, closeWrapper1);
 				
 				if(Context.Model.currentSettings.gameProfile.energy >= CommonConstans.COMMON_GAME_COST)
 				{
@@ -86,6 +87,11 @@
 				{
 					switchContent(CONTENT_NOT_ENOUGH_ENERGY);
 				}
+			}
+			
+			private function closeWraper1(e:ContextEvent): void
+			{
+				closeWrapper();
 			}
 			
 			private function switchToReady(e: ContextEvent): void

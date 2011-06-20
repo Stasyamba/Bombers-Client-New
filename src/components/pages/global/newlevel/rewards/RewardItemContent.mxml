@@ -3,6 +3,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 verticalAlign="middle"
+		 gap="25"
 		 >
 	
 	<fx:Declarations>
@@ -20,8 +21,11 @@
 	</fx:Script>
 	
 	<s:Label id="amountLabel" fontFamily="mpbc" fontSize="30" color="0xf6da00" />
-	<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/locationenter/swords.png')" smooth="true"
-				   scaleX="0.7" scaleY="0.7"
-				   />
+	<s:HGroup width="70">
+		<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/locationenter/swords.png')" smooth="true"
+					   scaleX="0.8" scaleY="0.8"
+					   />
+	</s:HGroup>
+	
 	
 </s:HGroup>

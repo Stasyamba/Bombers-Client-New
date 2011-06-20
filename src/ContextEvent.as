@@ -57,6 +57,8 @@ public class ContextEvent extends Event {
     public static const GP_EXPERIENCE_CHANGED:String = "GPExperienceChanged";
 	// pass: int -> new expirance
     public static const GP_CURRENT_BOMBER_CHANGED:String = "GPCurrentBomberChanged";
+	
+	public static const GP_PREGAME_CLOSE:String = "GPPregameClose";
 
 	/**** quest window ****/
 	public static const QUEST_START_SHOW: String = "QUESTStartShow";

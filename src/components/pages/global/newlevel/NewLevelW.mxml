@@ -41,6 +41,28 @@
 			</s:Animate>
 		</s:Parallel>
 		
+		<s:Sequence id="pulseA" repeatCount="1000"
+					targets="{[glow1, glow2, glow3, glow4, glow5, glow6]}"
+					>
+			
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0.5"
+									valueTo="1"
+									/>
+			</s:Animate>
+			
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="1"
+									valueTo="0.5"
+									/>
+			</s:Animate>
+			
+			
+		</s:Sequence>
+		
+		
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -68,6 +90,7 @@
 			
 			private function panelCreationComplete():void {
 				apearingAnimation.play();
+				pulseA.play();
 				
 				/* get level by experiance */
 				/* get pizes by level */
@@ -75,7 +98,7 @@
 				/* testing */
 				var rewards: Array = new Array();
 				rewards.push(new RegardObject(RegardType.RESOURCE_GOLD, 100));
-				rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, 2));
+				rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, 1));
 				
 				for each(var ro: RegardObject in rewards)
 				{
@@ -113,7 +136,7 @@
 					
 					if(content != null)
 					{
-						this.addElement(content);
+						prizeGroup.addElement(content);
 					}
 				}
 			}
@@ -136,9 +159,9 @@
 					   borderVisible="false"
 					   >
 		<s:filters>
-			<s:GlowFilter color="0xf6da00" alpha="0.8" blurX="20" blurY="20" />
-			<s:GlowFilter color="0xf6da00" alpha="0.8" blurX="30" blurY="30" />
-			<s:GlowFilter color="0xf6da00" alpha="0.8" blurX="40" blurY="40" />
+			<s:GlowFilter id="glow4" color="0xf6da00" alpha="0.8" blurX="20" blurY="20" />
+			<s:GlowFilter id="glow5" color="0xf6da00" alpha="0.8" blurX="30" blurY="30" />
+			<s:GlowFilter id="glow6" color="0xf6da00" alpha="0.8" blurX="40" blurY="40" />
 		</s:filters>
 		
 	</s:BorderContainer>
@@ -188,24 +211,62 @@
 					<s:DropShadowFilter color="0x914500" distance="1" />
 				</s:filters>
 			</s:VGroup>
-			<s:VGroup width="100%">
+			<s:VGroup width="100%" height="100%" horizontalAlign="center">
 				
-				<s:VGroup id="prizeGroup" height="100%">
+				<s:VGroup id="prizeGroup" height="100%" verticalAlign="top" horizontalAlign="right">
 					<s:filters>
 						<s:DropShadowFilter color="0x914500" distance="1" />
 					</s:filters>
 				</s:VGroup>
 				
-				<flexcomponents:PatternButton customLabel="Забрать" skinClass="skins.buttons.Pattern3ButtonS"
-											  fontSize="26" fontSizeOver="26"
-											  scale="1"
-											  fontColor="0xfff19f"
-											  />
+				<s:HGroup paddingBottom="20">
+					<flexcomponents:PatternButton customLabel="Забрать" skinClass="skins.buttons.Pattern3ButtonS"
+												  fontSize="26" fontSizeOver="26"
+												  scale="1"
+												  fontColor="0xfff19f"
+												  />
+				</s:HGroup>
 			</s:VGroup>
 			
 		</s:HGroup>
 		
 	</s:VGroup>
+	
+	<s:Group>
+		<s:BitmapImage source="@Embed(source='assets/windows/newlevel/star.png')" 
+					   rotation="-30"
+					   smooth="true"
+					   x="-230" y="50"
+					   scaleX="0.55" scaleY="0.55"
+					   />
+		
+		<s:BitmapImage source="@Embed(source='assets/windows/newlevel/star.png')" 
+					   rotation="-5"
+					   smooth="true"
+					   x="-130" y="212"
+					   scaleX="0.35" scaleY="0.35"
+					   />
+		
+		<s:BitmapImage source="@Embed(source='assets/windows/newlevel/star.png')" 
+					   rotation="30"
+					   smooth="true"
+					   x="410" y="30"
+					   scaleX="0.3" scaleY="0.3"
+					   />
+		
+		<s:BitmapImage source="@Embed(source='assets/windows/newlevel/star.png')" 
+					   rotation="15"
+					   smooth="true"
+					   x="410" y="170"
+					   scaleX="0.55" scaleY="0.55"
+					   />
+		
+		<s:filters>
+			<s:GlowFilter id="glow1" color="0xf6da00" alpha="0.8" blurX="20" blurY="20" />
+			<s:GlowFilter id="glow2" color="0xf6da00" alpha="0.8" blurX="30" blurY="30" />
+			<s:GlowFilter id="glow3" color="0xf6da00" alpha="0.8" blurX="40" blurY="40" />
+		</s:filters>
+	</s:Group>
 	
 	<s:controlBarContent/>
 </s:Panel>

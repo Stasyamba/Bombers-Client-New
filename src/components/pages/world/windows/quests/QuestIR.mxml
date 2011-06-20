@@ -45,6 +45,8 @@
             super.data = value;
             qo = data as QuestObject;
 
+			this.filters = [];
+			
             costLabel.text = qo.energyCost.toString();
 
             /* set dark side */
@@ -64,8 +66,9 @@
             previewImage.source = (data as QuestObject).view.imageURL;
 
             /* Рассматриваем только одно правило, либо оно есть и это правило медали, либо его нету и вооюще ничего нету */
-
+			
             if ((data as QuestObject).view.accessFailedRules.length == 0) {
+				
                 deniedGroup.visible = false;
                 actionGroup.visible = true;
 
