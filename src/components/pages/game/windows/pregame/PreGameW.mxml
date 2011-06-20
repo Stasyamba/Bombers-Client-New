@@ -89,7 +89,7 @@
 				}
 			}
 			
-			private function closeWraper1(e:ContextEvent): void
+			private function closeWrapper1(e:ContextEvent): void
 			{
 				closeWrapper();
 			}
