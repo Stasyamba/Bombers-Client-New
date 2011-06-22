@@ -14,8 +14,11 @@
 			import components.common.items.ItemViewObject;
 			
 			import mx.controls.Alert;
+			import mx.managers.ToolTipManager;
 				
 			private var itemType:ItemType = null;
+			private var itemViewObject: ItemViewObject;
+			
 			
 			public function initContent(itemTypeP: ItemType):void 
 			{
@@ -23,7 +26,9 @@
 				{
 					bgEmptyAura.visible = false;
 					itemType = itemTypeP;
-					var imageURL: String =  Context.Model.itemsManager.getItem(itemType).viewObject.anotherImageURL;
+					itemViewObject = Context.Model.itemsManager.getItem(itemType).viewObject;
+					
+					var imageURL: String =  itemViewObject.anotherImageURL;//Context.Model.itemsManager.getItem(itemType).viewObject.anotherImageURL;
 					auraImage.source = imageURL;
 				}else
 				{
@@ -38,6 +43,48 @@
 				if(itemType != null)
 				{
 					Context.Model.currentSettings.gameProfile.deleteAura(itemType, true);
+					if (tooltipp)
+					{
+						ToolTipManager.destroyToolTip(tooltipp);
+						tooltipp = null;
+					}
+				}
+			}
+			
+			/* tool tip */
+			
+			private var tooltipp:*;	
+			
+			private function onMouseMove(e:MouseEvent):void
+			{
+				var X:int = e.localX + 20;
+				var Y:int = e.localY + 50;
+				
+				if (tooltipp)
+				{
+					ToolTipManager.destroyToolTip(tooltipp);
+					tooltipp = null;
+				}
+				
+				var value:String = itemViewObject.name;
+				tooltipp = ToolTipManager.createToolTip(value, 0, 0);
+				
+				// calculate the tooltip coordinates
+				var pt:Point = new Point(X, Y);
+				pt = e.currentTarget.localToGlobal(pt);
+				pt.x = pt.x;
+				pt.y = pt.y;
+				
+				tooltipp.x = pt.x - 10;
+				tooltipp.y = pt.y - 40;
+			}
+			
+			private function onMouseOut(e:MouseEvent):void
+			{
+				if (tooltipp)
+				{
+					ToolTipManager.destroyToolTip(tooltipp);
+					tooltipp = null;
 				}
 			}
 			
@@ -57,6 +104,8 @@
 				  horizontalAlign="center" verticalAlign="middle">
 			<mx:Image id="auraImage"
 					  trustContent="{Context.Model.trustContent}"
+					  mouseMove="onMouseMove(event);"
+					  mouseOut="onMouseOut(event);"
 					  />
 		</s:HGroup>
 		

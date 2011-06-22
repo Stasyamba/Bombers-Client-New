@@ -133,9 +133,9 @@ public class ApplicationModel extends VkontakteApplicationModel {
     public var experianceManager:ExperienceManager = new ExperienceManager();
     public var itemsManager:ItemsManager = new ItemsManager();
     public var itemsCategoryManager:ItemsCategoriesManager = new ItemsCategoriesManager();
+	public var itemCollectionsManager: ItemCollectionManager = new ItemCollectionManager();   
     public var bomberManager:BombersManager = new BombersManager();
     public var marketManager:MarketManager = new MarketManager();
-	public var itemCollectionsManager: ItemCollectionManager = new ItemCollectionManager();
 	public var questManager: QuestManager = new QuestManager();
 	
 	/* tutorial */

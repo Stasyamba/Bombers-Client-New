@@ -32,15 +32,16 @@
 			import components.common.utils.adjustcolor.ColorMatrix;
 			
 			import mx.controls.Alert;
+			import mx.managers.ToolTipManager;
 			
 			private var itemProfileObject:ItemProfileObject = null;
 			private var collectionType: ItemCollectionType = null;
-			
+			private var collection: ItemCollectionObject;
 			
 			public function initContent(itemProfileObjectP:ItemProfileObject):void {
 				itemProfileObject = itemProfileObjectP;
 				
-				var collection: ItemCollectionObject = Context.Model.itemCollectionsManager.getCollection(itemProfileObject.itemType);
+				collection = Context.Model.itemCollectionsManager.getCollection(itemProfileObject.itemType);
 				collectionPreviewImage.source = collection.previewURL;
 				collectionType = collection.type;
 				
@@ -80,6 +81,46 @@
 				Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW_COLLECTION, collectionType);
 				
 			}
+			
+			/* tool tip */
+			
+			private var tooltipp:*;	
+			
+			private function onMouseMove(e:MouseEvent):void
+			{
+				var X:int = e.localX + 20;
+				var Y:int = e.localY + 50;
+				
+				if (tooltipp)
+				{
+					ToolTipManager.destroyToolTip(tooltipp);
+					tooltipp = null;
+				}
+				
+				//var value:String = "Ядерная бомба\n- Урон 40\n- Взрывная волная держится дольше";//"Position : (" + X + ", " + Y + ")"
+				var value:String = "Коллекция '"+collection.name+"'";
+				
+				tooltipp = ToolTipManager.createToolTip(value, 0, 0);
+				
+				
+				// calculate the tooltip coordinates
+				var pt:Point = new Point(X, Y);
+				pt = e.currentTarget.localToGlobal(pt);
+				pt.x = pt.x;
+				pt.y = pt.y;
+				
+				tooltipp.x = pt.x - 10;
+				tooltipp.y = pt.y - 40;
+			}
+			
+			private function onMouseOut(e:MouseEvent):void
+			{
+				if (tooltipp)
+				{
+					ToolTipManager.destroyToolTip(tooltipp);
+					tooltipp = null;
+				}
+			}
 		]]>
 	</fx:Script>
 	
@@ -99,6 +140,8 @@
 				  click="itemInfo();"
 				  alpha="0.8"
 				  complete="appearingImageA.play();"
+				  mouseMove="onMouseMove(event);"
+				  mouseOut="onMouseOut(event);"
 				  />
 	</s:HGroup>
 	

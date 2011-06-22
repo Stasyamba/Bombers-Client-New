@@ -7,7 +7,8 @@ public class ItemViewObject {
     public var anotherImageURL:String;
     public var name:String;
     public var description:String;
-
+	public var descriptionToolTip: String;
+	
     public var favIconImageURL:String;
 
     public function ItemViewObject(
@@ -16,7 +17,8 @@ public class ItemViewObject {
 		nameP:String, 
 		descriptionP:String, 
 		anotherImageURLP:String = "", 
-		favIconImageURLP:String = "") 
+		favIconImageURLP:String = "",
+		descriptionToolTipP: String = "") 
 	{
         _type = typeP;
 
@@ -25,6 +27,7 @@ public class ItemViewObject {
         smallImageURL = smallImageURLP;
         anotherImageURL = anotherImageURLP;
         favIconImageURL = favIconImageURLP;
+		descriptionToolTip = descriptionToolTipP;
     }
 
     public function get type():ItemType {
