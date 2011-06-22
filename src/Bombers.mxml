@@ -72,6 +72,24 @@
 			/*modalTransparencyDuration: 500;*/
 		}
 		
+		mx|ToolTip {
+			backgroundColor: #edc709;
+			backgroundAlpha: 0.8;
+			cornerRadius: 5;
+			color: #362b14;
+			fontSize: 12;
+			drop-shadow-visible: false;
+		}
+		
+		/* .toolTipItem 
+		{
+			backgroundAlpha: 0.2;
+			backgroundColor: black;
+			color: #ffffff;
+			cornerRadius: 0;
+			fontSize: 24;
+		} */
+		
 	</fx:Style>
 	
 	<fx:Script>

@@ -83,6 +83,8 @@ public class ContextEvent extends Event {
 	public static const IM_NEW_ITEM:String = "IMNewItem";
 	//pass: Boolean
 	public static const IM_CLOSE:String = "IMClose";
+	public static const IM_NEED_RESOURCES:String = "IMNeedResources";
+	public static const IM_NEED_RESOURCES_CLOSE:String = "IMNeedResourcesClose";
 	
 	
     /***** enegry market events *****/

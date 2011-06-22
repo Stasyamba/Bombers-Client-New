@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:tutorial="components.pages.world.windows.tutorial.*"
+		 alpha="1"
+		 >
+
+	<tutorial:Arrow x="330" y="40" customRotation="60" selectedState="{Arrow.STATE_LINEAR_PUPMED}" />
+	
+	<s:Label id="tText" x="350" y="80" text="{'Необходимо докупить ресурсы'}" 
+			 fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center"
+			 >
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Label>
+	
+</s:Group>

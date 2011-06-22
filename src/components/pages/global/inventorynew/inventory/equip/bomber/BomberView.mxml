@@ -49,7 +49,7 @@
 				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/health.png')" />
 				<s:HGroup width="17" height="17" x="25" y="8"
 						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="10" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+					<s:Label text="70" fontFamily="mpbc" fontSize="14" color="0xfff000" />
 				</s:HGroup>
 			</s:Group>
 			
@@ -73,7 +73,7 @@
 				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/bombsCount.png')" />
 				<s:HGroup width="17" height="17" x="25" y="8"
 						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+					<s:Label text="7" fontFamily="mpbc" fontSize="14" color="0xfff000" />
 				</s:HGroup>
 			</s:Group>
 			

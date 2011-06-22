@@ -10,11 +10,13 @@
         >
     <fx:Script>
 		<![CDATA[
-        import components.ApplicationView
-
-        import loading.SoundManager
-
-        import mx.controls.Alert
+			import components.ApplicationView;
+			
+			import loading.SoundManager;
+			
+			import mx.controls.Alert;
+			import mx.events.ToolTipEvent;
+			import mx.managers.ToolTipManager;
 
         private function init():void {
         }
@@ -43,6 +45,44 @@
         private function openInventoryMarket():void {
             Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW, true);
         }
+		
+		/* testing */
+		
+		/* private var tooltipp:*;	
+			
+		private function onMouseMove(e:MouseEvent):void
+		{
+			var X:int = e.localX + 20;
+			var Y:int = e.localY + 50;
+			
+			if (tooltipp)
+			{
+				ToolTipManager.destroyToolTip(tooltipp);
+				tooltipp = null;
+			}
+			
+			var value:String = "Position : (" + X + ", " + Y + ")"
+			tooltipp = ToolTipManager.createToolTip(value, 0, 0);
+			
+			// calculate the tooltip coordinates
+			var pt:Point = new Point(X, Y);
+			pt = e.currentTarget.contentToGlobal(pt);
+			pt.x = pt.x + 10 - tooltipp.width / 2;
+			pt.y = pt.y - tooltipp.height;
+			
+			tooltipp.x = pt.x;
+			tooltipp.y = pt.y;
+		}
+		
+		private function onMouseOut(e:MouseEvent):void
+		{
+			if (tooltipp)
+			{
+				ToolTipManager.destroyToolTip(tooltipp);
+				tooltipp = null;
+			}
+		} */
+			
         ]]>
 	</fx:Script>
 
@@ -95,6 +135,9 @@
                       useHandCursor="true" buttonMode="true"
                       rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
                     />
+			
+			<!-- mouseMove="onMouseMove(event);" mouseOut="onMouseOut(event);" -->
+			
         </s:HGroup>
 
 

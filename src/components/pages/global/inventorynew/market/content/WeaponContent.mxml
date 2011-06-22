@@ -21,6 +21,8 @@
 			import components.common.items.ItemViewObject;
 			import components.common.resources.ResourcePrice;
 			
+			import mx.controls.Alert;
+			
 			import skins.buttons.Pattern3ButtonS;
 			
 			[Bindable]
@@ -39,11 +41,11 @@
 				itemType = itemTypeP;
 				var itemObject: ItemObject = Context.Model.itemsManager.getItem(itemType)
 				var itemViewObject: ItemViewObject = itemObject.viewObject;
-				
 				itemName = itemViewObject.name;
 				itemDescribe = itemViewObject.description;
 				itemImageURL = itemViewObject.smallImageURL;
 				itemMarketObject = Context.Model.marketManager.getItemPrice(itemType);
+				itemPrice = Context.Model.marketManager.getItemPrice(itemType).price;
 				
 				
 				
@@ -78,6 +80,18 @@
 				itemImage.source = itemImageURL;
 				price.initContent(itemMarketObject.price);
 				itemCount.text = itemMarketObject.amount.toString() +" шт.";
+			}
+			
+			private function buyItem(): void
+			{
+				if(Context.Model.currentSettings.gameProfile.resources.isBiggerOrEqual(itemPrice))
+				{
+					Alert.show("Resource enough");
+				}else
+				{
+					//Alert.show("Not enough resources");
+					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
+				}
 			}
 			
 		]]>
@@ -125,6 +139,7 @@
 										  customLabel="Купить"
 										  fontSize="28" fontSizeOver="28"
 										  fontColor="0xfff19f"
+										  click="buyItem();"
 										  />
 		</s:HGroup>
 	</s:Group>

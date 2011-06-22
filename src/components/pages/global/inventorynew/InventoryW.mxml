@@ -35,6 +35,15 @@
 		</s:Animate>
 		
 		
+		<s:Animate id="resourceTipDisappearingA" target="{needResourceToolTipGroup}" duration="3000"
+				   effectStart="{needResourceToolTipGroup.visible = true;}"
+				   effectEnd="{needResourceToolTipGroup.visible = false;}">
+			<s:SimpleMotionPath property="alpha"
+						  valueFrom="1"
+						  valueTo="0.1"
+								/>
+		</s:Animate>
+		
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -46,6 +55,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
+			import components.pages.global.inventorynew.inventory.NeedResourceToolTip;
 			import components.pages.world.windows.tutorial.part5.TutorialInventoryOpenedToolTip3;
 			import components.pages.world.windows.tutorial.part5.TutorialInventoryOpenedToolTip2;
 			import components.pages.world.windows.tutorial.part5.TutorialInventoryOpenedToolTip4;
@@ -98,6 +109,21 @@
 				{
 					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, false);
 				}
+				
+				Context.Model.addCustomListener(ContextEvent.IM_NEED_RESOURCES, function (e: ContextEvent): void
+				{
+					needResourceToolTipGroup.removeAllElements();
+					var contentResourceTip:NeedResourceToolTip = new NeedResourceToolTip();
+					needResourceToolTipGroup.addElement(contentResourceTip);
+					resourceTipDisappearingA.stop();
+				
+					resourceTipDisappearingA.play();
+				});
+				
+				Context.Model.addCustomListener(ContextEvent.IM_NEED_RESOURCES_CLOSE, function (e: ContextEvent): void
+				{
+					//needResourceToolTip.removeAllElements();
+				});
 				
 				/* tutorial */
 				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
@@ -175,6 +201,7 @@
 	<resources:ResourcesView y="-42" x="406" />
 	
 	<s:Group id="tutorialGroup" />
+	<s:Group id="needResourceToolTipGroup" />
 	
 	<s:controlBarContent/>
 </s:Panel>

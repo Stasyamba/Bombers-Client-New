@@ -294,5 +294,9 @@
 	
 	<s:Group id="tutorialGroup" x="132" y="362" />
 	
+	<s:filters>
+		<s:DropShadowFilter alpha="0.2" />
+	</s:filters>
+	
 	<s:controlBarContent/>
 </s:Panel>

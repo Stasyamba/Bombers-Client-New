@@ -112,7 +112,7 @@
 										  customLabel="Задание"
 										  scaleX="0.6" scaleY="0.6"
 										  fontSize="30" fontSizeOver="30"
-										  fontColor="0xffeeca"
+										  fontColor="0xfff19f"
 										  click="doAction(false);"
 										  />
 			
@@ -134,7 +134,7 @@
 										  customLabel="В бой"
 										  scaleX="0.6" scaleY="0.6"
 										  fontSize="30" fontSizeOver="30"
-										  fontColor="0xffeeca"
+										  fontColor="0xfff19f"
 										  click="doAction(true);"
 										  />
 		</s:VGroup>
