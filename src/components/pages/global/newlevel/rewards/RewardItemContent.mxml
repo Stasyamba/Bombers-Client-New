@@ -14,13 +14,20 @@
 			
 			public function initContent(amount: int): void
 			{
-				amountLabel.text = amount.toString();
+				//amountLabel.text = amount.toString();
 			}
 			
 		]]>
 	</fx:Script>
 	
-	<s:Label id="amountLabel" fontFamily="mpbc" fontSize="30" color="0xf6da00" />
+	<!--<s:Label id="amountLabel" fontFamily="mpbc" fontSize="30" color="0xf6da00" />-->
+	
+	<s:Label id="amountLabel" text="{'Новый\nпредмет'}"
+			 textAlign="right"
+			 fontFamily="mpbc" fontSize="24" color="0xf6da00" 
+			 lineHeight="28"
+			 />
+	
 	<s:HGroup width="70">
 		<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/locationenter/swords.png')" smooth="true"
 					   scaleX="0.8" scaleY="0.8"

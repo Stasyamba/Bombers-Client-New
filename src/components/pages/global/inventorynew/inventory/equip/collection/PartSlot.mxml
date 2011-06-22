@@ -25,6 +25,7 @@
 	<fx:Script>
 		<![CDATA[
 			import components.common.items.ItemObject;
+			import components.common.items.ItemProfileObject;
 			import components.common.items.ItemType;
 			import components.common.items.ItemViewObject;
 			import components.common.utils.adjustcolor.ColorMatrix;
@@ -34,19 +35,35 @@
 			
 			public function initContent(itemType: ItemType):void 
 			{
-				
 				itemObject = Context.Model.itemsManager.getItem(itemType);
 				partImage.source = itemObject.viewObject.smallImageURL;
 				
 				var cm: ColorMatrix = new ColorMatrix();
 				cm.desaturate();
 				
+				var amount: int = 0;
+				
 				// serach in got items 
-				if(Context.Model.currentSettings.gameProfile.getItemProfileObject(itemType) == null)
+				
+				var ipo:ItemProfileObject = Context.Model.currentSettings.gameProfile.getItemProfileObject(itemType);
+				if(ipo == null)
 				{
 					partImage.filters = [cm.filter];
 					partImage.alpha = 0.7;
+				}else
+				{
+					amount = ipo.itemCount;
 				}
+				
+				if(amount == 0)
+				{
+					amountLabel.setStyle("color", 0x736e6a);
+				}else
+				{
+					amountLabel.setStyle("color", 0xf6da00);
+				}
+				
+				amountLabel.text = amount.toString()+" шт.";
 			}
 			
 		]]>
@@ -54,21 +71,29 @@
 	
 	<s:Group id="baseGroup">
 		
-		<s:BitmapImage id="bgImage" source="@Embed(source='assets/windows/inventory/auraSlotBG.jpg')">
-			<s:filters>
-				<s:DropShadowFilter id="imageShadowFilter" distance="2" alpha="0.3" />
-				<s:GlowFilter id="imageGlowFilter" blurX="10" blurY="10" color="0xfca918" alpha="0"
-							  strength="3"
+		<s:VGroup horizontalAlign="center">
+			<s:Group>
+				<s:BitmapImage id="bgImage" source="@Embed(source='assets/windows/inventory/auraSlotBG.jpg')">
+					<s:filters>
+						<s:DropShadowFilter id="imageShadowFilter" distance="2" alpha="0.3" />
+						<s:GlowFilter id="imageGlowFilter" blurX="10" blurY="10" color="0xfca918" alpha="0"
+									  strength="3"
+									  />
+					</s:filters>
+				</s:BitmapImage>
+				
+				<s:HGroup width="{bgImage.width}" height="{bgImage.height}"
+						  horizontalAlign="center" verticalAlign="middle">
+					<mx:Image id="partImage"
+							  trustContent="{Context.Model.trustContent}"
 							  />
-			</s:filters>
-		</s:BitmapImage>
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Label id="amountLabel" fontFamily="mpbc" fontSize="14" color="0xf6da00" />
+		</s:VGroup>
 		
-		<s:HGroup width="{bgImage.width}" height="{bgImage.height}"
-				  horizontalAlign="center" verticalAlign="middle">
-			<mx:Image id="partImage"
-					  trustContent="{Context.Model.trustContent}"
-					  />
-		</s:HGroup>
+		
 		
 	</s:Group>
 	

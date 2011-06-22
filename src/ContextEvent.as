@@ -95,7 +95,7 @@ public class ContextEvent extends Event {
 
     public static const GPAGE_MY_PARAMETERS_IS_CHANGED:String = "GPAGEMyParametersIsChanged";
     public static const GPAGE_UPDATE_GAME_WEAPONS:String = "GPAGEUpdateGameWeapons";
-	public static const GPAGE_NEED_TO_SET_GAME_FOCUS:String = "GPAGENeedToSetGameFocus";
+	public static const GPAGE_SET_GAME_FOCUS:String = "GPAGENeedToSetGameFocus";
 	
 	/** result game window events **/
 	

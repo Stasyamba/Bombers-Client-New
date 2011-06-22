@@ -41,25 +41,6 @@
 		<![CDATA[
 			import skins.buttons.CloseButtonOriginS;
 			
-			/*ublic function bottomMenuButtonClickHandler(type:int):void {
-			switch (type) {
-			case OPEN_MARKET_TYPE:
-			showInventoryMarket();
-			break;
-			
-			case OPEN_RANDOM_GAME_TYPE:
-			Context.gameModel.fastJoin();
-			showRandomGameCreating();
-			
-			Context.gameModel.someoneJoinedToGame.addOnce(function (p1:*):void {
-			closeRandomGameCreating();
-			Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_GAME);
-			});
-			
-			break;
-			}
-			} */ 
-			
 		]]>
 	</fx:Script>
 	
@@ -102,6 +83,7 @@
 				//Context.Model.windowsManager.closeAll(true);
 				//Context.Model.windowsManager.addWindow(this);
 				
+				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_SET_GAME_FOCUS);
 				Context.Model.addCustomListener(ContextEvent.IM_CLOSE, closeWrapper1);
 				
 				if(isShop)
@@ -112,13 +94,10 @@
 				
 				apearingA.play();
 				
-				/* check flag */
 				if(!isShop)
 				{
 					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, false);
 				}
-				/* if new shop item =  */
-				
 				
 				/* tutorial */
 				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)

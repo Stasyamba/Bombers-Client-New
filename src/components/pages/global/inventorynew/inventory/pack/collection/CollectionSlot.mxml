@@ -63,7 +63,11 @@
 				
 				if(gotItemsCollection == collection.itemParts.length)
 				{
-					// got al items
+					/* got al items */
+					glow1.alpha = 1;
+					glow2.alpha = 1;
+					glow3.alpha = 1;
+					
 				}else
 				{
 					countLabel.text = gotItemsCollection.toString()+" / "+collection.itemParts.length.toString();
@@ -105,5 +109,10 @@
 				 />
 	</s:Group>
 	
+	<s:filters>
+		<s:GlowFilter id="glow1" color="0xfff000" alpha="0" blurX="10" blurY="10" />
+		<s:GlowFilter id="glow2" color="0xfff000" alpha="0" blurX="20" blurY="20" />
+		<s:GlowFilter id="glow3" color="0xfff000" alpha="0" blurX="5" blurY="5" />
+	</s:filters>
 	
 </s:Group>

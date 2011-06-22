@@ -91,7 +91,7 @@
 			
 			Context.Model.addCustomListener(ContextEvent.QUEST_SET_GAME_FOCUS, function (e: ContextEvent): void
 			{	
-				focusGroup.visible = Boolean(e.data);	
+				focusGroup.visible = true;
 			});
 
             /* walk */

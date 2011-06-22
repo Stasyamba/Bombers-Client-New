@@ -71,6 +71,9 @@
 			private function panelCreationComplete():void {
 				Context.Model.windowsManager.closeAll(true);
 				Context.Model.windowsManager.addWindow(this);
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_SET_GAME_FOCUS);
+				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_SET_GAME_FOCUS);
 			}
 			
 			

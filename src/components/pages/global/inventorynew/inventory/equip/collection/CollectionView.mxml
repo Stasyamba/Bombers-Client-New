@@ -27,7 +27,7 @@
 			[Bindable]
 			private var itemDescription: String = "";
 			private var collection:ItemCollectionObject = null;
-			
+			private var allElementsIsCollected:Boolean;
 			
 			public function initContent(itemCollectionTypeP: ItemCollectionType):void 
 			{
@@ -44,7 +44,7 @@
 				
 				slotsGroup.removeAllElements();
 				
-				var allElementsIsCollected: Boolean = true;
+				allElementsIsCollected = true;
 				for each(var it: ItemType in collection.itemParts)
 				{
 					var partSlot: PartSlot = new PartSlot();
@@ -65,6 +65,7 @@
 				if(allElementsIsCollected)
 				{
 					allowedGroup.visible = true;
+					infoGroup.visible = false;
 				}else
 				{
 					deniedGroup.visible = true;
@@ -73,12 +74,15 @@
 			
 			private function showInfoGroup(e: MouseEvent):void
 			{
-				if(e.currentTarget is PartSlot)
+				if(!allElementsIsCollected)
 				{
-					itemDescription = (e.currentTarget as PartSlot).itemObject.viewObject.description;
-					
-					upInfoA.stop();
-					overInfoA.play();
+					if(e.currentTarget is PartSlot)
+					{
+						itemDescription = (e.currentTarget as PartSlot).itemObject.viewObject.description;
+						
+						upInfoA.stop();
+						overInfoA.play();
+					}
 				}
 			}
 			
@@ -170,6 +174,7 @@
 													  customLabel="Забрать"
 													  fontSize="28"
 													  fontSizeOver="28"
+													  fontColor="0xfff19f"
 													  />
 					</s:HGroup>
 				</s:Group>
@@ -179,7 +184,7 @@
 						  visible="true" alpha="0"
 						  >
 					<s:Label text="{itemDescription}" fontFamily="mpr" fontSize="14" color="0xc6993f" />
-					<s:Label text="Добыча: На всех локациях" fontFamily="mpbc" fontSize="14" color="0xdfbc78" />
+					<s:Label text="Добыча: Не известно" fontFamily="mpbc" fontSize="14" color="0xdfbc78" />
 				</s:VGroup>
 				
 			</s:Group>

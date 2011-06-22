@@ -26,12 +26,13 @@
 
              jgw.y -= 100; */
             Context.gameModel.fastJoin();
+			
             Context.gameModel.someoneJoinedToGame.addOnce(function (p1:*):void {
                 Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_GAME);
             });
 
             Context.gameModel.fastJoinFailed.addOnce(function ():void {
-                Alert.show("Не удалось присоединиться к игре!")
+                Alert.show("Не удалось присоединиться к игре!");
             });
         }
 

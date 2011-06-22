@@ -38,7 +38,7 @@
             });
 
 
-			Context.Model.addCustomListener(ContextEvent.GPAGE_NEED_TO_SET_GAME_FOCUS, function (e: ContextEvent): void
+			Context.Model.addCustomListener(ContextEvent.GPAGE_SET_GAME_FOCUS, function (e: ContextEvent): void
 			{	
 				focusGroup.visible = true;	
 			});

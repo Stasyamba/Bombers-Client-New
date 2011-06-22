@@ -27,7 +27,7 @@
 						resourceImage.scaleY=0.65;
 						
 						resourceType = ResourceType.GOLD;
-						resourceAmount.setStyle("color", 0xffd746);
+						resourceAmount.setStyle("color", 0xf6da00);
 						
 						break;
 					

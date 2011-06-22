@@ -171,6 +171,11 @@ public class GameProfile {
 			{
 				tmpArr.push(ipo);
 			} else {
+				if(finded)
+				{
+					tmpArr.push(ipo);
+				}
+				
 				finded = true;
 			}
 		}
@@ -224,7 +229,8 @@ public class GameProfile {
         var res:ItemProfileObject = null;
 
         for each(var i:ItemProfileObject in gotItems) {
-            if (i.itemType == itemType) {
+            if (i.itemType == itemType) 
+			{
                 res = i.clone();
             }
         }

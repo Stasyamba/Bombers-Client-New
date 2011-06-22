@@ -29,13 +29,13 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
-	<resources:ResourceCostView type="{ResourceType.GOLD}" amount="30" votes="1" imageScale="0.27" />
-	<resources:ResourceCostView type="{ResourceType.GOLD}" amount="150" votes="3" imageScale="0.35" />
-	<resources:ResourceCostView type="{ResourceType.GOLD}" amount="300" votes="5" imageScale="0.45" />
+	<resources:ResourceCostView type="{ResourceType.GOLD}" amount="50" votes="1" imageScale="0.27" />
+	<resources:ResourceCostView type="{ResourceType.GOLD}" amount="200" votes="3" imageScale="0.35" />
+	<resources:ResourceCostView type="{ResourceType.GOLD}" amount="600" votes="10" imageScale="0.45" />
 	
 	<resources:ResourceCostView type="{ResourceType.CRYSTALS}" amount="10" votes="1" imageScale="0.17" />
 	<resources:ResourceCostView type="{ResourceType.CRYSTALS}" amount="50" votes="3" imageScale="0.25" />
-	<resources:ResourceCostView type="{ResourceType.CRYSTALS}" amount="100" votes="5" imageScale="0.32" />
+	<resources:ResourceCostView type="{ResourceType.CRYSTALS}" amount="200" votes="10" imageScale="0.32" />
 	
 	<resources:ResourceCostView type="{ResourceType.ADAMANT}" amount="1" votes="1" imageScale="0.27"/>
 	<resources:ResourceCostView type="{ResourceType.ADAMANT}" amount="5" votes="3" imageScale="0.35"/>
