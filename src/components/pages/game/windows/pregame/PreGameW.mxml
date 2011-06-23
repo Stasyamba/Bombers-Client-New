@@ -87,6 +87,9 @@
 				{
 					switchContent(CONTENT_NOT_ENOUGH_ENERGY);
 				}
+				Context.gameModel.threeSecondsToStart.add( function (p0:*,p1:*){
+					Context.Model.dispatchCustomEvent(ContextEvent.GP_PREGAME_CLOSE);
+				})
 			}
 			
 			private function closeWrapper1(e:ContextEvent): void
@@ -133,7 +136,7 @@
 			{
 				close();
 				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
-				/* dispatch server some events */
+				Context.gameModel.leaveCurrentGame()
 			}
 			
 		]]>

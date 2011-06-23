@@ -16,7 +16,7 @@ public class EnemyView extends CreatureViewBase implements IDestroyable {
         super(bomber as CreatureBase);
         EngineContext.enemyInputDirectionChanged.add(inputDirectionChanged);
         EngineContext.enemySmoothMovePerformed.add(updateCoords)
-        EngineContext.enemyDied.add(onEnemyDied);
+        EngineContext.someoneDied.add(onEnemyDied);
     }
 
     private function inputDirectionChanged(slot:int, x:Number, y:Number, dir:Direction):void {
@@ -42,7 +42,7 @@ public class EnemyView extends CreatureViewBase implements IDestroyable {
     public function destroy():void {
         EngineContext.enemyInputDirectionChanged.remove(inputDirectionChanged);
         EngineContext.enemySmoothMovePerformed.remove(updateCoords)
-        EngineContext.enemyDied.remove(onEnemyDied);
+        EngineContext.someoneDied.remove(onEnemyDied);
     }
 
     protected function onEnemyDied(slot:int):void {

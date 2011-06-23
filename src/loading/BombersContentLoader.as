@@ -75,7 +75,6 @@ public class BombersContentLoader {
             var accessRules:Array = new Array()
             var bt:BomberType = new BomberType(b.@id, b.@name, ItemType.byValue(b.@bombId), b.@bombCount, b.@bombPower, b.@speed, b.@life, b.@crit, b.@block, b.@immortalTime, b.@graphicsId, accessRules, b.@description, b.@bigImageURL)
             BomberType.add(bt)
-            //Context.Model.bomberManager.addBomber(bt)
         }
         _areBomberTypesLoaded = true
         bomberTypesLoaded.dispatch()

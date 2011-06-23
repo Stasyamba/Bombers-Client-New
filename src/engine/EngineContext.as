@@ -70,9 +70,9 @@ public class EngineContext {
     private var _objectActivated:ObjectActivatedSignal = new ObjectActivatedSignal();
     //---damage
     private var _playerDamaged:PlayerDamagedSignal = new PlayerDamagedSignal();
-    private var _enemyDamaged:EnemyDamagedSignal = new EnemyDamagedSignal();
+    private var _someoneDamaged:EnemyDamagedSignal = new EnemyDamagedSignal();
     private var _playerDied:PlayerDiedSignal = new PlayerDiedSignal();
-    private var _enemyDied:EnemyDiedSignal = new EnemyDiedSignal();
+    private var _someoneDied:EnemyDiedSignal = new EnemyDiedSignal();
     private var _deathWallAppeared:DieWallAppearedSignal = new DieWallAppearedSignal();
 
     //---frame
@@ -187,16 +187,16 @@ public class EngineContext {
         return instance._playerDamaged;
     }
 
-    public static function get enemyDamaged():EnemyDamagedSignal {
-        return instance._enemyDamaged;
+    public static function get someoneDamaged():EnemyDamagedSignal {
+        return instance._someoneDamaged;
     }
 
     public static function get playerDied():PlayerDiedSignal {
         return instance._playerDied;
     }
 
-    public static function get enemyDied():EnemyDiedSignal {
-        return instance._enemyDied;
+    public static function get someoneDied():EnemyDiedSignal {
+        return instance._someoneDied;
     }
 
     public static function get deathWallAppeared():DieWallAppearedSignal {
@@ -294,9 +294,9 @@ public class EngineContext {
         objectActivated.removeAll()
         //---damage
         playerDamaged.removeAll()
-        enemyDamaged.removeAll()
+        someoneDamaged.removeAll()
         playerDied.removeAll()
-        enemyDied.removeAll()
+        someoneDied.removeAll()
         deathWallAppeared.removeAll()
 
         //---quests
