@@ -22,7 +22,7 @@ public class Settings {
 	public var lotteryPresentFinded: ResourcePrice = null;
 	public var lotteryResourcePrize:ResourcePrice = new ResourcePrice(0,0,0,0);
 	*/
-	public var votes: int = 0;
+	public var votes: Number = 0;
     public var gameProfileLoaded:Boolean = false;
 
     public function Settings()
