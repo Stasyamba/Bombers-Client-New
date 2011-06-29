@@ -4,55 +4,53 @@
  */
 
 package engine.model.gameServer {
-import com.smartfoxserver.v2.SmartFox;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.requests.ExtensionRequest;
-import com.smartfoxserver.v2.requests.JoinRoomRequest;
-import com.smartfoxserver.v2.requests.LeaveRoomRequest;
-import com.smartfoxserver.v2.requests.LoginRequest;
-import com.smartfoxserver.v2.requests.PublicMessageRequest;
+import com.smartfoxserver.v2.SmartFox
+import com.smartfoxserver.v2.core.SFSEvent
+import com.smartfoxserver.v2.entities.Room
+import com.smartfoxserver.v2.entities.data.ISFSArray
+import com.smartfoxserver.v2.entities.data.ISFSObject
+import com.smartfoxserver.v2.entities.data.SFSObject
+import com.smartfoxserver.v2.requests.ExtensionRequest
+import com.smartfoxserver.v2.requests.JoinRoomRequest
+import com.smartfoxserver.v2.requests.LeaveRoomRequest
+import com.smartfoxserver.v2.requests.LoginRequest
+import com.smartfoxserver.v2.requests.PublicMessageRequest
 
-import components.common.base.access.rules.levelrule.AccessLevelRule;
-import components.common.base.expirance.ExperianceObject;
-import components.common.base.market.ItemMarketObject;
-import components.common.bombers.BomberType;
-import components.common.friendslent.FriendObject;
-import components.common.items.ItemObject;
-import components.common.items.ItemProfileObject;
-import components.common.items.ItemType;
-import components.common.resources.ResourceObject;
-import components.common.resources.ResourcePrice;
-import components.common.tutorial.TutorialPartType;
-import components.common.worlds.locations.LocationType;
+import components.common.base.access.rules.levelrule.AccessLevelRule
+import components.common.base.expirance.ExperianceObject
+import components.common.base.market.ItemMarketObject
+import components.common.bombers.BomberType
+import components.common.friendslent.FriendObject
+import components.common.items.ItemObject
+import components.common.items.ItemProfileObject
+import components.common.items.ItemType
+import components.common.resources.ResourcePrice
+import components.common.tutorial.TutorialPartType
+import components.common.worlds.locations.LocationType
 
-import engine.EngineContext;
-import engine.bombers.MoveTickObject;
-import engine.maps.interfaces.IDynObject;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.mapObjects.DynObjectType;
-import engine.model.signals.InGameMessageReceivedSignal;
-import engine.model.signals.ProfileLoadedSignal;
-import engine.model.signals.manage.GameServerConnectedSignal;
-import engine.model.signals.manage.LoggedInSignal;
-import engine.profiles.GameProfile;
-import engine.profiles.LobbyProfile;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponType;
+import engine.EngineContext
+import engine.bombers.MoveTickObject
+import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.mapObjects.DynObjectType
+import engine.model.signals.InGameMessageReceivedSignal
+import engine.model.signals.ProfileLoadedSignal
+import engine.model.signals.manage.GameServerConnectedSignal
+import engine.model.signals.manage.LoggedInSignal
+import engine.profiles.GameProfile
+import engine.profiles.LobbyProfile
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponType
 
-import flash.events.TimerEvent;
-import flash.utils.Timer;
+import flash.events.TimerEvent
+import flash.utils.Timer
 
-import greensock.TweenMax;
+import greensock.TweenMax
 
-import mx.controls.Alert;
-import mx.utils.ObjectUtil;
+import mx.utils.ObjectUtil
 
-import org.osflash.signals.Signal;
+import org.osflash.signals.Signal
 
 public class GameServer extends SmartFox {
 
@@ -264,19 +262,19 @@ public class GameServer extends SmartFox {
     }
 
     public function sendPlayerDamaged(damage:int, isDead:Boolean):void {
-        var params:ISFSObject = new SFSObject();
-        params.putInt("game.damagePlayer.fields.damage", damage);
-        params.putBool("game.damagePlayer.fields.isDead", isDead);
-
-        send(new ExtensionRequest(DAMAGE_PLAYER, params, gameRoom));
+//        var params:ISFSObject = new SFSObject();
+//        params.putInt("game.damagePlayer.fields.damage", damage);
+//        params.putBool("game.damagePlayer.fields.isDead", isDead);
+//
+//        send(new ExtensionRequest(DAMAGE_PLAYER, params, gameRoom));
     }
 
     public function sendActivateDynamicObject(object:IDynObject):void {
-        var params:ISFSObject = new SFSObject();
-        params.putInt("game.actDO.f.x", object.x);
-        params.putInt("game.actDO.f.y", object.y);
-
-        send(new ExtensionRequest(ACTIVATE_DYNAMIC_OBJECT, params, gameRoom));
+//        var params:ISFSObject = new SFSObject();
+//        params.putInt("game.actDO.f.x", object.x);
+//        params.putInt("game.actDO.f.y", object.y);
+//
+//        send(new ExtensionRequest(ACTIVATE_DYNAMIC_OBJECT, params, gameRoom));
     }
 
     public function sendActivateWeapon(x:int, y:int, weaponType:WeaponType):void {
@@ -376,11 +374,11 @@ public class GameServer extends SmartFox {
         var time:int = responseParams.getInt("time")
         if (_measureMode) {
             if (id > 0)
-                _averagePing += int((int(new Date().getTime()) - time)/10)
-        }else{
-            _averagePing = int((_averagePing * 4 + (int(new Date().getTime()) - time))/5)
+                _averagePing += int((int(new Date().getTime()) - time) / 10)
+        } else {
+            _averagePing = int((_averagePing * 4 + (int(new Date().getTime()) - time)) / 5)
         }
-       // EngineContext.pingChanged.dispatch(_averagePing)
+        // EngineContext.pingChanged.dispatch(_averagePing)
     }
 
     private function startPing():void {
@@ -508,13 +506,12 @@ public class GameServer extends SmartFox {
                 break;
             case PLAYER_DAMAGED:
                 slot = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("UserId")).slot
-                if (Context.gameModel.isMySlot(slot))
-                    return;
-                EngineContext.enemyDamaged.dispatch(slot, responseParams.getInt("HealthLeft"));
+                EngineContext.someoneDamaged.dispatch(slot, responseParams.getInt("HealthLeft"));
                 trace("damaged enemy " + responseParams.getInt("HealthLeft"))
                 break;
             case PLAYER_DIED:
                 var slot:int
+                EngineContext.someoneDied.dispatch(slot);
                 var lp:LobbyProfile = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("UserId"));
                 if (lp != null) {
                     slot = lp.slot
@@ -534,7 +531,6 @@ public class GameServer extends SmartFox {
                     }
                 }
                 updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
-                EngineContext.enemyDied.dispatch(slot);
                 break;
             case DEATH_WALL_APPEARED:
                 EngineContext.deathWallAppeared.dispatch(
@@ -601,7 +597,7 @@ public class GameServer extends SmartFox {
                 }
                 //gp
                 var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
-				gp.energy = 100;
+                gp.energy = 100;
                 profileLoaded.dispatch(gp);
 
                 /* testing */
@@ -675,7 +671,7 @@ public class GameServer extends SmartFox {
                     return
                 } else {
                     var en:int = responseParams.getInt("interface.buyResources.result.fields.resourceType4");
-					
+
                     if (en == 0) {
                         var rp:ResourcePrice = new ResourcePrice(responseParams.getInt("interface.buyResources.result.fields.resourceType0"),
                                 responseParams.getInt("interface.buyResources.result.fields.resourceType1"),
@@ -690,7 +686,7 @@ public class GameServer extends SmartFox {
                     }
                 }
                 break;
-			
+
             case INT_BUY_ITEM_RESULT:
                 trace("item bought");
 				
@@ -722,7 +718,7 @@ public class GameServer extends SmartFox {
                 Context.Model.dispatchCustomEvent(ContextEvent.IM_ITEMBUY_SUCCESS, iType)
 
                 break;
-			
+
             case INT_GAME_NAME_RESULT:
                 newGameNameObtained.dispatch(responseParams.getUtfString("interface.gameManager.findGameName.result.fields.gameName"))
                 break;
@@ -808,7 +804,7 @@ public class GameServer extends SmartFox {
             var lp:LobbyProfile = Context.gameModel.getLobbyProfileById(name)
             if (lp != null) {
                 var slot:int = lp.slot
-                moveTickObject[slot] = new MoveTickObject(cx,cy,new Date().getTime(),dir)
+                moveTickObject[slot] = new MoveTickObject(cx, cy, new Date().getTime(), dir)
                 trace(ObjectUtil.toString(moveTickObject))
             }
         }

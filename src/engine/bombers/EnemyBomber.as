@@ -12,8 +12,6 @@ import engine.playerColors.PlayerColor
 import engine.profiles.PlayerGameProfile
 import engine.utils.Direction
 
-import flash.geom.Point
-
 public class EnemyBomber extends BomberBase implements IEnemyBomber {
 
     protected var _serverDir:Direction = Direction.NONE;
@@ -24,8 +22,8 @@ public class EnemyBomber extends BomberBase implements IEnemyBomber {
 
         _serverDir = Direction.NONE
         EngineContext.moveTick.add(onMoveTick)
-        EngineContext.enemyDamaged.add(onDamaged);
-        EngineContext.enemyDied.add(onDied);
+        EngineContext.someoneDamaged.add(onDamaged);
+        EngineContext.someoneDied.add(onDied);
         EngineContext.enemyDirectionForecast.add(onEnemyDirectionForecast)
     }
 
@@ -39,7 +37,7 @@ public class EnemyBomber extends BomberBase implements IEnemyBomber {
         if (!Context.gameModel.isPlayingNow || obj == null)
             return
         var tickObject:Object = obj[slot]
-        if(tickObject == null)
+        if (tickObject == null)
             return
 //        var xPogr:Number = Math.abs(tickObject.x - Math.round(tickObject.x))
 //        var yPogr:Number = Math.abs(tickObject.y - Math.round(tickObject.y))
@@ -49,7 +47,7 @@ public class EnemyBomber extends BomberBase implements IEnemyBomber {
 //        if (yPogr < 10e-6)
 //            tickObject.y = Math.round(tickObject.y)
 
-        _coords.setExplicit(tickObject.x,tickObject.y)
+        _coords.setExplicit(tickObject.x, tickObject.y)
 
         if (!_coords.correctCoords(tickObject.x, tickObject.y)) {
         }
@@ -70,7 +68,7 @@ public class EnemyBomber extends BomberBase implements IEnemyBomber {
             makeImmortalFor(immortalTime);
         }
     }
-
+	
     public function performSmoothMotion(moveAmount:Number):void {
         if (!Context.gameModel.isPlayingNow)
             return

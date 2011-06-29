@@ -9,14 +9,14 @@
     </fx:Declarations>
     <fx:Script><![CDATA[
         import components.ApplicationView;
-        import components.common.game.questgameresult.QuestResultObject
-        import components.common.quests.medals.MedalType
+        import components.common.game.questgameresult.QuestResultObject;
+        import components.common.quests.medals.MedalType;
         import components.common.worlds.locations.LocationType;
         
         import engine.EngineContext;
-        import engine.games.GameType
-        import engine.games.quest.medals.Medal
-        import engine.games.quest.medals.MedalBase
+        import engine.games.GameType;
+        import engine.games.quest.medals.Medal;
+        import engine.games.quest.medals.MedalBase;
         import engine.ui.GameFieldView;
 
         private var now:int,then:int;
@@ -59,6 +59,7 @@
             //listener'll be removed in gameModel
             Context.gameModel.gameEnded.add(function (winnerId:String, winnerExp:int):void {
                 endGame();
+				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW);
             });
         }
 

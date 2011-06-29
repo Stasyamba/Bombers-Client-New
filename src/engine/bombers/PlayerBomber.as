@@ -84,13 +84,12 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
         EngineContext.moveTick.add(onMoveTick)
         EngineContext.currentWeaponChanged.add(onCurrentWeaponChanged)
         EngineContext.weaponUnitSpent.add(onWeaponUnitSpent)
-        EngineContext.playerDied.addOnce(function():void {
-            _spectatorMode = true;
-        })
+        EngineContext.someoneDamaged.add(onDamaged);
+        EngineContext.someoneDied.add(onDied);
     }
 
     public function sendDirection(miliSecs:int):void {
-        if(!Context.gameModel.isPlayingNow || isDead)
+        if (!Context.gameModel.isPlayingNow || isDead)
             return
         if (_sendTime + miliSecs > 50 && _waitingToSend) {
             Context.gameServer.sendPlayerDirectionChanged(coords.getRealX(), coords.getRealY(), _standStill ? Direction.NONE : _serverDir, false)
@@ -366,35 +365,31 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
     }
 
     public override function explode(expl:IExplosion):void {
-        hit(expl.damage)
+
     }
 
-
-    public function hit(dmg:int):void {
-        if (dmg <= 0) //smoke explosion
-            return
-        hitWithoutImmortal(dmg)
-        if (!isDead)
-            super.makeImmortalFor(immortalTime);
+    protected function onDamaged(id:int, health_left:int):void {
+        if (slot == id) {
+            life = health_left;
+            makeImmortalFor(immortalTime);
+        }
     }
 
-
-    public function hitWithoutImmortal(dmg:int):void {
-        if (dmg <= 0) //smoke explosion
-            return
-        life -= dmg;
-        if (life < 0) life = 0;
-
-        EngineContext.playerDamaged.dispatch(dmg, isDead)
-        if (isDead) {
-            EngineContext.playerDied.dispatch();
+    private function onDied(id:int):void {
+        if (id == slot) {
+            kill();
+            _spectatorMode = true;
         }
     }
 
     public override function kill():void {
-        EngineContext.playerDied.dispatch();
-        EngineContext.playerDamaged.dispatch(_life, true);
         life = 0;
+    }
+
+    public function hit(dmg:int):void {
+    }
+
+    public function hitWithoutImmortal(damage:int):void {
     }
 
     public function tryActivateWeapon():void {
