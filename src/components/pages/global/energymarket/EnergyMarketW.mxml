@@ -54,6 +54,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
 			
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
@@ -74,6 +76,25 @@
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_SET_GAME_FOCUS);
 				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_SET_GAME_FOCUS);
+			}
+			
+			public function buyEnergy(energyAmount: int, energyVotePrice: int): void
+			{
+				if(Context.Model.currentSettings.votes < energyVotePrice)
+				{
+					(parentApplication as Bombers).setAFBAction(Bombers.AFB_BUY_ENERGY, null, energyAmount);
+					
+					Context.Model.dispatchCustomEvent(
+						ContextEvent.VK_SHOW_VOTE_CONTROL, 
+						energyVotePrice - Context.Model.currentSettings.votes
+					);
+					
+				}else
+				{	
+					Context.gameServer.sendBuyEnergyRequest(energyAmount);
+				}
+				
+				closeWrapper();
 			}
 			
 			
@@ -140,6 +161,7 @@
 											  scaleX="0.6" scaleY="0.6"
 											  customLabel="Купить" fontColor="0xfff19f"
 											  fontSize="32" fontSizeOver="32"
+											  click="buyEnergy(25, 1);"
 											  >
 					<flexcomponents:filters>
 						<s:DropShadowFilter alpha="0.2" />
@@ -166,6 +188,7 @@
 											  scaleX="0.6" scaleY="0.6"
 											  customLabel="Купить" fontColor="0xfff19f"
 											  fontSize="32" fontSizeOver="32"
+											  click="buyEnergy(100, 3);"
 											  >
 					<flexcomponents:filters>
 						<s:DropShadowFilter alpha="0.2" />
@@ -192,6 +215,7 @@
 											  scaleX="0.6" scaleY="0.6"
 											  customLabel="Купить" fontColor="0xfff19f"
 											  fontSize="32" fontSizeOver="32"
+											  click="buyEnergy(175, 5);"
 											  >
 					<flexcomponents:filters>
 						<s:DropShadowFilter alpha="0.2" />

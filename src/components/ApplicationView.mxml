@@ -400,7 +400,7 @@
        /* local testing */
 			
        private function setId(id:int):void {
-		    
+		   
 		    if(id != 6)
 			{
 	            Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
@@ -415,6 +415,7 @@
 	            Context.gameModel.init();
 			}else
 			{
+				idGroup.visible = false;
 				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
 				Context.gameModel.init();
 			}

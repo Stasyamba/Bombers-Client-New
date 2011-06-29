@@ -58,14 +58,14 @@
 				closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, timerCompleteHandler);
 				closeTimer.stop();
 				
-				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, function (e:ContextEvent):void {
-					//setEnergy(int(e.data));
+				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, function (e:ContextEvent):void 
+				{
+					setEnergy(Context.Model.currentSettings.gameProfile.energy);
 				});
 				
 				if(Context.Model.currentSettings.gameProfileLoaded)
 				{
-					//setEnergy(Context.Model.currentSettings.gameProfile.energy);
-					setEnergy(15);
+					setEnergy(Context.Model.currentSettings.gameProfile.energy);
 				}
 				
 				/* set dark side */

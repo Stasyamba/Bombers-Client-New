@@ -58,6 +58,8 @@ public class LocationType {
                 return WORLD1_SATTELITE
             case WORLD1_MOON.value:
                 return WORLD1_MOON
+			default:
+				return null;
         }
         throw new ArgumentError("no LocationType found with value = " + value);
     }

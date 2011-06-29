@@ -36,13 +36,8 @@
 			
 			private function buyResource(): void
 			{
-				//Alert.show("Cost: "+resourceVotePrice.toString());
-				//Alert.show("Votes: "+Context.Model.currentSettings.votes.toString());
-				
 				if(Context.Model.currentSettings.votes < resourceVotePrice)
 				{
-					//Alert.show("Not enough votes");
-					
 					(parentApplication as Bombers).setAFBAction(Bombers.AFB_BUY_RESOURCE, resourceType, resourceAmount);
 					
 					Context.Model.dispatchCustomEvent(
@@ -51,11 +46,7 @@
 					);
 					
 				}else
-				{
-					//Alert.show("Votes enough");
-					
-					/* set delay action */
-					
+				{	
 					var rp: ResourcePrice = new ResourcePrice(0,0,0,0);
 					rp.setResourceValue(resourceType, resourceAmount);
 					

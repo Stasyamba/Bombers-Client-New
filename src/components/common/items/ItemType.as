@@ -83,6 +83,8 @@ public class ItemType {
                 return HEALTH_PACK_ADVANCED_POISON
 			case PART_BOOTS.value:
 				return PART_BOOTS;
+			default:
+				return null;
         }
         throw new ArgumentError("no ItemType found with value = " + value);
     }
