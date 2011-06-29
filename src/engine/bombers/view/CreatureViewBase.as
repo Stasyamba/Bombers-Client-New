@@ -82,10 +82,12 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
 
         lifePopup.filters = [new BlurFilter(1.5, 1.5, BitmapFilterQuality.HIGH)]
 
-        TweenMax.to(lifePopup, 2, {alpha:0.6,x:"-8",scaleX:1.5, scaleY:1.5,y:"-50",onComplete:function():void {
+        TweenMax.to(lifePopup, 2, {alpha:0.6,x:"-8",y:"-50",onComplete:function():void {
             parent.removeChild(lifePopup)
         }
         })
+
+//        TweenMax.to(lifePopup, 2, {scaleX:1.5, scaleY:1.5})
     }
 
     private function addState(state:ViewState):void {
