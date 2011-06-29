@@ -5,8 +5,6 @@
 
 package engine.bombers.view {
 import engine.bombers.CreatureBase
-import engine.bombers.skin.ColoredGameSkin
-import engine.bombers.skin.SkinElement
 import engine.data.Consts
 import engine.explosionss.destroy.BasicDestroyExplosion
 import engine.interfaces.IDrawable
@@ -17,6 +15,10 @@ import engine.utils.ViewStateManager
 import flash.display.BlendMode
 import flash.display.MovieClip
 import flash.display.Sprite
+import flash.filters.BitmapFilterQuality
+import flash.filters.BlurFilter
+import flash.text.TextField
+import flash.text.TextFormat
 
 import greensock.TweenMax
 
@@ -49,8 +51,40 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
 
         this._creature.stateAdded.add(addState);
         this._creature.stateRemoved.add(removeState);
-        this._creature.lifeChanged.add(draw)
+        this._creature.lifeChanged.add(onLifeChanged)
         draw();
+    }
+
+    private function onLifeChanged(diff:int):void {
+        var lifePopup:Sprite = new Sprite()
+        var l:TextField = new TextField()
+        var tf:TextFormat = new TextFormat();
+        tf.size = 20;
+        tf.font = "mpbc"
+        l.defaultTextFormat = tf;
+        l.text = diff.toString();
+        l.textColor = diff > 0 ? 0xff00 : 0xff0000;
+        lifePopup.addChild(l)
+
+//		l.styleSheet = new StyleSheet();
+//		l.styleSheet.setStyle("font-size","30px")
+//		l.styleSheet.setStyle("fontSize",30);
+
+//		var s:StyleSheet = new StyleSheet();
+//		s.setStyle("fontFamily","mps");
+//		s.setStyle("fontSize",30);
+//        l.styleSheet = s;
+
+        lifePopup.x = _creature.coords.getRealX() + Consts.BOMBER_SIZE - 25;
+        lifePopup.y = y;
+        parent.addChild(lifePopup)
+
+        lifePopup.filters = [new BlurFilter(2, 2, BitmapFilterQuality.HIGH)]
+
+        TweenMax.to(lifePopup, 5, {alpha:0.2,y:"-50",onComplete:function():void {
+            parent.removeChild(lifePopup)
+        }
+        })
     }
 
     private function addState(state:ViewState):void {

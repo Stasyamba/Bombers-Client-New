@@ -566,13 +566,13 @@ public class GameServer extends SmartFox {
                     var it:ISFSObject = enArr.getSFSObject(i);
                     Context.resourceMarket.ENERGY_VOICES[it.getInt("Count")] = it.getInt("Price")
                 }
-                var discArr:ISFSArray = plist.getSFSArray("Discounts")
-                var discs:Array = new Array()
-                for (var i:int = 0; i < discArr.size(); i++) {
-                    var it:ISFSObject = discArr.getSFSObject(i);
-                    discs.push({moreThan:it.getInt("From"),discount:it.getInt("Value")})
-                }
-                Context.resourceMarket.setDiscounts(discs)
+//                var discArr:ISFSArray = plist.getSFSArray("Discounts")
+//                var discs:Array = new Array()
+//                for (var i:int = 0; i < discArr.size(); i++) {
+//                    var it:ISFSObject = discArr.getSFSObject(i);
+//                    discs.push({moreThan:it.getInt("From"),discount:it.getInt("Value")})
+//                }
+//                Context.resourceMarket.setDiscounts(discs)
                 //itemCost
                 var itemsArr:ISFSArray = plist.getSFSArray("Items");
                 var prices:Array = new Array()
@@ -662,9 +662,7 @@ public class GameServer extends SmartFox {
 				
 				/* locations */
 				Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
-				
-				//Alert.show(
-				
+
                 break;
             case INT_BUY_RESOURCES_RESULT:
                 trace("resources bought");

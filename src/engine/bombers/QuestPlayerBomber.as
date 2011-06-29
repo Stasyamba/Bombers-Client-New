@@ -190,8 +190,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     public function hitWithoutImmortal(dmg:int):void {
         if (dmg <= 0)
             return
-        life -= dmg;
-        if (life < 0) life = 0;
+        life - dmg < 0 ? life = 0 : life -= dmg;
 
         EngineContext.playerDamaged.dispatch(dmg, isDead)
         if (isDead) {

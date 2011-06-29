@@ -198,7 +198,8 @@ public class GameModel {
     //----------singleplayer-----------
 
     public function tryCreateQuest(questId:String, locationType:LocationType):void {
-        Context.gameServer.createQuestRequest(questId, locationType.value)
+//        todo: uncomment
+//        Context.gameServer.createQuestRequest(questId, locationType.value)
         questGameCreated.addOnce(onQuestCreated)
         createQuestFailed.addOnce(onCreateQuestFailed)
         createdByMe = true
