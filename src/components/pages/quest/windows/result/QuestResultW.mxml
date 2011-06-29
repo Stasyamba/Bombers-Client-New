@@ -272,9 +272,9 @@
 												  buttonMode="true" useHandCursor="true"
 												  customLabel="Повторить"
 												  fontSize="28" fontSizeOver="28"
-												  fontColor="0xffeeca"
 												  scaleX="0.8" scaleY="0.8"
 												  click="startQuest();"
+												  fontColor="0xfff19f"
 												  />
 				</s:HGroup>
 				

@@ -175,6 +175,7 @@
 										  scaleX="0.8" scaleY="0.8"
 										  click="startQuest();"
 										  focusEnabled="false"
+										  fontColor="0xfff19f"
 										  />
 		</s:HGroup>
 		
