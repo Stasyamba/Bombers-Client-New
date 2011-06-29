@@ -40,7 +40,7 @@ public class CreatureBase {
     protected var _stateAdded:StateAddedSignal = new StateAddedSignal();
     protected var _stateRemoved:StateRemovedSignal = new StateRemovedSignal();
 
-    protected var _lifeChanged:Signal = new Signal();
+    protected var _lifeChanged:Signal = new Signal(int);
 
     protected var _type:ICreatureType
 
@@ -118,8 +118,8 @@ public class CreatureBase {
     }
 
     public function set life(life:int):void {
+        _lifeChanged.dispatch(life - _life)
         _life = life;
-        _lifeChanged.dispatch()
     }
 
     public function get isDead():Boolean {
