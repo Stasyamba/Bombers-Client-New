@@ -40,11 +40,9 @@ public interface IBomber {
 
     function get isImmortal():Boolean;
 
+    function get immortalTime():int
+
     function get color():PlayerColor;
-
-    function get isDead():Boolean;
-
-    function kill():void;
 
     function get stateAdded():StateAddedSignal
 
@@ -58,9 +56,15 @@ public interface IBomber {
 
     function get startLife():int
 
+    function get isDead():Boolean;
+
+    function kill():void;
+
     function get lifeAuraBonus():int
 
     function get hasLifeAuraBonus():Boolean
+
+    function get lifeChanged():Signal;
 
 
     function get speed():Number
@@ -70,11 +74,6 @@ public interface IBomber {
     function get speedAuraBonus():Number
 
     function get hasSpeedAuraBonus():Boolean
-
-
-    function get baseBlockChance():Number
-
-    function get baseCritChance():Number
 
 
     function get bombCount():int
@@ -95,7 +94,14 @@ public interface IBomber {
     function get hasBombPowerAuraBonus():Boolean
 
 
-    function get immortalTime():int
+    function get baseBlockChance():Number
+
+    function get baseCritChance():Number
+
+    function getTotalBlockChance(bt:BomberType):Number
+
+
+    //skills change
 
     function incSpeed():void
 
@@ -107,15 +113,12 @@ public interface IBomber {
 
     function returnBomb():void;
 
-    function get lifeChanged():Signal;
-
-    function hasAura(aura:WeaponType):Boolean
-
     function setSpeed(i:int):void
 
     function resetSpeed():void
 
-    function getTotalBlockChance(bt:BomberType):Number
+
+    function hasAura(aura:WeaponType):Boolean
 
     function get type():ICreatureType
 
