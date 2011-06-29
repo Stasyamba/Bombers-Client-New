@@ -4,30 +4,23 @@
  */
 
 package engine.bombers.view {
-import components.common.utils.adjustcolor.Color;
+import engine.bombers.CreatureBase
+import engine.data.Consts
+import engine.explosionss.destroy.BasicDestroyExplosion
+import engine.interfaces.IDrawable
+import engine.utils.IStatedView
+import engine.utils.ViewState
+import engine.utils.ViewStateManager
 
-import engine.bombers.CreatureBase;
-import engine.bombers.skin.ColoredGameSkin;
-import engine.bombers.skin.SkinElement;
-import engine.data.Consts;
-import engine.explosionss.destroy.BasicDestroyExplosion;
-import engine.interfaces.IDrawable;
-import engine.utils.IStatedView;
-import engine.utils.ViewState;
-import engine.utils.ViewStateManager;
+import flash.display.BlendMode
+import flash.display.MovieClip
+import flash.display.Sprite
+import flash.filters.BitmapFilterQuality
+import flash.filters.BlurFilter
+import flash.text.TextField
+import flash.text.TextFormat
 
-import flash.display.BlendMode;
-import flash.display.MovieClip;
-import flash.display.Sprite;
-import flash.filters.BitmapFilterQuality;
-import flash.filters.BlurFilter;
-import flash.text.StyleSheet;
-import flash.text.TextField;
-import flash.text.TextFormat;
-
-import greensock.TweenMax;
-
-import spark.components.Label;
+import greensock.TweenMax
 
 public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
 
@@ -65,14 +58,14 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
     private function onLifeChanged(diff:int):void {
         var lifePopup:Sprite = new Sprite()
         var l:TextField = new TextField()
-		var tf:TextFormat = new TextFormat();
-		tf.size = 25;
-        tf.font = "Arial"
-		l.defaultTextFormat = tf;
+        var tf:TextFormat = new TextFormat();
+        tf.size = 20;
+        tf.font = "mpbc"
+        l.defaultTextFormat = tf;
         l.text = diff.toString();
-		l.textColor = diff > 0 ? 0xff00 : 0xff0000;
-		lifePopup.addChild(l)
-			
+        l.textColor = diff > 0 ? 0xff00 : 0xff0000;
+        lifePopup.addChild(l)
+
 //		l.styleSheet = new StyleSheet();
 //		l.styleSheet.setStyle("font-size","30px")
 //		l.styleSheet.setStyle("fontSize",30);
@@ -81,16 +74,16 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
 //		s.setStyle("fontFamily","mps");
 //		s.setStyle("fontSize",30);
 //        l.styleSheet = s;
-        
+
         lifePopup.x = _creature.coords.getRealX() + Consts.BOMBER_SIZE - 25;
         lifePopup.y = y;
         parent.addChild(lifePopup)
 
-        lifePopup.filters = [new BlurFilter(2,2,BitmapFilterQuality.HIGH)]
+        lifePopup.filters = [new BlurFilter(2, 2, BitmapFilterQuality.HIGH)]
 
-        TweenMax.to(lifePopup,5,{alpha:0.1,y:"-50",onComplete:function():void{
+        TweenMax.to(lifePopup, 5, {alpha:0.2,y:"-50",onComplete:function():void {
             parent.removeChild(lifePopup)
-            }
+        }
         })
     }
 
