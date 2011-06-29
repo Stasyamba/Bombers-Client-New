@@ -4,8 +4,7 @@
  */
 
 package engine.bombers.interfaces {
-	
-import engine.bombers.BomberType;
+import engine.bombers.BomberType
 import engine.explosionss.interfaces.IExplosion
 import engine.games.quest.monsters.ICreatureType
 import engine.maps.IMap
@@ -59,21 +58,42 @@ public interface IBomber {
 
     function get startLife():int
 
+    function get lifeAuraBonus():int
+
+    function get hasLifeAuraBonus():Boolean
+
+
     function get speed():Number
 
     function get baseSpeed():Number
+
+    function get speedAuraBonus():Number
+
+    function get hasSpeedAuraBonus():Boolean
+
 
     function get baseBlockChance():Number
 
     function get baseCritChance():Number
 
+
     function get bombCount():int
 
     function get baseBombCount():int
 
+    function get bombCountAuraBonus():int
+
+    function get hasBombCountAuraBonus():Boolean
+
+
     function get bombPower():int
 
     function get baseBombPower():int
+
+    function get bombPowerAuraBonus():int
+
+    function get hasBombPowerAuraBonus():Boolean
+
 
     function get immortalTime():int
 

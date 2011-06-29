@@ -4,14 +4,12 @@
  */
 
 package engine.bombers {
-
-import engine.bombers.BomberType;
-import engine.bombers.interfaces.IBomber;
-import engine.bombers.skin.BasicSkin;
-import engine.explosionss.interfaces.IExplosion;
-import engine.games.IGame;
-import engine.playerColors.PlayerColor;
-import engine.weapons.WeaponType;
+import engine.bombers.interfaces.IBomber
+import engine.bombers.skin.BasicSkin
+import engine.explosionss.interfaces.IExplosion
+import engine.games.IGame
+import engine.playerColors.PlayerColor
+import engine.weapons.WeaponType
 
 public class BomberBase extends CreatureBase implements IBomber {
 
@@ -31,7 +29,7 @@ public class BomberBase extends CreatureBase implements IBomber {
 
     private var _auras:Array
 
-    public function BomberBase(game:IGame, slot:int, bomberType: BomberType, userName:String, color:PlayerColor, skin:BasicSkin, auras:Array) {
+    public function BomberBase(game:IGame, slot:int, bomberType:BomberType, userName:String, color:PlayerColor, skin:BasicSkin, auras:Array) {
         super(game, slot, bomberType)
         _color = color;
         _userName = userName;
@@ -53,32 +51,23 @@ public class BomberBase extends CreatureBase implements IBomber {
     public override function get speed():Number {
         if (_explicitSpeed >= 0)
             return _explicitSpeed
-        return _speed + getAurasSpeedBonus()
+        return _speed + speedAuraBonus
     }
 
-    private function getAurasSpeedBonus():Number {
-        return 0;
-    }
 
     public function get bombCount():int {
-        return _bombCount + getAurasBombCountBonus() - _bombTaken;
+        return _bombCount + bombCountAuraBonus - _bombTaken;
     }
 
-    private function getAurasBombCountBonus():int {
-        return 0;
-    }
 
     public function get baseBombCount():int {
         return _bombCount
     }
 
     public function get bombPower():int {
-        return _bombPower + getAurasBombPowerBonus()
+        return _bombPower + bombPowerAuraBonus
     }
 
-    private function getAurasBombPowerBonus():int {
-        return 0;
-    }
 
     public function get baseBombPower():int {
         return _bombPower
@@ -152,5 +141,38 @@ public class BomberBase extends CreatureBase implements IBomber {
     public function addWeaponBonus(_weapon:WeaponType):void {
         throw new Error("abstract")
     }
+
+    public function get lifeAuraBonus():int {
+        return 0
+    }
+
+    public function get hasLifeAuraBonus():Boolean {
+        return lifeAuraBonus > 0
+    }
+
+    public function get speedAuraBonus():Number {
+        return 0
+    }
+
+    public function get hasSpeedAuraBonus():Boolean {
+        return speedAuraBonus > 0
+    }
+
+    public function get bombCountAuraBonus():int {
+        return 0
+    }
+
+    public function get hasBombCountAuraBonus():Boolean {
+        return bombCountAuraBonus > 0
+    }
+
+    public function get bombPowerAuraBonus():int {
+        return 0
+    }
+
+    public function get hasBombPowerAuraBonus():Boolean {
+        return bombPowerAuraBonus > 0
+    }
+
 }
 }

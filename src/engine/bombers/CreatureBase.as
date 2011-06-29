@@ -4,7 +4,6 @@
  */
 
 package engine.bombers {
-import engine.bombers.interfaces.IGameSkin
 import engine.bombers.interfaces.IMapCoords
 import engine.bombers.mapInfo.MapCoords
 import engine.data.Consts
@@ -161,7 +160,7 @@ public class CreatureBase {
         return type.graphicsId
     }
 
-    public function get direction():Direction{
+    public function get direction():Direction {
         throw new Error("can't get direction for CreatureBase")
     }
 }
