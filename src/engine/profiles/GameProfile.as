@@ -1,14 +1,16 @@
 package engine.profiles {
-import com.smartfoxserver.v2.entities.data.ISFSArray
-import com.smartfoxserver.v2.entities.data.ISFSObject
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 
-import components.common.bombers.BomberType
-import components.common.items.ItemProfileObject
-import components.common.items.ItemType
-import components.common.resources.ResourcePrice
-import components.common.worlds.locations.LocationType
+import components.common.bombers.BomberType;
+import components.common.items.ItemProfileObject;
+import components.common.items.ItemType;
+import components.common.resources.ResourcePrice;
+import components.common.worlds.locations.LocationType;
 
-import engine.bombers.skin.BasicSkin
+import engine.bombers.skin.BasicSkin;
+
+import mx.controls.Alert;
 
 public class GameProfile {
 
@@ -270,40 +272,77 @@ public class GameProfile {
         return null; // ????
     }
 
-    public static function fromISFSObject(obj:ISFSObject):GameProfile {
+    public static function fromISFSObject(obj:ISFSObject):GameProfile 
+	{
         var res:GameProfile = new GameProfile();
         res.id = obj.getUtfString("Id");
         res.nick = obj.getUtfString("Nick");
-        res.experience = obj.getInt("Experience")
-        res.energy = obj.getInt("Energy")
-        res.currentBomberType = BomberType.byValue(obj.getInt("BomberId"))
+        res.experience = obj.getInt("Experience");
+        res.energy = obj.getInt("Energy");
+        res.currentBomberType = BomberType.byValue(obj.getInt("BomberId"));
         //res.selectedWeaponRightHand = new ItemProfileObject(res.currentBomberType.baseBomb, -1);
 
         var items:ISFSArray = obj.getSFSArray("WeaponsOpen");
-        for (var i:int = 0; i < items.size(); i++) {
+		
+        for (var i:int = 0; i < items.size(); i++) 
+		{
             var objItem:ISFSObject = items.getSFSObject(i);
             var itemId:int = objItem.getInt("WeaponId");
             var itemCount:int = objItem.getInt("Count");
-            var modelItem:ItemProfileObject = new ItemProfileObject(ItemType.byValue(itemId), itemCount);
-            res.packItems.push(modelItem);
-            res.gotItems.push(modelItem);
+			var itemType: ItemType = ItemType.byValue(itemId);
+			
+			if(itemType != null)
+			{
+            	var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
+				res.packItems.push(modelItem);
+	            res.gotItems.push(modelItem);
+			}else
+			{
+				Alert.show("Error - unknown item type "+itemId.toString()+" | GameProfile.as");
+			}
         }
 
         var a:int = obj.getInt("AuraOne");
-        if (a != 0) {
-            res.setAura(ItemType.byValue(a), false);
+		var aType:ItemType;
+		
+		if (a != 0) 
+		{
+			aType = ItemType.byValue(a);
+			if(aType != null)
+			{
+            	res.setAura(aType, false);
+			}else
+			{
+				Alert.show("Error - unknown arua type "+a.toString()+" | GameProfile.as");
+			}
         }
 
         a = obj.getInt("AuraTwo");
-        if (a != 0) {
-            res.setAura(ItemType.byValue(a), false);
+        if (a != 0) 
+		{
+			aType = ItemType.byValue(a);
+			if(aType != null)
+			{
+				res.setAura(aType, false);
+			}else
+			{
+				Alert.show("Error - unknown arua type "+a.toString()+" | GameProfile.as");
+			}
         }
 
         res.resources = new ResourcePrice(obj.getInt("Gold"), obj.getInt("Crystal"), obj.getInt("Adamantium"), obj.getInt("Antimatter"))
 
         items = obj.getSFSArray("LocationsOpen");
-        for (i = 0; i < items.size(); i++) {
-            res.openedLocations.push(LocationType.byValue(items.getInt(i)))
+        for (i = 0; i < items.size(); i++)
+		{
+			var locationType:LocationType = LocationType.byValue(items.getInt(i));
+			if(locationType != null)	
+			{
+            	res.openedLocations.push(locationType);
+			}else
+			{
+				Alert.show("Error - unknown location type | GameProfile.as");
+			}
         }
 
         items = obj.getSFSArray("BombersOpen");
@@ -311,7 +350,12 @@ public class GameProfile {
         //res.bombersOpened.push(BomberType.get(1))
 
         for (i = 0; i < items.size(); i++) {
-            res.bombersOpened.push(BomberType.byValue(items.getInt(i)))
+			var bType: BomberType = BomberType.byValue(items.getInt(i));
+			
+			if(bType != null)
+			{
+            	res.bombersOpened.push(bType);
+			}
         }
 
         return res;

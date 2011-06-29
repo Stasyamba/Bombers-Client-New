@@ -135,22 +135,29 @@
 			
 			private function onBalanceChanged(e:Object):void 
 			{
+				var rp: ResourcePrice;
+				
 				switch(actionAfterBuying)
 				{
 					case AFB_BUY_ENERGY:
 						/* send server request */
+						
+						Context.gameServer.sendBuyEnergyRequest(amount);
 						
 						break;
 					
 					case AFB_BUY_RESOURCE:
 						/* send server request */
 						
-						var rp: ResourcePrice = new ResourcePrice(0,0,0,0);
+						rp = new ResourcePrice(0,0,0,0);
 						rp.setResourceValue(resourceType, amount);
 						
 						Context.gameServer.sendBuyResourcesRequest(rp);
 						
 						break;
+					
+					default:
+						Alert.show("Error - unkonwn action| Bombers.mxml");
 				}
 				
 				actionAfterBuying = AFB_NONE;
@@ -330,7 +337,7 @@
 						{
 							if(!Context.Model.isDevelopment)
 							{
-								Alert.show("not development");
+								//Alert.show("not development");
 								Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true);
 								
 								BombersContentLoader.readyToUseAppView.addOnce(

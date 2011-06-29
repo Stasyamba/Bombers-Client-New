@@ -231,7 +231,7 @@
 													  customLabel="Пройти"
 													  scaleX="0.5" scaleY="0.5"
 													  fontSize="30" fontSizeOver="30"
-													  fontColor="0xffeeca"
+													  fontColor="0xfff19f"
 													  click="doQuest();"
 													  />
 					</s:HGroup>

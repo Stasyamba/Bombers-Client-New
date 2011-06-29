@@ -43,7 +43,7 @@ package components.common.bombers
 					break;
 				
 				default:
-					res = FURY_JOE;
+					res = null;
 					break;
 			}
 			
