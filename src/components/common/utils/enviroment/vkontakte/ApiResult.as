@@ -11,7 +11,7 @@ public class ApiResult {
     public var settingsResponde:Number;
     public var friends: Array = new Array();
     public var appFriends: Array = new Array();
-	public var votes: int = 0;
+	public var votes: Number = 0;
 	
     public function ApiResult(apiResult:String, immitation:Boolean = false) {
         encode(apiResult, immitation);
@@ -28,7 +28,7 @@ public class ApiResult {
             obj = JSON.decode(apiResult)['response'];
             settingsResponde = obj["settings"];
 
-			votes = obj["votes"] as int;
+			votes = obj["votes"] as Number;
 			//mx.controls.Alert.show(ObjectUtil.toString({votes: obj["balance"]}));
 			
             var fr:* = obj["friends"];
@@ -99,8 +99,9 @@ public class ApiResult {
                 Context.Model.currentSettings.socialProfile.photoURL = p["photo_medium"];
             }
 			
-			Context.Model.currentSettings.votes = votes;
-
+			//Alert.show("Votes: "+votes.toString());
+			Context.Model.currentSettings.votes = votes/100;
+			//Alert.show("Votes current settings: "+Context.Model.currentSettings.votes.toString());
 
             //Context.Model.currentSettings.socialProfile = new VkontakteProfile(obj["ownProfile"]["uid"]);
             //Context.Model.currentSettings.socialProfile.name = (obj["ownProfile"]["first_name"] as String).split(" ")[0] as String;
