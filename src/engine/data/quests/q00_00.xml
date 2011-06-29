@@ -52,8 +52,8 @@
                 <BigObject t="simple" id="4" x="12" y="9" width="5" height="2" graphicsId="l00.bo.tut_weapon" layer="decoration"/>
                 <BigObject t="simple" id="5" x="18" y="1" width="8" height="3" graphicsId="l00.bo.tut_bonus" layer="decoration"/>
                 <BigObject t="simple" id="6" x="27" y="8" width="7" height="3" graphicsId="l00.bo.tut_monster" layer="decoration"/>
-                <BigObject t="simple" id="7" x="14" y="7" width="1" height="1" graphicsId="l00.bo.bush_01" layer="lower"
-                           life="1">
+                <BigObject t="simple" id="7" x="14" y="7" width="1" height="1" graphicsId="l00.bo.bush_01" layer="higher"
+                           life="15">
                     <blocks>
                         <ObjectBlock x="0" y="0"
                                      canGoThrough="false"

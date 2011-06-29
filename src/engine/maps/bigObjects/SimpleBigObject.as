@@ -21,6 +21,7 @@ import org.osflash.signals.Signal
 public class SimpleBigObject extends BigObjectBase {
 
     private var _life:int
+    private var _startLife:int
 
     private var _isExplodingNow:Boolean;
     private var _explosionStopped:Signal = new Signal();
@@ -30,6 +31,7 @@ public class SimpleBigObject extends BigObjectBase {
     public function SimpleBigObject(xml:XML, map:IMap, mapBlockStateBuilder:MapBlockStateBuilder, mapObjectBuilder:DynObjectBuilder, life:int) {
         super(xml, map, mapBlockStateBuilder, mapObjectBuilder)
         _life = life
+        _startLife = life
     }
 
     public function get life():int {
@@ -89,6 +91,10 @@ public class SimpleBigObject extends BigObjectBase {
 
     public function get destroyed():Signal {
         return _destroyed;
+    }
+
+    public function get startLife():int {
+        return _startLife
     }
 }
 }

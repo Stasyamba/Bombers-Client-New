@@ -70,9 +70,10 @@ public class ImageService {
         return res.loaded
     }
 
-    public function healthBar(lifePercent:Number):BitmapData {
+    public function healthBar(lifePercent:Number, full_width:Number = -1):BitmapData {
         var side:BitmapData,center:BitmapData;
-        var b:BitmapData = new BitmapData(Consts.HEALTH_BAR_WIDTH, Consts.HEALTH_BAR_HEIGHT, true, 0);
+        var width:Number = full_width == -1 ? Consts.HEALTH_BAR_WIDTH : full_width
+        var b:BitmapData = new BitmapData(width, Consts.HEALTH_BAR_HEIGHT, true, 0);
         if (lifePercent > 0.9) {
             side = loadedObject("common.healthBar.green_side").content.bitmapData
             center = loadedObject("common.healthBar.green_center").content.bitmapData
@@ -83,7 +84,7 @@ public class ImageService {
             side = loadedObject("common.healthBar.red_side").content.bitmapData
             center = loadedObject("common.healthBar.red_center").content.bitmapData
         }
-        var length:int = int(lifePercent * Consts.HEALTH_BAR_WIDTH);
+        var length:int = int(lifePercent * width);
         b.copyPixels(side, new Rectangle(0, 0, 1, 5), new Point(0, 0));
         for (var i:int = 1; i < length - 1; i++) {
             b.copyPixels(center, new Rectangle(0, 0, 1, 5), new Point(i, 0));

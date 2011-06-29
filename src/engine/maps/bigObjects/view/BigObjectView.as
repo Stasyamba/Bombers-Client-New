@@ -29,6 +29,7 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
     private var _defaultAlpha:Number = 1;
 
     private var _self:Sprite
+    protected var healthBar:Sprite;
 
     public function BigObjectView(obj:BigObjectBase) {
         super();
@@ -37,15 +38,20 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
         y = obj.y * Consts.BLOCK_SIZE;
 
         stateManager = new ViewStateManager(this)
-        //important, don't remove
+
         if (obj is SimpleBigObject) {
 
             var so:SimpleBigObject = obj as SimpleBigObject
             so.explosionStarted.add(onExplosionStarted)
             so.explosionStopped.add(onExplosionStopped)
             so.destroyed.add(onDestroyed)
+
+            healthBar = new Sprite();
+            healthBar.y = -4;
+            addChild(healthBar);
         }
-//        _self = Context.imageService.bigObjectSWF(object.graphicsId)
+
+//      _self = Context.imageService.bigObjectSWF(object.graphicsId)
         _self = new Sprite()
         draw()
 
@@ -77,6 +83,7 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
     }
 
     private function onExplosionStarted():void {
+        draw()
         addState(new ViewState(ViewState.BLINKING, {}, TweenMax.fromTo(new Object(), Consts.BLINKING_TIME, {alpha:0}, {alpha:ViewState.GET_DEFAULT_VALUE, repeat:-1,yoyo:true,paused:true,data:{alpha:ViewState.GET_DEFAULT_VALUE}})))
     }
 
@@ -89,6 +96,19 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
         _self.graphics.endFill();
         _self.x = (object.pixWidth - bd.width) / 2;
         _self.y = (object.pixHeight - bd.height) / 2;
+
+        if (object is SimpleBigObject) {
+            drawHealthBar()
+        }
+    }
+
+    private function drawHealthBar():void {
+        var so:SimpleBigObject = object as SimpleBigObject;
+
+        healthBar.graphics.clear();
+        healthBar.graphics.beginBitmapFill(Context.imageService.healthBar(so.life / so.startLife, so.pixWidth));
+        healthBar.graphics.drawRect(0, 0, so.pixWidth, Consts.HEALTH_BAR_HEIGHT)
+        healthBar.graphics.endFill();
     }
 
     public function get tunableProperties():Object {

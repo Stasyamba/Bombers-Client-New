@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 ~ Copyright (c) 2011.
 ~ Pavkin Vladimir
 -->
@@ -13,10 +13,6 @@
     <timeLimit>120</timeLimit>
     <finishOnGoal/>
     <!--убрать, если надо чтобы время точно завершилось-->
-    <accessRules>
-        <!--<AllBefore/>-->
-        <!--<CountMedals type="1" count="20" />-->
-    </accessRules>
     <map>
         <Map>
             <spawns>

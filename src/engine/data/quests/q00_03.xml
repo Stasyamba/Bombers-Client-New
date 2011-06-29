@@ -5,9 +5,9 @@
 <Game>
     <id>q00_03</id>
     <location>0</location>
-    <name>Тестовая миссия 4</name>
+    <name>Босс "Злой фермер"</name>
     <description>Собрать 1 желтый гриб.</description>
-    <questImage>1.jpg</questImage>
+    <questImage>2.jpg</questImage>
     <previewImage>marshrums.png</previewImage>
     <energyCost>15</energyCost>
     <timeLimit>20</timeLimit>

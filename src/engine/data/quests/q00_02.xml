@@ -5,9 +5,9 @@
 <Game>
     <id>q00_02</id>
     <location>0</location>
-    <name>Тестовая миссия 3</name>
+    <name>Грааль царицы полей</name>
     <description>Собрать 1 желтый гриб.</description>
-    <questImage>1.jpg</questImage>
+    <questImage>3.jpg</questImage>
     <previewImage>marshrums.png</previewImage>
     <energyCost>15</energyCost>
     <timeLimit>20</timeLimit>
