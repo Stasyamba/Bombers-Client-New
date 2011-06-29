@@ -57,6 +57,7 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
 
     private function onLifeChanged(diff:int):void {
         var lifePopup:Sprite = new Sprite()
+        lifePopup.cacheAsBitmap = true;
         var l:TextField = new TextField()
         var tf:TextFormat = new TextFormat();
         tf.size = 20;
@@ -79,9 +80,9 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
         lifePopup.y = y;
         parent.addChild(lifePopup)
 
-        lifePopup.filters = [new BlurFilter(2, 2, BitmapFilterQuality.HIGH)]
+        lifePopup.filters = [new BlurFilter(1.5, 1.5, BitmapFilterQuality.HIGH)]
 
-        TweenMax.to(lifePopup, 5, {alpha:0.2,y:"-50",onComplete:function():void {
+        TweenMax.to(lifePopup, 2, {alpha:0.6,x:"-8",scaleX:1.5, scaleY:1.5,y:"-50",onComplete:function():void {
             parent.removeChild(lifePopup)
         }
         })
