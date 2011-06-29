@@ -223,9 +223,19 @@
             Context.gameServer.disconnected.add(onDisconnected);
 
 				
-            /* for local testing */
-            idGroup.visible = !(parentApplication as Bombers).isWrapperExists;
-
+            /* local testing */
+			
+			if(Context.Model.isDevelopment || !(parentApplication as Bombers).isWrapperExists)
+			{
+				idGroup.visible = true;
+			}else
+			{
+				idGroup.visible = false;
+			}
+			
+            //idGroup.visible = !(parentApplication as Bombers).isWrapperExists;
+			
+			
             /* for development */
             //devGroup.visible = Context.Model.isDevelopment;
 
@@ -321,13 +331,14 @@
 					null
 					)); */
 				
-			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
-			//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
-			 
-		  /* bgSound = new Sound();
-			bgSoundChannel = new SoundChannel();
-			bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-			bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);   */
+		   //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+		   //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
+		    
+		  /*  bgSound = new Sound();
+		   bgSoundChannel = new SoundChannel();
+		   bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
+		   bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);  */  
+		   
         }
 			
 		private function repeatSound(e: Event): void	
@@ -385,11 +396,13 @@
             tw.y -= 102;
         }
 
-	   private var alreadyIn:Boolean = false;
-        // immitation
+	   	
+       /* local testing */
+			
        private function setId(id:int):void {
-		    if( alreadyIn) return;
-			alreadyIn = true;
+		    
+		  
+		   
             Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
             Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
             idGroup.visible = false;
@@ -401,6 +414,14 @@
 			
             Context.gameModel.init();
         }
+		
+		private function testing(): void	
+		{
+			Context.Model.currentSettings.gameProfile.resources.antimatter.value += (Math.random()*100-50);
+			Context.Model.currentSettings.gameProfile.resources.gold.value += (Math.random()*100-50);
+			
+			Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
+		}
 			
 			
         ]]>
@@ -441,5 +462,9 @@
         <s:Button label="ID3" click="setId(3);"/>
         <s:Button label="ID4" click="setId(4);"/>
         <s:Button label="ID5" click="setId(5);"/>
+		
     </s:HGroup>
+	
+	<!--<s:Button x="300" label="testing" click="testing();"/>-->
+	
 </s:Group>

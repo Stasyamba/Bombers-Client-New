@@ -67,29 +67,29 @@
 
         <s:Parallel id="resourceChangedA">
             <s:Animate id="scaleChangingA" target="{resourceChanging}"
-                       duration="900"
+                       duration="2700"
                     >
 
                 <s:SimpleMotionPath property="scaleX" valueFrom="{mainPopUpContent.scaleX}" valueTo="0.3"/>
                 <s:SimpleMotionPath property="scaleY" valueFrom="{mainPopUpContent.scaleY}" valueTo="0.3"/>
             </s:Animate>
 
-            <s:Animate id="xyChangingA" target="{resourceChanging}" duration="700">
+            <s:Animate id="xyChangingA" target="{resourceChanging}" duration="1700">
                 <s:SimpleMotionPath property="x" valueFrom="{resourceChanging.x}" valueTo="50"/>
                 <s:SimpleMotionPath property="y" valueFrom="{resourceChanging.y}" valueTo="10"/>
                 <!--(old font size / 2) 24/2 - 24*0.3/2 (result font size / 2)-->
             </s:Animate>
 
-            <s:Animate id="alphaChangingA" target="{resourceChanging}" duration="700">
+            <s:Animate id="alphaChangingA" target="{resourceChanging}" duration="2700">
                 <s:SimpleMotionPath property="alpha" valueFrom="{resourceChanging.alpha}" valueTo="0.0"/>
             </s:Animate>
 
-            <s:Sequence id="previewPulse">
-                <s:Animate id="appearPreviewOver" target="{previewOver}" duration="450">
-                    <s:SimpleMotionPath property="alpha" valueFrom="{previewOver.alpha}" valueTo="1.0"/>
+            <s:Sequence id="previewPulse" effectEnd="{previewOver.alpha = 0;}">
+                <s:Animate id="appearPreviewOver" target="{previewOver}" duration="300">
+                    <s:SimpleMotionPath property="alpha" valueFrom="0.0" valueTo="1.0"/>
                 </s:Animate>
-                <s:Animate id="disAppearPreviewOver" target="{previewOver}" duration="150">
-                    <s:SimpleMotionPath property="alpha" valueFrom="{previewOver.alpha}" valueTo="0.0"/>
+                <s:Animate id="disAppearPreviewOver" target="{previewOver}" duration="1700">
+                    <s:SimpleMotionPath property="alpha" valueFrom="1.0" valueTo="0.1"/>
                 </s:Animate>
             </s:Sequence>
 
@@ -130,6 +130,8 @@
 
         private var closeTimer:Timer = new Timer(300, 1);
 
+		private var currentResourceAmount: int;	
+			
         /* initilize resource */
 
         public function get resourceType():ResourceType {
@@ -233,13 +235,25 @@
 
                 if (value > 0) {
                     resourceChanging.text = "+" + resourceChanging.text;
+					resourceChanging.setStyle("color", 0x36ff00);
+					
+					glowLabel1.color = 0x60cb00;
+					glowLabel2.color = 0x60cb00;
+					glowLabel3.color = 0x60cb00;
+					
+					
                 } else if (value < 0) {
-                    resourceChanging.text = "-" + resourceChanging.text;
+                    resourceChanging.text = resourceChanging.text;
+					resourceChanging.setStyle("color", 0xff4800);
+					
+					glowLabel1.color = 0xffb400;
+					glowLabel2.color = 0xffb400;
+					glowLabel3.color = 0xffb400;
                 }
 
 
-                resourceChanging.x = 20;
-                resourceChanging.y = -5;
+                resourceChanging.x = -25;
+                resourceChanging.y = 45;
                 resourceChanging.scaleX = 1;
                 resourceChanging.scaleY = 1;
                 resourceChanging.alpha = 1;
@@ -281,7 +295,14 @@
             Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_RESOURCE_MARKET, rp);
         }
 
-        public function setResource(amount:int):void {
+        public function setResource(amount:int, isFirstSet: Boolean = false):void 
+		{
+			if(!isFirstSet)
+			{
+				resourceChanged(amount - currentResourceAmount);
+			}
+			
+			currentResourceAmount = amount;
             resourceAmount.text = amount.toString();
         }
         ]]>
@@ -359,7 +380,13 @@
 
     </s:Group>
 
-    <s:Label id="resourceChanging" y="-5" x="10" alpha="0" color="0xffd307" fontSize="45"/>
+    <s:Label id="resourceChanging" depth="1" alpha="0" fontSize="33">
+		<s:filters>
+			<s:GlowFilter id="glowLabel1" />
+			<s:GlowFilter id="glowLabel2" />
+			<s:GlowFilter id="glowLabel3" />
+		</s:filters>
+	</s:Label>
 
 
     <s:PopUpAnchor id="resourcePopUp">

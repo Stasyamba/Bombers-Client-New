@@ -88,6 +88,11 @@
 				}
 			}
 			
+			/*   
+				mouseMove="onMouseMove(event);"
+				mouseOut="onMouseOut(event);"
+			*/
+			
 		]]>
 	</fx:Script>
 	
@@ -104,8 +109,6 @@
 				  horizontalAlign="center" verticalAlign="middle">
 			<mx:Image id="auraImage"
 					  trustContent="{Context.Model.trustContent}"
-					  mouseMove="onMouseMove(event);"
-					  mouseOut="onMouseOut(event);"
 					  />
 		</s:HGroup>
 		

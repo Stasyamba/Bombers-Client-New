@@ -96,17 +96,12 @@
 		<![CDATA[
 			import api.vkontakte.VkontakteGlobals;
 			
-			import appmodel.ApplicationModel;
-			
 			import components.ApplicationView;
 			import components.WallView;
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
 			import components.common.utils.enviroment.vkontakte.ApiResult;
 			import components.common.utils.enviroment.vkontakte.FlashVars;
-			
-			import greensock.TweenMax;
-			import greensock.events.LoaderEvent;
-			import greensock.loading.SWFLoader;
-			import greensock.loading.data.SWFLoaderVars;
 			
 			import loading.BombersContentLoader;
 			
@@ -115,15 +110,51 @@
 				
 			public static const APP_STARTED_FROM_WALL:int = 0;
 			public static const APP_STARTED_COMMON:int = 1;
-			public static const WALL_LOTTERY_EMULATION:int = 2;
+			public static const WALL_EMULATION:int = 2;
 			public static const APP_STARTED_DEVELOPMENT:int = 3;
 			
 			private var mainContentGroup:IVisualElement;
 			
-			/* private function testTarget(e: MouseEvent): void
+			
+			/* after votes buying */
+			
+			public static const AFB_NONE: int = 0;
+			public static const AFB_BUY_ENERGY: int = 1;
+			public static const AFB_BUY_RESOURCE: int = 2;
+			
+			public var amount: int;
+			public var resourceType:ResourceType;
+			public var actionAfterBuying: int = AFB_NONE;
+			
+			public function setAFBAction(aType: int, rType: ResourceType, rAmount: int): void
 			{
-			mx.controls.Alert.show(ObjectUtil.toString({target: e.target.toString()}));
-			} */
+				actionAfterBuying = aType;
+				amount = rAmount;
+				resourceType = rType;
+			}
+			
+			private function onBalanceChanged(e:Object):void 
+			{
+				switch(actionAfterBuying)
+				{
+					case AFB_BUY_ENERGY:
+						/* send server request */
+						
+						break;
+					
+					case AFB_BUY_RESOURCE:
+						/* send server request */
+						
+						var rp: ResourcePrice = new ResourcePrice(0,0,0,0);
+						rp.setResourceValue(resourceType, amount);
+						
+						Context.gameServer.sendBuyResourcesRequest(rp);
+						
+						break;
+				}
+				
+				actionAfterBuying = AFB_NONE;
+			}
 			
 			private function setDefaultModalStyle(e: ContextEvent): void
 			{
@@ -135,6 +166,25 @@
 			override protected function onAddedToStage(e:Event):void {
 				super.onAddedToStage(e);
 				
+				if (!Context.Model.isDevelopment) 
+				{
+					Context.Model.applicationId = "2206924";
+					Context.Model.applicationLink = "http://vkontakte.ru/app2206924";
+				}else
+				{
+					Context.Model.applicationId = "2141693";
+					Context.Model.applicationLink = "http://vkontakte.ru/app2141693";
+				} 
+				
+				Context.Model.addCustomListener(ContextEvent.VK_SHOW_VOTE_CONTROL, function (e: ContextEvent): void
+				{
+					if(isWrapperExists)
+					{
+						VkontakteGlobals.wrapper.external.showPaymentBox(e.data);
+					}
+				});
+				
+				
 				if (isWrapperExists) {
 					
 					basePreloaderGroup.visible = true;
@@ -142,9 +192,9 @@
 					//VkontakteGlobals.wrapper.addEventListener("onSettingsChanged", onSettingsChanged);
 					//VkontakteGlobals.wrapper.addEventListener("onApplicationAdded", onApplicationAdded);
 					//VkontakteGlobals.wrapper.addEventListener("onLocationChanged", onLocationChanged);
+					VkontakteGlobals.wrapper.addEventListener("onBalanceChanged", onBalanceChanged);
 					
 					Context.Model.addCustomListener(ContextEvent.MODAL_SET_STYLE_DEFAULT, setDefaultModalStyle);
-					
 					Context.Model.viewer.id = VkontakteGlobals.wrapper.application.parameters.viewer_id;
 					
 					Context.Model.currentSettings.flashVars.viewerType = VkontakteGlobals.wrapper.application.parameters.viewer_type;
@@ -155,6 +205,20 @@
 					Context.Model.currentSettings.flashVars.postId = VkontakteGlobals.wrapper.application.parameters.post_id;
 					Context.Model.currentSettings.flashVars.userId = VkontakteGlobals.wrapper.application.parameters.user_id;
 					Context.Model.currentSettings.flashVars.auth_key = VkontakteGlobals.wrapper.application.parameters.auth_key;
+					
+					/* VK API version 3 */
+					
+					Context.Model.currentSettings.flashVars.secret = VkontakteGlobals.wrapper.application.parameters.secret;
+					Context.Model.currentSettings.flashVars.sid = VkontakteGlobals.wrapper.application.parameters.sid;
+					
+					
+					
+					Context.Model.postInit(
+						Context.Model.applicationId, 
+						Context.Model.currentSettings.flashVars.secret,
+						Context.Model.viewer.id, 
+						Context.Model.currentSettings.flashVars.sid);
+					
 					
 					
 					if (Context.Model.currentSettings.flashVars.referrer == FlashVars.WALL_VIEW_INLINE) {
@@ -194,13 +258,13 @@
 				Context.Model.currentSettings.flashVars.postId = "x31ox31x30ox32ox30ox30";
 				Context.Model.currentSettings.flashVars.userId = "72969483";
 				
-				initApp(WALL_LOTTERY_EMULATION);
+				initApp(WALL_EMULATION);
 				
 				chooseModeGroup.visible = false;
 			}
 			
 			private function onSettingsChanged(e:Object):void {
-				navigateToURL(new URLRequest(ApplicationModel.APPLICATION_LINK));
+				navigateToURL(new URLRequest(Context.Model.applicationLink));
 				// may be starting initiated proccess with standert functions
 			}
 			
@@ -217,7 +281,7 @@
 				
 				switch (type) {
 					
-					case WALL_LOTTERY_EMULATION:
+					case WALL_EMULATION:
 						
 						basePreloaderGroup.visible = false;
 						
@@ -261,17 +325,22 @@
 							disconnect();
 						});
 						
+						/* vkontakte testing */
 						if (isWrapperExists) 
 						{
-							Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true);
+							if(!Context.Model.isDevelopment)
+							{
+								Alert.show("not development");
+								Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true);
+								
+								BombersContentLoader.readyToUseAppView.addOnce(
+									function():void 
+									{
+										Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
+									});
 							
-							BombersContentLoader.readyToUseAppView.addOnce(
-								function():void 
-								{
-									Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
-								});
-							
-							Context.gameModel.init();
+								Context.gameModel.init();
+							}
 						}
 						
 						break;
@@ -279,6 +348,9 @@
 						
 						chooseModeGroup.visible = false;
 						basePreloaderGroup.visible = false;
+						
+						initApp(APP_STARTED_COMMON);
+						
 						break;
 					default:
 						break;
@@ -309,7 +381,7 @@
 			private function retry():void {
 				if (isWrapperExists) 
 				{
-					VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(ApplicationModel.APPLICATION_LINK))
+					VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(Context.Model.applicationLink))
 				}else
 				{
 					Alert.show("No way dude, you're in local version");

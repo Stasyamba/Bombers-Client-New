@@ -7,6 +7,7 @@
 				useHandCursor="true"
 				buttonMode="true"
 				width="105" height="46"
+				click="buyResource();"
 				>
 	<s:layout>
 		<s:BasicLayout />
@@ -22,16 +23,53 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.resources.ResourcePrice;
 			import components.common.resources.ResourceType;
 			import components.common.resources.ResourceViewObject;
 			import components.common.utils.adjustcolor.ColorMatrix;
 			
+			import mx.controls.Alert;
+			
+			public var resourceType: ResourceType;
+			public var resourceAmount: int;
+			public var resourceVotePrice: int;
+			
+			private function buyResource(): void
+			{
+				Alert.show("Cost: "+resourceVotePrice.toString());
+				Alert.show("Votes: "+Context.Model.currentSettings.votes.toString());
+				
+				if(Context.Model.currentSettings.votes < resourceVotePrice)
+				{
+					Alert.show("Not enough votes");
+					
+					(parentApplication as Bombers).setAFBAction(Bombers.AFB_BUY_RESOURCE, resourceType, resourceAmount);
+					
+					Context.Model.dispatchCustomEvent(
+						ContextEvent.VK_SHOW_VOTE_CONTROL, 
+						resourceVotePrice - Context.Model.currentSettings.votes
+					);
+					
+				}else
+				{
+					Alert.show("Votes enough");
+					
+					/* set delay action */
+					
+					var rp: ResourcePrice = new ResourcePrice(0,0,0,0);
+					rp.setResourceValue(resourceType, resourceAmount);
+					
+					Context.gameServer.sendBuyResourcesRequest(rp);
+				}
+			}
 			
 			override public function set data( value:Object ) : void {
 				super.data = value;
 				
 				/* set dark side */
 			
+				
+				
 				var cm: ColorMatrix = new ColorMatrix();
 				cm.adjustBrightness(-20,-20,-20);
 				
@@ -48,6 +86,10 @@
 						resourceAmountLabel.text = (value as ResourceCostView).amount.toString();
 						resourcePriceLabel.text = (value as ResourceCostView).votes.toString() + "голос.";
 						
+						resourceType = (value as ResourceCostView).type;
+						resourceAmount = (value as ResourceCostView).amount;
+						resourceVotePrice = (value as ResourceCostView).votes;
+							
 						resourceAmountLabel.setStyle("color", rvo.color);
 						resourcePriceLabel.setStyle("color", rvo.color);
 						

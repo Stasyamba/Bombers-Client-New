@@ -21,61 +21,20 @@ import org.vyana.control.VyanaEvent;
 
 public class ApplicationModel extends VkontakteApplicationModel {
 
-    public static const APPLICATION_ID:String = '2141693';
-    public static const APPLICATION_LINK:String = "http://vkontakte.ru/app2141693";
-    public static const APPLICATION_SECRET:String = 'tMj1GkYhnX';
-    public static const APPLICATION_AUTHOR_ID:String = '72969483';
 
-	/*public static const APPLICATION_ID:String = '2206924';
-	public static const APPLICATION_LINK:String = "http://vkontakte.ru/app2206924";
-	public static const APPLICATION_SECRET:String = 'oRbzpoRx7n';
-	public static const APPLICATION_AUTHOR_ID:String = '72969483';*/
+	public var applicationId: String = "";
+	public var applicationSecret: String = "";
+	public var applicationLink: String = "";
+	public var applicationAuthorId: String = "72969483";
 	
     function ApplicationModel() {
-        super(APPLICATION_ID, APPLICATION_SECRET, APPLICATION_AUTHOR_ID);
-
+        super(applicationId, applicationSecret, applicationAuthorId);
     }
 
 	/* Vkontakte API */
-	
-    public function getUsersProfiles(uidP:Array, afterEvent:String = "", addToLoadedUsers:Boolean = true):void {
-        new VyanaEvent(APIVkontakte.GET_PROFILE_FIELDS,
-        {
-            uids: uidP,
-            fields: [UserProfileField.UID, UserProfileField.SEX, UserProfileField.PHOTO_BIG, UserProfileField.PHOTO, UserProfileField.PHOTO_MEDIUM, UserProfileField.FIRST_NAME, UserProfileField.LAST_NAME, UserProfileField.NICKNAME]
-        }).dispatch(
-                function (result:*):void {
-
-                    /* var returningData:Array = new Array();
-
-                     for each (var o:* in result.response) {
-
-                     var up:VkontakteProfile = new VkontakteProfile(o[UserProfileField.UID]);
-                     up.sex = o[UserProfileField.SEX];
-                     up.firstName = o[UserProfileField.FIRST_NAME];
-                     up.lastName = o[UserProfileField.LAST_NAME];
-                     up.photoBigSrc = o[UserProfileField.PHOTO_BIG];
-                     up.photoSrc = o[UserProfileField.PHOTO];
-                     up.photoMediumSrc = o[UserProfileField.PHOTO_MEDIUM];
-
-                     if (addToLoadedUsers) {
-                     Context.Model.currentSettings.apiResult.loadedUsers = pushIntoArray(up, Context.Model.currentSettings.apiResult.loadedUsers, "id");
-                     }
-
-                     returningData.push(up);
-                     }
-
-                     if (afterEvent == "") {
-                     dispatchCustomEvent(ContextEvent.USERS_PROFILES_LOADED, returningData);
-                     } else {
-                     dispatchCustomEvent(afterEvent, returningData);
-                     }*/
-                });
-    }
 
 	public function wallSavePhotoID(wallIdP: String, photoIdP: String, postIdP: String, messageP: String):void
-	{	
-		
+	{		
 		new VyanaEvent(APIVkontakte.SAVE_WALL_POST,
 			{
 				wall_id: wallIdP,

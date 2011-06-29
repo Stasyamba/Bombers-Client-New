@@ -49,6 +49,8 @@ import greensock.loading.XMLLoader;
 
 import loading.BombersContentLoader;
 
+import mx.controls.Alert;
+
 import org.osflash.signals.Signal;
 
 public class GameModel {
@@ -114,12 +116,14 @@ public class GameModel {
 
     public function init():void {
         LoaderMax.activate([XMLLoader,SWFLoader,ImageLoader])
+			
         BombersContentLoader.questsLoaded.add(fillQuests)
         BombersContentLoader.loadBombers()
         BombersContentLoader.loadQuests()
         BombersContentLoader.loadMonsters()
         BombersContentLoader.loadCreatures()
         BombersContentLoader.loadBO()
+			
         BombersContentLoader.readyToUseAppView.addOnce(function() {
             BombersContentLoader.loadGraphics()
             BombersContentLoader.loadSounds()
@@ -187,8 +191,7 @@ public class GameModel {
     }
 
     private function onGameServerConnected():void {
-        Context.gameServer.login(Context.Model.currentSettings.socialProfile.id, Context.Model.currentSettings.flashVars.auth_key);//Context.Model.currentSettings.socialProfile.id)
-        Context.gameServer.disconnected.removeAll()
+        Context.gameServer.login(Context.Model.currentSettings.socialProfile.id, Context.Model.currentSettings.flashVars.auth_key);
         Context.gameServer.disconnected.addOnce(onServerDisconnected)
     }
 

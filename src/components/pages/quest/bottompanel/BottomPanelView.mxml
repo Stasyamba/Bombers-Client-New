@@ -6,8 +6,8 @@
          xmlns:toppanel="toppanel.*"
          xmlns:resources="toppanel.resources.*"
          creationComplete="init();"
-         xmlns:bottompanel="components.pages.game.bottompanel.*"
-         xmlns:flexcomponents="components.common.flexcomponents.*"
+         xmlns:flexcomponents="components.common.flexcomponents.*" 
+		 xmlns:bottompanel="components.pages.quest.bottompanel.*"
         >
     <fx:Script>
 		<![CDATA[
@@ -46,7 +46,7 @@
 				inventoryButton.enabled = e.data;
 			});
 			
-            updateWeapon();
+			leftHandWeapon.initContent(null);
         }
 
         private function updateWeapon():void 
@@ -100,7 +100,8 @@
 		
 		<s:HGroup width="100%" horizontalAlign="right" paddingRight="20">
 			<s:HGroup verticalAlign="middle">
-				<bottompanel:Weapon id="leftHandWeapon" buttonMode="true" useHandCursor="true"/>
+				<!--<bottompanel:Weapon id="leftHandWeapon" buttonMode="true" useHandCursor="true"/>-->
+				<bottompanel:Weapon id="leftHandWeapon" buttonMode="true" useHandCursor="true" />
 				<s:VGroup>
 					<s:Label text="X" fontFamily="mpbc" fontSize="14" color="0xffffff"/>
 					<s:Label text="Второе оружие" fontFamily="mpbc" fontSize="12" color="0xa5a5a5"/>

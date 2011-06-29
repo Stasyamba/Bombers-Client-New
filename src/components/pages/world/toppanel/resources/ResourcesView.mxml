@@ -36,10 +36,10 @@
 			
 			
             if (Context.Model.currentSettings.gameProfile != null && Context.Model.currentSettings.gameProfile.resources != null) {
-                antimatterResource.setResource(Context.Model.currentSettings.gameProfile.resources.antimatter.value);
-                adamantResource.setResource(Context.Model.currentSettings.gameProfile.resources.adamant.value);
-                crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value);
-                goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value);
+                antimatterResource.setResource(Context.Model.currentSettings.gameProfile.resources.antimatter.value, true);
+                adamantResource.setResource(Context.Model.currentSettings.gameProfile.resources.adamant.value, true);
+                crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value, true);
+                goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value, true);
             }
         }
 

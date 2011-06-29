@@ -26,10 +26,10 @@
 			{
 				/* нужно еще учесть ауры */
 				
-				speedLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.getViewSpeed(Context.Model.currentSettings.gameProfile.currentBomberType.speed).toString();
+				/* speedLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.getViewSpeed(Context.Model.currentSettings.gameProfile.currentBomberType.speed).toString();
 				bombsLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.bombCount.toString();
 				waveLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.bombPower.toString();
-				healthLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.startLife.toString();
+				healthLabel.text = Context.Model.currentSettings.gameProfile.currentBomberType.startLife.toString(); */
 			}
 		]]>
 	</fx:Script>

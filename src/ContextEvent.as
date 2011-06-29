@@ -3,6 +3,9 @@ import flash.events.Event;
 
 public class ContextEvent extends Event {
 
+	public static const WORLD_LOCATIONS_FILL_COLORS:String = "WORLDLocationsFillColors";
+	
+	public static const VK_SHOW_VOTE_CONTROL: String = "GLOBALShowVoteControl";
 	public static const GLOBAL_INVENTORY_BUTTON_ENABLED: String = "GLOBALBlockInventoryButton";
 	
 	public static const NEW_LEVEL_SHOW: String = "NEWLEVELShow";

@@ -98,6 +98,8 @@ public class ApiResult {
                 Context.Model.currentSettings.socialProfile.surname = p["last_name"];
                 Context.Model.currentSettings.socialProfile.photoURL = p["photo_medium"];
             }
+			
+			Context.Model.currentSettings.votes = votes;
 
 
             //Context.Model.currentSettings.socialProfile = new VkontakteProfile(obj["ownProfile"]["uid"]);

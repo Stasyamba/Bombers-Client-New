@@ -33,7 +33,7 @@
 			private function getFight(): void
 			{
 				//Alert.show(nameGame+" pass "+passGame);
-				var link: String = ApplicationModel.APPLICATION_LINK+"#"+nameGame+"-"+passGame;
+				var link: String = Context.Model.applicationLink+"#"+nameGame+"-"+passGame;
 				
 				VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(link));
 				//navigateToURL(new URLRequest(link), "_top");

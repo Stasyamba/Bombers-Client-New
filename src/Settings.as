@@ -17,12 +17,11 @@ public class Settings {
     public var socialProfile:ISocialProfile;
     public var currentSocialWeb:int = SocialProfile.VKONTAKTE;
 
-
-	public var lotteryTodayPrice: ResourcePrice = new ResourcePrice(10,2,0,0);
+	/*public var lotteryTodayPrice: ResourcePrice = new ResourcePrice(10,2,0,0);
 	public var lotteryTryToWinCount: int = 2;
 	public var lotteryPresentFinded: ResourcePrice = null;
 	public var lotteryResourcePrize:ResourcePrice = new ResourcePrice(0,0,0,0);
-	
+	*/
 	public var votes: int = 0;
     public var gameProfileLoaded:Boolean = false;
 

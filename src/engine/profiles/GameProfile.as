@@ -54,6 +54,11 @@ public class GameProfile {
     /**
      * content = [ItemProfileObject, ...]
      */
+	public var questItems:Array = new Array();
+	/**
+	 * content = [ItemProfileObject, ...]
+	 */
+	
     private var _aursTurnedOn:Array = [null,null];
 
     /*
@@ -238,6 +243,54 @@ public class GameProfile {
         return res;
     }
 
+	/* quest items */
+	
+	public function addQuestItemObject(itemProfileObject: ItemProfileObject): void
+	{
+		var isItemFinded: Boolean = false;
+		
+		for each(var ipo: ItemProfileObject in questItems)
+		{
+			if(itemProfileObject.itemType == ipo.itemType)
+			{
+				ipo.itemCount += itemProfileObject.itemCount;
+				isItemFinded = true;
+				break;
+			}
+		}
+		
+		if(!isItemFinded)
+		{
+			questItems.push(ipo);
+		}
+	}
+	
+	public function refreshQuestWeapons(): void
+	{
+		
+	}
+	
+	public function setQuestWeaponToLeftHand(itemType: ItemType): void
+	{	
+		if (itemType != null) 
+		{
+			for each(var ipo:ItemProfileObject in questItems) 
+			{
+				if (ipo.itemType == itemType) 
+				{
+					_selectedWeaponLeftHand = ipo;
+					break;
+				}
+			}
+			
+		} else 
+		{
+			_selectedWeaponLeftHand = null;
+		}
+		
+		/* dispatch const event show ipo _selectedWeaponLeftHand */
+	}
+	
     public function getSkin(slot:int):BasicSkin {
         
 		if (slot % 2 != 0)
@@ -260,7 +313,8 @@ public class GameProfile {
         //res.selectedWeaponRightHand = new ItemProfileObject(res.currentBomberType.baseBomb, -1);
 
         var items:ISFSArray = obj.getSFSArray("WeaponsOpen");
-        for (var i:int = 0; i < items.size(); i++) {
+        for (var i:int = 0; i < items.size(); i++) 
+		{
             var objItem:ISFSObject = items.getSFSObject(i);
             var itemId:int = objItem.getInt("WeaponId");
             var itemCount:int = objItem.getInt("Count");

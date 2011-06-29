@@ -96,12 +96,6 @@ public class GameServer extends SmartFox {
     private static const INT_CREATE_QUEST:String = "interface.gameManager.createGame"
     private static const INT_CREATE_GAME:String = "interface.gameManager.createGame"
     private static const INT_CREATE_GAME_RESULT:String = "interface.gameManager.createGame.result"
-    private static const INT_TRY_LUCK:String = "interface.tryLuck"
-    private static const INT_TRY_LUCK_RESULT:String = "interface.tryLuck.result"
-    private static const INT_BUY_LUCK:String = "interface.buyLuck"
-    private static const INT_BUY_LUCK_RESULT:String = "interface.buyLuck.result"
-    private static const INT_TAKE_PRIZE:String = "interface.takePrize"
-    private static const INT_TAKE_PRIZE_RESULT:String = "interface.takePrize.result"
 
     private static const LOBBY_PROFILES:String = "game.lobby.playersProfiles"
     private static const LOBBY_READY:String = "game.lobby.readyChanged"
@@ -394,23 +388,6 @@ public class GameServer extends SmartFox {
         tenSecondsTimer.start()
     }
 
-    public function tryLottery():void {
-        var params:ISFSObject = new SFSObject();
-        send(new ExtensionRequest(INT_TRY_LUCK, params, null));
-    }
-
-    public function buyLuck():void {
-        var params:ISFSObject = new SFSObject();
-        params.putInt("interface.buyLuck.fields.luck", 3);
-
-        send(new ExtensionRequest(INT_BUY_LUCK, params, null));
-    }
-
-    public function takePrize():void {
-        var params:ISFSObject = new SFSObject();
-        send(new ExtensionRequest(INT_TAKE_PRIZE, params, null));
-    }
-
     public function adminReloadMaps():void {
         var params:ISFSObject = new SFSObject();
         send(new ExtensionRequest(ADMIN_RELOAD_MAPS, params, null));
@@ -636,8 +613,8 @@ public class GameServer extends SmartFox {
 				Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
 				Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
 				Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
-				/*Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_CAP, 1));
-				Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_CAP, 1));*/
+			/*	Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));
+				Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));*/
 				
 				
 				
@@ -686,6 +663,8 @@ public class GameServer extends SmartFox {
 						break;
 				}
 				
+				/* locations */
+				Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
 				
                 break;
             case INT_BUY_RESOURCES_RESULT:
@@ -714,17 +693,23 @@ public class GameServer extends SmartFox {
 			
             case INT_BUY_ITEM_RESULT:
                 trace("item bought");
+				
                 status = responseParams.getBool("interface.buyItem.result.fields.status")
-                if (!status) {
+				if (!status) 
+				{
                     Context.Model.dispatchCustomEvent(ContextEvent.IT_BUY_FAILED)
                     return
                 }
-                var iType:ItemType = ItemType.byValue(responseParams.getInt("interface.buyItem.result.fields.itemId"))
-                var count:int = responseParams.getInt("interface.buyItem.result.fields.count")
-                rp = new ResourcePrice(responseParams.getInt("interface.buyItem.result.fields.resourceType0"),
+				
+                var iType:ItemType = ItemType.byValue(responseParams.getInt("interface.buyItem.result.fields.itemId"));
+                var count:int = responseParams.getInt("interface.buyItem.result.fields.count");
+				
+                rp = new ResourcePrice(
+						responseParams.getInt("interface.buyItem.result.fields.resourceType0"),
                         responseParams.getInt("interface.buyItem.result.fields.resourceType1"),
                         responseParams.getInt("interface.buyItem.result.fields.resourceType2"),
-                        responseParams.getInt("interface.buyItem.result.fields.resourceType3"))
+                        responseParams.getInt("interface.buyItem.result.fields.resourceType3")
+				);
 
                 Context.Model.currentSettings.gameProfile.addItem(iType, count)
                 Context.Model.currentSettings.gameProfile.resources.setFrom(rp)
