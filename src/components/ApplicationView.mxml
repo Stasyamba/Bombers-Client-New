@@ -401,18 +401,23 @@
 			
        private function setId(id:int):void {
 		    
-		  
-		   
-            Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
-            Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
-            idGroup.visible = false;
-            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
+		    if(id != 6)
+			{
+	            Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
+	            Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
+	            idGroup.visible = false;
+	            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
+					
+	            BombersContentLoader.readyToUseAppView.addOnce(function():void {
+	                //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
+	            });
 				
-            BombersContentLoader.readyToUseAppView.addOnce(function():void {
-                //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
-            });
-			
-            Context.gameModel.init();
+	            Context.gameModel.init();
+			}else
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
+				Context.gameModel.init();
+			}
         }
 		
 		private function testing(): void	
@@ -462,7 +467,7 @@
         <s:Button label="ID3" click="setId(3);"/>
         <s:Button label="ID4" click="setId(4);"/>
         <s:Button label="ID5" click="setId(5);"/>
-		
+		<s:Button label="Use VK_ID" click="setId(6);"/>
     </s:HGroup>
 	
 	<!--<s:Button x="300" label="testing" click="testing();"/>-->
