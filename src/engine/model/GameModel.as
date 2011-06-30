@@ -93,6 +93,9 @@ public class GameModel {
     public var joinedToRoom:JoinedToRoomSignal = new JoinedToRoomSignal();
     public var joinedToGameRoom:JoinedToGameSignal = new JoinedToGameSignal();
 
+
+    public var fadeOutGameView:Signal = new Signal()
+
     // fields
     private var _currentLocation:LocationType
     private var _gameType:GameType;
