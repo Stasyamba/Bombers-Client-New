@@ -357,8 +357,8 @@ public class BombersContentLoader {
 
     //creatures swf
 
-    public static const CREATURES_CLASS_NAME:String = "Enemies"
-    public static const CREATURES_SWF_ADDRESS:String = "http://www.vensella.ru/eg/en.swf"
+    public static const CREATURES_CLASS_NAME:String = "FuryJoe"
+    public static const CREATURES_SWF_ADDRESS:String = "http://www.vensella.ru/vp/furyjoe.swf"
     public static var enemiesClass:Class
 
     public static function loadCreatures():void {

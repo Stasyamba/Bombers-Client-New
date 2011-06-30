@@ -40,6 +40,10 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
         _self = Context.imageService.creatureSWF(_creature.graphicsId)
         _self.x = _self.y = Consts.BOMBER_SIZE_2
         addChild(_self)
+
+		_self.setMode(1)
+        _self.setColor(1)
+
         this.x = creature.coords.getRealX();
         this.y = creature.coords.getRealY();
         healthBar = new Sprite();
