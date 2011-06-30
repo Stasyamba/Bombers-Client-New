@@ -118,6 +118,10 @@ public class GameFieldView extends Group implements IDrawable,IDestroyable {
 
         EngineContext.qMonsterAdded.add(onMonsterAdded)
 
+        Context.gameModel.fadeOutGameView.add(function():void{
+            TweenMax.to(contentUI,2,{alpha:0})
+        })
+
 //        EngineContext.redBaloon.add(function(p1:Point, c:int):void {
 //            var sp:Sprite = new Sprite()
 //            sp.graphics.beginFill(0xff, 0.3)
