@@ -280,8 +280,6 @@ public class GameServer extends SmartFox {
 
     public function sendActivateWeapon(x:int, y:int, weaponType:WeaponType):void {
         var params:ISFSObject = new SFSObject();
-        params.putInt("game.AW.f.x", x);
-        params.putInt("game.AW.f.y", y);
         params.putInt("game.AW.f.t", weaponType.value);
 
         send(new ExtensionRequest(ACTIVATE_WEAPON, params, gameRoom));

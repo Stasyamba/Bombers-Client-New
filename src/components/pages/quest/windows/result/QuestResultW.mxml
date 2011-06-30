@@ -9,21 +9,21 @@
 		 skinClass="skins.common.EmptyPopUpS"
 		 width="337" height="274"
 		 xmlns:flexcomponents="components.common.flexcomponents.*"
-		 implements="components.common.base.window.IWindow" 
-		 xmlns:preloaders="components.common.utils.preloaders.*" 
-		 xmlns:pregame="components.pages.game.windows.pregame.*" 
+		 implements="components.common.base.window.IWindow"
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 xmlns:pregame="components.pages.game.windows.pregame.*"
 		 xmlns:start="components.pages.quest.windows.start.*"
 		 >
-	
+
 	<fx:Script>
 		<![CDATA[
 			import skins.buttons.CloseButtonOriginS;
 			import skins.buttons.Pattern1ButtonS;
 		]]>
 	</fx:Script>
-	
+
 	<fx:Declarations>
-		
+
 		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
 			<s:Animate target="{this}" duration="200">
 				<s:SimpleMotionPath property="alpha"
@@ -32,7 +32,7 @@
 									/>
 			</s:Animate>
 		</s:Sequence>
-		
+
 		<s:Sequence id="apearingAnimation">
 			<s:Animate target="{this}" duration="200">
 				<s:SimpleMotionPath property="alpha"
@@ -40,21 +40,21 @@
 									/>
 			</s:Animate>
 		</s:Sequence>
-		
+
 		<s:Sequence id="pulseA" targets="{[glowFilter1, glowFilter2]}"
 					repeatCount="10000"
 					>
 			<s:Animate duration="500">
 				<s:SimpleMotionPath property="alpha" valueFrom="0.5" valueTo="1" />
 			</s:Animate>
-			
+
 			<s:Animate duration="500">
 				<s:SimpleMotionPath property="alpha" valueFrom="1" valueTo="0.5" />
 			</s:Animate>
 		</s:Sequence>
-		
+
 	</fx:Declarations>
-	
+
 	<fx:Script>
 		<![CDATA[
 		import components.pages.world.windows.tutorial.part2.TutorialQuestEndToolTip;
@@ -95,7 +95,7 @@
         private function panelCreationComplete():void {
 
 			Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, true);
-			
+
             questObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
             energyCostLabel.text = questObject.energyCost.toString();
 
@@ -104,18 +104,18 @@
 
                 var medals:Array = Context.Model.currentSettings.gameProfile.medals.concat();
 				var currentMedalsType: Array = new Array();
-			
+
 
 				var gotGold:Boolean = false;
 				var gotSilver:Boolean = false;
 				var gotBronze:Boolean = false;
-				
-				for each(var mo:MedalObject in medals) 
+
+				for each(var mo:MedalObject in medals)
 				{
-					if (mo.questId == Context.Model.questIdLastOpened) 
+					if (mo.questId == Context.Model.questIdLastOpened)
 					{
 						currentMedalsType.push(mo.medalType);
-						
+
 						switch (mo.medalType) {
 							case MedalType.GOLD_MEDAL:
 								gotGold = true;
@@ -127,22 +127,22 @@
 								gotBronze = true;
 								break;
 						}
-						
+
 						break;
 					}
-				} 
-				
-				
+				}
+
+
                 goldTask.initTask(questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
                 silverTask.initTask(questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
                 bronzeTask.initTask(questObject.getTask(MedalType.BRONZE_MEDAL), gotBronze);
 
-                if (questResultObject.isNew) 
+                if (questResultObject.isNew)
 				{
                     resultTitleLabel.text = "Новая медаль!";
                     pulseA.play();
 
-					
+
                     switch (questResultObject.medalType) {
                         case MedalType.GOLD_MEDAL:
                             goldMedal.visible = true;
@@ -160,8 +160,8 @@
                 } else {
                     resultTitleLabel.text = "Нет новых медалей";
                 }
-				
-				
+
+
 				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
 				{
 					bonusGroup.addElement(new TutorialQuestEndToolTip());
@@ -179,19 +179,29 @@
                 Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
             } else {
                 closeWrapper();
-                Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);
+
+                Context.gameModel.createQuestFailed.addOnce(function():void {
+                    Alert.show("Error - reсreate Quest Failed | QuestResultW.mxml");
+                    Context.gameModel.questGameCreated.removeAll()
+                });
+
+                Context.gameModel.questGameCreated.addOnce(function ():void {
+                    Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);
+                    Context.gameModel.createQuestFailed.removeAll()
+                })
+                Context.gameModel.tryCreateQuest(questObject.id, LocationType.byValue(questObject.locationId))
             }
         }
 
         private function quit():void {
-			
+
 			if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
 			{
 				/* send server request */
 				Context.Model.currentTutorialPart = TutorialPartType.PART3;
 				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
 			}
-			
+
             closeWrapper();
             Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_WORLD);
         }
@@ -200,7 +210,7 @@
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
-	
+
 	<s:Group>
 		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
 						   backgroundImageFillMode="repeat"
@@ -209,14 +219,14 @@
 						   borderVisible="true"
 						   borderColor="0x322a17" borderWeight="3"
 						   />
-		
+
 		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
 						   backgroundImageFillMode="repeat"
 						   width="331" x="3" y="3" height="123"
 						   cornerRadius="60"
 						   borderVisible="false"
 						   />
-		
+
 		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
 						   backgroundImageFillMode="repeat"
 						   width="331" x="3" height="70"
@@ -224,7 +234,7 @@
 						   cornerRadius="0"
 						   borderVisible="false"
 						   />
-		
+
 		<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
 						   backgroundImageFillMode="repeat"
 						   width="331" x="3" y="{274-123}" height="123"
@@ -238,27 +248,27 @@
 						   cornerRadius="0"
 						   borderVisible="false"
 						   />
-		
-		<s:VGroup width="100%" height="100%" 
-				  horizontalAlign="center" verticalAlign="top" 
+
+		<s:VGroup width="100%" height="100%"
+				  horizontalAlign="center" verticalAlign="top"
 				  gap="15"
 				  >
-			
+
 			<s:HGroup width="100%" height="57"
 					  horizontalAlign="center" verticalAlign="middle">
 				<s:Label id="resultTitleLabel" text="Нет новых медалей" fontFamily="mpbc" color="0xbbb17a" fontSize="22" />
 			</s:HGroup>
-			
+
 			<s:VGroup height="153" horizontalAlign="left" verticalAlign="top"
 					  paddingTop="15">
 				<start:TaskViewSlot id="bronzeTask" />
 				<start:TaskViewSlot id="silverTask" />
 				<start:TaskViewSlot id="goldTask" />
 			</s:VGroup>
-			
+
 			<s:HGroup width="100%" horizontalAlign="center" paddingTop="-7" >
 				<s:HGroup verticalAlign="middle" paddingLeft="-40">
-					
+
 					<s:HGroup  width="76" horizontalAlign="right">
 						<s:Label id="energyCostLabel" text="5" color="0xfed400" fontFamily="mpbc" fontSize="30" />
 						<s:HGroup paddingTop="-5" scaleX="0.7" scaleY="0.7">
@@ -267,7 +277,7 @@
 										   />
 						</s:HGroup>
 					</s:HGroup>
-					
+
 					<flexcomponents:PatternButton id="startQuestButton" skinClass="skins.buttons.Pattern3ButtonS"
 												  buttonMode="true" useHandCursor="true"
 												  customLabel="Повторить"
@@ -277,35 +287,35 @@
 												  fontColor="0xfff19f"
 												  />
 				</s:HGroup>
-				
+
 			</s:HGroup>
-			
+
 		</s:VGroup>
-		
+
 		<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="270" y="15" scale="0.6"
 									click="quit();"
 									/>
-		
+
 		<s:Group x="-30" y="-30">
 			<s:BitmapImage id="bronzeMedal" visible="false" source="@Embed(source='assets/pagequests/medals/bronze.png')" />
 			<s:BitmapImage id="silverMedal" visible="false" source="@Embed(source='assets/pagequests/medals/silver.png')" />
 			<s:BitmapImage id="goldMedal" visible="false" source="@Embed(source='assets/pagequests/medals/gold.png')" />
-			
+
 			<s:filters>
 				<s:GlowFilter id="glowFilter3" alpha="1" color="0xffb400" strength="1" blurX="35" blurY="35" />
 				<!--<s:GlowFilter id="glowFilter4" alpha="1" color="0xffb400" strength="1" blurX="35" blurY="35" />-->
 			</s:filters>
-			
+
 		</s:Group>
-		
+
 		<s:filters>
 			<s:DropShadowFilter alpha="0.3" />
 			<s:GlowFilter id="glowFilter1" alpha="0" color="0xffb400" strength="1" blurX="35" blurY="35" />
 			<s:GlowFilter id="glowFilter2" alpha="0" color="0xffb400" strength="1" blurX="35" blurY="35" />
 		</s:filters>
 	</s:Group>
-	
+
 	<s:Group id="bonusGroup" x="353" y="56" />
-	
+
 	<s:controlBarContent/>
 </s:Panel>

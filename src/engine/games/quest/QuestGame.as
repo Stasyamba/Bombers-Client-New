@@ -155,7 +155,10 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     private function onQuestFailed(qfr:QuestFailReason):void {
         //Alert.show(qfr.text);
-        Context.gameModel.questEnded.dispatch(false, null)
+        TweenMax.delayedCall(3,function():void{
+            Context.gameModel.questEnded.dispatch(false, null)
+        })
+
     }
 
     private function onPlayerDied():void {
@@ -220,7 +223,9 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     private function onQuestCompleted(medal:Medal):void {
         //Alert.show("task accomplished with medal " + medal.string);
-        Context.gameModel.questEnded.dispatch(true, medal);
+        TweenMax.delayedCall(3,function():void{
+            Context.gameModel.questEnded.dispatch(true, medal);
+        })
     }
 
     private function checkFinishOnGoals(p0:int):Boolean {

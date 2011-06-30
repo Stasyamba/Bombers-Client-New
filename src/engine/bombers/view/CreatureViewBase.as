@@ -40,6 +40,10 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
         _self = Context.imageService.creatureSWF(_creature.graphicsId)
         _self.x = _self.y = Consts.BOMBER_SIZE_2
         addChild(_self)
+
+		_self.setMode(1)
+        _self.setColor(1)
+
         this.x = creature.coords.getRealX();
         this.y = creature.coords.getRealY();
         healthBar = new Sprite();
@@ -82,10 +86,12 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
 
         lifePopup.filters = [new BlurFilter(1.5, 1.5, BitmapFilterQuality.HIGH)]
 
-        TweenMax.to(lifePopup, 2, {alpha:0.6,x:"-8",scaleX:1.5, scaleY:1.5,y:"-50",onComplete:function():void {
+        TweenMax.to(lifePopup, 2, {alpha:0.6,x:"-8",y:"-50",onComplete:function():void {
             parent.removeChild(lifePopup)
         }
         })
+
+//        TweenMax.to(lifePopup, 2, {scaleX:1.5, scaleY:1.5})
     }
 
     private function addState(state:ViewState):void {
