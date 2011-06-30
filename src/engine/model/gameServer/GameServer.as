@@ -630,8 +630,6 @@ public class GameServer extends SmartFox {
 					//Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
 					//Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
 					
-					Context.Model.currentSettings.gameProfile.energy = 130;
-					
 					var appFriendsArr: Array = new Array();
 					var gp3: GameProfile = new GameProfile();
 					gp3.id = "1";
@@ -698,15 +696,16 @@ public class GameServer extends SmartFox {
                             responseParams.getInt("interface.buyResources.result.fields.resourceType3")
 						)
 							
-                        Context.Model.currentSettings.gameProfile.resources.add(rp);
+                        //Context.Model.currentSettings.gameProfile.resources.add(rp);
+						Context.Model.currentSettings.gameProfile.resources = rp.clone();
 						
                         Context.Model.dispatchCustomEvent(ContextEvent.RS_BUY_SUCCESS, rp)
                         Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED)
                     } else {
-                        Context.Model.currentSettings.gameProfile.energy += en;
-						Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
 						
-                        //Context.Model.dispatchCustomEvent(ContextEvent.EN_BUY_SUCCESS, en);
+                        //Context.Model.currentSettings.gameProfile.energy += en;
+						Context.Model.currentSettings.gameProfile.energy = en;
+						Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
                     }
                 }
                 break;
