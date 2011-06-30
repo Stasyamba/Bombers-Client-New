@@ -221,7 +221,7 @@ public class GameModel {
         questStarted.addOnce(function():void {
             isPlayingNow = true
             questEnded.addOnce(function(p1:*, p2:*):void {
-                leftQuest.dispatch()
+                endQuest()
             })
         })
 
@@ -244,6 +244,13 @@ public class GameModel {
         }
     }
 
+    private function endQuest():void {
+        _questId = null
+        _gameId = null;
+        isPlayingNow = false
+        EngineContext.clear()
+    }
+
     // quest handlers
     private function onQuestCreated(questId:String, gameId:String):void {
         createQuestFailed.removeAll()
@@ -254,10 +261,7 @@ public class GameModel {
     }
 
     private function onLeftQuest():void {
-        _questId = null
-        _gameId = null;
-        isPlayingNow = false
-        EngineContext.clear()
+        endQuest()
 
         createQuestFailed.removeAll()
         questGameCreated.removeAll()

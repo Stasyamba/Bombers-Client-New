@@ -156,9 +156,11 @@
                 /* server withdraw energy */
                 Context.gameModel.createQuestFailed.addOnce(function():void {
                    Alert.show("Error - сreate Quest Failed | QuestIR.mxml");
+                    Context.gameModel.questGameCreated.removeAll()
                 });
 
                 Context.gameModel.questGameCreated.addOnce(function ():void {
+                    Context.gameModel.createQuestFailed.removeAll()
                     Context.Model.windowsManager.closeAll(true);
 
                     Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, ApplicationView.TAB_NAME_QUEST);
