@@ -289,6 +289,10 @@ public class GameModel {
         _currentLocation = null
     }
 
+    public function leaveCurrentQuest():void {
+        leftQuest.dispatch();
+    }
+
     //----------multiplayer-----------
 
     public function leaveCurrentGame():void {
