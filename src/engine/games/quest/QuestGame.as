@@ -142,6 +142,7 @@ public class QuestGame extends GameBase implements IQuestGame {
     }
 
     private function onTimeOut():void {
+        if (!Context.gameModel.isPlayingNow) return;
         Context.gameModel.isPlayingNow = false
         if (_questObject.finishOnGoal)
             Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
