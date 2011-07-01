@@ -78,7 +78,8 @@
             //listener'll be removed in gameModel
             Context.gameModel.questEnded.add(function (won:Boolean, medal:Medal):void {
                 endGame();
-                Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, won ? MedalType.byValue(medal.value):null))
+                //Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, won ? MedalType.byValue(medal.value):null))
+				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, []))
             });
         }
 

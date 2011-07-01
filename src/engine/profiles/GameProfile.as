@@ -32,28 +32,13 @@ public class GameProfile {
      */
     public var medals:Array = new Array();
 	
-	public function addMedal(questType: String, medalObject: MedalObject): void
+	public function addMedal(questId: String, medalsNew: Array): void
 	{
 		var findMedal: Array = new Array();
-		
-		switch(medalObject.medalType)
+		for each(var cmo: MedalType in medalsNew)
 		{
-			case MedalType.GOLD_MEDAL:
-				findMedal.push({type: MedalType.GOLD_MEDAL, isFinded: false});
-				findMedal.push({type: MedalType.SILVER_MEDAL, isFinded: false});
-				findMedal.push({type: MedalType.BRONZE_MEDAL, isFinded: false});
-				break;
-			
-			case MedalType.SILVER_MEDAL:
-				findMedal.push({type: MedalType.SILVER_MEDAL, isFinded: false});
-				findMedal.push({type: MedalType.BRONZE_MEDAL, isFinded: false});
-				break;
-			
-			case MedalType.BRONZE_MEDAL:
-				findMedal.push({type: MedalType.BRONZE_MEDAL, isFinded: false});
-				break;
+			findMedal.push({type: cmo, isFinded: false});
 		}
-		
 		
 		for each(var mo: MedalObject in medals)
 		{
@@ -65,14 +50,13 @@ public class GameProfile {
 					break;
 				}
 			}
-			
 		}
 		
 		for each(smo in findMedal)
 		{
 			if(!smo.isFinded)
 			{
-				medals.push(new MedalObject(questType, smo.type));
+				medals.push(new MedalObject(questId, smo.type));
 			}
 		}
 	}
