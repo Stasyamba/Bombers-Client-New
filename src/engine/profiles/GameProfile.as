@@ -5,6 +5,8 @@ import com.smartfoxserver.v2.entities.data.ISFSObject;
 import components.common.bombers.BomberType;
 import components.common.items.ItemProfileObject;
 import components.common.items.ItemType;
+import components.common.quests.medals.MedalObject;
+import components.common.quests.medals.MedalType;
 import components.common.resources.ResourcePrice;
 import components.common.worlds.locations.LocationType;
 
@@ -29,7 +31,51 @@ public class GameProfile {
      * content = [MedalObject, ...]
      */
     public var medals:Array = new Array();
-
+	
+	public function addMedal(questType: String, medalObject: MedalObject): void
+	{
+		var findMedal: Array = new Array();
+		
+		switch(medalObject.medalType)
+		{
+			case MedalType.GOLD_MEDAL:
+				findMedal.push({type: MedalType.GOLD_MEDAL, isFinded: false});
+				findMedal.push({type: MedalType.SILVER_MEDAL, isFinded: false});
+				findMedal.push({type: MedalType.BRONZE_MEDAL, isFinded: false});
+				break;
+			
+			case MedalType.SILVER_MEDAL:
+				findMedal.push({type: MedalType.SILVER_MEDAL, isFinded: false});
+				findMedal.push({type: MedalType.BRONZE_MEDAL, isFinded: false});
+				break;
+			
+			case MedalType.BRONZE_MEDAL:
+				findMedal.push({type: MedalType.BRONZE_MEDAL, isFinded: false});
+				break;
+		}
+		
+		
+		for each(var mo: MedalObject in medals)
+		{
+			for each(var smo: Object in findMedal)
+			{
+				if(mo.medalType == smo.medalType)
+				{
+					smo.isFinded = true;
+					break;
+				}
+			}
+			
+		}
+		
+		for each(smo in findMedal)
+		{
+			if(!smo.isFinded)
+			{
+				medals.push(new MedalObject(questType, smo.type));
+			}
+		}
+	}
 
     /**
      * BomberType

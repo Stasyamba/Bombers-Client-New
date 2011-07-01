@@ -92,8 +92,14 @@
             disapearingAnimation.play();
         }
 
+		private function medalRefresh(e: ContextEvent): void	
+		{
+			
+		}
+			
         private function panelCreationComplete():void {
 
+			Context.Model.addCustomListener(ContextEvent.QUEST_MEDAL_REFRESH, medalRefresh);
 			Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, true);
 
             questObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
@@ -102,6 +108,34 @@
             if (questResultObject != null) {
                 /* medal from own profile */
 
+				if (questResultObject.isNew)
+				{
+					resultTitleLabel.text = "Новая медаль!";
+					pulseA.play();
+					
+					Context.Model.currentSettings.gameProfile.addMedal(questObject.id, questResultObject.medalType);
+					
+					switch (questResultObject.medalType) 
+					{
+						case MedalType.GOLD_MEDAL:
+							goldMedal.visible = true;
+							break;
+						case MedalType.SILVER_MEDAL:
+							silverMedal.visible = true;
+							break;
+						case MedalType.BRONZE_MEDAL:
+							bronzeMedal.visible = true;
+							break;
+					}
+					
+					//goldMedal.visible = gotGold;
+					
+				} else {
+					resultTitleLabel.text = "Нет новых медалей";
+				}
+				
+				
+				
                 var medals:Array = Context.Model.currentSettings.gameProfile.medals.concat();
 				var currentMedalsType: Array = new Array();
 
@@ -136,30 +170,6 @@
                 goldTask.initTask(questObject.getTask(MedalType.GOLD_MEDAL), gotGold);
                 silverTask.initTask(questObject.getTask(MedalType.SILVER_MEDAL), gotSilver);
                 bronzeTask.initTask(questObject.getTask(MedalType.BRONZE_MEDAL), gotBronze);
-
-                if (questResultObject.isNew)
-				{
-                    resultTitleLabel.text = "Новая медаль!";
-                    pulseA.play();
-
-
-                    switch (questResultObject.medalType) {
-                        case MedalType.GOLD_MEDAL:
-                            goldMedal.visible = true;
-                            break;
-                        case MedalType.SILVER_MEDAL:
-                            silverMedal.visible = true;
-                            break;
-                        case MedalType.BRONZE_MEDAL:
-                            bronzeMedal.visible = true;
-                            break;
-                    }
-
-                    //goldMedal.visible = gotGold;
-
-                } else {
-                    resultTitleLabel.text = "Нет новых медалей";
-                }
 
 
 				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
