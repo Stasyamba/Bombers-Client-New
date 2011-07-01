@@ -8,10 +8,14 @@ import engine.EngineContext
 import engine.bombers.interfaces.IBomber
 import engine.maps.interfaces.ICollectableDynObject
 import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IMapBlock
 import engine.maps.interfaces.ITimeActivatableDynObject
+import engine.model.explosionss.ExplosionType
 import engine.model.managers.interfaces.IDynObjectManager
 import engine.model.managers.interfaces.IMapManager
 import engine.model.managers.interfaces.IPlayerManager
+
+import greensock.TweenMax
 
 import mx.collections.ArrayList
 
@@ -23,8 +27,11 @@ public class DynObjectManager implements IDynObjectManager {
     protected var _objects:ArrayList = new ArrayList();
 
     protected var readyToActivate:ArrayList = new ArrayList();
+    protected var destroyList:ArrayList = new ArrayList();
+
     protected var timeSinceLastExplosion:int = 0;
     protected static const EXPLOSION_PERIOD:int = 800;
+
 
     public function DynObjectManager(playerManager:IPlayerManager, mapManager:IMapManager) {
         this.playerManager = playerManager;
@@ -96,7 +103,7 @@ public class DynObjectManager implements IDynObjectManager {
         timeSinceLastExplosion += elapsedMilliSecs;
         if (timeSinceLastExplosion >= EXPLOSION_PERIOD) {
             timeSinceLastExplosion -= EXPLOSION_PERIOD;
-            //todo:shit
+
             Context.game.explosionExchangeBuffer.length = 0
             if (readyToActivate.length > 0) {
                 for each (var b:ITimeActivatableDynObject in readyToActivate.source) {
@@ -106,8 +113,35 @@ public class DynObjectManager implements IDynObjectManager {
                 if (Context.game.explosionExchangeBuffer.length > 0)
                     EngineContext.explosionGroupAdded.dispatch(Context.game.explosionExchangeBuffer);
             }
+
+            for each (var p:DestroyListEntry in destroyList.source) {
+                var bb:IMapBlock = mapManager.map.getBlock(p.x, p.y)
+                bb.explode(p.explType)
+                TweenMax.delayedCall(p.explType.timeToLive/1000,bb.stopExplosion)
+            }
+            destroyList.removeAll()
         }
     }
 
+    public function explodeBlock(x:int, y:int, etype:ExplosionType):void {
+        destroyList.addItem(new DestroyListEntry(x, y, etype))
+    }
 }
+}
+
+import engine.model.explosionss.ExplosionType
+
+class DestroyListEntry {
+
+    public function DestroyListEntry(x:int, y:int, explType:ExplosionType) {
+        this.x = x
+        this.y = y
+        this.explType = explType
+    }
+
+    public var x:int
+    public var y:int
+    public var explType:ExplosionType;
+
+
 }

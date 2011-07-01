@@ -8,8 +8,6 @@ import engine.bombers.mapInfo.MapCoords
 import engine.data.Consts
 import engine.utils.Direction
 
-import org.flexunit.Assert
-
 public class CoordsTest {
 
     private var _map:MockMap
@@ -815,7 +813,6 @@ public class CoordsTest {
 }
 
 import engine.bombers.CreatureBase
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.IMap
 import engine.maps.bigObjects.BigObjectBase
 import engine.maps.interfaces.IDynObject
@@ -1040,7 +1037,7 @@ class MockMapBlock implements IMapBlock {
         throw new Error()
     }
 
-    public function explode(expl:IExplosion):void {
+    public function explode(expl:ExplosionType):void {
         throw new Error()
     }
 
@@ -1049,7 +1046,7 @@ class MockMapBlock implements IMapBlock {
 
     }
 
-    public function stateAfterExplosion(expl:IExplosion):MapBlockType {
+    public function stateAfterExplosion(expl:ExplosionType):MapBlockType {
         throw new Error()
 
     }

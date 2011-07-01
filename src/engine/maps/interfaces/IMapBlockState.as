@@ -5,7 +5,6 @@
 
 package engine.maps.interfaces {
 import engine.bombers.CreatureBase
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.mapBlocks.MapBlockType
 import engine.model.explosionss.ExplosionType
 
@@ -21,11 +20,11 @@ public interface IMapBlockState {
 
     function canHaveExplosionPrint(explType:ExplosionType):Boolean;
 
-    function explode(expl:IExplosion):void;
+    function explode(expl:ExplosionType):void;
 
     function get type():MapBlockType;
 
-    function stateAfterExplosion(expl:IExplosion):MapBlockType;
+    function stateAfterExplosion(expl:ExplosionType):MapBlockType;
 
     function get canShowObjects():Boolean;
 

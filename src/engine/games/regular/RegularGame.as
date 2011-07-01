@@ -4,39 +4,42 @@
  */
 
 package engine.games.regular {
-import components.common.worlds.locations.LocationType
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.bombers.PlayerBomber
-import engine.bombers.PlayersBuilder
-import engine.bombers.interfaces.IBomber
-import engine.bombers.interfaces.IEnemyBomber
-import engine.bombers.interfaces.IPlayerBomber
-import engine.data.common.maps.Maps
-import engine.explosionss.ExplosionsBuilder
-import engine.games.*
-import engine.maps.builders.DynObjectBuilder
-import engine.maps.builders.MapBlockBuilder
-import engine.maps.builders.MapBlockStateBuilder
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.interfaces.IMapBlock
-import engine.model.managers.interfaces.IEnemiesManager
-import engine.model.managers.quest.MonstersManager
-import engine.model.managers.regular.DynObjectManager
-import engine.model.managers.regular.EnemiesManager
-import engine.model.managers.regular.ExplosionsManager
-import engine.model.managers.regular.MapManager
-import engine.model.managers.regular.PlayerManager
-import engine.playerColors.PlayerColor
-import engine.profiles.PlayerGameProfile
-import engine.utils.Direction
-import engine.weapons.WeaponBuilder
-import engine.weapons.WeaponType
-import engine.weapons.interfaces.IActivatableWeapon
-import engine.weapons.interfaces.IDeactivatableWeapon
+import engine.EngineContext;
+import engine.bombers.PlayerBomber;
+import engine.bombers.PlayersBuilder;
+import engine.bombers.interfaces.IBomber;
+import engine.bombers.interfaces.IEnemyBomber;
+import engine.bombers.interfaces.IPlayerBomber;
+import engine.data.common.maps.Maps;
+import engine.explosionss.ExplosionsBuilder;
+import engine.games.*;
+import engine.maps.builders.DynObjectBuilder;
+import engine.maps.builders.MapBlockBuilder;
+import engine.maps.builders.MapBlockStateBuilder;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.interfaces.IMapBlock;
+import engine.model.explosionss.ExplosionType;
+import engine.model.managers.interfaces.IEnemiesManager;
+import engine.model.managers.quest.MonstersManager;
+import engine.model.managers.regular.DynObjectManager;
+import engine.model.managers.regular.EnemiesManager;
+import engine.model.managers.regular.ExplosionsManager;
+import engine.model.managers.regular.MapManager;
+import engine.model.managers.regular.PlayerManager;
+import engine.playerColors.PlayerColor;
+import engine.profiles.PlayerGameProfile;
+import engine.utils.Direction;
+import engine.weapons.WeaponBuilder;
+import engine.weapons.WeaponType;
+import engine.weapons.interfaces.IActivatableWeapon;
+import engine.weapons.interfaces.IDeactivatableWeapon;
 
-import greensock.TweenMax
+import flash.geom.Point;
+
+import greensock.TweenMax;
 
 public class RegularGame extends GameBase implements IMultiPlayerGame {
 
@@ -76,7 +79,6 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
             EngineContext.weaponDeactivated.add(onWeaponDeactivated);
 
             EngineContext.explosionGroupAdded.add(onExplosionsAdded)
-            EngineContext.explosionsRemoved.add(onExplosionsRemoved)
 
             EngineContext.playerDamaged.add(onPlayerDamaged)
 
@@ -211,9 +213,12 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
     }
 
 
-    private function onObjectActivated(id:int, x:int, y:int, objType:IDynObjectType):void {
+    private function onObjectActivated(id:int, x:int, y:int, objType:IDynObjectType,destList:Array):void {
         var bomber:IBomber = getPlayer(id);
         dynObjectManager.activateObject(x, y, bomber);
+        for each (var point:Point in destList) {
+            (dynObjectManager as DynObjectManager).explodeBlock(point.x,point.y,ExplosionType.byValue(objType.key))
+        }
     }
 
     private function tryToActivateObject(object:IDynObject):void {

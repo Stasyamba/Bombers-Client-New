@@ -11,7 +11,9 @@ import engine.bombers.CreatureBase
 import engine.bombers.PlayersBuilder
 import engine.bombers.QuestPlayerBomber
 import engine.bombers.interfaces.IBomber
+import engine.explosionss.ExplosionPoint
 import engine.explosionss.ExplosionsBuilder
+import engine.explosionss.interfaces.IExplosion
 import engine.games.*
 import engine.games.quest.goals.CollectedDOObject
 import engine.games.quest.goals.DefeatedMonsterObject
@@ -46,6 +48,7 @@ import flash.utils.Timer
 
 import greensock.TweenMax
 
+import mx.collections.ArrayList
 import mx.controls.Alert
 
 public class QuestGame extends GameBase implements IQuestGame {
@@ -147,11 +150,19 @@ public class QuestGame extends GameBase implements IQuestGame {
         if (_questObject.finishOnGoal)
             Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
         else {
-            if (_currentMedal)
+            if (_currentMedal != null)
                 Context.gameModel.questCompleted.dispatch(_currentMedal)
             else
                 Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
         }
+    }
+
+    protected function onExplosionsRemoved(expls:ArrayList):void {
+        for each (var e:IExplosion in expls.source)
+            e.forEachPoint(function (point:ExplosionPoint):void {
+                var b:IMapBlock = mapManager.map.getBlock(point.x, point.y);
+                b.stopExplosion();
+            })
     }
 
     private function onQuestFailed(qfr:QuestFailReason):void {

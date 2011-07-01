@@ -19,6 +19,7 @@ import engine.playerColors.PlayerColor
 
 import flash.display.Bitmap
 import flash.display.BitmapData
+import flash.display.DisplayObject
 import flash.display.MovieClip
 import flash.geom.Point
 import flash.geom.Rectangle
@@ -104,15 +105,15 @@ public class ImageService {
     }
 
     //todo:add variety support
-    public function mapBlock(blockType:MapBlockType, locationType:LocationType):BitmapData {
+    public function mapBlock(blockType:MapBlockType, locationType:LocationType):LoadedObject {
         if (!blockType.draws)
             throw new Error("no image for not drawn block " + blockType.key)
         if (blockType.graphicsName == MapBlockType.DEFAULT_GRAPHICS_NAME) {
             if (blockType.nameAs != null)
-                return loadedObject(locationType.stringId + ".map." + blockType.nameAs + "1").content.bitmapData as BitmapData
-            return loadedObject(locationType.stringId + ".map." + blockType.key.toLowerCase() + "1").content.bitmapData as BitmapData
+                return loadedObject(locationType.stringId + ".map." + blockType.nameAs + "1")
+            return loadedObject(locationType.stringId + ".map." + blockType.key.toLowerCase() + "1")
         }
-        return loadedObject(blockType.graphicsName).content.bitmapData as BitmapData
+        return loadedObject(blockType.graphicsName)
 
     }
 
@@ -219,7 +220,8 @@ public class ImageService {
     }
 
     public function creatureSWF(graphicsId:String):MovieClip {
-        var m:MovieClip = new BombersContentLoader.enemiesClass()
+        var c:Class =  BombersContentLoader.enemiesClass;
+        var m:MovieClip = new c()
         //m.setCreature(graphicsId)
         return m
     }

@@ -5,7 +5,6 @@
 
 package engine.maps.mapBlocks.mapBlockStates {
 import engine.bombers.CreatureBase
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.interfaces.IDynObject
 import engine.maps.interfaces.IMapBlockState
 import engine.maps.mapBlocks.MapBlockType
@@ -36,13 +35,13 @@ public class WallBlock implements IMapBlockState {
         return false;
     }
 
-    public function stateAfterExplosion(expl:IExplosion):MapBlockType {
-        if (expl.type == ExplosionType.ATOM)
+    public function stateAfterExplosion(expl:ExplosionType):MapBlockType {
+        if (expl == ExplosionType.ATOM)
             return MapBlockType.FREE;
         return MapBlockType.WALL;
     }
 
-    public function explode(expl:IExplosion):void {
+    public function explode(expl:ExplosionType):void {
         //do nothing, this is a wall dude
         // atom explosion makes it free so do nothing either
     }

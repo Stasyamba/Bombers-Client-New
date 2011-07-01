@@ -6,7 +6,6 @@
 package engine.maps.mapBlocks.mapBlockStates {
 import engine.bombers.CreatureBase
 import engine.bombers.interfaces.IBomber
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.interfaces.IActiveMapBlockState
 import engine.maps.interfaces.IDynObject
 import engine.maps.mapBlocks.MapBlockType
@@ -70,14 +69,14 @@ public class IceBlock implements IActiveMapBlockState {
         return false
     }
 
-    public function explode(expl:IExplosion):void {
+    public function explode(expl:ExplosionType):void {
     }
 
     public function get type():MapBlockType {
         return MapBlockType.ICE
     }
 
-    public function stateAfterExplosion(expl:IExplosion):MapBlockType {
+    public function stateAfterExplosion(expl:ExplosionType):MapBlockType {
         return MapBlockType.ICE
     }
 

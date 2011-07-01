@@ -33,7 +33,9 @@ public class QuestExplosionsManager extends ExplosionsManager implements IExplos
         for each (e in expls) {
             e.forEachPoint(function (point:ExplosionPoint):void {
                 var b:IMapBlock = mapManager.map.getBlock(point.x, point.y);
-                b.explode(e);
+                b.explode(e.type);
+				//todo:!!!
+//				mapManager.map.checkExplosionPrints(e)
             })
             playerManager.checkPlayerMetExplosion(e);
         }

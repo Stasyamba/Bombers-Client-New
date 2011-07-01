@@ -5,7 +5,6 @@
 
 package engine.maps.mapBlocks {
 import engine.bombers.CreatureBase
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.interfaces.IDynObject
 import engine.maps.interfaces.IMapBlock
 import engine.maps.interfaces.IMapBlockState
@@ -90,10 +89,10 @@ public class NullMapBlock extends MapBlockBase implements IMapBlock {
         return false;
     }
 
-    public function explode(expl:IExplosion):void {
+    public function explode(expl:ExplosionType):void {
     }
 
-    public function stateAfterExplosion(expl:IExplosion):MapBlockType {
+    public function stateAfterExplosion(expl:ExplosionType):MapBlockType {
         return MapBlockType.NULL;
     }
 

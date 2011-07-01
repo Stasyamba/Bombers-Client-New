@@ -36,13 +36,6 @@ public class ExplosionsManager implements IExplosionsManager {
                 explosions.addItem(e);
         }
         updateAllExplosions();
-        for each (e in expls) {
-            e.forEachPoint(function (point:ExplosionPoint):void {
-                var b:IMapBlock = mapManager.map.getBlock(point.x, point.y);
-                b.explode(e);
-            })
-            playerManager.checkPlayerMetExplosion(e);
-        }
     }
 
     public function updateAllExplosions():void {

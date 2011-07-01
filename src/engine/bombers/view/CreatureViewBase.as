@@ -41,7 +41,7 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
         _self.x = _self.y = Consts.BOMBER_SIZE_2
         addChild(_self)
 
-		_self.setMode(1)
+//		_self.setMode(2)
         _self.setColor(1)
 
         this.x = creature.coords.getRealX();

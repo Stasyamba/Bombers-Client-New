@@ -14,6 +14,8 @@ import engine.maps.mapBlocks.MapBlockType
 import engine.maps.mapBlocks.mapBlockStates.BlockUnderBigObject
 import engine.maps.mapObjects.DynObjectType
 
+import engine.model.explosionss.ExplosionType
+
 import greensock.TweenMax
 
 import org.osflash.signals.Signal
@@ -42,7 +44,7 @@ public class SimpleBigObject extends BigObjectBase {
         return life <= 0;
     }
 
-    public function explode(expl:IExplosion):void {
+    public function explode(expl:ExplosionType):void {
         if (isDestroyed) return;
         if (!_isExplodingNow) {
             if (expl.damage >= life)

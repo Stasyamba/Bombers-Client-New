@@ -41,6 +41,8 @@ import engine.profiles.GameProfile;
 import engine.profiles.LobbyProfile;
 import engine.profiles.PlayerGameProfile;
 
+import flash.system.Security
+
 import greensock.TweenMax;
 import greensock.loading.ImageLoader;
 import greensock.loading.LoaderMax;
@@ -119,6 +121,7 @@ public class GameModel {
 
     public function init():void {
         LoaderMax.activate([XMLLoader,SWFLoader,ImageLoader])
+        Security.allowDomain("*")
 			
         BombersContentLoader.questsLoaded.add(fillQuests)
         BombersContentLoader.loadBombers()

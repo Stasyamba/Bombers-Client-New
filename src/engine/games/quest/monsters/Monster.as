@@ -36,8 +36,8 @@ public class Monster extends CreatureBase {
         if (willGetToBlockCenter(willCover)) {
             var d:Direction = _walkingStrategy.getDirection(_direction, _coords);
             if (d != _direction) {
-                EngineContext.qMonsterDirectionChanged.dispatch(slot, _coords.getRealX(), _coords.getRealY(), d);
                 _direction = d
+                EngineContext.qMonsterDirectionChanged.dispatch(slot, _coords.getRealX(), _coords.getRealY(), d);
             }
         }
         performMotion(elapsedMilliSecs * speed / 1000);

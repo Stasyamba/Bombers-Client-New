@@ -5,7 +5,6 @@
 
 package engine.maps.mapBlocks.mapBlockStates {
 import engine.bombers.CreatureBase
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.interfaces.IDynObject
 import engine.maps.interfaces.IMapBlockState
 import engine.maps.mapBlocks.MapBlockType
@@ -26,7 +25,7 @@ public class FragileWallBlock implements IMapBlockState {
         return false;
     }
 
-    public function stateAfterExplosion(expl:IExplosion):MapBlockType {
+    public function stateAfterExplosion(expl:ExplosionType):MapBlockType {
         return lifePoints > 1 ? MapBlockType.FRAGILE_WALL : MapBlockType.FREE;
     }
 
@@ -42,7 +41,7 @@ public class FragileWallBlock implements IMapBlockState {
         return true;
     }
 
-    public function explode(expl:IExplosion):void {
+    public function explode(expl:ExplosionType):void {
         throw new Error("Implement fragile walls exploding")
     }
 
