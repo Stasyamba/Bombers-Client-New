@@ -91,7 +91,7 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
     public function sendDirection(miliSecs:int):void {
         if (!Context.gameModel.isPlayingNow || isDead)
             return
-        if (_sendTime + miliSecs > 50 && _waitingToSend) {
+        if (_sendTime + miliSecs > 50*100/speed && _waitingToSend) {
             Context.gameServer.sendPlayerDirectionChanged(coords.getRealX(), coords.getRealY(), _standStill ? Direction.NONE : _serverDir, false)
             _sendTime = 0
             _waitingToSend = false
@@ -107,12 +107,6 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
         if (tickObject == null)
             return
 
-        //greenBaloon
-        if (!_coords.correctCoords(tickObject.x, tickObject.y)) {
-        } else {
-            EngineContext.greenBaloon.dispatch(tickObject.x, tickObject.y, tickObject.dir)
-        }
-
         if (_waitingToACK) {
             if (tickObject.dir != _serverDir)
                 return
@@ -120,9 +114,11 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
         }
 
         if ((_coords.getRealX() != tickObject.x && _coords.getRealY() != tickObject.y ) ||
-                Math.abs(_coords.getRealX() - tickObject.x) > Consts.BLOCK_SIZE ||
-                Math.abs(_coords.getRealY() - tickObject.y) > Consts.BLOCK_SIZE ||
+                Math.abs(_coords.getRealX() - tickObject.x) > Consts.BLOCK_SIZE * speed/100 ||
+                Math.abs(_coords.getRealY() - tickObject.y) > Consts.BLOCK_SIZE * speed/100 ||
                 diffWays(tickObject)) {
+
+            EngineContext.greenBaloon.dispatch(tickObject.x, tickObject.y,tickObject.dir)
 
             _coords.setExplicit(tickObject.x, tickObject.y)
 
@@ -184,6 +180,7 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
 
     private function getDirByTicks(tickObject:MoveTickObject):Direction {
         var prevMTO:MoveTickObject = _moveTicksArray[0]
+        if (!prevMTO) return Direction.NONE;
         if (tickObject.x > prevMTO.x)
             return Direction.RIGHT
         if (tickObject.x < prevMTO.x)
@@ -298,6 +295,10 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
         checkNewDir()
     }
 
+    private function get start_interpol_time():Number {
+       return START_INTERPOL_TIME * 100/speed;
+    }
+
     private function checkNewDir():void {
         var p:int = Context.gameServer.averagePing
 
@@ -310,10 +311,10 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
 
             if (_prevDir == Direction.NONE) {
 
-                _interpolModifier = START_INTERPOL_TIME / (p + START_INTERPOL_TIME)
+                _interpolModifier = start_interpol_time / (p + start_interpol_time)
                 if (_interpolModifier < MIN_INTERPOL_MOD)
                     _interpolModifier = MIN_INTERPOL_MOD
-                _ignoreInterpolationFor = START_INTERPOL_TIME
+                _ignoreInterpolationFor = start_interpol_time
             } else
 
             if (_serverDir.isTurnTo(_prevDir)) {
@@ -321,12 +322,16 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
                 var dir:Direction = _prevDir
                 var ccc:MapCoords = new MapCoords(this, Context.game.mapManager.map, 0, 0, 0, 0)
                 ccc.setExplicit(lastTick.x, lastTick.y)
-                goTo(dir, speed * (p + int(new Date().getTime()) - lastTick.time) / 1000, ccc)
+                goTo(dir, speed * (p + new Date().getTime() - lastTick.time) / 1000, ccc)
                 if (willTurnGood(ccc)) {
                     //do nothing
                 } else {
-                    EngineContext.pingChanged.dispatch(new Point(ccc.getRealX(), ccc.getRealY()))
-                    _coords.setExplicit(ccc.getRealX(), ccc.getRealY())
+//                    EngineContext.pingChanged.dispatch(new Point(ccc.getRealX(), ccc.getRealY()))
+                    if(Point.distance(new Point(ccc.getRealX(), ccc.getRealY()),new Point(_coords.getRealX(),_coords.getRealY())) < Consts.BLOCK_SIZE &&
+                           ccc.correctCoords(ccc.getRealX(),ccc.getRealY()) ){
+                        EngineContext.redBaloon.dispatch(new Point(ccc.getRealX(),ccc.getRealY()),0)
+                        _coords.setExplicit(ccc.getRealX(), ccc.getRealY())
+                    }
                 }
                 _checkWrongWay = 2
             }

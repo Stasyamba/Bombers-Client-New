@@ -489,11 +489,11 @@ public class MapCoords implements IMapCoords {
         var yD:Number = y % Consts.BLOCK_SIZE;
 
         if (xD != 0 && yD != 0) {
-            EngineContext.redBaloon.dispatch(new Point(x, y), 0)
+//            EngineContext.redBaloon.dispatch(new Point(x, y), 0)
             return false
         }
         if (!map.getBlock(eX, eY).canGoThrough(_owner)) {
-            EngineContext.redBaloon.dispatch(new Point(x, y), 1)
+//            EngineContext.redBaloon.dispatch(new Point(x, y), 1)
             return false
         }
         var pb:IMapBlock
@@ -511,7 +511,7 @@ public class MapCoords implements IMapCoords {
             pb = map.getNeighbour(eX, eY, Direction.UP);
 
         if (pb != null && !pb.canGoThrough(_owner)) {
-            EngineContext.redBaloon.dispatch(new Point(x, y), d)
+//            EngineContext.redBaloon.dispatch(new Point(x, y), d)
             return false
         }
         return true
