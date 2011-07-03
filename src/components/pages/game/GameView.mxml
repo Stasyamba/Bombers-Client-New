@@ -79,7 +79,9 @@
             Context.gameModel.questEnded.add(function (won:Boolean, medals:Array):void {
                 endGame();
                 //Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, won ? MedalType.byValue(medal.value):null))
-				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, medals))
+				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, medals.map(function(item:Medal,index:int,array:Array){
+                    return MedalType.byValue(item.value)
+                })))
             });
         }
 
