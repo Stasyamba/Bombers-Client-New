@@ -147,8 +147,9 @@
 				
 				
                 var medals:Array = Context.Model.currentSettings.gameProfile.medals.concat();
-				var currentMedalsType: Array = new Array();
+				//var currentMedalsType: Array = new Array();
 
+				
 
 				var gotGold:Boolean = false;
 				var gotSilver:Boolean = false;
@@ -156,10 +157,8 @@
 
 				for each(var mo:MedalObject in medals)
 				{
-					if (mo.questId == Context.Model.questIdLastOpened)
+					if (mo.questId == questObject.id)
 					{
-						currentMedalsType.push(mo.medalType);
-
 						switch (mo.medalType) {
 							case MedalType.GOLD_MEDAL:
 								gotGold = true;
@@ -171,8 +170,6 @@
 								gotBronze = true;
 								break;
 						}
-
-						break;
 					}
 				}
 

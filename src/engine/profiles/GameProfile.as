@@ -40,14 +40,16 @@ public class GameProfile {
 			findMedal.push({type: cmo, isFinded: false});
 		}
 		
-		for each(var mo: MedalObject in medals)
+		for each(var smo: Object in findMedal)
 		{
-			for each(var smo: Object in findMedal)
+			for each(var mo: MedalObject in medals)
 			{
-				if(mo.medalType == smo.medalType)
+				if(mo.questId == questId)
 				{
-					smo.isFinded = true;
-					break;
+					if(mo.medalType == smo.medalType)
+					{
+						smo.isFinded = true;
+					}
 				}
 			}
 		}

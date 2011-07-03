@@ -170,7 +170,7 @@
 							if(mo.questId == q.id)
 							{
 								q.addMedal(mo.medalType);
-								break;
+								//break;
 							}
 						}
 						
