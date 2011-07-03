@@ -10,5 +10,10 @@ package components.common.quests.medals
 			questId = qt;
 			medalType = mt;
 		}
+		
+		public function clone(): MedalObject
+		{
+			return new MedalObject(questId, medalType);
+		}
 	}
 }

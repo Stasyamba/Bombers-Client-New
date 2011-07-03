@@ -47,7 +47,8 @@
             });
 
 
-            Context.Model.addCustomListener(ContextEvent.QUEST_START_SHOW, function (e:ContextEvent):void {
+            Context.Model.addCustomListener(ContextEvent.QUEST_START_SHOW, function (e:ContextEvent):void 
+			{
                 var qsw:QuestStartW = new QuestStartW();
                 qsw.questObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
 

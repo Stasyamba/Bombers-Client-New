@@ -180,80 +180,6 @@
 				location.setOver(true, colors[lType].hShift, colors[lType].sShift);
 			}
 			
-			private function setLocationPreviewOverState(location: ILocationPreview):void 
-			{
-				var lType:LocationType = (location as ILocationPreview).getLocationType();
-				var rObjects:Array = AccessManager.checkAccessLocation(lType);
-				
-				
-				var betaRuleDone:Boolean = true;
-				var openedLocationsRuleDone:Boolean = true;
-				var allRuleDone:Boolean = true;
-				
-				var isLocationOpenedInProfile:Boolean = false;
-				for each(var ol:LocationType in Context.Model.currentSettings.gameProfile.openedLocations) {
-					if (ol == selectedLocation.getLocationType()) {
-						isLocationOpenedInProfile = true;
-						break;
-					}
-				}
-				
-				
-				for each(var o:AccessRuleObject in rObjects) {
-					if (o.accessRule.getAccessRuleType() == AccessRuleType.BETA_RULE) {
-						betaRuleDone = o.isSuccess;
-					}
-					
-					if (o.accessRule.getAccessRuleType() == AccessRuleType.OPENED_LOCATIONS_RULE) {
-						openedLocationsRuleDone = o.isSuccess;
-					}
-					
-					if (!o.isSuccess) {
-						allRuleDone = false;
-					}
-					
-				}
-				
-				var saturationShift:Number = 1;
-				var hueShift:int = 0;
-				
-				
-				if (!betaRuleDone) {
-					// RED
-					
-					saturationShift = 4;
-					hueShift = -45;
-					
-					if (selectedLocation.getLocationType() == LocationType.WORLD1_MOON) {
-						hueShift = -155;
-						saturationShift = 15;
-					}
-					
-				} else if (!openedLocationsRuleDone) {
-					// RED
-					
-					saturationShift = 4;
-					hueShift = -45;
-					
-					if (selectedLocation.getLocationType() == LocationType.WORLD1_MOON) {
-						hueShift = 80;
-					}
-					
-				} else if (!allRuleDone || !isLocationOpenedInProfile) {
-					// YELLOW
-					// by default
-					
-				} else if (allRuleDone) {
-					// GREEN
-					saturationShift = 3.5;
-					hueShift = 35;
-				}
-				
-				
-				location.setOver(true, hueShift, saturationShift);
-			}
-			
-			
 			private function mouseClickHandler(e:MouseEvent):void {
 				if (selectedLocation != null) {
 					selectedLocation.setOver(false);
@@ -293,11 +219,11 @@
 				
 				/* set background animations */
 				
-				/* snowSprite1.addChild(new Snow());
-				snowSprite2.addChild(new Snow());
-				snowSprite3.addChild(new Snow());
-				snowSprite4.addChild(new Snow());
-				*/
+				//snowSprite1.addChild(new Snow());
+				//snowSprite2.addChild(new Snow());
+				//snowSprite3.addChild(new Snow());
+				//snowSprite4.addChild(new Snow());
+				
 				
 				waterSprite.addChild(new Water());
 				

@@ -6,14 +6,22 @@ package components.common.game.questgameresult
 	public class QuestResultObject
 	{
 		public var isNew: Boolean;
-		public var medalType: MedalType;
+		public var medals: Array;
 		//public var questObject: QuestObject;
 		
-		public function QuestResultObject(isNewP: Boolean, medalTypeP: MedalType) //questObjectP: QuestObject)
+		public function QuestResultObject(isNewP: Boolean, medalsP: Array) 
 		{
 			isNew = isNewP;
-			medalType = medalTypeP;
-			//questObject = questObjectP;
+			medals = new Array();
+			
+			if(medalsP != null)
+			{
+				for each(var mt: MedalType in medals)
+				{
+					medals.push(mt);
+				}
+			}
+			
 		}
 	}
 }
