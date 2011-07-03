@@ -113,7 +113,7 @@
 					resultTitleLabel.text = "Новая медаль!";
 					pulseA.play();
 					
-					//Context.Model.currentSettings.gameProfile.addMedal(new MedalObject(questObject.id, questResultObject.medalType));
+					Context.Model.currentSettings.gameProfile.addMedal(questObject.id, questResultObject.medals);
 					
 					var bestMedal: MedalType = MedalType.BRONZE_MEDAL;
 					

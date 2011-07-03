@@ -16,7 +16,7 @@ package components.common.game.questgameresult
 			
 			if(medalsP != null)
 			{
-				for each(var mt: MedalType in medals)
+				for each(var mt: MedalType in medalsP)
 				{
 					medals.push(mt);
 				}
