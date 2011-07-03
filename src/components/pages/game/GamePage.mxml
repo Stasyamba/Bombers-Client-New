@@ -98,6 +98,7 @@
                     Context.game.playerManager.me.removeDirection(Utils.arrowKeyCodeToDirection(event.keyCode))
             }
         }
+		
 
         ]]>
     </fx:Script>
