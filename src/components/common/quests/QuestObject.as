@@ -86,6 +86,11 @@ import components.common.quests.medals.MedalType;
 			view.addMedal(medalType);
 		}
 		
+		public function clearFailRule(): void
+		{
+			view.clearFailRule();
+		}
+		
 		public function addFailRule(failRule: IAccessRule): void
 		{
 			view.addFailRule(failRule);

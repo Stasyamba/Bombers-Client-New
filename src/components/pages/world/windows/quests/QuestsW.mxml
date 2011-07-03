@@ -143,6 +143,8 @@
 					
 					for each(var q: QuestObject in quests)
 					{
+						q.clearFailRule();
+						
 						var accessObjects: Array = AccessManager.checkAccessQuest(q.id);
 						
 						for each(var aro: AccessRuleObject in accessObjects) 
