@@ -55,5 +55,15 @@ public class LoadedObject {
     public function get contentType():LoadedContentType {
         return _contentType
     }
+
+    public function swfClass(name:String):Class {
+        if(_contentType != LoadedContentType.SWF)
+            throw new Error("swfClass is only accessible for swf loaders");
+        var res:Class = (_loader as SWFLoader).getClass(name)
+        if (res == null){
+           throw new Error("didn't find class " + name);
+        }
+        return res;
+    }
 }
 }

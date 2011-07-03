@@ -70,6 +70,8 @@ public class QuestGame extends GameBase implements IQuestGame {
     private var _time:int = 0
     private var _timeTimer:Timer
 
+    private var _timeOutTween:TweenMax;
+
     public function QuestGame(gameId:String, quest:EngineQuestObject) {
         super(LocationType.byValue(quest.locationId))
         _gameId = gameId
@@ -129,7 +131,7 @@ public class QuestGame extends GameBase implements IQuestGame {
             Context.gameModel.leftQuest.addOnce(onEndedLG)
 
             if (questObject.timeLimit > 0) {
-                TweenMax.delayedCall(questObject.timeLimit, EngineContext.qTimeOut.dispatch)
+                _timeOutTween = TweenMax.delayedCall(questObject.timeLimit, EngineContext.qTimeOut.dispatch)
             }
 
             _timeTimer = new Timer(1000, questObject.timeLimit)
@@ -166,6 +168,7 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     private function onQuestFailed(qfr:QuestFailReason):void {
         //Alert.show(qfr.text);
+        Context.gameModel.questCompleted.removeAll()
         TweenMax.delayedCall(2, Context.gameModel.fadeOutGameView.dispatch)
         TweenMax.delayedCall(4, function():void {
             Context.gameModel.questEnded.dispatch(false, [])
@@ -174,6 +177,8 @@ public class QuestGame extends GameBase implements IQuestGame {
     }
 
     private function onPlayerDied():void {
+        if (!Context.gameModel.isPlayingNow) return;
+        Context.gameModel.isPlayingNow = false;
         Context.gameModel.questFailed.dispatch(QuestFailReason.DEATH)
     }
 
@@ -192,7 +197,13 @@ public class QuestGame extends GameBase implements IQuestGame {
         EngineContext.frameEntered.remove(monstersManager.checkMonstersHitPlayer);
         EngineContext.frameEntered.remove((playerManager as QuestPlayerManager).checkPlayerMetActiveBlock);
 
+        if (_timeOutTween != null){
+            _timeOutTween.kill()
+            _timeOutTween = null
+        }
+
         if (_timeTimer != null) {
+            _timeTimer.stop()
             _timeTimer.removeEventListener(TimerEvent.TIMER, onTimeTimer)
             _timeTimer = null
         }
@@ -235,6 +246,7 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     private function onQuestCompleted(medals:Array):void {
         //Alert.show("task accomplished with medal " + medal.string);
+        Context.gameModel.questFailed.removeAll()
         TweenMax.delayedCall(2, Context.gameModel.fadeOutGameView.dispatch)
         TweenMax.delayedCall(4, function():void {
             Context.gameModel.questEnded.dispatch(true, medals);

@@ -10,14 +10,14 @@
     <questImage>1.jpg</questImage>
     <previewImage>marshrums.png</previewImage>
     <energyCost>10</energyCost>
-    <timeLimit>20</timeLimit>
+    <timeLimit>350</timeLimit>
     <finishOnGoal/>
     <!--убрать, если надо чтобы время точно завершилось-->
     <map>
         <Map>
             <spawns>
-                <Spawn x="5" y="1"/>
-                <!--<Spawn x="25" y="29"/>-->
+                <!--<Spawn x="5" y="1"/>-->
+                <Spawn x="25" y="29"/>
                 <!--frequency=[Hz], start=[sec]-->
                 <!--<MonsterSpawn x="5" y="2"-->
                 <!--monsterId="00.monsters.rat_02" freq="0.5" start="0" maxCount="3" object="2">-->
@@ -296,7 +296,7 @@
     <medals>
         <!-- если задание одно, а медали отличаются по времени, то оно указывается здесь, а
         в медалях просто <goal t="TimeGoal" time="45"/> -->
-        <goal t="CollectObjectsGoal" type="1012" amount="1" text="Собрать 1 желтый гриб"/>
+        <goal t="CollectObjectsGoal" type="1012" amount="100" text="Собрать 1 желтый гриб"/>
         <Bronze text="Успеть за 20 секунд">
             <goal t="TimeGoal" time="20"/>
             <prize>

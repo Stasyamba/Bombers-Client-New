@@ -4,35 +4,34 @@
  */
 
 package engine.imagesService {
+import components.common.worlds.locations.LocationType;
+
 import engine.bombers.BomberType;
-import components.common.worlds.locations.LocationType
+import engine.bombers.skin.BasicSkin;
+import engine.bombers.skin.SkinElement;
+import engine.bombss.BombType;
+import engine.data.Consts;
+import engine.explosionss.ExplosionPointType;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.mapBlocks.MapBlockType;
+import engine.model.explosionss.ExplosionType;
+import engine.playerColors.PlayerColor;
 
-import engine.bombers.skin.BasicSkin
-import engine.bombers.skin.SkinElement
-import engine.bombss.BombType
-import engine.data.Consts
-import engine.explosionss.ExplosionPointType
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.mapBlocks.MapBlockType
-import engine.model.explosionss.ExplosionType
-import engine.playerColors.PlayerColor
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.MovieClip;
+import flash.display.Sprite;
+import flash.geom.Point;
+import flash.geom.Rectangle;
+import flash.utils.ByteArray;
+import flash.utils.Dictionary;
 
-import flash.display.Bitmap
-import flash.display.BitmapData
-import flash.display.DisplayObject
-import flash.display.MovieClip
-import flash.geom.Point
-import flash.geom.Rectangle
-import flash.utils.ByteArray
-import flash.utils.Dictionary
+import greensock.loading.LoaderMax;
+import greensock.loading.display.ContentDisplay;
 
-import greensock.loading.LoaderMax
-import greensock.loading.display.ContentDisplay
-
-import loading.BombersContentLoader
-import loading.LoadedObject
-
-import mx.utils.ObjectUtil
+import loading.BombersContentLoader;
+import loading.LoadedContentType;
+import loading.LoadedObject;
 
 public class ImageService {
 
@@ -105,16 +104,28 @@ public class ImageService {
     }
 
     //todo:add variety support
-    public function mapBlock(blockType:MapBlockType, locationType:LocationType):LoadedObject {
+    public function mapBlock(blockType:MapBlockType, locationType:LocationType):Sprite {
         if (!blockType.draws)
             throw new Error("no image for not drawn block " + blockType.key)
+        var lo:LoadedObject;
+        var res:Sprite;
         if (blockType.graphicsName == MapBlockType.DEFAULT_GRAPHICS_NAME) {
-            if (blockType.nameAs != null)
-                return loadedObject(locationType.stringId + ".map." + blockType.nameAs + "1")
-            return loadedObject(locationType.stringId + ".map." + blockType.key.toLowerCase() + "1")
+            var name:String = blockType.nameAs != null ? (locationType.stringId + ".map." + blockType.nameAs + "1") : (locationType.stringId + ".map." + blockType.key.toLowerCase() + "1");
+            lo = loadedObject(name);
+        } else {
+            lo = loadedObject(blockType.graphicsName)
         }
-        return loadedObject(blockType.graphicsName)
-
+        if (lo.contentType == LoadedContentType.IMAGE) {
+            res = new Sprite()
+            var bData:BitmapData = lo.content.bitmapData as BitmapData
+            res.graphics.beginBitmapFill(bData);
+            res.graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
+            res.graphics.endFill();
+        }else{
+			var c:Class = lo.swfClass(blockType.swfClassName)
+            res = new c()
+        }
+        return res;
     }
 
     public function bomb(type:BombType, color:PlayerColor):BitmapData {
@@ -220,7 +231,7 @@ public class ImageService {
     }
 
     public function creatureSWF(graphicsId:String):MovieClip {
-        var c:Class =  BombersContentLoader.enemiesClass;
+        var c:Class = BombersContentLoader.enemiesClass;
         var m:MovieClip = new c()
         //m.setCreature(graphicsId)
         return m

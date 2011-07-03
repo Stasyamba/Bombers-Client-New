@@ -106,23 +106,13 @@ public class MapBlockView extends Sprite implements IDrawable {
     }
 
     private function drawBlock():void {
-        if (blockView != null && contains(blockView)){
+        if (blockView != null && contains(blockView)) {
             removeChild(blockView)
         }
         if (!block.type.draws) return
-        var lo:LoadedObject = Context.imageService.mapBlock(block.type, Context.game.location);
-        if (lo.contentType == LoadedContentType.SWF) {
-            blockView = new Sprite()
-            blockView.addChild(lo.content)
-        } else {
-            blockView = new Sprite()
-            blockView.graphics.clear();
-            var bData:BitmapData = lo.content.bitmapData as BitmapData;
-            if (bData == null) return;
-            blockView.graphics.beginBitmapFill(bData);
-            blockView.graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
-            blockView.graphics.endFill();
-        }
+        blockView = Context.imageService.mapBlock(block.type, Context.game.location);
+        blockView.width = blockView.height = 40;
+        blockView.x = blockView.y = 0;
         addChild(blockView)
     }
 }

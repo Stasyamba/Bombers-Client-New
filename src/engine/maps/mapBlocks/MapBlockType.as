@@ -15,7 +15,7 @@ public class MapBlockType {
     public static const DEATH_WALL:MapBlockType = new MapBlockType("DEATH_WALL",true,DEFAULT_GRAPHICS_NAME,"wall");
     public static const FRAGILE_WALL:MapBlockType = new MapBlockType("FRAGILE_WALL",true,DEFAULT_GRAPHICS_NAME);
     public static const UNDER_BIG_OBJECT:MapBlockType = new MapBlockType("UNDER_BIG_OBJECT",false,null);
-    public static const FIRE:MapBlockType = new MapBlockType("FIRE",true,"common.map.fire1")
+    public static const FIRE:MapBlockType = new MapBlockType("FIRE",true,"common.map.fire1",null,"Lava")
     public static const MAGNET:MapBlockType = new MapBlockType("MAGNET",true,"common.map.magnet1")
     public static const ICE:MapBlockType = new MapBlockType("ICE",true,"common.map.ice1")
     public static const GLUE:MapBlockType = new MapBlockType("GLUE",true,"common.map.glue1")
@@ -39,12 +39,14 @@ public class MapBlockType {
     private var _draws:Boolean
     private var _graphicsName:String
     private var _nameAs:String
+    private var _swfClassName:String
 
-    public function MapBlockType(value:String,draws:Boolean,graphicsName:String,drawAs:String = null) {
+    public function MapBlockType(value:String,draws:Boolean,graphicsName:String,drawAs:String = null,swfClassName:String=null) {
         _key = value;
         _draws = draws
         _graphicsName = graphicsName
         _nameAs = drawAs
+        _swfClassName = swfClassName
     }
 
     public function get key():String {
@@ -97,6 +99,10 @@ public class MapBlockType {
 
     public function get nameAs():String {
         return _nameAs
+    }
+
+    public function get swfClassName():String {
+        return _swfClassName
     }
 }
 }

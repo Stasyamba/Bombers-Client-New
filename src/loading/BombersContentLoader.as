@@ -186,6 +186,10 @@ public class BombersContentLoader {
                         throw new Error("Error loading file " + e.target.name + ": " + e.text)
                     })
                             .name(fid))
+            if(ldr is SWFLoader){
+                ldr.vars.context = new LoaderContext(false, ApplicationDomain.currentDomain)
+                ldr.vars.noCache = true;
+            }
             comQueue.append(ldr)
             trace("added common: " + fid)
             _loadedGraphics[fid] = new LoadedObject(fid, ldr)
