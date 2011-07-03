@@ -47,11 +47,16 @@ public class AccessMedalRule implements IAccessRule {
         }
 
         if (_needAnyMedalInEachQuestBefore) {
-            for (var i:int = 0; i <= quests.length - 1; i++) {
-                if ((quests[i] as QuestObject).id != _questId) {
+            for (var i:int = 0; i <= quests.length - 1; i++) 
+			{
+                if ((quests[i] as QuestObject).id != _questId) 
+				{
                     var findMedal:Boolean = false;
-                    for each(var mo:MedalObject in Context.Model.currentSettings.gameProfile.medals) {
-                        if ((quests[i] as QuestObject).id == mo.questId) {
+					
+                    for each(var mo:MedalObject in Context.Model.currentSettings.gameProfile.medals) 
+					{
+                        if ((quests[i] as QuestObject).id == mo.questId) 
+						{
                             findMedal = true;
                             break;
                         }
@@ -62,6 +67,7 @@ public class AccessMedalRule implements IAccessRule {
                     }
 
                 } else {
+					/* как только доходим до текущего квеста который проверяем, сразу завершаем цикл и последующие не учитываем */
                     break;
                 }
             }

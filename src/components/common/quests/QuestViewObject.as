@@ -65,6 +65,11 @@ package components.common.quests
 			medalsHave = new Array();
 		}
 		
+		public function clearFailRule():void
+		{
+			accessFailedRules = new Array();
+		}
+		
 		public function addMedal(medalType: MedalType): void
 		{
 			var isFinded: Boolean = false;
