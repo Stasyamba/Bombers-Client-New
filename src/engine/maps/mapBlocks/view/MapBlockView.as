@@ -14,12 +14,16 @@ import engine.maps.mapObjects.DynObjectType
 import flash.display.BitmapData
 import flash.display.Sprite
 
+import loading.LoadedContentType
+import loading.LoadedObject
+
 public class MapBlockView extends Sprite implements IDrawable {
 
     private var block:IMapBlock;
     private var blinking:Boolean = false;
     private var blinkingTime:Number = Consts.BLINKING_TIME;
 
+    private var blockView:Sprite;
     private var objectView:DestroyableSprite;
 
     public function MapBlockView(block:IMapBlock) {
@@ -34,11 +38,11 @@ public class MapBlockView extends Sprite implements IDrawable {
             block.explosionStarted.add(function():void {
                 EngineContext.frameEntered.add(onBlink)
                 blinking = true;
-                draw();
             })
             block.explosionStopped.add(function():void {
                 EngineContext.frameEntered.remove(onBlink)
                 blinking = false;
+                draw()
             })
         }
         block.objectSet.add(onObjectSet);
@@ -47,7 +51,6 @@ public class MapBlockView extends Sprite implements IDrawable {
         if (block.object != null && block.object.type != DynObjectType.NULL) {
             onObjectSet(block.object)
         }
-
         draw();
     }
 
@@ -66,19 +69,19 @@ public class MapBlockView extends Sprite implements IDrawable {
     private function onBlink(elapsedMilliSecs:int):void {
         if (!block.isExplodingNow) {
             blinking = false;
+            alpha = 1
             draw();
             return
         }
         blinkingTime -= elapsedMilliSecs / 1000;
         if (blinkingTime <= 0) {
             blinkingTime += Consts.BLINKING_TIME;
-            draw();
             blinking = !blinking;
+            alpha = blinking ? 0 : 1
         }
     }
 
     public function draw():void {
-        graphics.clear();
 
         drawBlock();
 
@@ -103,13 +106,24 @@ public class MapBlockView extends Sprite implements IDrawable {
     }
 
     private function drawBlock():void {
-        if (blinking) return;
+        if (blockView != null && contains(blockView)){
+            removeChild(blockView)
+        }
         if (!block.type.draws) return
-        var bData:BitmapData = Context.imageService.mapBlock(block.type, Context.game.location)
-        if (bData == null) return;
-        graphics.beginBitmapFill(bData);
-        graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
-        graphics.endFill();
+        var lo:LoadedObject = Context.imageService.mapBlock(block.type, Context.game.location);
+        if (lo.contentType == LoadedContentType.SWF) {
+            blockView = new Sprite()
+            blockView.addChild(lo.content)
+        } else {
+            blockView = new Sprite()
+            blockView.graphics.clear();
+            var bData:BitmapData = lo.content.bitmapData as BitmapData;
+            if (bData == null) return;
+            blockView.graphics.beginBitmapFill(bData);
+            blockView.graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
+            blockView.graphics.endFill();
+        }
+        addChild(blockView)
     }
 }
 }

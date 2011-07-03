@@ -41,6 +41,8 @@ import engine.profiles.GameProfile;
 import engine.profiles.LobbyProfile;
 import engine.profiles.PlayerGameProfile;
 
+import flash.system.Security
+
 import greensock.TweenMax;
 import greensock.loading.ImageLoader;
 import greensock.loading.LoaderMax;
@@ -81,11 +83,11 @@ public class GameModel {
     //quest
     public var questGameCreated:Signal = new Signal()
     public var createQuestFailed:Signal = new Signal()
-    public var questCompleted:Signal = new Signal(Medal)
+    public var questCompleted:Signal = new Signal(Array)
     public var questFailed:Signal = new Signal(QuestFailReason)
     public var leftQuest:Signal = new Signal()
     public var questStarted:Signal = new Signal()
-    public var questEnded:Signal = new Signal(Boolean, Medal) //success,medal
+    public var questEnded:Signal = new Signal(Boolean, Array) //success,medals
     public var questReady:Signal = new Signal()
 
 
@@ -119,6 +121,7 @@ public class GameModel {
 
     public function init():void {
         LoaderMax.activate([XMLLoader,SWFLoader,ImageLoader])
+        Security.allowDomain("*")
 			
         BombersContentLoader.questsLoaded.add(fillQuests)
         BombersContentLoader.loadBombers()

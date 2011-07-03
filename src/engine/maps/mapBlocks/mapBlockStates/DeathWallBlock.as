@@ -4,7 +4,6 @@
  */
 
 package engine.maps.mapBlocks.mapBlockStates {
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.interfaces.IMapBlockState
 import engine.maps.mapBlocks.MapBlockType
 import engine.model.explosionss.ExplosionType
@@ -17,7 +16,7 @@ public class DeathWallBlock extends WallBlock implements IMapBlockState {
         return MapBlockType.DEATH_WALL;
     }
 
-    override public function stateAfterExplosion(expl:IExplosion):MapBlockType {
+    override public function stateAfterExplosion(expl:ExplosionType):MapBlockType {
         return MapBlockType.DEATH_WALL;
     }
 

@@ -81,16 +81,16 @@ public class MapBlock extends MapBlockBase implements IMapBlock {
         }
     }
 
-    public function explode(expl:IExplosion):void {
+    public function explode(expl:ExplosionType):void {
 
-        checkExplosionPrint(expl);
+//        checkExplosionPrint(expl);
 
-        if (expl.type == ExplosionType.SMOKE) {
+        if (expl == ExplosionType.SMOKE) {
             EngineContext.smokeAdded.dispatch(x, y)
             return
         }
 
-        if (expl.type == ExplosionType.BOX) {
+        if (expl == ExplosionType.BOX) {
             setState(_mapBlockStateBuilder.make(MapBlockType.BOX));
             return;
         }
@@ -177,7 +177,7 @@ public class MapBlock extends MapBlockBase implements IMapBlock {
     }
 
 
-    public function stateAfterExplosion(expl:IExplosion):MapBlockType {
+    public function stateAfterExplosion(expl:ExplosionType):MapBlockType {
         return state.stateAfterExplosion(expl);
     }
 

@@ -70,13 +70,7 @@ public class GameBase {
 
     //----------------Handlers---------------
 
-    protected function onExplosionsRemoved(expls:ArrayList):void {
-        for each (var e:IExplosion in expls.source)
-            e.forEachPoint(function (point:ExplosionPoint):void {
-                var b:IMapBlock = mapManager.map.getBlock(point.x, point.y);
-                b.stopExplosion();
-            })
-    }
+
 
     protected function onExplosionsAdded(expls:Array):void {
         explosionsManager.addExplosions(expls);

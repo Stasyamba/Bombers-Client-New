@@ -5,7 +5,6 @@
 
 package engine.maps.mapBlocks.mapBlockStates {
 import engine.bombers.CreatureBase
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.bigObjects.BigObjectBase
 import engine.maps.bigObjects.SimpleBigObject
 import engine.maps.interfaces.IDynObject
@@ -47,7 +46,7 @@ public class BlockUnderBigObject implements IMapBlockState {
         return false;
     }
 
-    public function explode(expl:IExplosion):void {
+    public function explode(expl:ExplosionType):void {
         if (_explodes)
             (objectUnder as SimpleBigObject).explode(expl);
     }
@@ -56,7 +55,7 @@ public class BlockUnderBigObject implements IMapBlockState {
         return MapBlockType.UNDER_BIG_OBJECT;
     }
 
-    public function stateAfterExplosion(expl:IExplosion):MapBlockType {
+    public function stateAfterExplosion(expl:ExplosionType):MapBlockType {
         return MapBlockType.UNDER_BIG_OBJECT;
     }
 

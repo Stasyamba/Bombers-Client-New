@@ -11,7 +11,9 @@ import engine.bombers.CreatureBase
 import engine.bombers.PlayersBuilder
 import engine.bombers.QuestPlayerBomber
 import engine.bombers.interfaces.IBomber
+import engine.explosionss.ExplosionPoint
 import engine.explosionss.ExplosionsBuilder
+import engine.explosionss.interfaces.IExplosion
 import engine.games.*
 import engine.games.quest.goals.CollectedDOObject
 import engine.games.quest.goals.DefeatedMonsterObject
@@ -46,7 +48,7 @@ import flash.utils.Timer
 
 import greensock.TweenMax
 
-import mx.controls.Alert
+import mx.collections.ArrayList
 
 public class QuestGame extends GameBase implements IQuestGame {
 
@@ -63,7 +65,7 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     private var _commonGoal:IGoal
     private var _hasCommonGoal:Boolean;
-    private var _currentMedal:Medal = null;
+    private var _currentMedals:Array = new Array();
 
     private var _time:int = 0
     private var _timeTimer:Timer
@@ -147,18 +149,26 @@ public class QuestGame extends GameBase implements IQuestGame {
         if (_questObject.finishOnGoal)
             Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
         else {
-            if (_currentMedal)
-                Context.gameModel.questCompleted.dispatch(_currentMedal)
+            if (_currentMedals.length > 0)
+                Context.gameModel.questCompleted.dispatch(_currentMedals)
             else
                 Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
         }
     }
 
+    protected function onExplosionsRemoved(expls:ArrayList):void {
+        for each (var e:IExplosion in expls.source)
+            e.forEachPoint(function (point:ExplosionPoint):void {
+                var b:IMapBlock = mapManager.map.getBlock(point.x, point.y);
+                b.stopExplosion();
+            })
+    }
+
     private function onQuestFailed(qfr:QuestFailReason):void {
         //Alert.show(qfr.text);
-        TweenMax.delayedCall(2,Context.gameModel.fadeOutGameView.dispatch)
-        TweenMax.delayedCall(4,function():void{
-            Context.gameModel.questEnded.dispatch(false, null)
+        TweenMax.delayedCall(2, Context.gameModel.fadeOutGameView.dispatch)
+        TweenMax.delayedCall(4, function():void {
+            Context.gameModel.questEnded.dispatch(false, [])
         })
 
     }
@@ -182,10 +192,10 @@ public class QuestGame extends GameBase implements IQuestGame {
         EngineContext.frameEntered.remove(monstersManager.checkMonstersHitPlayer);
         EngineContext.frameEntered.remove((playerManager as QuestPlayerManager).checkPlayerMetActiveBlock);
 
-		if(_timeTimer != null){
-	        _timeTimer.removeEventListener(TimerEvent.TIMER, onTimeTimer)
-	        _timeTimer = null
-		}
+        if (_timeTimer != null) {
+            _timeTimer.removeEventListener(TimerEvent.TIMER, onTimeTimer)
+            _timeTimer = null
+        }
     }
 
     private function onEndedLG():void {
@@ -197,11 +207,11 @@ public class QuestGame extends GameBase implements IQuestGame {
         gameStats.defeatedMonsters.addItem(new DefeatedMonsterObject(m.slot, m.monsterType))
     }
 
-    public function addObject(slot:int, x:int, y:int, type:IDynObjectType,params:Object = null):void {
+    public function addObject(slot:int, x:int, y:int, type:IDynObjectType, params:Object = null):void {
         var b:IMapBlock = mapManager.map.getBlock(x, y);
         var player:IBomber = getPlayer(slot) as IBomber
 
-        var object:IDynObject = dynObjectBuilder.make(type, b, player,params);
+        var object:IDynObject = dynObjectBuilder.make(type, b, player, params);
         b.setObject(object)
 
         if (type.waitToAdd > 0)
@@ -223,11 +233,11 @@ public class QuestGame extends GameBase implements IQuestGame {
         throw new Error("for now monsters aren't allowed to activate objects")
     }
 
-    private function onQuestCompleted(medal:Medal):void {
+    private function onQuestCompleted(medals:Array):void {
         //Alert.show("task accomplished with medal " + medal.string);
-        TweenMax.delayedCall(2,Context.gameModel.fadeOutGameView.dispatch)
-        TweenMax.delayedCall(4,function():void{
-            Context.gameModel.questEnded.dispatch(true, medal);
+        TweenMax.delayedCall(2, Context.gameModel.fadeOutGameView.dispatch)
+        TweenMax.delayedCall(4, function():void {
+            Context.gameModel.questEnded.dispatch(true, medals);
         })
     }
 
@@ -241,31 +251,44 @@ public class QuestGame extends GameBase implements IQuestGame {
                 return true;
             }
         } else {
-            var m:Medal = checkMedalGoals()
-            if (m != null) {
-                if (_questObject.finishOnGoal) {
-                    Context.gameModel.isPlayingNow = false
-                    Context.gameModel.questCompleted.dispatch(m)
-                    return true;
-                } else {
-                    if (m.betterThan(_currentMedal)) {
-                        _currentMedal = m
+            var arr:Array = checkMedalGoals();
+            for each (var m:Medal in arr) {
+                if (m != null) {
+                    if (_questObject.finishOnGoal) {
+                        Context.gameModel.isPlayingNow = false
+                        Context.gameModel.questCompleted.dispatch([m])
+                        return true;
+                    } else {
+                        if (!hasMedal(m)) {
+                            _currentMedals.push(m)
+                        }
                     }
                 }
             }
+
         }
         return false
     }
 
-    private function checkMedalGoals():Medal {
-        var m:Medal = null
+    private function hasMedal(m:Medal):Boolean {
+        for (var i:int = 0; i < _currentMedals.length; i++) {
+            var medal:Medal = _currentMedals[i];
+            if (m == medal)
+                return true
+        }
+        return false
+    }
+
+    private function checkMedalGoals():Array {
+        var medals:Array = new Array()
+
         if (_bronzeGoal.check(this))
-            m = Medal.BRONZE
+            medals.push(Medal.BRONZE)
         if (_silverGoal.check(this))
-            m = Medal.SILVER
+            medals.push(Medal.SILVER)
         if (_goldGoal.check(this))
-            m = Medal.GOLD
-        return m
+            medals.push(Medal.GOLD)
+        return medals
     }
 
     private function onWeaponUsed(slot:int, x:int, y:int, type:WeaponType):void {

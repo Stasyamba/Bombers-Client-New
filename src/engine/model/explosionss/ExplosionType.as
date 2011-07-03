@@ -6,13 +6,13 @@
 package engine.model.explosionss {
 public class ExplosionType {
 
-    public static const REGULAR:ExplosionType = new ExplosionType("REGULAR", 1000, true, false);
-    public static const NULL:ExplosionType = new ExplosionType("NULL", 0, true, false);
-    public static const COMPLEX:ExplosionType = new ExplosionType("COMPLEX", 0, true, false);
-    public static const ATOM:ExplosionType = new ExplosionType("ATOM", 3000, true, true);
-    public static const BOX:ExplosionType = new ExplosionType("BOX", 0, false, false);
-    public static const DYNAMITE:ExplosionType = new ExplosionType("DYNAMITE", 2000, true, false);
-    public static const SMOKE:ExplosionType = new ExplosionType("SMOKE", 0, false, false)
+    public static const REGULAR:ExplosionType = new ExplosionType("REGULAR", 1000, true, false,5);
+    public static const NULL:ExplosionType = new ExplosionType("NULL", 0, true, false,0);
+    public static const COMPLEX:ExplosionType = new ExplosionType("COMPLEX", 0, true, false,0);
+    public static const ATOM:ExplosionType = new ExplosionType("ATOM", 3000, true, true,10);
+    public static const BOX:ExplosionType = new ExplosionType("BOX", 0, false, false,0);
+    public static const DYNAMITE:ExplosionType = new ExplosionType("DYNAMITE", 2000, true, false,5);
+    public static const SMOKE:ExplosionType = new ExplosionType("SMOKE", 0, false, false,0)
 
 
     public static function byValue(value:String):ExplosionType {
@@ -31,12 +31,14 @@ public class ExplosionType {
     private var _timeToLive:int;
     private var _value:String;
     private var _printsEverywhere:Boolean;
+    private var _damage:int
 
-    public function ExplosionType(value:String, timeToLive:Number, printsPrints:Boolean, printsEverywhere:Boolean) {
-        _timeToLive = timeToLive;
-        _value = value;
-        _printsEverywhere = printsEverywhere;
-        _printsPrints = printsPrints;
+    public function ExplosionType(value:String, timeToLive:int, printsPrints:Boolean,printsEverywhere:Boolean, damage:int) {
+        _printsPrints = printsPrints
+        _timeToLive = timeToLive
+        _value = value
+        _printsEverywhere = printsEverywhere
+        _damage = damage
     }
 
     public function get value():String {
@@ -53,6 +55,10 @@ public class ExplosionType {
 
     public function get printsPrints():Boolean {
         return _printsPrints
+    }
+
+    public function get damage():int {
+        return _damage
     }
 }
 }
