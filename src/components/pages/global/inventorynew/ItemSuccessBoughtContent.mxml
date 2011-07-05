@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:tutorial="components.pages.world.windows.tutorial.*"
+		 alpha="1"
+		 >
+	
+	<s:Label id="tText" x="150" y="120" text="{'Удачная покупка'}" 
+			 fontFamily="mpbc" fontSize="86" color="0xf6da00" textAlign="center"
+			 >
+		<s:filters>
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
+		</s:filters>
+	</s:Label>
+	
+</s:Group>

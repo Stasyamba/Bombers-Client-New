@@ -334,14 +334,14 @@
 		   //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 		   //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 		    
-		  /*
-			
+		
+		/* 	
 		   bgSound = new Sound();
 		   bgSoundChannel = new SoundChannel();
 		   bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-		   bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);   
+		   bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);    */
 			
-			*/
+		
 		   
         }
 			
@@ -351,10 +351,10 @@
 			playBgSound();
 		}
 		
-		private function playBgSound(): void	
+		private function playBgSound(): void
 		{
 			bgSoundChannel = bgSound.play();
-			bgSoundChannel.soundTransform = new SoundTransform(0.1);
+			bgSoundChannel.soundTransform = new SoundTransform(0.9);
 			bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, repeatSound);	
 		}
 			
@@ -362,7 +362,7 @@
 		{
 			//playBgSound();
 			bgSoundChannel = bgSound.play();
-			bgSoundChannel.soundTransform = new SoundTransform(0.1);
+			bgSoundChannel.soundTransform = new SoundTransform(0.9);
 			bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, repeatSound);	
 		}
 			

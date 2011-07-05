@@ -86,7 +86,8 @@
 			{
 				if(Context.Model.currentSettings.gameProfile.resources.isBiggerOrEqual(itemPrice))
 				{
-					Alert.show("Resource enough");
+					//Alert.show("Resource enough");
+					Context.gameServer.sendBuyItemRequest(itemType);
 				}else
 				{
 					//Alert.show("Not enough resources");

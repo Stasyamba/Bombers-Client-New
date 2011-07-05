@@ -394,18 +394,20 @@ public class GameProfile {
     }
 
     public function addItem(iType:ItemType, count:int):void {
-        if (selectedWeaponRightHand.itemType == iType) {
-            selectedWeaponRightHand.itemCount += count
+		
+        if (selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == iType) {
+			selectedWeaponLeftHand.itemCount += count
             return
         } else {
             for (var i:int = 0; i < gotItems.length; i++) {
                 var io:ItemProfileObject = gotItems[i];
                 if (io.itemType == iType) {
                     io.itemCount += count
-                    return
+                    return;
                 }
             }
         }
+		
         io = new ItemProfileObject(iType, count)
         gotItems.push(io)
         packItems.push(io)

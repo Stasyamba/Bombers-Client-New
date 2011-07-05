@@ -84,6 +84,7 @@ public class ContextEvent extends Event {
 	// pass: ItemColelctionType
 	public static const IM_HIDE_COLLECTION:String = "IMHideCollection";
     public static const IM_ITEMBUY_SUCCESS:String = "IMWeaponBoughtSuccess";
+	public static const IM_ITEMBUY_FAIL:String = "IMWeaponBoughtFail";
 	//pass: ItemType
 	public static const IM_NEW_ITEM:String = "IMNewItem";
 	//pass: Boolean

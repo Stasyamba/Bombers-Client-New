@@ -44,6 +44,15 @@
 								/>
 		</s:Animate>
 		
+		<s:Animate id="itemSuccessGroupDisappearingA" target="{itemBuySuccessGroup}" duration="2000"
+				   effectStart="{itemBuySuccessGroup.visible = true;}"
+				   effectEnd="{itemBuySuccessGroup.visible = false;}">
+			<s:SimpleMotionPath property="alpha"
+								valueFrom="1"
+								valueTo="0.1"
+								/>
+		</s:Animate>
+		
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -91,9 +100,6 @@
 			
 			private function panelCreationComplete():void {
 				
-				//Context.Model.windowsManager.closeAll(true);
-				//Context.Model.windowsManager.addWindow(this);
-				
 				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_SET_GAME_FOCUS);
 				Context.Model.addCustomListener(ContextEvent.IM_CLOSE, closeWrapper1);
 				
@@ -109,6 +115,16 @@
 				{
 					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, false);
 				}
+				
+				Context.Model.addCustomListener(ContextEvent.IM_ITEMBUY_SUCCESS, function (e: ContextEvent): void
+				{
+					itemBuySuccessGroup.removeAllElements();
+					var contentSuccessGroup:ItemSuccessBoughtContent = new ItemSuccessBoughtContent();
+					itemBuySuccessGroup.addElement(contentSuccessGroup);
+					itemSuccessGroupDisappearingA.stop();
+					
+					itemSuccessGroupDisappearingA.play();
+				});
 				
 				Context.Model.addCustomListener(ContextEvent.IM_NEED_RESOURCES, function (e: ContextEvent): void
 				{
@@ -202,6 +218,7 @@
 	
 	<s:Group id="tutorialGroup" />
 	<s:Group id="needResourceToolTipGroup" />
+	<s:Group id="itemBuySuccessGroup" />
 	
 	<s:controlBarContent/>
 </s:Panel>
