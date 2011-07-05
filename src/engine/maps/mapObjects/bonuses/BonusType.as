@@ -6,9 +6,11 @@
 package engine.maps.mapObjects.bonuses {
 import engine.maps.interfaces.IDynObjectType
 
+import engine.maps.mapObjects.DynObjectType
+
 import loading.LoaderUtils
 
-public class BonusType implements IDynObjectType {
+public class BonusType extends DynObjectType implements IDynObjectType {
 
     public static const WEAPON:BonusType = new BonusType(100,"WEAPON");
 
@@ -21,9 +23,6 @@ public class BonusType implements IDynObjectType {
     public static const RESOURCE:BonusType = new BonusType(106, "RESOURCE")
 
 
-    private var _value:int;
-    private var _key:String;
-
     public static function byValue(value:int):BonusType {
         var r:BonusType = [WEAPON,ADD_BOMB, ADD_BOMB_POWER,ADD_SPEED,HEAL,RESOURCE,EXPERIENCE].filter(function (bt:BonusType):Boolean{
             return bt.value == value
@@ -32,25 +31,10 @@ public class BonusType implements IDynObjectType {
         throw new ArgumentError("wrong bonus type value")
     }
 
-    public function BonusType(value:int, key:String) {
-        _value = value;
-        _key = key;
+
+    public function BonusType(value:int, key:String, swfClassName:String = null) {
+        super(value, key, swfClassName)
     }
 
-    public function get value():int {
-        return _value;
-    }
-
-    public function get key():String {
-        return _key;
-    }
-
-    public function get waitToAdd():Number {
-        return 0
-    }
-
-    public function get stringId():String {
-        return LoaderUtils.stringId(value)
-    }
 }
 }

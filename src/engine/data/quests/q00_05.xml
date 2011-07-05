@@ -132,6 +132,8 @@
 
                 <Object id="104" x="12" y="10"/>
                 <Object id="104" x="13" y="10"/>
+
+                <Object id="101" x="24" y="28"/>
             </objects>
             <bigObjects>
                 <BigObject t="simple" id="2" x="3" y="1" width="1" height="1" graphicsId="l00.bo.bush_01"

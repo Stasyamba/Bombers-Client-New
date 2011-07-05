@@ -17,8 +17,9 @@ public class DynObjectType implements IDynObjectType {
 
     public static const NULL:DynObjectType = new DynObjectType(-1, "NULL");
 
-    private var _value:int;
-    private var _key:String;
+    protected var _value:int;
+    protected var _key:String;
+    protected var _swfClassName:String
 
     public function get value():int {
         return _value;
@@ -28,9 +29,11 @@ public class DynObjectType implements IDynObjectType {
         return _key;
     }
 
-    public function DynObjectType(value:int, key:String) {
-        _value = value;
-        _key = key;
+
+    public function DynObjectType(value:int, key:String, swfClassName:String = null) {
+        _value = value
+        _key = key
+        _swfClassName = swfClassName
     }
 
     public static function byValue(value:int):IDynObjectType {
@@ -82,6 +85,10 @@ public class DynObjectType implements IDynObjectType {
 
     public function get stringId():String {
         return LoaderUtils.stringId(value)
+    }
+
+    public function get swfClassName():String {
+        return _swfClassName
     }
 }
 }

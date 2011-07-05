@@ -86,17 +86,17 @@ public class MapBlockView extends Sprite implements IDrawable {
         drawBlock();
 
         drawObject();
-        drawHiddenObject();
+//        drawHiddenObject();
     }
 
-    private function drawHiddenObject():void {
-        if (block.isExplodingNow && block.hiddenObject.type != DynObjectType.NULL) {
-            trace("DRAWN HIDDEN")
-            graphics.beginBitmapFill(Context.imageService.dynObject(block.hiddenObject.type));
-            graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
-            graphics.endFill();
-        }
-    }
+//    private function drawHiddenObject():void {
+//        if (block.isExplodingNow && block.hiddenObject.type != DynObjectType.NULL) {
+//            trace("DRAWN HIDDEN")
+//            graphics.beginBitmapFill(Context.imageService.dynObject(block.hiddenObject.type));
+//            graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
+//            graphics.endFill();
+//        }
+//    }
 
     private function drawObject():void {
         if (objectView != null) {

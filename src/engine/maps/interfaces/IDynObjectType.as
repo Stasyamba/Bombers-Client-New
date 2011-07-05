@@ -12,5 +12,7 @@ public interface IDynObjectType {
     function get waitToAdd():Number;
 
     function get stringId():String
+
+    function get swfClassName():String
 }
 }

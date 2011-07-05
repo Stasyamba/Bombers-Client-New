@@ -13,25 +13,11 @@ import flash.display.Sprite
 
 import greensock.TweenMax
 
-public class BonusView extends DestroyableSprite implements IDrawable {
-
-    private var block:IMapBlock;
-    private var _baseView:Sprite;
+public class BonusView extends DynObjectView implements IDrawable {
 
     public function BonusView(block:IMapBlock, baseView:Sprite) {
-        super()
-        this.block = block;
+        super(block, baseView)
         this.block.objectCollected.add(onTakenAnimation)
-        _baseView = baseView;
-    }
-
-    public override function draw():void {
-        graphics.clear();
-        if (block.object.type == DynObjectType.NULL)
-            return;
-        graphics.beginBitmapFill(Context.imageService.dynObject(block.object.type));
-        graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
-        graphics.endFill();
     }
 
     public function onTakenAnimation(byMe:Boolean):void {
@@ -42,9 +28,8 @@ public class BonusView extends DestroyableSprite implements IDrawable {
     }
 
     override public function destroy():void {
+        super.destroy()
         block.objectCollected.remove(onTakenAnimation);
-        if (_baseView.contains(this))
-            _baseView.removeChild(this);
     }
 }
 }
