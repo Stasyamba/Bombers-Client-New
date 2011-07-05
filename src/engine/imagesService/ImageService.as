@@ -4,34 +4,34 @@
  */
 
 package engine.imagesService {
-import components.common.worlds.locations.LocationType;
+import components.common.worlds.locations.LocationType
 
-import engine.bombers.BomberType;
-import engine.bombers.skin.BasicSkin;
-import engine.bombers.skin.SkinElement;
-import engine.bombss.BombType;
-import engine.data.Consts;
-import engine.explosionss.ExplosionPointType;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.mapBlocks.MapBlockType;
-import engine.model.explosionss.ExplosionType;
-import engine.playerColors.PlayerColor;
+import engine.bombers.BomberType
+import engine.bombers.skin.BasicSkin
+import engine.bombers.skin.SkinElement
+import engine.bombss.BombType
+import engine.data.Consts
+import engine.explosionss.ExplosionPointType
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.mapBlocks.MapBlockType
+import engine.model.explosionss.ExplosionType
+import engine.playerColors.PlayerColor
 
-import flash.display.Bitmap;
-import flash.display.BitmapData;
-import flash.display.MovieClip;
-import flash.display.Sprite;
-import flash.geom.Point;
-import flash.geom.Rectangle;
-import flash.utils.ByteArray;
-import flash.utils.Dictionary;
+import flash.display.Bitmap
+import flash.display.BitmapData
+import flash.display.MovieClip
+import flash.display.Sprite
+import flash.geom.Point
+import flash.geom.Rectangle
+import flash.utils.ByteArray
+import flash.utils.Dictionary
 
-import greensock.loading.LoaderMax;
-import greensock.loading.display.ContentDisplay;
+import greensock.loading.LoaderMax
+import greensock.loading.display.ContentDisplay
 
-import loading.BombersContentLoader;
-import loading.LoadedContentType;
-import loading.LoadedObject;
+import loading.BombersContentLoader
+import loading.LoadedContentType
+import loading.LoadedObject
 
 public class ImageService {
 
@@ -121,8 +121,8 @@ public class ImageService {
             res.graphics.beginBitmapFill(bData);
             res.graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
             res.graphics.endFill();
-        }else{
-			var c:Class = lo.swfClass(blockType.swfClassName)
+        } else {
+            var c:Class = lo.swfClass(blockType.swfClassName)
             res = new c()
         }
         return res;
@@ -130,7 +130,7 @@ public class ImageService {
 
     public function bomb(type:BombType, color:PlayerColor):BitmapData {
         var b:BitmapData = new BitmapData(Consts.BLOCK_SIZE, Consts.BLOCK_SIZE, true, 0);
-        var bImage:BitmapData = dynObject(type);
+        var bImage:BitmapData =  loadedObject("common.DO." + type.stringId).content.bitmapData;
         b.copyPixels(bImage, new Rectangle(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE), new Point(0, 0));
         if (type.needGlow) {
             b.copyPixels(color.bombGlow, new Rectangle(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE), new Point(0, 0), null, null, true);
@@ -149,8 +149,20 @@ public class ImageService {
         return null;
     }
 
-    public function dynObject(type:IDynObjectType):BitmapData {
-        return loadedObject("common.DO." + type.stringId).content.bitmapData as BitmapData
+    public function dynObject(type:IDynObjectType):Sprite {
+        var res:Sprite;
+        var lo:LoadedObject = loadedObject("common.DO." + type.stringId)
+        if (lo.contentType == LoadedContentType.IMAGE) {
+            res = new Sprite()
+            res.graphics.beginBitmapFill(lo.content.bitmapData as BitmapData);
+            res.graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
+            res.graphics.endFill();
+        } else {
+            var c:Class = lo.swfClass(type.swfClassName)
+            res = new c()
+        }
+
+        return res;
     }
 
     public function explosionPrint(explType:ExplosionType):BitmapData {

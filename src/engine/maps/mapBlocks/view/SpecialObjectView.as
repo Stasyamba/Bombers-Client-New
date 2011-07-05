@@ -4,35 +4,18 @@
  */
 
 package engine.maps.mapBlocks.view {
-import engine.data.Consts
 import engine.interfaces.IDrawable
 import engine.maps.interfaces.IMapBlock
-
-import engine.maps.mapObjects.DynObjectType
 
 import flash.display.Sprite
 
 import greensock.TweenMax
 
-public class SpecialObjectView extends DestroyableSprite implements IDrawable {
-
-    private var block:IMapBlock;
-    private var _baseView:Sprite;
+public class SpecialObjectView extends DynObjectView implements IDrawable {
 
     public function SpecialObjectView(block:IMapBlock, baseView:Sprite) {
-        super()
-        this.block = block;
+        super(block, baseView)
         this.block.objectCollected.add(onTakenAnimation)
-        _baseView = baseView;
-    }
-
-    public override function draw():void {
-        graphics.clear();
-        if (block.object.type == DynObjectType.NULL)
-            return;
-        graphics.beginBitmapFill(Context.imageService.dynObject(block.object.type));
-        graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
-        graphics.endFill();
     }
 
     public function onTakenAnimation(byMe:Boolean):void {
@@ -43,9 +26,8 @@ public class SpecialObjectView extends DestroyableSprite implements IDrawable {
     }
 
     override public function destroy():void {
+        super.destroy()
         block.objectCollected.remove(onTakenAnimation);
-        if (_baseView.contains(this))
-            _baseView.removeChild(this);
     }
 }
 }
