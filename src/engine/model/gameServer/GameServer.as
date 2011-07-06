@@ -566,17 +566,14 @@ public class GameServer extends SmartFox {
 					Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost")
 					var enArr:ISFSArray = plist.getSFSArray("EnergyCost");
 					
+					/* parse missions */
+					/* Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost") */
+					
+					
 					for (var i:int = 0; i < enArr.size(); i++) {
 						var it:ISFSObject = enArr.getSFSObject(i);
-						Context.resourceMarket.ENERGY_VOICES[it.getInt("Count")] = it.getInt("Price")
+						Context.resourceMarket.ENERGY_VOICES[it.getInt("Count")] = it.getInt("Price");
 					}
-					//                var discArr:ISFSArray = plist.getSFSArray("Discounts")
-					//                var discs:Array = new Array()
-					//                for (var i:int = 0; i < discArr.size(); i++) {
-					//                    var it:ISFSObject = discArr.getSFSObject(i);
-					//                    discs.push({moreThan:it.getInt("From"),discount:it.getInt("Value")})
-					//                }
-					//                Context.resourceMarket.setDiscounts(discs)
 					
 					//itemCost
 					var itemsArr:ISFSArray = plist.getSFSArray("Items");
