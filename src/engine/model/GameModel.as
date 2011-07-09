@@ -41,7 +41,7 @@ import engine.profiles.GameProfile;
 import engine.profiles.LobbyProfile;
 import engine.profiles.PlayerGameProfile;
 
-import flash.system.Security
+import flash.system.Security;
 
 import greensock.TweenMax;
 import greensock.loading.ImageLoader;
@@ -176,7 +176,7 @@ public class GameModel {
                         } else if (reward is ExperianceObject)
                             return new RegardObject(RegardType.RESOURCE_EXP, (reward as ExperianceObject).experiance)
                         else if (reward is ItemProfileObject)
-                            return new RegardObject(RegardType.RESOURCE_ITEM, 1)
+                            return new RegardObject(RegardType.RESOURCE_ITEM, 1, (reward as ItemProfileObject).itemCount)
                         throw new Error("Unknown reward")
                     })
                     return new TaskObject(index, medal.text, rewards, MedalType.byValue(index))

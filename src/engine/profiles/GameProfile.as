@@ -325,9 +325,23 @@ public class GameProfile {
 			
 			if(itemType != null)
 			{
-            	var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
-				res.packItems.push(modelItem);
-	            res.gotItems.push(modelItem);
+				if(Context.Model.itemCollectionsManager.getCollection(itemType) != null)
+				{
+					/* not collection part */
+	            	var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
+					res.packItems.push(modelItem);
+		            res.gotItems.push(modelItem);
+				}else
+				{
+					/* if 0 collection part */
+					
+					if(itemCount != 0)
+					{
+						var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
+						res.packItems.push(modelItem);
+						res.gotItems.push(modelItem);
+					}
+				}
 			}else
 			{
 				Alert.show("Error - unknown item type "+itemId.toString()+" | GameProfile.as");
@@ -396,24 +410,89 @@ public class GameProfile {
     public function addItem(iType:ItemType, count:int):void {
 		
         if (selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == iType) {
-			selectedWeaponLeftHand.itemCount += count
+			selectedWeaponLeftHand.itemCount += count;
             return
         } else {
             for (var i:int = 0; i < gotItems.length; i++) {
                 var io:ItemProfileObject = gotItems[i];
                 if (io.itemType == iType) {
-                    io.itemCount += count
+                    io.itemCount += count;
                     return;
                 }
             }
         }
 		
-        io = new ItemProfileObject(iType, count)
-        gotItems.push(io)
-        packItems.push(io)
+        io = new ItemProfileObject(iType, count);
+        gotItems.push(io);
+        packItems.push(io);
     }
 
-    public function removeItem(itemType:ItemType):void {
+	public function removeItem(iType: ItemType, count: int): void
+	{
+		if (selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == iType) {
+			
+			//var itemselectedWeaponLeftHand.itemCount -= count
+			// remove from hand
+			
+			return;
+		} else {
+			
+			var fullRemoveItemType: ItemType = null;
+			
+			for (var i:int = 0; i < gotItems.length; i++) 
+			{
+				var io:ItemProfileObject = gotItems[i];
+				if (io.itemType == iType) 
+				{
+					var itemCount: int = io.itemCount;
+					if(itemCount - count > 0)
+					{
+						io.itemCount -= count;
+						break;
+					}else
+					{
+						fullRemoveItemType = io.itemType;
+						break;
+					}
+				}
+			}
+			
+			if(fullRemoveItemType != null)
+			{
+				/* remove from got */
+				
+				var tmpItems: Array = gotItems.concat();
+				gotItems = new Array();
+				
+				for (i = 0; i < tmpItems.length; i++) 
+				{
+					var ipo:ItemProfileObject = tmpItems[i];
+					
+					if (ipo.itemType != fullRemoveItemType) {
+						gotItems.push(ipo);
+					}
+				}
+				
+				/* remove from pack */
+				
+				var tmpPackItems: Array = packItems.concat();
+				packItems = new Array();
+				
+				for (i = 0; i < tmpPackItems.length; i++) 
+				{
+					ipo = tmpPackItems[i];
+					
+					if (ipo.itemType != fullRemoveItemType) {
+						packItems.push(ipo);
+					}
+				}
+			}
+			
+			
+		}
+	}
+	
+    /*public function removeItem(itemType:ItemType):void {
         removeItemFromArray(itemType, packItems)
         removeItemFromArray(itemType, gotItems)
         Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
@@ -430,7 +509,7 @@ public class GameProfile {
                 arr.length--
             }
         }
-    }
+    }*/
 
     public function get experience():int {
         return _experience

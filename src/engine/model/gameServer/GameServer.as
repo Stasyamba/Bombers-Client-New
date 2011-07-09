@@ -4,55 +4,59 @@
  */
 
 package engine.model.gameServer {
-import com.smartfoxserver.v2.SmartFox
-import com.smartfoxserver.v2.core.SFSEvent
-import com.smartfoxserver.v2.entities.Room
-import com.smartfoxserver.v2.entities.data.ISFSArray
-import com.smartfoxserver.v2.entities.data.ISFSObject
-import com.smartfoxserver.v2.entities.data.SFSObject
-import com.smartfoxserver.v2.requests.ExtensionRequest
-import com.smartfoxserver.v2.requests.JoinRoomRequest
-import com.smartfoxserver.v2.requests.LeaveRoomRequest
-import com.smartfoxserver.v2.requests.LoginRequest
-import com.smartfoxserver.v2.requests.PublicMessageRequest
+import com.smartfoxserver.v2.SmartFox;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.requests.ExtensionRequest;
+import com.smartfoxserver.v2.requests.JoinRoomRequest;
+import com.smartfoxserver.v2.requests.LeaveRoomRequest;
+import com.smartfoxserver.v2.requests.LoginRequest;
+import com.smartfoxserver.v2.requests.PublicMessageRequest;
 
-import components.common.base.access.rules.levelrule.AccessLevelRule
-import components.common.base.expirance.ExperianceObject
-import components.common.base.market.ItemMarketObject
-import components.common.bombers.BomberType
-import components.common.friendslent.FriendObject
-import components.common.items.ItemObject
-import components.common.items.ItemProfileObject
-import components.common.items.ItemType
-import components.common.resources.ResourcePrice
-import components.common.tutorial.TutorialPartType
-import components.common.worlds.locations.LocationType
+import components.common.base.access.rules.levelrule.AccessLevelRule;
+import components.common.base.expirance.ExperianceObject;
+import components.common.base.market.ItemMarketObject;
+import components.common.bombers.BomberType;
+import components.common.friendslent.FriendObject;
+import components.common.items.ItemObject;
+import components.common.items.ItemProfileObject;
+import components.common.items.ItemType;
+import components.common.quests.QuestObject;
+import components.common.quests.medals.MedalType;
+import components.common.quests.regard.RegardObject;
+import components.common.quests.regard.RegardType;
+import components.common.resources.ResourcePrice;
+import components.common.tutorial.TutorialPartType;
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.bombers.MoveTickObject
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.mapObjects.DynObjectType
-import engine.model.signals.InGameMessageReceivedSignal
-import engine.model.signals.ProfileLoadedSignal
-import engine.model.signals.manage.GameServerConnectedSignal
-import engine.model.signals.manage.LoggedInSignal
-import engine.profiles.GameProfile
-import engine.profiles.LobbyProfile
-import engine.profiles.PlayerGameProfile
-import engine.utils.Direction
-import engine.weapons.WeaponType
+import engine.EngineContext;
+import engine.bombers.MoveTickObject;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.mapObjects.DynObjectType;
+import engine.model.signals.InGameMessageReceivedSignal;
+import engine.model.signals.ProfileLoadedSignal;
+import engine.model.signals.manage.GameServerConnectedSignal;
+import engine.model.signals.manage.LoggedInSignal;
+import engine.profiles.GameProfile;
+import engine.profiles.LobbyProfile;
+import engine.profiles.PlayerGameProfile;
+import engine.utils.Direction;
+import engine.weapons.WeaponType;
 
-import flash.events.TimerEvent
-import flash.geom.Point
-import flash.utils.Timer
+import flash.events.TimerEvent;
+import flash.geom.Point;
+import flash.utils.Timer;
 
-import greensock.TweenMax
+import greensock.TweenMax;
 
-import mx.controls.Alert
-import mx.utils.ObjectUtil
+import mx.controls.Alert;
+import mx.utils.ObjectUtil;
 
-import org.osflash.signals.Signal
+import org.osflash.signals.Signal;
 
 public class GameServer extends SmartFox {
 
@@ -97,12 +101,21 @@ public class GameServer extends SmartFox {
     private static const INT_CREATE_GAME:String = "interface.gameManager.createGame"
     private static const INT_CREATE_GAME_RESULT:String = "interface.gameManager.createGame.result"
 
+	private static const INT_QUEST_START: String = "interface.missions.start";
+	private static const INT_QUEST_START_RESULT: String = "interface.missions.start.result";
+	private static const INT_QUEST_SUBMIT: String = "interface.missions.submitResult";
+	private static const INT_QUEST_SUBMIT_RESULT: String = "interface.missions.submitResult.result";
+	
+	private static const INT_COLLECT_COLLECTION: String = "interface.collectCollection";
+	private static const INT_COLLECT_COLLECTION_RESULT: String = "interface.collectCollection.result";
+		
     private static const LOBBY_PROFILES:String = "game.lobby.playersProfiles"
     private static const LOBBY_READY:String = "game.lobby.readyChanged"
 
     private static const ADMIN_RELOAD_MAPS:String = "admin.reloadMapManager";
     private static const ADMIN_RELOAD_PRICE:String = "admin.reloadPricelistManager";
 
+	
 
     private static const LOBBY_LOCATION:String = "game.lobby.location"
 
@@ -334,6 +347,34 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest("interface.setNick", params, null));
     }
 
+	public function sendStartQuest(missionId: String):void {
+		var params:ISFSObject = new SFSObject();
+		params.putUtfString("interface.missions.start.f.missionId", missionId);
+		
+		send(new ExtensionRequest(INT_QUEST_START, params, null));
+	}
+	
+	public function sendStartQuestSubmit(missionId: String, token: int, 
+										 isBronze: Boolean, isSilver: Boolean, isGold: Boolean
+	):void {
+		var params:ISFSObject = new SFSObject();
+		params.putUtfString("interface.missions.submitResult.f.missionId", missionId);
+		params.putInt("interface.missions.submitResult.f.token", token);
+		
+		params.putBool("interface.missions.submitResult.f.isBronze", isBronze);
+		params.putBool("interface.missions.submitResult.f.isSilver", isSilver);
+		params.putBool("interface.missions.submitResult.f.isGold", isGold);
+		
+		send(new ExtensionRequest(INT_QUEST_SUBMIT, params, null));
+	}
+	
+	public function sendCollectCollection(resultItemId: int):void {
+		var params:ISFSObject = new SFSObject();
+		params.putInt("interface.collectCollection.f.collectionId", resultItemId);
+		
+		send(new ExtensionRequest(INT_COLLECT_COLLECTION, params, null));
+	}
+	
     public function wall_sendSubmitPrice(posterId:String):void {
         var params:ISFSObject = new SFSObject();
         params.putUtfString("PostCreatorId", posterId);
@@ -611,14 +652,14 @@ public class GameServer extends SmartFox {
 					profileLoaded.dispatch(gp);
 					
 					/* testing */
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.AURA_FIRE, 1));
+					/*Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.AURA_FIRE, 1));
 					
 					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
 					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
 					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
 					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
 					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
+					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));*/
 					/*	Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));
 					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));*/
 					
@@ -762,6 +803,87 @@ public class GameServer extends SmartFox {
                 Context.gameModel.playerReadyChanged.dispatch();
                 break;
 
+			
+			case INT_QUEST_START_RESULT:
+				
+				Context.Model.questToken = responseParams.getInt("interface.missions.start.result.f.token");
+				Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("interface.missions.start.result.f.youNewEnergy");   
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+				break;
+			
+			case INT_QUEST_SUBMIT_RESULT:
+				
+				var qo: QuestObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
+				var r: Array = new Array();
+				
+				if(responseParams.containsKey("interface.missions.submitResult.result.f.bronze"))
+				{
+					r = r.concat(qo.getTask(MedalType.BRONZE_MEDAL).regards);	
+				}
+				
+				if(responseParams.containsKey("interface.missions.submitResult.result.f.silver"))
+				{
+					
+					r = r.concat(qo.getTask(MedalType.SILVER_MEDAL).regards);
+					
+				}
+				
+				if(responseParams.containsKey("interface.missions.submitResult.result.f.gold"))
+				{
+					r = r.concat(qo.getTask(MedalType.GOLD_MEDAL).regards);
+				}
+				
+				for each(var ro: RegardObject in r)
+				{
+					switch(ro.type)
+					{
+						/* resources */
+						case RegardType.RESOURCE_GOLD:
+							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(ro.amount,0,0,0));
+							break;
+						case RegardType.RESOURCE_CRYSTALS:
+							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,ro.amount,0,0));
+							break;
+						case RegardType.RESOURCE_ADAMANT:
+							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,0,ro.amount,0));
+							break;
+						case RegardType.RESOURCE_ANTIMATTER:
+							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,0,0,ro.amount));
+							break;
+						
+						case RegardType.RESOURCE_ITEM:
+							Context.Model.currentSettings.gameProfile.addItem(ItemType.byValue(ro.itemId), ro.amount);
+							break;
+					}
+				}
+				
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
+				
+				break;
+			
+			case INT_COLLECT_COLLECTION_RESULT:
+				
+				var resultItem: ItemType = ItemType.byValue(responseParams.getInt("interface.collectCollection.result.f.collectionId"));
+				Context.Model.currentSettings.gameProfile.addItem(resultItem, 1);
+				
+				for each(var itemType: ItemType in Context.Model.itemCollectionsManager.getCollectionByResultItem(resultItem).itemParts)
+				{
+					Context.Model.currentSettings.gameProfile.removeItem(itemType, 1);
+				}
+				
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_HIDE_COLLECTION);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
+				
+				break;
+			
         }
     }
 

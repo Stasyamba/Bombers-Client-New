@@ -83,7 +83,7 @@
 					}
 					
 				} else {
-					Alert.show("Error 'Not valid arraycollection item type' = PackIR ");
+					Alert.show("Error 'Not valid arraycollection item type " + data.itemType.value.toString() + " = PackIR ");
 				}
 			}
 			

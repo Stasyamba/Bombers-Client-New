@@ -33,7 +33,7 @@ public class ItemsCategoriesManager {
 				break;
 			
             case ItemType.AURA_FIRE:
-			case ItemType.AURA_WARM_NIGHT:
+			//case ItemType.AURA_WARM_NIGHT:
                 res = ItemCategory.AURA;
                 break;
 

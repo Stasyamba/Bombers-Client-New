@@ -108,8 +108,26 @@
             if (questResultObject != null) {
                 /* medal from own profile */
 
+				/* послыаешь событие interface.missions.submitResult
+				21:12
+				в нем параметры
+				21:12
+				String missionId = params.getUtfString("interface.missions.submitResult.f.missionId");
+				int token = params.getInt("interface.missions.start.f.token");;
+				boolean isBronze = params.getBool("interface.missions.start.f.isBronze");
+				boolean isSilver = params.getBool("interface.missions.start.f.isSilver");
+				boolean isGold = params.getBool("interface.missions.start.f.isGold");
+				21:13
+				ид миссии, токен, флаги медалей)
+				21:13
+				и приходит ответ (если все медали false, то он не приходит за бессмысленностью)
+				21:13
+				а, приходит все равно, если валидный токен) */
+				
 				if (questResultObject.isNew)
 				{
+					
+					
 					resultTitleLabel.text = "Новая медаль!";
 					pulseA.play();
 					
@@ -184,6 +202,11 @@
 					bonusGroup.addElement(new TutorialQuestEndToolTip());
 					startQuestButton.enabled = false;
 				}
+				
+				Context.gameServer.sendStartQuestSubmit(
+					Context.Model.questIdLastOpened, 
+					Context.Model.questToken, 
+					gotBronze, gotSilver, gotGold);
 
             } else {
                 Alert.show("Error with passing data | QuestResultW.mxml");

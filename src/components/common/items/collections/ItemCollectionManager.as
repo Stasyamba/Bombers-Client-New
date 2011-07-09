@@ -3,6 +3,8 @@ package components.common.items.collections
 	import components.common.base.server.ImagesPrefixes;
 	import components.common.items.ItemType;
 	
+	import de.polygonal.ds.Collection;
+	
 	import mx.messaging.config.ServerConfig;
 
 	public class ItemCollectionManager
@@ -17,7 +19,7 @@ package components.common.items.collections
 				"Собрав ее вы получите древнюю ауру защиты ото льда. С помощью которой вы сможете без замедления перемещаться сквозь любые формы льда.",
 				[ItemType.PART_BOOTS, ItemType.PART_CAP, ItemType.PART_GLOVES, ItemType.PART_MAGIC_SNOW],
 				ImagesPrefixes.ITEM_COLLECTIONS +"warmNight.png",
-				ItemType.AURA_WARM_NIGHT
+				ItemType.AURA_FIRE
 			));
 		}
 		
@@ -61,5 +63,26 @@ package components.common.items.collections
 			
 			return res;
 		}
+		
+		/* temporary */
+		
+		public function getCollectionByResultItem(itemType: ItemType): ItemCollectionObject
+		{
+			var res:ItemCollectionObject = null;
+			
+			for each(var ic: ItemCollectionObject in itemsCollecitons)
+			{
+				if(ic.regards == itemType)
+				{
+					res = ic.clone();
+					break;
+				}
+			}
+			
+			return res;
+		}
+		
+		
+		
 	}
 }
