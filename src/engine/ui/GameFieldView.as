@@ -42,6 +42,8 @@ public class GameFieldView extends Group implements IDrawable,IDestroyable {
     public var mapView:MapView;
     //a layer between explosions and map. now is used to draw explosion prints
     public var overMapView:OverMapView;
+    //map blocks that must be under explosions
+    public var groundMapBlocksView:MapBlocksView;
     //bomb explosions (no die explosions here)
     public var explosionsView:ExplosionView;
     //interactive big objects players walk on
@@ -75,6 +77,9 @@ public class GameFieldView extends Group implements IDrawable,IDestroyable {
 
         overMapView = new OverMapView(game.mapManager.map);
         contentUI.addChild(overMapView);
+
+        groundMapBlocksView = new MapBlocksView(game.mapManager.map,true)
+        contentUI.addChild(groundMapBlocksView)
 
         explosionsView = new ExplosionView();
         contentUI.addChild(explosionsView);

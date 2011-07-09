@@ -15,11 +15,12 @@ public class MapBlocksView extends Sprite implements IDrawable {
     private var map:IMap;
 
 
-    public function MapBlocksView(map:IMap) {
+    public function MapBlocksView(map:IMap,ground:Boolean = false) {
         this.map = map;
 
         for each (var block:IMapBlock in map.blocks) {
-            addChild(new MapBlockView(block));
+            if(block.type.isGround == ground)
+                addChild(new MapBlockView(block));
         }
         draw();
     }

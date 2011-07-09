@@ -4,59 +4,58 @@
  */
 
 package engine.model.gameServer {
-import com.smartfoxserver.v2.SmartFox;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.requests.ExtensionRequest;
-import com.smartfoxserver.v2.requests.JoinRoomRequest;
-import com.smartfoxserver.v2.requests.LeaveRoomRequest;
-import com.smartfoxserver.v2.requests.LoginRequest;
-import com.smartfoxserver.v2.requests.PublicMessageRequest;
+import com.smartfoxserver.v2.SmartFox
+import com.smartfoxserver.v2.core.SFSEvent
+import com.smartfoxserver.v2.entities.Room
+import com.smartfoxserver.v2.entities.data.ISFSArray
+import com.smartfoxserver.v2.entities.data.ISFSObject
+import com.smartfoxserver.v2.entities.data.SFSObject
+import com.smartfoxserver.v2.requests.ExtensionRequest
+import com.smartfoxserver.v2.requests.JoinRoomRequest
+import com.smartfoxserver.v2.requests.LeaveRoomRequest
+import com.smartfoxserver.v2.requests.LoginRequest
+import com.smartfoxserver.v2.requests.PublicMessageRequest
 
-import components.common.base.access.rules.levelrule.AccessLevelRule;
-import components.common.base.expirance.ExperianceObject;
-import components.common.base.market.ItemMarketObject;
-import components.common.bombers.BomberType;
-import components.common.friendslent.FriendObject;
-import components.common.items.ItemObject;
-import components.common.items.ItemProfileObject;
-import components.common.items.ItemType;
-import components.common.quests.QuestObject;
-import components.common.quests.medals.MedalType;
-import components.common.quests.regard.RegardObject;
-import components.common.quests.regard.RegardType;
-import components.common.resources.ResourcePrice;
-import components.common.tutorial.TutorialPartType;
-import components.common.worlds.locations.LocationType;
+import components.common.base.access.rules.levelrule.AccessLevelRule
+import components.common.base.expirance.ExperianceObject
+import components.common.base.market.ItemMarketObject
+import components.common.bombers.BomberType
+import components.common.friendslent.FriendObject
+import components.common.items.ItemObject
+import components.common.items.ItemType
+import components.common.quests.QuestObject
+import components.common.quests.medals.MedalType
+import components.common.quests.regard.RegardObject
+import components.common.quests.regard.RegardType
+import components.common.resources.ResourcePrice
+import components.common.tutorial.TutorialPartType
+import components.common.worlds.locations.LocationType
 
-import engine.EngineContext;
-import engine.bombers.MoveTickObject;
-import engine.maps.interfaces.IDynObject;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.mapObjects.DynObjectType;
-import engine.model.signals.InGameMessageReceivedSignal;
-import engine.model.signals.ProfileLoadedSignal;
-import engine.model.signals.manage.GameServerConnectedSignal;
-import engine.model.signals.manage.LoggedInSignal;
-import engine.profiles.GameProfile;
-import engine.profiles.LobbyProfile;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponType;
+import engine.EngineContext
+import engine.bombers.MoveTickObject
+import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.mapObjects.DynObjectType
+import engine.model.signals.InGameMessageReceivedSignal
+import engine.model.signals.ProfileLoadedSignal
+import engine.model.signals.manage.GameServerConnectedSignal
+import engine.model.signals.manage.LoggedInSignal
+import engine.profiles.GameProfile
+import engine.profiles.LobbyProfile
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponType
 
-import flash.events.TimerEvent;
-import flash.geom.Point;
-import flash.utils.Timer;
+import flash.events.TimerEvent
+import flash.geom.Point
+import flash.utils.Timer
 
-import greensock.TweenMax;
+import greensock.TweenMax
 
-import mx.controls.Alert;
-import mx.utils.ObjectUtil;
+import mx.controls.Alert
+import mx.utils.ObjectUtil
 
-import org.osflash.signals.Signal;
+import org.osflash.signals.Signal
 
 public class GameServer extends SmartFox {
 
@@ -102,21 +101,20 @@ public class GameServer extends SmartFox {
     private static const INT_CREATE_GAME:String = "interface.gameManager.createGame"
     private static const INT_CREATE_GAME_RESULT:String = "interface.gameManager.createGame.result"
 
-	private static const INT_QUEST_START: String = "interface.missions.start";
-	private static const INT_QUEST_START_RESULT: String = "interface.missions.start.result";
-	private static const INT_QUEST_SUBMIT: String = "interface.missions.submitResult";
-	private static const INT_QUEST_SUBMIT_RESULT: String = "interface.missions.submitResult.result";
-	
-	private static const INT_COLLECT_COLLECTION: String = "interface.collectCollection";
-	private static const INT_COLLECT_COLLECTION_RESULT: String = "interface.collectCollection.result";
-		
+    private static const INT_QUEST_START:String = "interface.missions.start";
+    private static const INT_QUEST_START_RESULT:String = "interface.missions.start.result";
+    private static const INT_QUEST_SUBMIT:String = "interface.missions.submitResult";
+    private static const INT_QUEST_SUBMIT_RESULT:String = "interface.missions.submitResult.result";
+
+    private static const INT_COLLECT_COLLECTION:String = "interface.collectCollection";
+    private static const INT_COLLECT_COLLECTION_RESULT:String = "interface.collectCollection.result";
+
     private static const LOBBY_PROFILES:String = "game.lobby.playersProfiles"
     private static const LOBBY_READY:String = "game.lobby.readyChanged"
 
     private static const ADMIN_RELOAD_MAPS:String = "admin.reloadMapManager";
     private static const ADMIN_RELOAD_PRICE:String = "admin.reloadPricelistManager";
 
-	
 
     private static const LOBBY_LOCATION:String = "game.lobby.location"
 
@@ -350,34 +348,32 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest("interface.setNick", params, null));
     }
 
-	public function sendStartQuest(missionId: String):void {
-		var params:ISFSObject = new SFSObject();
-		params.putUtfString("interface.missions.start.f.missionId", missionId);
-		
-		send(new ExtensionRequest(INT_QUEST_START, params, null));
-	}
-	
-	public function sendStartQuestSubmit(missionId: String, token: int, 
-										 isBronze: Boolean, isSilver: Boolean, isGold: Boolean
-	):void {
-		var params:ISFSObject = new SFSObject();
-		params.putUtfString("interface.missions.submitResult.f.missionId", missionId);
-		params.putInt("interface.missions.submitResult.f.token", token);
-		
-		params.putBool("interface.missions.submitResult.f.isBronze", isBronze);
-		params.putBool("interface.missions.submitResult.f.isSilver", isSilver);
-		params.putBool("interface.missions.submitResult.f.isGold", isGold);
-		
-		send(new ExtensionRequest(INT_QUEST_SUBMIT, params, null));
-	}
-	
-	public function sendCollectCollection(resultItemId: int):void {
-		var params:ISFSObject = new SFSObject();
-		params.putInt("interface.collectCollection.f.collectionId", resultItemId);
-		
-		send(new ExtensionRequest(INT_COLLECT_COLLECTION, params, null));
-	}
-	
+    public function sendStartQuest(missionId:String):void {
+        var params:ISFSObject = new SFSObject();
+        params.putUtfString("interface.missions.start.f.missionId", missionId);
+
+        send(new ExtensionRequest(INT_QUEST_START, params, null));
+    }
+
+    public function sendStartQuestSubmit(missionId:String, token:int, isBronze:Boolean, isSilver:Boolean, isGold:Boolean):void {
+        var params:ISFSObject = new SFSObject();
+        params.putUtfString("interface.missions.submitResult.f.missionId", missionId);
+        params.putInt("interface.missions.submitResult.f.token", token);
+
+        params.putBool("interface.missions.submitResult.f.isBronze", isBronze);
+        params.putBool("interface.missions.submitResult.f.isSilver", isSilver);
+        params.putBool("interface.missions.submitResult.f.isGold", isGold);
+
+        send(new ExtensionRequest(INT_QUEST_SUBMIT, params, null));
+    }
+
+    public function sendCollectCollection(resultItemId:int):void {
+        var params:ISFSObject = new SFSObject();
+        params.putInt("interface.collectCollection.f.collectionId", resultItemId);
+
+        send(new ExtensionRequest(INT_COLLECT_COLLECTION, params, null));
+    }
+
     public function wall_sendSubmitPrice(posterId:String):void {
         var params:ISFSObject = new SFSObject();
         params.putUtfString("PostCreatorId", posterId);
@@ -604,124 +600,119 @@ public class GameServer extends SmartFox {
             case INT_GAME_PROFILE_LOADED:
 
 
-				try {
-					 var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
-					
-					Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
-					Context.resourceMarket.CRYSTAL_VOICES = plist.getInt("CrystalCost")
-					Context.resourceMarket.ADAMANTIUM_VOICES = plist.getInt("AdamantiumCost")
-					Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost")
-					var enArr:ISFSArray = plist.getSFSArray("EnergyCost");
-					
-					/* parse missions */
-					/* Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost") */
-					
-					
-					for (var i:int = 0; i < enArr.size(); i++) {
-						var it:ISFSObject = enArr.getSFSObject(i);
-						Context.resourceMarket.ENERGY_VOICES[it.getInt("Count")] = it.getInt("Price");
-					}
-					
-					//itemCost
-					var itemsArr:ISFSArray = plist.getSFSArray("Items");
-					var prices:Array = new Array();
-					
-					for (var i:int = 0; i < itemsArr.size(); i++) 
-					{
-						var obj:ISFSObject = itemsArr.getSFSObject(i);
-						var id:int = obj.getInt("Id")
-						var rp:ResourcePrice = new ResourcePrice(obj.getInt("Gold"), obj.getInt("Crystal"), obj.getInt("Adamantium"), obj.getInt("Antimatter"))
-						var stack:int = obj.getInt("Stack")
-						var so:Boolean = obj.getBool("SpecialOffer")
-						var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
-						prices[id] = imo
-						var lev:int = obj.getInt("Level")
-						var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
-						
-						if (io != null)
-						{
-							io.addRule(new AccessLevelRule(lev));
-						}
-					}
-					Context.Model.marketManager.setItemPrices(prices)
-					
-					//levels
-					var levelsArr:ISFSArray = plist.getSFSArray("Levels");
-					for (var i:int = 0; i < levelsArr.size(); i++) 
-					{
-						var exp:int = levelsArr.getInt(i);
-						Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(i + 1, exp))
-					}
-					
-					//gp
-					var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
-					profileLoaded.dispatch(gp);
-					
-					/* testing */
-					/*Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.AURA_FIRE, 1));
-					
-					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
-					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));*/
-					/*	Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));*/
-					
-					
-					
-					//Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-					//Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-					
-					var appFriendsArr: Array = new Array();
-					var gp3: GameProfile = new GameProfile();
-					gp3.id = "1";
-					gp3.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
-					appFriendsArr.push(new FriendObject(gp3, true, null));
-					
-					var gp1: GameProfile = new GameProfile();
-					gp1.id = "2";
-					gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
-					appFriendsArr.push(new FriendObject(gp1, true, null));
-					
-					
-					var gp2: GameProfile = new GameProfile();
-					gp2.id = "3";
-					gp2.photoURL = "http://cs10029.vkontakte.ru/u34230304/a_f5649b2f.jpg";
-					appFriendsArr.push(new FriendObject(gp2, false, null));
-					
-					Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, []);
-					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
-					
-					switch(Context.Model.currentTutorialPart)
-					{
-						case TutorialPartType.PART1:
-							Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
-							break;
-						case TutorialPartType.PART2:
-							Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
-							break;
-						case TutorialPartType.PART3:
-							Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
-							break;
-						case TutorialPartType.PART4:
-							Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
-							break;
-						case TutorialPartType.PART5:
-							Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
-							break;
-					}
-					
-					/* locations */
-					Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
-				}
-				catch(errObject:Error) {
-					  Alert.show(errObject.message);
-				}
-                
+                try {
+                    var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
 
-				
+                    Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
+                    Context.resourceMarket.CRYSTAL_VOICES = plist.getInt("CrystalCost")
+                    Context.resourceMarket.ADAMANTIUM_VOICES = plist.getInt("AdamantiumCost")
+                    Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost")
+                    var enArr:ISFSArray = plist.getSFSArray("EnergyCost");
+
+                    /* parse missions */
+                    /* Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost") */
+
+
+                    for (var i:int = 0; i < enArr.size(); i++) {
+                        var it:ISFSObject = enArr.getSFSObject(i);
+                        Context.resourceMarket.ENERGY_VOICES[it.getInt("Count")] = it.getInt("Price");
+                    }
+
+                    //itemCost
+                    var itemsArr:ISFSArray = plist.getSFSArray("Items");
+                    var prices:Array = new Array();
+
+                    for (var i:int = 0; i < itemsArr.size(); i++) {
+                        var obj:ISFSObject = itemsArr.getSFSObject(i);
+                        var id:int = obj.getInt("Id")
+                        var rp:ResourcePrice = new ResourcePrice(obj.getInt("Gold"), obj.getInt("Crystal"), obj.getInt("Adamantium"), obj.getInt("Antimatter"))
+                        var stack:int = obj.getInt("Stack")
+                        var so:Boolean = obj.getBool("SpecialOffer")
+                        var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
+                        prices[id] = imo
+                        var lev:int = obj.getInt("Level")
+                        var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
+
+                        if (io != null) {
+                            io.addRule(new AccessLevelRule(lev));
+                        }
+                    }
+                    Context.Model.marketManager.setItemPrices(prices)
+
+                    //levels
+                    var levelsArr:ISFSArray = plist.getSFSArray("Levels");
+                    for (var i:int = 0; i < levelsArr.size(); i++) {
+                        var exp:int = levelsArr.getInt(i);
+                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(i + 1, exp))
+                    }
+
+                    //gp
+                    var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
+                    profileLoaded.dispatch(gp);
+
+                    /* testing */
+                    /*Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.AURA_FIRE, 1));
+
+                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
+                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
+                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
+                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
+                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
+                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));*/
+                    /*	Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));
+                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));*/
+
+
+                    //Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
+                    //Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
+
+                    var appFriendsArr:Array = new Array();
+                    var gp3:GameProfile = new GameProfile();
+                    gp3.id = "1";
+                    gp3.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
+                    appFriendsArr.push(new FriendObject(gp3, true, null));
+
+                    var gp1:GameProfile = new GameProfile();
+                    gp1.id = "2";
+                    gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
+                    appFriendsArr.push(new FriendObject(gp1, true, null));
+
+
+                    var gp2:GameProfile = new GameProfile();
+                    gp2.id = "3";
+                    gp2.photoURL = "http://cs10029.vkontakte.ru/u34230304/a_f5649b2f.jpg";
+                    appFriendsArr.push(new FriendObject(gp2, false, null));
+
+                    Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, []);
+                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
+
+                    switch (Context.Model.currentTutorialPart) {
+                        case TutorialPartType.PART1:
+                            Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+                            break;
+                        case TutorialPartType.PART2:
+                            Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
+                            break;
+                        case TutorialPartType.PART3:
+                            Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
+                            break;
+                        case TutorialPartType.PART4:
+                            Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
+                            break;
+                        case TutorialPartType.PART5:
+                            Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
+                            break;
+                    }
+
+                    /* locations */
+                    Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
+                }
+                catch(errObject:Error) {
+                    Alert.show(errObject.message);
+                }
+
+
+
                 break;
             case INT_BUY_RESOURCES_RESULT:
 
@@ -734,27 +725,27 @@ public class GameServer extends SmartFox {
 
                     if (en == 0) {
                         var rp:ResourcePrice = new ResourcePrice(
-							responseParams.getInt("interface.buyResources.result.fields.resourceType0"),
-                            responseParams.getInt("interface.buyResources.result.fields.resourceType1"),
-                            responseParams.getInt("interface.buyResources.result.fields.resourceType2"),
-                            responseParams.getInt("interface.buyResources.result.fields.resourceType3")
-						)
-							
-						Context.Model.currentSettings.gameProfile.resources = rp.clone();
+                                responseParams.getInt("interface.buyResources.result.fields.resourceType0"),
+                                responseParams.getInt("interface.buyResources.result.fields.resourceType1"),
+                                responseParams.getInt("interface.buyResources.result.fields.resourceType2"),
+                                responseParams.getInt("interface.buyResources.result.fields.resourceType3")
+                                )
+
+                        Context.Model.currentSettings.gameProfile.resources = rp.clone();
                         Context.Model.dispatchCustomEvent(ContextEvent.RS_BUY_SUCCESS, rp)
                         Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED)
                     } else {
-						
-						Context.Model.currentSettings.gameProfile.energy = en;
-						Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+
+                        Context.Model.currentSettings.gameProfile.energy = en;
+                        Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
                     }
                 }
                 break;
 
             case INT_BUY_ITEM_RESULT:
-              
+
                 status = responseParams.getBool("interface.buyItem.result.fields.status");
-				
+
                 if (!status) {
                     Context.Model.dispatchCustomEvent(ContextEvent.IM_ITEMBUY_FAIL);
                     return;
@@ -809,87 +800,81 @@ public class GameServer extends SmartFox {
                 Context.gameModel.playerReadyChanged.dispatch();
                 break;
 
-			
-			case INT_QUEST_START_RESULT:
-				
-				Context.Model.questToken = responseParams.getInt("interface.missions.start.result.f.token");
-				Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("interface.missions.start.result.f.youNewEnergy");   
-				
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
-				break;
-			
-			case INT_QUEST_SUBMIT_RESULT:
-				
-				var qo: QuestObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
-				var r: Array = new Array();
-				
-				if(responseParams.containsKey("interface.missions.submitResult.result.f.bronze"))
-				{
-					r = r.concat(qo.getTask(MedalType.BRONZE_MEDAL).regards);	
-				}
-				
-				if(responseParams.containsKey("interface.missions.submitResult.result.f.silver"))
-				{
-					
-					r = r.concat(qo.getTask(MedalType.SILVER_MEDAL).regards);
-					
-				}
-				
-				if(responseParams.containsKey("interface.missions.submitResult.result.f.gold"))
-				{
-					r = r.concat(qo.getTask(MedalType.GOLD_MEDAL).regards);
-				}
-				
-				for each(var ro: RegardObject in r)
-				{
-					switch(ro.type)
-					{
-						/* resources */
-						case RegardType.RESOURCE_GOLD:
-							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(ro.amount,0,0,0));
-							break;
-						case RegardType.RESOURCE_CRYSTALS:
-							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,ro.amount,0,0));
-							break;
-						case RegardType.RESOURCE_ADAMANT:
-							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,0,ro.amount,0));
-							break;
-						case RegardType.RESOURCE_ANTIMATTER:
-							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,0,0,ro.amount));
-							break;
-						
-						case RegardType.RESOURCE_ITEM:
-							Context.Model.currentSettings.gameProfile.addItem(ItemType.byValue(ro.itemId), ro.amount);
-							break;
-					}
-				}
-				
-				
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
-				
-				break;
-			
-			case INT_COLLECT_COLLECTION_RESULT:
-				
-				var resultItem: ItemType = ItemType.byValue(responseParams.getInt("interface.collectCollection.result.f.collectionId"));
-				Context.Model.currentSettings.gameProfile.addItem(resultItem, 1);
-				
-				for each(var itemType: ItemType in Context.Model.itemCollectionsManager.getCollectionByResultItem(resultItem).itemParts)
-				{
-					Context.Model.currentSettings.gameProfile.removeItem(itemType, 1);
-				}
-				
-				
-				Context.Model.dispatchCustomEvent(ContextEvent.IM_HIDE_COLLECTION);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
-				
-				break;
-			
+
+            case INT_QUEST_START_RESULT:
+
+                Context.Model.questToken = responseParams.getInt("interface.missions.start.result.f.token");
+                Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("interface.missions.start.result.f.youNewEnergy");
+
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+                break;
+
+            case INT_QUEST_SUBMIT_RESULT:
+
+                var qo:QuestObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
+                var r:Array = new Array();
+
+                if (responseParams.containsKey("interface.missions.submitResult.result.f.bronze")) {
+                    r = r.concat(qo.getTask(MedalType.BRONZE_MEDAL).regards);
+                }
+
+                if (responseParams.containsKey("interface.missions.submitResult.result.f.silver")) {
+
+                    r = r.concat(qo.getTask(MedalType.SILVER_MEDAL).regards);
+
+                }
+
+                if (responseParams.containsKey("interface.missions.submitResult.result.f.gold")) {
+                    r = r.concat(qo.getTask(MedalType.GOLD_MEDAL).regards);
+                }
+
+                for each(var ro:RegardObject in r) {
+                    switch (ro.type) {
+                        /* resources */
+                        case RegardType.RESOURCE_GOLD:
+                            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(ro.amount, 0, 0, 0));
+                            break;
+                        case RegardType.RESOURCE_CRYSTALS:
+                            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0, ro.amount, 0, 0));
+                            break;
+                        case RegardType.RESOURCE_ADAMANT:
+                            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0, 0, ro.amount, 0));
+                            break;
+                        case RegardType.RESOURCE_ANTIMATTER:
+                            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0, 0, 0, ro.amount));
+                            break;
+
+                        case RegardType.RESOURCE_ITEM:
+                            Context.Model.currentSettings.gameProfile.addItem(ItemType.byValue(ro.itemId), ro.amount);
+                            break;
+                    }
+                }
+
+
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
+
+                break;
+
+            case INT_COLLECT_COLLECTION_RESULT:
+
+                var resultItem:ItemType = ItemType.byValue(responseParams.getInt("interface.collectCollection.result.f.collectionId"));
+                Context.Model.currentSettings.gameProfile.addItem(resultItem, 1);
+
+                for each(var itemType:ItemType in Context.Model.itemCollectionsManager.getCollectionByResultItem(resultItem).itemParts) {
+                    Context.Model.currentSettings.gameProfile.removeItem(itemType, 1);
+                }
+
+
+                Context.Model.dispatchCustomEvent(ContextEvent.IM_HIDE_COLLECTION);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
+
+                break;
+
         }
     }
 
@@ -1015,11 +1000,14 @@ public class GameServer extends SmartFox {
     }
 
     private function onMULTI_DYNAMIC_OBJECT_ACTIVATED(responseParams:ISFSObject):void {
+        Context.game.explosionExchangeBuffer.length = 0;
         var dos:ISFSArray = responseParams.getSFSArray("DOs")
         for (var i:int = 0; i < dos.size(); i++) {
             var Do:ISFSObject = dos.getSFSObject(i);
             onDYNAMIC_OBJECT_ACTIVATED(Do);
         }
+        if (Context.game != null && Context.game.explosionExchangeBuffer.length > 0)
+            EngineContext.explosionGroupAdded.dispatch(Context.game.explosionExchangeBuffer)
     }
 
     private function onWEAPON_ACTIVATED(responseParams:ISFSObject):void {

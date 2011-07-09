@@ -8,19 +8,19 @@ public class MapBlockType {
 
     public static const DEFAULT_GRAPHICS_NAME:String = "_"
 
-    public static const NULL:MapBlockType = new MapBlockType("NULL",false,null);
-    public static const FREE:MapBlockType = new MapBlockType("FREE",false,null);
-    public static const BOX:MapBlockType = new MapBlockType("BOX",true,DEFAULT_GRAPHICS_NAME);
-    public static const WALL:MapBlockType = new MapBlockType("WALL",true,DEFAULT_GRAPHICS_NAME);
-    public static const DEATH_WALL:MapBlockType = new MapBlockType("DEATH_WALL",true,DEFAULT_GRAPHICS_NAME,"wall");
-    public static const FRAGILE_WALL:MapBlockType = new MapBlockType("FRAGILE_WALL",true,DEFAULT_GRAPHICS_NAME);
-    public static const UNDER_BIG_OBJECT:MapBlockType = new MapBlockType("UNDER_BIG_OBJECT",false,null);
-    public static const FIRE:MapBlockType = new MapBlockType("FIRE",true,"common.map.fire1",null,"Lava")
-    public static const MAGNET:MapBlockType = new MapBlockType("MAGNET",true,"common.map.magnet1")
-    public static const ICE:MapBlockType = new MapBlockType("ICE",true,"common.map.ice1")
-    public static const GLUE:MapBlockType = new MapBlockType("GLUE",true,"common.map.glue1")
-    public static const ELECTRO_HOR:MapBlockType = new MapBlockType("ELECTRO_HOR",true,"common.map.electro-hor1")
-    public static const ELECTRO_VERT:MapBlockType = new MapBlockType("ELECTRO_VERT",true,"common.map.electro-vert1")
+    public static const NULL:MapBlockType = new MapBlockType("NULL", false, null);
+    public static const FREE:MapBlockType = new MapBlockType("FREE", false, null);
+    public static const BOX:MapBlockType = new MapBlockType("BOX", true, DEFAULT_GRAPHICS_NAME);
+    public static const WALL:MapBlockType = new MapBlockType("WALL", true, DEFAULT_GRAPHICS_NAME);
+    public static const DEATH_WALL:MapBlockType = new MapBlockType("DEATH_WALL", true, DEFAULT_GRAPHICS_NAME, false, "wall");
+    public static const FRAGILE_WALL:MapBlockType = new MapBlockType("FRAGILE_WALL", true, DEFAULT_GRAPHICS_NAME);
+    public static const UNDER_BIG_OBJECT:MapBlockType = new MapBlockType("UNDER_BIG_OBJECT", false, null);
+    public static const FIRE:MapBlockType = new MapBlockType("FIRE", true, "common.map.fire1", true, null, "Lava")
+    public static const MAGNET:MapBlockType = new MapBlockType("MAGNET", true, "common.map.magnet1",true)
+    public static const ICE:MapBlockType = new MapBlockType("ICE", true, "common.map.ice1",true)
+    public static const GLUE:MapBlockType = new MapBlockType("GLUE", true, "common.map.glue1",true)
+    public static const ELECTRO_HOR:MapBlockType = new MapBlockType("ELECTRO_HOR", true, "common.map.electro-hor1",true)
+    public static const ELECTRO_VERT:MapBlockType = new MapBlockType("ELECTRO_VERT", true, "common.map.electro-vert1",true)
 
     private static const f:uint = 0x66;
     private static const b:uint = 0x62;
@@ -40,13 +40,15 @@ public class MapBlockType {
     private var _graphicsName:String
     private var _nameAs:String
     private var _swfClassName:String
+    private var _isGround:Boolean
 
-    public function MapBlockType(value:String,draws:Boolean,graphicsName:String,drawAs:String = null,swfClassName:String=null) {
+    public function MapBlockType(value:String, draws:Boolean, graphicsName:String, isGround:Boolean = false, drawAs:String = null, swfClassName:String = null) {
         _key = value;
         _draws = draws
         _graphicsName = graphicsName
         _nameAs = drawAs
         _swfClassName = swfClassName
+        _isGround = isGround
     }
 
     public function get key():String {
@@ -103,6 +105,10 @@ public class MapBlockType {
 
     public function get swfClassName():String {
         return _swfClassName
+    }
+
+    public function get isGround():Boolean {
+        return _isGround
     }
 }
 }
