@@ -5,18 +5,27 @@
 
 package engine.model.managers.quest {
 import engine.EngineContext
+import engine.bombers.interfaces.IBomber
 import engine.games.quest.monsters.Monster
 import engine.maps.interfaces.ICollectableDynObject
 import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
+import engine.maps.interfaces.IMapBlock
 import engine.maps.interfaces.ITimeActivatableDynObject
 import engine.model.managers.interfaces.IMapManager
 import engine.model.managers.interfaces.IPlayerManager
 import engine.model.managers.regular.DynObjectManager
 
+import greensock.TweenMax
+
+import mx.collections.ArrayList
+
 public class QuestDOManager extends DynObjectManager {
 
     private var _monstersManager:MonstersManager;
+    protected var readyToActivate:ArrayList = new ArrayList();
+
+    protected var timeSinceLastExplosion:int = 0;
+    protected static const EXPLOSION_PERIOD:int = 800;
 
     public function QuestDOManager(playerManager:IPlayerManager, monstersManager:MonstersManager, mapManager:IMapManager) {
         super(playerManager, mapManager)
@@ -40,6 +49,42 @@ public class QuestDOManager extends DynObjectManager {
         checkBuffer(elapsedMilliSecs)
     }
 
+    public override function activateObject(x:int, y:int, player:IBomber):void {
+        var object:IDynObject = getObjectAt(x, y);
+        if (object == null) {
+            trace("OH MY GOD!!! NO OBJECT AT " + x + "," + y)
+        }
+        if (object is ITimeActivatableDynObject) {
+            (object as ITimeActivatableDynObject).addVictim(player)
+            readyToActivate.addItem(object)
+        }
+        else
+            object.activateOn(player)
+
+        if (object.removeAfterActivation)
+            _objects.removeItem(object);
+        trace("removed at " + x + "," + y);
+    }
+
+    protected function checkBuffer(elapsedMilliSecs:int):void {
+        if (Context.game == null)
+            return
+        timeSinceLastExplosion += elapsedMilliSecs;
+        if (timeSinceLastExplosion >= EXPLOSION_PERIOD) {
+            timeSinceLastExplosion -= EXPLOSION_PERIOD;
+
+            Context.game.explosionExchangeBuffer.length = 0
+            if (readyToActivate.length > 0) {
+                for each (var b:ITimeActivatableDynObject in readyToActivate.source) {
+                    b.activateOn(b.victim)
+                }
+                readyToActivate.removeAll();
+                if (Context.game.explosionExchangeBuffer.length > 0)
+                    EngineContext.explosionGroupAdded.dispatch(Context.game.explosionExchangeBuffer);
+            }
+        }
+    }
+
     private function checkTimeActivatedObject(object:ITimeActivatableDynObject, elapsedMilliSecs:int):void {
         object.onTimeElapsed(elapsedMilliSecs);
         if (object.timeToActivate <= 0) {
@@ -59,7 +104,7 @@ public class QuestDOManager extends DynObjectManager {
             if (_monstersManager.checkMonsterTakenObject(monster, object)) {
                 if (!object.wasTriedToBeTaken) {
                     trace("monster " + id + " tried to take")
-                    if(monster.activatesObjects(object.type)){
+                    if (monster.activatesObjects(object.type)) {
                         object.tryToTake()
                         EngineContext.qMonsterActivateObject.dispatch(id, object.block.x, object.block.y, object.type);
                     }

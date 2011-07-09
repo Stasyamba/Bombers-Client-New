@@ -65,6 +65,7 @@ public class GameServer extends SmartFox {
     private static const DYNAMIC_OBJECT_ADDED:String = 'game.DOAdd';
     private static const ACTIVATE_DYNAMIC_OBJECT:String = "game.actDO"
     private static const DYNAMIC_OBJECT_ACTIVATED:String = "game.DOAct";
+    private static const MULTI_DYNAMIC_OBJECT_ACTIVATED:String = "game.MultiDOAct";
 
     private static const DEATH_WALL_APPEARED:String = "game.deathWallAppeared";
 
@@ -248,6 +249,8 @@ public class GameServer extends SmartFox {
     public function sendPlayerDirectionChanged(x:Number, y:Number, dir:Direction, viewDirectionChanged:Boolean):void {
 
         var params:ISFSObject = new SFSObject();
+        params.putInt("x", x);
+        params.putInt("y", y);
         params.putInt("dir", dir.value);
 
         send(new ExtensionRequest(INPUT_DIRECTION_CHANGED, params, gameRoom));
@@ -496,6 +499,9 @@ public class GameServer extends SmartFox {
                 break
             case DYNAMIC_OBJECT_ACTIVATED:
                 onDYNAMIC_OBJECT_ACTIVATED(responseParams)
+                break;
+            case MULTI_DYNAMIC_OBJECT_ACTIVATED:
+                onMULTI_DYNAMIC_OBJECT_ACTIVATED(responseParams)
                 break;
             case WEAPON_ACTIVATED:
                 onWEAPON_ACTIVATED(responseParams)
@@ -884,6 +890,14 @@ public class GameServer extends SmartFox {
                 responseParams.getInt("game.DOAct.f.x"),
                 responseParams.getInt("game.DOAct.f.y"),
                 ot, destList)
+    }
+
+    private function onMULTI_DYNAMIC_OBJECT_ACTIVATED(responseParams:ISFSObject):void {
+        var dos:ISFSArray = responseParams.getSFSArray("DOs")
+        for (var i:int = 0; i < dos.size(); i++) {
+            var Do:ISFSObject = dos.getSFSObject(i);
+            onDYNAMIC_OBJECT_ACTIVATED(Do);
+        }
     }
 
     private function onWEAPON_ACTIVATED(responseParams:ISFSObject):void {

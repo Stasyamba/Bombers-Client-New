@@ -26,13 +26,6 @@ public class DynObjectManager implements IDynObjectManager {
 
     protected var _objects:ArrayList = new ArrayList();
 
-    protected var readyToActivate:ArrayList = new ArrayList();
-    protected var destroyList:ArrayList = new ArrayList();
-
-    protected var timeSinceLastExplosion:int = 0;
-    protected static const EXPLOSION_PERIOD:int = 800;
-
-
     public function DynObjectManager(playerManager:IPlayerManager, mapManager:IMapManager) {
         this.playerManager = playerManager;
         this.mapManager = mapManager;
@@ -51,7 +44,6 @@ public class DynObjectManager implements IDynObjectManager {
                 l--
             }
         }
-        checkBuffer(elapsedMilliSecs)
     }
 
     private function checkCollectableObject(object:ICollectableDynObject):void {
@@ -73,19 +65,15 @@ public class DynObjectManager implements IDynObjectManager {
         if (object == null) {
             trace("OH MY GOD!!! NO OBJECT AT " + x + "," + y)
         }
-        if (object is ITimeActivatableDynObject) {
-            (object as ITimeActivatableDynObject).addVictim(player)
-            readyToActivate.addItem(object)
-        }
-        else
-            object.activateOn(player)
+        object.activateOn(player)
 
         if (object.removeAfterActivation)
             _objects.removeItem(object);
         trace("removed at " + x + "," + y);
+
     }
 
-    private function getObjectAt(x:int, y:int):IDynObject {
+    protected function getObjectAt(x:int, y:int):IDynObject {
         for each (var object:IDynObject in _objects.source) {
             if (x == object.x && y == object.y)
                 return object;
@@ -97,34 +85,10 @@ public class DynObjectManager implements IDynObjectManager {
         object.onTimeElapsed(elapsedMilliSecs);
     }
 
-    protected function checkBuffer(elapsedMilliSecs:int):void {
-        if (Context.game == null)
-            return
-        timeSinceLastExplosion += elapsedMilliSecs;
-        if (timeSinceLastExplosion >= EXPLOSION_PERIOD) {
-            timeSinceLastExplosion -= EXPLOSION_PERIOD;
-
-            Context.game.explosionExchangeBuffer.length = 0
-            if (readyToActivate.length > 0) {
-                for each (var b:ITimeActivatableDynObject in readyToActivate.source) {
-                    b.activateOn(b.victim)
-                }
-                readyToActivate.removeAll();
-                if (Context.game.explosionExchangeBuffer.length > 0)
-                    EngineContext.explosionGroupAdded.dispatch(Context.game.explosionExchangeBuffer);
-            }
-
-            for each (var p:DestroyListEntry in destroyList.source) {
-                var bb:IMapBlock = mapManager.map.getBlock(p.x, p.y)
-                bb.explode(p.explType)
-                TweenMax.delayedCall(p.explType.timeToLive/1000,bb.stopExplosion)
-            }
-            destroyList.removeAll()
-        }
-    }
-
     public function explodeBlock(x:int, y:int, etype:ExplosionType):void {
-        destroyList.addItem(new DestroyListEntry(x, y, etype))
+        var bb:IMapBlock = mapManager.map.getBlock(x, y)
+        bb.explode(etype)
+        TweenMax.delayedCall(etype.timeToLive / 1000, bb.stopExplosion)
     }
 }
 }
