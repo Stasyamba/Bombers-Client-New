@@ -24,7 +24,7 @@ public class ExplosionType {
             case "DYNAMITE":return DYNAMITE;
             case "SMOKE":return SMOKE;
         }
-        throw new ArgumentError("Invalid explosion type value");
+        throw Context.Exception("Îרטבךא ג פאיכו ExplosionType.as: Invalid explosion type value");
     }
 
     private var _printsPrints:Boolean

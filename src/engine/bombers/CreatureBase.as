@@ -161,7 +161,7 @@ public class CreatureBase {
     }
 
     public function get direction():Direction {
-        throw new Error("can't get direction for CreatureBase")
+        throw Context.Exception("Îרטבךא ג פאיכו CreatureBase.as: can't get direction for CreatureBase");
     }
 }
 }

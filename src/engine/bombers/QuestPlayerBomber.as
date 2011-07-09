@@ -235,7 +235,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
         if (_weapons[type.value] is IDeactivatableWeapon) {
             (_weapons[type.value] as IDeactivatableWeapon).qDeactivate(this);
         } else {
-            throw new Error("tried to deactivate unsupported weapon " + type.key)
+            throw Context.Exception("Îרטבךא ג פאיכו QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
         }
     }
 

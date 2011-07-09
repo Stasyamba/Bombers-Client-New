@@ -37,7 +37,7 @@ public class GameBuilder {
                 return PlayerColor.RED;
 
         }
-        throw new Error("No more colors")
+        throw Context.Exception("Îרטבךא ג פאיכו GameBuilder.as: No more colors")
     }
 
     public function makeRegular(mapId:int, location:LocationType, playerProfiles:Array):IGame {

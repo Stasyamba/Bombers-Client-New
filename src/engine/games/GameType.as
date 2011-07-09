@@ -56,7 +56,7 @@ public class GameType {
             case "REGULAR": return REGULAR;
             case "QUEST": return QUEST;
         }
-        throw new ArgumentError("invalid game type")
+        throw Context.Exception("Îרטבךא ג פאיכו GameType.as: invalid game type")
     }
 }
 }

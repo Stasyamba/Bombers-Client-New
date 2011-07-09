@@ -80,11 +80,11 @@ public class BombBase {
     }
 
     public function get type():IDynObjectType {
-        throw new Error("abstract method call")
+        throw Context.Exception("Îרטבךא ג פאיכו BombBase.as: abstract method call")
     }
 
     protected function getExplosion():IExplosion {
-        throw new Error("abstract method call")
+        throw Context.Exception("Îרטבךא ג פאיכו BombBase.as: abstract method call")
     }
 
     public function addVictim(player:IBomber):void {

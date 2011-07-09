@@ -30,7 +30,7 @@ public class SpecialObjectType extends DynObjectType implements IDynObjectType {
             case RED_MUSHROOM.value:
                 return RED_MUSHROOM;
         }
-        throw new ArgumentError("wrong special object type value " + int)
+        throw Context.Exception("Îרטבךא ג פאיכו SpecialObjectType.as: wrong special object type value " + int)
     }
 
 

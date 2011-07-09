@@ -29,7 +29,7 @@ public class ActivatableWeaponBase {
 	}
 
     public function get type():WeaponType {
-        throw Error("abstract method call")
+        throw Context.Exception("Îרטבךא ג פאיכו ActivatableWeaponBase.as: abstract method call")
     }
 }
 }

@@ -10,6 +10,8 @@ import engine.imagesService.ImageService
 import engine.model.GameModel
 import engine.model.gameServer.GameServer
 
+import mx.controls.Alert
+
 public final class Context extends VyanaContext {
 
     function Context() {
@@ -127,5 +129,9 @@ public final class Context extends VyanaContext {
         return Context.getInstance()._resourceMarket;
     }
 
+    public static function Exception(message:String):Error {
+        Alert.show(message)
+        return new Error(message)
+    }
 }
 }

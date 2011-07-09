@@ -41,7 +41,7 @@ public class AlongRightWallWS implements IWalkingStrategy {
                 if (coords.canMoveLeft()) return Direction.LEFT;
                 return Direction.DOWN;
         }
-        throw new ArgumentError("invalid dir");
+        throw Context.Exception("Îרטבךא ג פאיכו AlongRightWallWS.as: invalid dir");
     }
 }
 }

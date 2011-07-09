@@ -58,7 +58,7 @@ public class DynObjectType implements IDynObjectType {
 
             case MineType.REGULAR.value: return MineType.REGULAR
         }
-        throw new ArgumentError("bad value")
+        throw Context.Exception("Îרטבךא ג פאיכו DynObjectType.as: bad value")
     }
 
     public static function byKey(key:String):IDynObjectType {
@@ -76,7 +76,7 @@ public class DynObjectType implements IDynObjectType {
             case BombType.ATOM.key:return BombType.ATOM
             case BombType.DYNAMITE.key:return BombType.DYNAMITE
         }
-        throw new ArgumentError("bad value " + key)
+        throw Context.Exception("Îרטבךא ג פאיכו DynObjectType.as: bad key " + key)
     }
 
     public function get waitToAdd():Number {
