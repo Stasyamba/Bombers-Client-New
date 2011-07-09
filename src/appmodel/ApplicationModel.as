@@ -102,7 +102,7 @@ public class ApplicationModel extends VkontakteApplicationModel {
 	
 	/* quests */
 	public var questIdLastOpened: String = null;
-	
+	public var questToken: int;
 	
 	
     public var disp:EventDispatcher;

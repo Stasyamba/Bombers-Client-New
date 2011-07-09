@@ -106,6 +106,12 @@
 			private function closeWrapper():void {
 				disapearingA.play();
 			} 
+			
+			private function collect(): void
+			{
+				collectButton.enabled = false;
+				Context.gameServer.sendCollectCollection(collection.regards.value);
+			}
 		]]>
 	</fx:Script>
 	
@@ -170,11 +176,12 @@
 					<s:HGroup id="allowedGroup" width="100%" horizontalAlign="center" verticalAlign="middle"
 							  visible="false"
 							  >
-						<flexcomponents:PatternButton skinClass="skins.buttons.Pattern3ButtonS"
+						<flexcomponents:PatternButton id="collectButton" skinClass="skins.buttons.Pattern3ButtonS"
 													  customLabel="Забрать"
 													  fontSize="28"
 													  fontSizeOver="28"
 													  fontColor="0xfff19f"
+													  click="collect();"
 													  />
 					</s:HGroup>
 				</s:Group>

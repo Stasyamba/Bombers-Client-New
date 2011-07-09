@@ -82,6 +82,8 @@
 				
 				if(questObject != null)
 				{
+					Context.gameServer.sendStartQuest(questObject.id);
+					
 					questContent.initContent(questObject);
 					questName.text = questObject.view.name;
 					

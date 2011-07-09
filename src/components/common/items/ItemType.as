@@ -1,7 +1,7 @@
 package components.common.items {
 public class ItemType {
     public static const NUCLEAR_BOMB:ItemType = new ItemType(1, "WEAPON_ITEM_NUCLEAR_BOMB");
-    public static const AURA_FIRE:ItemType = new ItemType(61, "FIRE_AURA");
+    
 
     public static const BASE_BOMB:ItemType = new ItemType(0, "BASE_BOMB");
 
@@ -16,14 +16,14 @@ public class ItemType {
 	public static const HEALTH_PACK_ADVANCED_POISON:ItemType = new ItemType(23, "HEALTH_PACK_ADVANCED_POISON");
 
 	/* parts */
-	
 	/* набор - теплая ночь */
-	public static const AURA_WARM_NIGHT:ItemType = new ItemType(99, "AURA_WARM_NIGHT");
+	public static const AURA_FIRE:ItemType = new ItemType(100100, "FIRE_AURA");
+	//public static const AURA_WARM_NIGHT:ItemType = new ItemType(100100, "AURA_WARM_NIGHT");
 	
-	public static const PART_BOOTS:ItemType = new ItemType(1000, "PART_BOOTS");
-	public static const PART_GLOVES:ItemType = new ItemType(1002, "PART_GLOVES");
-	public static const PART_CAP:ItemType = new ItemType(1003, "PART_CAP");
- 	public static const PART_MAGIC_SNOW:ItemType = new ItemType(1004, "PART_MAGIC_SNOW");
+	public static const PART_BOOTS:ItemType = new ItemType(100101, "PART_BOOTS");
+	public static const PART_GLOVES:ItemType = new ItemType(100102, "PART_GLOVES");
+	public static const PART_CAP:ItemType = new ItemType(100103, "PART_CAP");
+ 	public static const PART_MAGIC_SNOW:ItemType = new ItemType(100104, "PART_MAGIC_SNOW");
 	
 	/* набор - бомба ренген */
 	public static const X_RAY_BOMB:ItemType = new ItemType(-1, "X_RAY_BOMB");
@@ -81,8 +81,19 @@ public class ItemType {
                 return HEALTH_PACK_POISON
             case HEALTH_PACK_ADVANCED_POISON.value:
                 return HEALTH_PACK_ADVANCED_POISON
+			
 			case PART_BOOTS.value:
 				return PART_BOOTS;
+			case PART_CAP.value:
+				return PART_CAP;
+			case PART_GLOVES.value:
+				return PART_GLOVES;
+			case PART_MAGIC_SNOW.value:
+				return PART_MAGIC_SNOW;
+			case AURA_FIRE.value:
+				return AURA_FIRE;
+				
+				
 			default:
 				return null;
         }

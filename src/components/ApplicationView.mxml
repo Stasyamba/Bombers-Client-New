@@ -386,7 +386,7 @@
         }
 
         private function onDisconnected():void {
-            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, TAB_NAME_GAME)
+            //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, TAB_NAME_GAME)
             Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DISCONNECTED_WINDOW)
         }
 
