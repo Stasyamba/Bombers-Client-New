@@ -5,7 +5,7 @@
 
 package engine.bombers {
 import components.common.items.ItemProfileObject
-import components.common.items.categories.ItemCategory
+import components.common.items.ItemType
 
 import engine.EngineContext
 import engine.bombers.interfaces.IPlayerBomber
@@ -17,7 +17,6 @@ import engine.maps.mapObjects.DynObjectType
 import engine.playerColors.PlayerColor
 import engine.profiles.GameProfile
 import engine.utils.Direction
-import engine.weapons.NullWeapon
 import engine.weapons.WeaponBuilder
 import engine.weapons.WeaponType
 import engine.weapons.interfaces.IActivatableWeapon
@@ -36,7 +35,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
      * */
     protected var _weaponBuilder:WeaponBuilder;
     protected var _currentWeapon:IWeapon
-    protected var _weapons:Array = new Array()
+//    protected var _weapons:Array = new Array()
     private var _spectatorMode:Boolean = false
 
     public function QuestPlayerBomber(game:IGame, slot:int, gameProfile:GameProfile, color:PlayerColor, direction:InputDirection, weaponBuilder:WeaponBuilder) {
@@ -54,7 +53,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
 //            _currentWeapon = _weapons[gameProfile.selectedWeaponLeftHand.itemType.value]
         _direction = direction;
 
-        EngineContext.currentWeaponChanged.add(onCurrentWeaponChanged)
+//        EngineContext.currentWeaponChanged.add(onCurrentWeaponChanged)
         EngineContext.weaponUnitSpent.add(onWeaponUnitSpent)
         EngineContext.playerDied.addOnce(function():void {
             _spectatorMode = true;
@@ -75,12 +74,12 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
         Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_UPDATE_GAME_WEAPONS);
     }
 
-    private function onCurrentWeaponChanged():void {
-        if (_gameProfile.selectedWeaponLeftHand != null)
-            _currentWeapon = _weapons[_gameProfile.selectedWeaponLeftHand.itemType.value]
-        else
-            _currentWeapon = NullWeapon.instance
-    }
+//    private function onCurrentWeaponChanged():void {
+//        if (_gameProfile.selectedWeaponLeftHand != null)
+//            _currentWeapon = _weapons[_gameProfile.selectedWeaponLeftHand.itemType.value]
+//        else
+//            _currentWeapon = NullWeapon.instance
+//    }
 
     public function performMotion(moveAmount:Number):void {
 
@@ -222,21 +221,25 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
             EngineContext.qAddObject.dispatch(slot, x, y, DynObjectType.byValue(type.value))
             takeBomb()
         } else {
-            var aw:IActivatableWeapon = _weapons[type.value]
-            var daw:IDeactivatableWeapon = _weapons[type.value]
-            if (aw != null) {
-                aw.qActivate(x, y, this);
-                EngineContext.weaponUnitSpent.dispatch(type)
+            if (currentWeapon.type == type) {
+                var aw:IActivatableWeapon = currentWeapon as IActivatableWeapon
+                if (aw != null) {
+                    aw.qActivate(x, y, this);
+                    EngineContext.weaponUnitSpent.dispatch(type)
+                    Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
+                }
+            }else{
+                Context.Exception("Îרטבךא ג פאיכו: QuestPlayerBomber.as: tried to activate weapon that doesn't exist")
             }
         }
     }
 
     public function deactivateWeapon(type:WeaponType):void {
-        if (_weapons[type.value] is IDeactivatableWeapon) {
-            (_weapons[type.value] as IDeactivatableWeapon).qDeactivate(this);
-        } else {
-            throw Context.Exception("Îרטבךא ג פאיכו QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
+        var w:IDeactivatableWeapon = _weaponBuilder.fromWeaponType(type, 1) as IDeactivatableWeapon
+        if (w == null){
+           throw Context.Exception("Îרטבךא ג פאיכו QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
         }
+        w.qDeactivateStatic(this);
     }
 
     override public function set life(life:int):void {
@@ -264,20 +267,15 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     }
 
     public function decWeapon(wt:WeaponType):void {
-        if (_weapons[wt.value] is IActivatableWeapon) {
-            (_weapons[wt.value] as IActivatableWeapon).decCharges()
+        if (currentWeapon.type == wt){
+            (currentWeapon as IActivatableWeapon).decCharges()
         }
     }
 
 
     public override function addWeaponBonus(wt:WeaponType):void {
-        if (_weapons[wt.value] is IActivatableWeapon) {
-            (_weapons[wt.value] as IActivatableWeapon).incCharges()
-        }
-        if (_weapons[wt.value] == null) {
-            _weapons[wt.value] = _weaponBuilder.fromWeaponType(wt,1);
-        }
-        Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_UPDATE_GAME_WEAPONS);
+        _currentWeapon = _weaponBuilder.fromWeaponType(wt, 1)
+        Context.Model.currentSettings.gameProfile.setQuestWeapon(new ItemProfileObject(ItemType.byValue(wt.value), 1))
     }
 
     override public function get direction():Direction {
