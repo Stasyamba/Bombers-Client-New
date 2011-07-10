@@ -42,7 +42,7 @@ public class FragileWallBlock implements IMapBlockState {
     }
 
     public function explode(expl:ExplosionType):void {
-        throw new Error("Implement fragile walls exploding")
+        throw Context.Exception("Îרטבךא ג פאיכו FragileWallBlock.as: Implement fragile walls exploding")
     }
 
     public function get type():MapBlockType {

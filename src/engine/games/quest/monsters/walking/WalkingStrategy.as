@@ -25,7 +25,7 @@ public class WalkingStrategy {
             case "stand":
                 return new StandStillWS()
         }
-        throw new Error("no walking strategy with id = " + xml.@type)
+        throw Context.Exception("Îרטבךא ג פאיכו WalkingStrategy.as: no walking strategy with id = " + xml.@type)
     }
 }
 }

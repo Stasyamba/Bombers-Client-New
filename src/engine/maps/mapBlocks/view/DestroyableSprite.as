@@ -15,11 +15,11 @@ public class DestroyableSprite extends Sprite implements IDestroyable,IDrawable 
     }
 
     public function destroy():void {
-        throw new Error("Abstract class method call")
+        throw Context.Exception("Îרטבךא ג פאיכו DestroyableSprite.as: Abstract class method call")
     }
 
     public function draw():void {
-        throw new Error("Abstract class method call")
+        throw Context.Exception("Îרטבךא ג פאיכו DestroyableSprite.as: Abstract class method call")
     }
 }
 }

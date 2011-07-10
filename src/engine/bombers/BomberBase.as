@@ -117,15 +117,15 @@ public class BomberBase extends CreatureBase implements IBomber {
 
 
     public function move(elapsedMilliSeconds:int):void {
-        throw new Error("method BomberBase.move can't be called")
+        throw Context.Exception("Îרטבךא ג פאיכו BomberBase.as: method BomberBase.move can't be called")
     }
 
     public function explode(expl:IExplosion):void {
-        throw new Error("method BomberBase.explode can't be called")
+        throw  Context.Exception("Îרטבךא ג פאיכו BomberBase.as: method BomberBase.explode can't be called ")
     }
 
     public function kill():void {
-        throw new Error("method BomberBase.kill can't be called")
+        throw Context.Exception("Îרטבךא ג פאיכו BomberBase.as: method BomberBase.kill can't be called ")
     }
 
     public function hasAura(aura:WeaponType):Boolean {
@@ -139,7 +139,7 @@ public class BomberBase extends CreatureBase implements IBomber {
 
 
     public function addWeaponBonus(_weapon:WeaponType):void {
-        throw new Error("abstract")
+        throw Context.Exception("Îרטבךא ג פאיכו BomberBase.as: method BomberBase.addWeaponBonus can't be called ")
     }
 
     public function get lifeAuraBonus():int {

@@ -150,7 +150,7 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
             case "scaleX": return 1.0;
             case "scaleY": return 1.0;
         }
-        throw new ArgumentError("property " + prop + " is not supported")
+        throw Context.Exception("Îרטבךא ג פאיכו CreatureViewBase.as: property " + prop + " is not supported");
     }
 }
 }

@@ -177,7 +177,7 @@ public class GameModel {
                             return new RegardObject(RegardType.RESOURCE_EXP, (reward as ExperianceObject).experiance)
                         else if (reward is ItemProfileObject)
                             return new RegardObject(RegardType.RESOURCE_ITEM, 1, (reward as ItemProfileObject).itemCount)
-                        throw new Error("Unknown reward")
+                        throw Context.Exception("Îרטבךא ג פאיכו GameModel.as: Unknown reward")
                     })
                     return new TaskObject(index, medal.text, rewards, MedalType.byValue(index))
                 })
@@ -193,7 +193,7 @@ public class GameModel {
             if (q.id == id)
                 return q
         }
-        throw new Error("no quest with id = " + id)
+        throw Context.Exception("Îרטבךא ג פאיכו GameModel.as: no quest with id = " + id)
     }
 
     private function onGameServerConnected():void {

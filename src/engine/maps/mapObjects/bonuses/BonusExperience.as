@@ -19,7 +19,7 @@ public class BonusExperience extends BonusBase implements ICollectableDynObject 
 
 
     public override function activateOn(player:IBomber):void {
-        throw new Error("implement adding experience")
+        throw Context.Exception("Îרטבךא ג פאיכו BonusExperience.as: implement adding experience")
     }
 
     public function get type():IDynObjectType {

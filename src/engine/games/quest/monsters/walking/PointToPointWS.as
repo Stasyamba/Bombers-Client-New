@@ -64,16 +64,16 @@ public class PointToPointWS implements IWalkingStrategy {
             else if (nextPoint.y < _lastPoint.y)
                 return Direction.UP
             else
-                throw new Error("can't perform PTP between to identical points")
+                throw Context.Exception("Îרטבךא ג פאיכו PointToPointWS.as: can't perform PTP between to identical points")
         } else if (nextPoint.y == _lastPoint.y) {
             if (nextPoint.x > _lastPoint.x)
                 return Direction.RIGHT
             else if (nextPoint.x < _lastPoint.x)
                 return Direction.LEFT
             else
-                throw new Error("can't perform PTP between to identical points")
+                throw Context.Exception("Îרטבךא ג פאיכו PointToPointWS.as: can't perform PTP between to identical points")
         } else
-            throw new Error("PTP can't be performed between point " + _lastPoint.x + ";" + _lastPoint.y + " and " + nextPoint.x + ";" + nextPoint.y)
+            throw Context.Exception("Îרטבךא ג פאיכו PointToPointWS.as: PTP can't be performed between point " + _lastPoint.x + ";" + _lastPoint.y + " and " + nextPoint.x + ";" + nextPoint.y)
     }
 }
 }

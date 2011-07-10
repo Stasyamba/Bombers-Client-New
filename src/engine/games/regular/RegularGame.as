@@ -129,7 +129,7 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
         }
         w = weaponBuilder.fromWeaponType(type, 0) as IDeactivatableWeapon
         if (w == null)
-            throw new Error("wrong weapon type " + type.key + ". IDeactivatable weapon expected")
+            throw Context.Exception("Îרטבךא ג פאיכו RegularGame.as:wrong weapon type " + type.key + ". IDeactivatable weapon expected")
         w.deactivateStatic(b)
         _weaponsUsed[type.value] = w
     }
@@ -151,7 +151,7 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
         }
         w = weaponBuilder.fromWeaponType(type, 0) as IActivatableWeapon
         if (w == null)
-            throw new Error("wrong weapon type " + type.key + ". IDeactivatable weapon expected")
+            throw Context.Exception("Îרטבךא ג פאיכו RegularGame.as: wrong weapon type " + type.key + ". IDeactivatable weapon expected")
         w.activateStatic(x, y, b)
         _weaponsUsed[type.value] = w
     }

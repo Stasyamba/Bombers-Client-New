@@ -33,7 +33,7 @@ public class ExplosionPointType {
             case Direction.DOWN:
                 return DOWN;
             default:
-                throw new ArgumentError("Invalid edge direction");
+                throw Context.Exception("Îרטבךא ג פאיכו ExplosionPointType.as: Invalid edge direction");
         }
     }
 

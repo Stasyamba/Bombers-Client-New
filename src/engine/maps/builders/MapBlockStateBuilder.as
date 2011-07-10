@@ -47,7 +47,7 @@ public class MapBlockStateBuilder {
             case MapBlockType.NULL:
                 return NullMapBlock.getInstance();
         }
-        throw new ArgumentError("Invalid Argument");
+        throw Context.Exception("Îרטבךא ג פאיכו MapBlockStateBuilder.as: Invalid Argument");
     }
 
     public function MapBlockStateBuilder() {
