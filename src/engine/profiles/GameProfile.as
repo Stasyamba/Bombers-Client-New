@@ -293,7 +293,7 @@ public class GameProfile {
     public function refreshQuestWeapons():void {
     }
 	
-	*/
+	
 	
 
     public function setQuestWeaponToLeftHand(itemType:ItemType):void {
@@ -309,8 +309,9 @@ public class GameProfile {
             _selectedWeaponLeftHand = null;
         }
 
-        /* dispatch const event show ipo _selectedWeaponLeftHand */
     }
+	
+	*/
 
     public function getSkin(slot:int):BasicSkin {
 
