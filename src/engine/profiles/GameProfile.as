@@ -262,7 +262,7 @@ public class GameProfile {
 
     /* quest items */
 
-	public function useLeftWeapon(): void
+	public function useQuestLeftWeapon(): void
 	{
 		if(_selectedWeaponLeftHand != null)
 		{
