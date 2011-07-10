@@ -12,20 +12,22 @@
 
     <fx:Script>
 		<![CDATA[
-        import components.common.items.ItemObject;
-        import components.common.items.ItemProfileObject;
-        import components.common.items.ItemType;
-        import components.common.items.ItemViewObject;
-        import components.common.items.categories.ItemCategory;
-        import components.common.utils.adjustcolor.Color;
-        import components.common.utils.adjustcolor.ColorMatrix;
-        import components.common.utils.adjustcolor.ColorMatrixObject;
-        
-        import engine.EngineContext;
-        
-        import mx.collections.ArrayCollection;
-        
-        import spark.events.IndexChangeEvent;
+			import components.common.items.ItemObject;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.items.ItemViewObject;
+			import components.common.items.categories.ItemCategory;
+			import components.common.utils.adjustcolor.Color;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.common.utils.adjustcolor.ColorMatrixObject;
+			
+			import engine.EngineContext;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.utils.ObjectUtil;
+			
+			import spark.events.IndexChangeEvent;
 
         private var _itemProfileObject:ItemProfileObject = null;
 
@@ -51,16 +53,13 @@
 
         public function initContent(itemProfileObjectP:ItemProfileObject):void 
 		{
-            _itemProfileObject = itemProfileObjectP;
-
-            if (_itemProfileObject != null) 
-			{
-				
-				if(itemProfileObjectP.itemType != Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand.itemType)
+            if (itemProfileObjectP != null) 
+			{	
+				if((_itemProfileObject == null) || (itemProfileObjectP.itemType != _itemProfileObject.itemType))
 				{
 					/* refresh view */
 					
-	                var itemObject:ItemObject = Context.Model.itemsManager.getItem(_itemProfileObject.itemType);
+	                var itemObject:ItemObject = Context.Model.itemsManager.getItem(itemProfileObjectP.itemType);
 	
 	                itemViewObject = itemObject.viewObject;
 	                noneGroupVisible = false;
@@ -69,6 +68,8 @@
 	                weaponImage.source = itemViewObject.smallImageURL;
 				}
 
+				_itemProfileObject = itemProfileObjectP.clone();
+				
 				/* refresh count */
 				
                 if (_itemProfileObject.itemCount < 0) 
@@ -89,6 +90,8 @@
 				countGroupVisible = true;
 				
             } else {
+				_itemProfileObject = null;
+				
                 weaponImage.source = "";
                 noneGroupVisible = true;
                 countGroupVisible = false;

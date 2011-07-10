@@ -13,6 +13,7 @@ import components.common.worlds.locations.LocationType;
 import engine.bombers.skin.BasicSkin;
 
 import mx.controls.Alert;
+import mx.utils.ObjectUtil;
 
 public class GameProfile {
 
@@ -261,8 +262,28 @@ public class GameProfile {
 
     /* quest items */
 
+	public function useLeftWeapon(): void
+	{
+		if(_selectedWeaponLeftHand != null)
+		{
+			if(_selectedWeaponLeftHand.itemCount <= 1)
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
+			}else
+			{
+				_selectedWeaponLeftHand.itemCount--;
+			}
+		}else
+		{
+			Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
+		}
+	}
+	
 	public function setQuestWeapon(itemProfileObject:ItemProfileObject): void
 	{
+		//Alert.show("Call set weapon");
+		//Alert.show(ObjectUtil.toString({weapon: itemProfileObject}));
+		
 		_selectedWeaponLeftHand = itemProfileObject.clone();
 		Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
 	}
