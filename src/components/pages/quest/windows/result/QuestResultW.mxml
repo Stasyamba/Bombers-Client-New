@@ -99,6 +99,8 @@
 			
         private function panelCreationComplete():void {
 
+			Context.Model.currentSettings.gameProfile.clearQuestWeapon();
+			
 			Context.Model.addCustomListener(ContextEvent.QUEST_MEDAL_REFRESH, medalRefresh);
 			Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, true);
 
@@ -238,6 +240,7 @@
 			if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
 			{
 				/* send server request */
+				Context.gameServer.sendSetTutorialPart(TutorialPartType.PART3);
 				Context.Model.currentTutorialPart = TutorialPartType.PART3;
 				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
 			}

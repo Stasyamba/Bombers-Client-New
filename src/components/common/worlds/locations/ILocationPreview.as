@@ -5,5 +5,7 @@ public interface ILocationPreview {
     function openLocation():void;
 
     function getLocationType():LocationType;
+	
+	function setLock(isLock: Boolean, isLevel: Boolean, level: int): void;
 }
 }

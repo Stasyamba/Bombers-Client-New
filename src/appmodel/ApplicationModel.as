@@ -98,7 +98,7 @@ public class ApplicationModel extends VkontakteApplicationModel {
 	public var questManager: QuestManager = new QuestManager();
 	
 	/* tutorial */
-	public var currentTutorialPart: TutorialPartType = TutorialPartType.DONE;
+	public var currentTutorialPart: TutorialPartType = TutorialPartType.PART3;
 	
 	/* quests */
 	public var questIdLastOpened: String = null;

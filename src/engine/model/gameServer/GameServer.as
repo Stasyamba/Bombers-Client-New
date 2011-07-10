@@ -108,7 +108,12 @@ public class GameServer extends SmartFox {
 	
 	private static const INT_COLLECT_COLLECTION: String = "interface.collectCollection";
 	private static const INT_COLLECT_COLLECTION_RESULT: String = "interface.collectCollection.result";
-		
+	
+	private static const INT_SET_TUTORIAL_PART: String = "interface.setTrainingStatus";
+	private static const INT_SET_TUTORIAL_PART_RESULT: String = "interface.setTrainingStatus.result";
+	
+	private static const INT_SET_NICK: String = "interface.setNick";
+	
     private static const LOBBY_PROFILES:String = "game.lobby.playersProfiles"
     private static const LOBBY_READY:String = "game.lobby.readyChanged"
 
@@ -375,6 +380,21 @@ public class GameServer extends SmartFox {
 		send(new ExtensionRequest(INT_COLLECT_COLLECTION, params, null));
 	}
 	
+	public function sendSetTutorialPart(tutorialPart: TutorialPartType):void {
+		var params:ISFSObject = new SFSObject();
+		params.putInt("interface.setTrainingStatus.f.status", tutorialPart.value);
+		
+		send(new ExtensionRequest(INT_SET_TUTORIAL_PART, params, null));
+	}
+	
+	public function sendSetNick(nick: String):void {
+		var params:ISFSObject = new SFSObject();
+		params.putUtfString("interface.setNick.fields.nick", nick);
+		
+		send(new ExtensionRequest(INT_SET_NICK, params, null));
+	}
+	
+	
     public function wall_sendSubmitPrice(posterId:String):void {
         var params:ISFSObject = new SFSObject();
         params.putUtfString("PostCreatorId", posterId);
@@ -599,7 +619,10 @@ public class GameServer extends SmartFox {
 
 
 				try {
-					 var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
+					
+					Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
+					
+					var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
 					
 					Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
 					Context.resourceMarket.CRYSTAL_VOICES = plist.getInt("CrystalCost")
@@ -884,6 +907,11 @@ public class GameServer extends SmartFox {
 				
 				break;
 			
+			case INT_SET_TUTORIAL_PART_RESULT:
+				
+				// interface.setTrainingStatus.result.f.youNewExperience
+				
+				break;
         }
     }
 

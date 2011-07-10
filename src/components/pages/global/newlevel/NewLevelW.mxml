@@ -163,6 +163,7 @@
 			
 			private function nextTutorialStep(): void
 			{
+				Context.gameServer.sendSetTutorialPart(TutorialPartType.PART5);
 				Context.Model.currentTutorialPart = TutorialPartType.PART5;
 				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
 				

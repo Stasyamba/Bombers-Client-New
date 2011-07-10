@@ -38,6 +38,14 @@
         public function getLocationType():LocationType {
             return LocationType.WORLD1_GRASSFIELDS;
         }
+			
+		public function setLock(isLock: Boolean, isLevel: Boolean, level: int): void
+		{
+			lockGroup.visible = isLock;
+			
+			levelLabel.visible = isLevel;
+			levelLabel.text = level.toString() + " ур";
+		}
         ]]>
 	</fx:Script>
 
@@ -50,5 +58,15 @@
             />
 
     <previewToolTip:PreviewLocationToopTip y="120" x="40" locationName="Минные поля" id="previewToolTip"/>
-
+	
+	<s:HGroup id="lockGroup" visible="false" verticalAlign="middle">
+		<s:BitmapImage source="@Embed(source='src/assets/pageworld/worlds/locationenter/redLock.png')" />
+		<s:Label id="levelLabel" fontFamily="mpbc" color="0xffffff" fontSize="18">
+			<s:filters>
+				<s:GlowFilter blurX="5" blurY="5" color="0x7d7d7d" />
+				<s:GlowFilter blurX="8" blurY="8" color="0x7d7d7d" />
+				<s:GlowFilter blurX="10" blurY="10" color="0x7d7d7d" />
+			</s:filters>
+		</s:Label>
+	</s:HGroup>
 </s:Group>

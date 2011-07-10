@@ -26,12 +26,15 @@
 			import components.common.base.access.AccessManager;
 			import components.common.base.access.rules.AccessRuleObject;
 			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
 			import components.common.quests.regard.RegardObject;
 			import components.common.quests.regard.RegardType;
 			import components.common.superoffer.SuperOfferObject;
 			import components.common.superoffer.SuperOfferType;
 			import components.common.tutorial.TutorialPartType;
 			import components.common.utils.HitTester;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.common.utils.adjustcolor.ColorMatrixObject;
 			import components.common.worlds.locations.ILocationPreview;
 			import components.common.worlds.locations.LocationType;
 			import components.common.worlds.locations.LocationViewObject;
@@ -93,6 +96,9 @@
 			{
 				colors = new Dictionary();
 				
+				var cm: ColorMatrix = new ColorMatrix();
+				cm.desaturate();
+				
 				for(var i: int = 0; i <= mainWorldGroup.numElements - 1; i++)
 				{
 					var el:* = mainWorldGroup.getElementAt(i);
@@ -118,6 +124,8 @@
 						}
 						
 						
+						var levelNeeded: int = 0;
+						
 						for each(var o:AccessRuleObject in rObjects) {
 							if (o.accessRule.getAccessRuleType() == AccessRuleType.BETA_RULE) {
 								betaRuleDone = o.isSuccess;
@@ -131,12 +139,23 @@
 								allRuleDone = false;
 							}
 							
+							if(o.accessRule.getAccessRuleType() == AccessRuleType.LEVEL_RULE)
+							{
+								levelNeeded = (o.accessRule as AccessLevelRule).minimumLevel;
+							}
+							
 						}
 						
 						var saturationShift:Number = 1;
 						var hueShift:int = 0;
 						
 						if (!betaRuleDone) {
+							
+							(el as ILocationPreview).setLock(true, true, levelNeeded);
+							
+							/* desasture */
+							(el as DisplayObject).filters = [cm.filter];
+							
 							// RED
 							
 							saturationShift = 4;
@@ -148,6 +167,12 @@
 							}
 							
 						} else if (!openedLocationsRuleDone) {
+							
+							(el as ILocationPreview).setLock(true, true, levelNeeded);
+							
+							/* desasture */
+							(el as DisplayObject).filters = [cm.filter];
+							
 							// RED
 							
 							saturationShift = 4;
@@ -158,10 +183,15 @@
 							}
 							
 						} else if (!allRuleDone || !isLocationOpenedInProfile) {
+							(el as ILocationPreview).setLock(false, false, 0);
+							
 							// YELLOW
 							// by default
 							
 						} else if (allRuleDone) {
+							
+							(el as ILocationPreview).setLock(false, false, 0);
+							
 							// GREEN
 							saturationShift = 3.5;
 							hueShift = 35;
@@ -277,9 +307,9 @@
 			<moon:LocationPreview x="124" y="10"/>
 		</s:Group>
 		
-		<s:Button x="10" y="20" skinClass="skins.buttons.OfferButtonS" buttonMode="true" useHandCursor="true"
+		<!--<s:Button x="10" y="20" skinClass="skins.buttons.OfferButtonS" buttonMode="true" useHandCursor="true"
 				  click="openOffer();"
-				  />
+				  />-->
 		
 	</s:BorderContainer>
 	

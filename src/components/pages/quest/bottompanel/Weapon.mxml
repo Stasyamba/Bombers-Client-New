@@ -40,10 +40,6 @@
         [Bindable]
         private var bgCountRectColor:uint = 0xffffff;
 
-        [Bindable]
-        private var allItemsWeapon:Array = new Array();
-
-
         private function setBorderSelection(selection:Boolean):void {
             if (selection) {
                 strokeColor.color = 0xfff276;
@@ -53,23 +49,31 @@
         }
 
 
-        public function initContent(itemProfileObjectP:ItemProfileObject):void {
+        public function initContent(itemProfileObjectP:ItemProfileObject):void 
+		{
             _itemProfileObject = itemProfileObjectP;
 
             if (_itemProfileObject != null) 
 			{
-                var itemObject:ItemObject = Context.Model.itemsManager.getItem(_itemProfileObject.itemType);
+				
+				if(itemProfileObjectP.itemType != Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand.itemType)
+				{
+					/* refresh view */
+					
+	                var itemObject:ItemObject = Context.Model.itemsManager.getItem(_itemProfileObject.itemType);
+	
+	                itemViewObject = itemObject.viewObject;
+	                noneGroupVisible = false;
+	
+	                weaponImage.smoothBitmapContent = true;
+	                weaponImage.source = itemViewObject.smallImageURL;
+				}
 
-                itemViewObject = itemObject.viewObject;
-                noneGroupVisible = false;
-
-                weaponImage.smoothBitmapContent = true;
-                weaponImage.source = itemViewObject.smallImageURL;
-
-
+				/* refresh count */
+				
                 if (_itemProfileObject.itemCount < 0) 
 				{
-                    itemCountStringView = "Б";
+                    itemCountStringView = "0";
                 } else {
 					var count: int = _itemProfileObject.itemCount;
 					if(count > 99)
@@ -81,22 +85,15 @@
 					}
                     
                 }
-                countGroupVisible = true;
+                
+				countGroupVisible = true;
+				
             } else {
                 weaponImage.source = "";
                 noneGroupVisible = true;
                 countGroupVisible = false;
             }
-
-            allItemsWeapon = new Array();
-            for each(var ipo:ItemProfileObject in Context.Model.currentSettings.gameProfile.gotItems) 
-			{
-                if (Context.Model.itemsCategoryManager.getItemCategory(ipo.itemType) == ItemCategory.WEAPON) 
-				{
-                    allItemsWeapon.push(ipo);
-                }
-            }
-
+			
         }
 
 			

@@ -75,6 +75,8 @@ public class ContextEvent extends Event {
 	// pass: Boolean -> game focus visible
 	public static const QUEST_MEDAL_REFRESH: String = "QUESTMedalRefresh";
 	
+	public static const QUEST_LEFT_HAND_WEAPON_UPDATE: String = "QUESTWeaponChanged";
+	
 	
     /***** inventory market events *****/
 	

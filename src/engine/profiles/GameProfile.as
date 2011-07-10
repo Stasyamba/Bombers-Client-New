@@ -132,7 +132,7 @@ public class GameProfile {
         return _selectedWeaponLeftHand;
     }
 
-    public function setWeaponLeftHand(itemType:ItemType):void {
+    public function setWeaponLeftHand(itemType:ItemType, putInPackBack: Boolean = true):void {
         var finded:Boolean = false;
         var tmpArr:Array = new Array();
         var weapon:ItemProfileObject = null;
@@ -158,7 +158,11 @@ public class GameProfile {
             }
 
         } else {
-            packItems.push(_selectedWeaponLeftHand);
+			if(putInPackBack)
+			{
+            	packItems.push(_selectedWeaponLeftHand);
+			}
+			
             _selectedWeaponLeftHand = null;
         }
 
@@ -257,7 +261,20 @@ public class GameProfile {
 
     /* quest items */
 
-    public function addQuestItemObject(itemProfileObject:ItemProfileObject):void {
+	public function setQuestWeapon(itemProfileObject:ItemProfileObject): void
+	{
+		_selectedWeaponLeftHand = itemProfileObject.clone();
+		Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
+	}
+	
+	public function clearQuestWeapon(): void
+	{
+		_selectedWeaponLeftHand = null;
+	}
+	
+    /* 
+	
+	public function addQuestItemObject(itemProfileObject:ItemProfileObject):void {
         var isItemFinded:Boolean = false;
 
         for each(var ipo:ItemProfileObject in questItems) {
@@ -274,8 +291,10 @@ public class GameProfile {
     }
 
     public function refreshQuestWeapons():void {
-
     }
+	
+	*/
+	
 
     public function setQuestWeaponToLeftHand(itemType:ItemType):void {
         if (itemType != null) {

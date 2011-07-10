@@ -21,6 +21,12 @@
 				//Context.Model.currentSettings.gameProfile = new GameProfile();
 				Context.Model.currentSettings.gameProfile.nick = nameTextInput.text;
 				
+				if(Context.Model.currentSettings.gameProfile.nick.length < 2)
+				{
+					Context.Model.currentSettings.gameProfile.nick = "yo";
+				}	
+				
+				Context.gameServer.sendSetNick(Context.Model.currentSettings.gameProfile.nick);
 				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_NEXT_STEP);
 			}
 		]]>

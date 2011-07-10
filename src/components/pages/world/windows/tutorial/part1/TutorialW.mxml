@@ -122,6 +122,7 @@
 					if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
 					{
 						/* send server request */
+						Context.gameServer.sendSetTutorialPart(TutorialPartType.PART2);
 						Context.Model.currentTutorialPart = TutorialPartType.PART2;
 					}
 					
