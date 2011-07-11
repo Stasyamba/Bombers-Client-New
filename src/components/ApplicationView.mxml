@@ -336,10 +336,10 @@
 		    
 		
 		 	
-		   bgSound = new Sound();
+		   /* bgSound = new Sound();
 		   bgSoundChannel = new SoundChannel();
 		   bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-		   bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
+		   bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded); */
 			
 		
 		   
