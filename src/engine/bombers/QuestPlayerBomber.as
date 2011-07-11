@@ -226,7 +226,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
                 if (aw != null) {
                     aw.qActivate(x, y, this);
                     EngineContext.weaponUnitSpent.dispatch(type)
-                    Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
+                    Context.Model.currentSettings.gameProfile.useQuestLeftWeapon()
                 }
             }else{
                 Context.Exception("Îרטבךא ג פאיכו: QuestPlayerBomber.as: tried to activate weapon that doesn't exist")
