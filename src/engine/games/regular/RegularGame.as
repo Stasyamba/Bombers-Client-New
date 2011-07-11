@@ -156,7 +156,7 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
         _weaponsUsed[type.value] = w
     }
 
-    private function onTryToActivateWeapon(slot:int, x:int, y:int, type:WeaponType):void {
+    private function onTryToActivateWeapon(slot:int, x:Number, y:Number, type:WeaponType):void {
         Context.gameServer.sendActivateWeapon(x, y, type)
     }
 
