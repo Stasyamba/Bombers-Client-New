@@ -27,11 +27,21 @@ public class PlayerView extends CreatureViewBase implements IDestroyable {
 
         EngineContext.playerCoordinatesChanged.add(updateCoords);
         EngineContext.playerInputDirectionChanged.add(onInputDirectionChanged);
+        // Quest
         EngineContext.playerDied.add(onDied);
         EngineContext.playerDied.add(destroy);
+        //Regular
+        EngineContext.someoneDied.add(onPlayerDied)
 
         startPulsingPointer();
 
+    }
+
+    private function onPlayerDied(slot:int):void {
+        if(slot == _creature.slot){
+            onDied()
+            destroy()
+        }
     }
 
     private function onInputDirectionChanged(x:Number, y:Number, dir:Direction, viewDirChanged:Boolean):void {

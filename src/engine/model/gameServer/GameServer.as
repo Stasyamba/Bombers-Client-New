@@ -260,6 +260,8 @@ public class GameServer extends SmartFox {
     }
 
     public function setReadyRequest(value:Boolean):void {
+        if (gameRoom == null)
+            return;
         var params:ISFSObject = new SFSObject();
         params.putBool("game.lobby.userReady.fields.isReady", value);
         send(new ExtensionRequest("game.lobby.userReady", params, gameRoom));
@@ -304,8 +306,8 @@ public class GameServer extends SmartFox {
     public function sendActivateWeapon(x:Number, y:Number, weaponType:WeaponType):void {
         var params:ISFSObject = new SFSObject();
         params.putInt("game.AW.f.t", weaponType.value);
-        params.putInt("x", x);
-        params.putInt("x", y);
+        params.putInt("x", x*1000);
+        params.putInt("x", y*1000);
 
         send(new ExtensionRequest(ACTIVATE_WEAPON, params, gameRoom));
     }
@@ -581,11 +583,11 @@ public class GameServer extends SmartFox {
                 trace("damaged enemy " + responseParams.getInt("HealthLeft"))
                 break;
             case PLAYER_DIED:
-                var slot:int
-                EngineContext.someoneDied.dispatch(slot);
+                var slot:int;
                 var lp:LobbyProfile = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("UserId"));
                 if (lp != null) {
                     slot = lp.slot
+                    EngineContext.someoneDied.dispatch(slot);
                     if (Context.gameModel.isMySlot(slot)) {
                         updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
                         Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("Experience")

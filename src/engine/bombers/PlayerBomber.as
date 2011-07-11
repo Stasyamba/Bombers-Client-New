@@ -236,6 +236,8 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
     }
 
     public function setBomb(bombType:BombType):void {
+        if (!Context.gameModel.isPlayingNow || isDead)
+            return;
         trace(">>> " + _map.getBlock(coords.elemX, coords.elemY).canSetBomb() + " " + bombCount)
         if (_map.getBlock(coords.elemX, coords.elemY).canSetBomb() && bombCount > 0 && !isDead) {
             trace("tried to set when left " + bombCount)
