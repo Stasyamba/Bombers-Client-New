@@ -266,12 +266,11 @@ public class GameProfile {
 	{
 		if(_selectedWeaponLeftHand != null)
 		{
-			if(_selectedWeaponLeftHand.itemCount <= 1)
+			_selectedWeaponLeftHand.itemCount--;
+			
+			if(_selectedWeaponLeftHand.itemCount <= 0)
 			{
 				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
-			}else
-			{
-				_selectedWeaponLeftHand.itemCount--;
 			}
 		}else
 		{
