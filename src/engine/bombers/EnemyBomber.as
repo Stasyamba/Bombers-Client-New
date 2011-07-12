@@ -18,7 +18,7 @@ public class EnemyBomber extends BomberBase implements IEnemyBomber {
 
 
     public function EnemyBomber(game:IGame, playerProfile:PlayerGameProfile, userName:String, color:PlayerColor) {
-        super(game, playerProfile.slot, playerProfile.bomberType.getEngineType(), userName, color, Context.imageService.bomberSkin(playerProfile.bomberType.getEngineType()), playerProfile.auras);
+        super(game, playerProfile.slot, playerProfile.bomberType.getEngineType(), userName, color, playerProfile.auras);
 
         _serverDir = Direction.NONE
         EngineContext.moveTick.add(onMoveTick)

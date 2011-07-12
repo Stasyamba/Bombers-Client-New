@@ -34,15 +34,18 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
     private var _tunableProperties:Object = {x:true,y:true,alpha:true,blendMode:true,scaleX:true,scaleY:true};
     private var _defaultAlpha:Number = 1;
 
-    public function CreatureViewBase(creature:CreatureBase) {
+    public function CreatureViewBase(creature:CreatureBase, color:int = -1) {
         super();
         _creature = creature;
         _self = Context.imageService.creatureSWF(_creature.graphicsId)
-        _self.x = _self.y = Consts.BOMBER_SIZE_2
+//        _self.x = _self.y = Consts.BOMBER_SIZE_2
+        _self.x = (Consts.BLOCK_SIZE- _self.width)/2
+        _self.y = (Consts.BLOCK_SIZE - _self.height)/2
         addChild(_self)
 
 //		_self.setMode(2)
-        _self.setColor(1)
+        if(color != -1)
+            _self.setColor(color)
 
         this.x = creature.coords.getRealX();
         this.y = creature.coords.getRealY();

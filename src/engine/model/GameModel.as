@@ -127,7 +127,6 @@ public class GameModel {
         BombersContentLoader.loadBombers()
         BombersContentLoader.loadQuests()
         BombersContentLoader.loadMonsters()
-        BombersContentLoader.loadCreatures()
         BombersContentLoader.loadBO()
 			
         BombersContentLoader.readyToUseAppView.addOnce(function() {
@@ -177,7 +176,7 @@ public class GameModel {
                             return new RegardObject(RegardType.RESOURCE_EXP, (reward as ExperianceObject).experiance)
                         else if (reward is ItemProfileObject)
                             return new RegardObject(RegardType.RESOURCE_ITEM, 1, (reward as ItemProfileObject).itemCount)
-                        throw Context.Exception("Ошибка в файле GameModel.as: Unknown reward")
+                        throw Context.Exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ GameModel.as: Unknown reward")
                     })
                     return new TaskObject(index, medal.text, rewards, MedalType.byValue(index))
                 })
@@ -193,7 +192,7 @@ public class GameModel {
             if (q.id == id)
                 return q
         }
-        throw Context.Exception("Ошибка в файле GameModel.as: no quest with id = " + id)
+        throw Context.Exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ GameModel.as: no quest with id = " + id)
     }
 
     private function onGameServerConnected():void {

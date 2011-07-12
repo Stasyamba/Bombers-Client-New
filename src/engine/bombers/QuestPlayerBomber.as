@@ -39,7 +39,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     private var _spectatorMode:Boolean = false
 
     public function QuestPlayerBomber(game:IGame, slot:int, gameProfile:GameProfile, color:PlayerColor, direction:InputDirection, weaponBuilder:WeaponBuilder) {
-        super(game, slot, gameProfile.currentBomberType.getEngineType(), gameProfile.nick, color, Context.imageService.bomberSkin(gameProfile.currentBomberType.getEngineType()), gameProfile.aursTurnedOn);
+        super(game, slot, gameProfile.currentBomberType.getEngineType(), gameProfile.nick, color, gameProfile.aursTurnedOn);
         _weaponBuilder = weaponBuilder
         this._gameProfile = gameProfile
 //        for (var i:int = 0; i < _gameProfile.gotItems.length; i++) {
@@ -229,7 +229,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
                     Context.Model.currentSettings.gameProfile.useQuestLeftWeapon()
                 }
             }else{
-                Context.Exception("Ошибка в файле: QuestPlayerBomber.as: tried to activate weapon that doesn't exist")
+                Context.Exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ: QuestPlayerBomber.as: tried to activate weapon that doesn't exist")
             }
         }
     }
@@ -237,7 +237,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     public function deactivateWeapon(type:WeaponType):void {
         var w:IDeactivatableWeapon = _weaponBuilder.fromWeaponType(type, 1) as IDeactivatableWeapon
         if (w == null){
-           throw Context.Exception("Ошибка в файле QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
+           throw Context.Exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
         }
         w.qDeactivateStatic(this);
     }

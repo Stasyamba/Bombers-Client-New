@@ -243,9 +243,12 @@ public class ImageService {
     }
 
     public function creatureSWF(graphicsId:String):MovieClip {
-        var c:Class = BombersContentLoader.enemiesClass;
+        var lo:LoadedObject = loadedObject(graphicsId)
+        var arr:Array = graphicsId.split(".")
+        var cName:String = arr[arr.length - 1];
+        var c:Class = lo.swfClass(cName)
+
         var m:MovieClip = new c()
-        //m.setCreature(graphicsId)
         return m
     }
 

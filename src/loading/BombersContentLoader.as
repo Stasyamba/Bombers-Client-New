@@ -219,54 +219,55 @@ public class BombersContentLoader {
         commonHelper("explosions", comQueue)
         commonHelper("healthBar", comQueue)
         commonHelper("other", comQueue)
+        commonHelper("bombers", comQueue)
 
-        //bombers
-        var bombersQueue:LoaderMax = new LoaderMax(new LoaderMaxVars()
-                .onError(
-                function (e:LoaderEvent):void {
-                    throw new Error("Error loading bombers: " + e.text)
-                })
-                .onComplete(
-                function (e:LoaderEvent):void {
-                    whatIsLoaded["bombers"] = true
-                    allBombersGraphicsLoaded.dispatch()
-                    trace("bombers loaded")
-                })
-                .name("bombers")
-                )
-        var bbsAddr:String = IMAGES_ADDRESS + _filesXml.bombers.@addr
-        for each (var bomber:XML in _filesXml.bombers.Bomber) {
-            var bId:String = bomber.@id
-            var bArr:Array = new Array()
-            for each (var file:XML in bomber.File) {
-                var fname:String = file.@name
-                var faddr:String = bbsAddr + bId + "/" + fname + file.@ext
-                var fid:String = bId + "." + fname
-                var ldr:LoaderCore = LoaderMax.parse(faddr,
-                        new LoaderMaxVars()
-                                .onError(
-                                function (e:LoaderEvent):void {
-                                    throw new Error("Error loading file " + e.target.name + ": " + e.text)
-                                })
-                                .name(fid))
-                bArr.push(ldr)
-                _loadedGraphics[fid] = new LoadedObject(fid, ldr)
-            }
-            var bLdr:LoaderCore = LoaderMax.parse(bArr,
-                    new LoaderMaxVars()
-                            .onError(
-                            function (e:LoaderEvent):void {
-                                throw new Error("Error loading bomber " + e.target.name + ": " + e.text)
-                            })
-                            .onComplete(
-                            function (e:LoaderEvent):void {
-                                whatIsLoaded[bId] = true
-                                trace("bomber " + bId + " loaded")
-                                bomberGraphicsLoaded.dispatch(BomberType.byStringId(bId))
-                            })
-                            .name(bId))
-            bombersQueue.append(bLdr)
-        }
+//        //bombers
+//        var bombersQueue:LoaderMax = new LoaderMax(new LoaderMaxVars()
+//                .onError(
+//                function (e:LoaderEvent):void {
+//                    throw new Error("Error loading bombers: " + e.text)
+//                })
+//                .onComplete(
+//                function (e:LoaderEvent):void {
+//                    whatIsLoaded["bombers"] = true
+//                    allBombersGraphicsLoaded.dispatch()
+//                    trace("bombers loaded")
+//                })
+//                .name("bombers")
+//                )
+//        var bbsAddr:String = IMAGES_ADDRESS + _filesXml.bombers.@addr
+//        for each (var bomber:XML in _filesXml.bombers.File) {
+//            var bId:String = bomber.@id
+//            var bArr:Array = new Array()
+//            for each (var file:XML in bomber.File) {
+//                var fname:String = file.@name
+//                var faddr:String = bbsAddr + bId + "/" + fname + file.@ext
+//                var fid:String = bId + "." + fname
+//                var ldr:LoaderCore = LoaderMax.parse(faddr,
+//                        new LoaderMaxVars()
+//                                .onError(
+//                                function (e:LoaderEvent):void {
+//                                    throw new Error("Error loading file " + e.target.name + ": " + e.text)
+//                                })
+//                                .name(fid))
+//                bArr.push(ldr)
+//                _loadedGraphics[fid] = new LoadedObject(fid, ldr)
+//            }
+//            var bLdr:LoaderCore = LoaderMax.parse(bArr,
+//                    new LoaderMaxVars()
+//                            .onError(
+//                            function (e:LoaderEvent):void {
+//                                throw new Error("Error loading bomber " + e.target.name + ": " + e.text)
+//                            })
+//                            .onComplete(
+//                            function (e:LoaderEvent):void {
+//                                whatIsLoaded[bId] = true
+//                                trace("bomber " + bId + " loaded")
+//                                bomberGraphicsLoaded.dispatch(BomberType.byStringId(bId))
+//                            })
+//                            .name(bId))
+//            bombersQueue.append(bLdr)
+//        }
 
         //locations
         var locationsQueue:LoaderMax = new LoaderMax(new LoaderMaxVars()
@@ -334,7 +335,7 @@ public class BombersContentLoader {
         }
 
         //all
-        var allLdr:LoaderCore = LoaderMax.parse([comQueue,bombersQueue,locationsQueue],
+        var allLdr:LoaderCore = LoaderMax.parse([comQueue,locationsQueue],
                 new LoaderMaxVars()
                         .onError(
                         function (e:LoaderEvent):void {
@@ -360,28 +361,6 @@ public class BombersContentLoader {
     }
 
     //creatures swf
-
-    public static const CREATURES_CLASS_NAME:String = "FuryJoe"
-    public static const CREATURES_SWF_ADDRESS:String = "http://www.vensella.ru/vp/furyjoe.swf"
-    public static var enemiesClass:Class
-
-    public static function loadCreatures():void {
-        var l:SWFLoader = new SWFLoader(CREATURES_SWF_ADDRESS, new SWFLoaderVars()
-                .name("creatures_swf")
-                .context(new LoaderContext(false, ApplicationDomain.currentDomain))
-                .noCache(true)
-                .onComplete(
-                function(e:LoaderEvent):void {
-                    enemiesClass = (e.target as SWFLoader).getClass(CREATURES_CLASS_NAME)
-                    if (enemiesClass == null)
-                        throw new Error("couldn't find class " + CREATURES_CLASS_NAME + " in creatures swf")
-                })
-                .onError(
-                function(e:LoaderEvent):void {
-                    throw new Error("error loading creatures swf: " + e.text)
-                }))
-        l.load()
-    }
 
     //BO swf
     public static const BO_SWF_ADDRESS:String = "http://www.vensella.ru/eg/gate.swf"

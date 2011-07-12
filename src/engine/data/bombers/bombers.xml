@@ -14,7 +14,7 @@
        crit="0.01"
        block="0.01"
        immortalTime="3"
-       graphicsId="b00"
+       graphicsId="common.bombers.FuryJoe"
        description="Очень злобный кактус"
        bigImageURL="http://www.vensella.ru/eg/bombers/furyJoe/furyJoeBigImage.png">
         <!--todo: access rules format-->
@@ -28,26 +28,26 @@
             <L id="00" val="0.15"/>
         </crits>
     </B>
-    <B id="01"
-       name="Робот R2-D3"
-       bombId="00"
-       bombCount="1"
-       bombPower="1"
-       speed="100"
-       life="15"
-       crit="0.01"
-       block="0.01"
-       immortalTime="3"
-       graphicsId="b01"
-       description="Постоянно ломается, металлолома кусок"
-       bigImageURL="http://www.vensella.ru/eg/bombers/r2d3/r2d3BigImage.png">
-        <accessRules/>
-        <blocks>
-            <B id="01" val="0.25"/>
-        </blocks>
-        <crits>
-            <B id="01" val="0.25"/>
-        </crits>
-    </B>
+    <!--<B id="01"-->
+       <!--name="Робот R2-D3"-->
+       <!--bombId="00"-->
+       <!--bombCount="1"-->
+       <!--bombPower="1"-->
+       <!--speed="100"-->
+       <!--life="15"-->
+       <!--crit="0.01"-->
+       <!--block="0.01"-->
+       <!--immortalTime="3"-->
+       <!--graphicsId="b01"-->
+       <!--description="Постоянно ломается, металлолома кусок"-->
+       <!--bigImageURL="http://www.vensella.ru/eg/bombers/r2d3/r2d3BigImage.png">-->
+        <!--<accessRules/>-->
+        <!--<blocks>-->
+            <!--<B id="01" val="0.25"/>-->
+        <!--</blocks>-->
+        <!--<crits>-->
+            <!--<B id="01" val="0.25"/>-->
+        <!--</crits>-->
+    <!--</B>-->
 
 </Bombers>

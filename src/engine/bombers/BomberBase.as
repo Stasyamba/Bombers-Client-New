@@ -29,7 +29,7 @@ public class BomberBase extends CreatureBase implements IBomber {
 
     private var _auras:Array
 
-    public function BomberBase(game:IGame, slot:int, bomberType:BomberType, userName:String, color:PlayerColor, skin:BasicSkin, auras:Array) {
+    public function BomberBase(game:IGame, slot:int, bomberType:BomberType, userName:String, color:PlayerColor, auras:Array) {
         super(game, slot, bomberType)
         _color = color;
         _userName = userName;

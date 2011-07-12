@@ -52,7 +52,7 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
     //Array of MoveTickObject
 
     public function PlayerBomber(game:IGame, slot:int, gameProfile:GameProfile, color:PlayerColor, direction:InputDirection, weaponBuilder:WeaponBuilder) {
-        super(game, slot, gameProfile.currentBomberType.getEngineType(), gameProfile.nick, color, Context.imageService.bomberSkin(gameProfile.currentBomberType.getEngineType()), gameProfile.aursTurnedOn);
+        super(game, slot, gameProfile.currentBomberType.getEngineType(), gameProfile.nick, color, gameProfile.aursTurnedOn);
 
         _weaponBuilder = weaponBuilder
         this._gameProfile = gameProfile
