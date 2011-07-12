@@ -13,6 +13,14 @@
        damage="5"
        name="Паук"/>
 
+     <M id="00.monsters.SpiderRed_01"
+       graphicsId="l00.monsters.SpiderRed"
+       speed="90"
+       life="15"
+       immortalTime="2"
+       damage="5"
+       name="Красный Паук"/>
+
     <!--<M id="00.monsters.rat_01"-->
        <!--graphicsId="00.monsters.rat"-->
        <!--speed="60"-->

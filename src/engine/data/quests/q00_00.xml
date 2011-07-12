@@ -68,7 +68,7 @@
         </Map>
     </map>
     <monsters>
-        <Monster monsterId="00.monsters.Spider_01" slot="2" x="30" y="2">
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="2" x="30" y="2">
             <ws type="stand"/>
         </Monster>
     </monsters>

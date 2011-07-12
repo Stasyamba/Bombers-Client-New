@@ -138,7 +138,7 @@
         </Map>
     </map>
     <monsters>
-        <Monster monsterId="00.monsters.rat_03" slot="2" x="7" y="5">
+        <Monster monsterId="00.monsters.Spider_01" slot="2" x="7" y="5">
             <ws type="ptp">
                 <Point x="7" y="5"/>
                 <Point x="13" y="5"/>
@@ -147,7 +147,7 @@
                 <Point x="7" y="5"/>
             </ws>
         </Monster>
-        <Monster monsterId="00.monsters.rat_03" slot="3" x="13" y="11">
+        <Monster monsterId="00.monsters.Spider_01" slot="3" x="13" y="11">
             <ws type="ptp">
                 <Point x="13" y="11"/>
                 <Point x="7" y="11"/>

@@ -177,70 +177,70 @@
     </map>
     <monsters>
         <!--random monsters-->
-        <Monster monsterId="00.monsters.rat_01" slot="2" x="3" y="5">
+        <Monster monsterId="00.monsters.Spider_01" slot="2" x="3" y="5">
             <ws type="random" maxSec="4"/>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="3" x="3" y="6">
+        <Monster monsterId="00.monsters.Spider_01" slot="3" x="3" y="6">
             <ws type="random" maxSec="4"/>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="4" x="3" y="7">
+        <Monster monsterId="00.monsters.Spider_01" slot="4" x="3" y="7">
             <ws type="random" maxSec="4"/>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="5" x="13" y="6">
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="5" x="13" y="6">
             <ws type="random" maxSec="4"/>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="6" x="14" y="6">
-            <ws type="random" maxSec="4"/>
-        </Monster>
-
-        <Monster monsterId="00.monsters.rat_01" slot="7" x="49" y="14">
-            <ws type="random" maxSec="4"/>
-        </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="8" x="49" y="16">
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="6" x="14" y="6">
             <ws type="random" maxSec="4"/>
         </Monster>
 
-        <Monster monsterId="00.monsters.rat_01" slot="9" x="46" y="25">
+        <Monster monsterId="00.monsters.Spider_01" slot="7" x="49" y="14">
             <ws type="random" maxSec="4"/>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="10" x="48" y="25">
-            <ws type="random" maxSec="4"/>
-        </Monster>
-
-        <Monster monsterId="00.monsters.rat_01" slot="11" x="28" y="27">
-            <ws type="random" maxSec="4"/>
-        </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="12" x="30" y="27">
+        <Monster monsterId="00.monsters.Spider_01" slot="8" x="49" y="16">
             <ws type="random" maxSec="4"/>
         </Monster>
 
-        <Monster monsterId="00.monsters.rat_01" slot="13" x="47" y="29">
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="9" x="46" y="25">
             <ws type="random" maxSec="4"/>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="14" x="49" y="29">
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="10" x="48" y="25">
+            <ws type="random" maxSec="4"/>
+        </Monster>
+
+        <Monster monsterId="00.monsters.Spider_01" slot="11" x="28" y="27">
+            <ws type="random" maxSec="4"/>
+        </Monster>
+        <Monster monsterId="00.monsters.Spider_01" slot="12" x="30" y="27">
+            <ws type="random" maxSec="4"/>
+        </Monster>
+
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="13" x="47" y="29">
+            <ws type="random" maxSec="4"/>
+        </Monster>
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="14" x="49" y="29">
             <ws type="random" maxSec="4"/>
         </Monster>
         <!--ptp monsters-->
-        <Monster monsterId="00.monsters.rat_01" slot="15" x="17" y="2">
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="15" x="17" y="2">
             <ws type="ptp">
                 <Point x="17" y="2"/>
                 <Point x="17" y="4"/>
             </ws>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="16" x="19" y="4">
+        <Monster monsterId="00.monsters.Spider_01" slot="16" x="19" y="4">
             <ws type="ptp">
                 <Point x="19" y="4"/>
                 <Point x="19" y="2"/>
             </ws>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="17" x="21" y="2">
+        <Monster monsterId="00.monsters.Spider_01" slot="17" x="21" y="2">
             <ws type="ptp">
                 <Point x="21" y="2"/>
                 <Point x="21" y="4"/>
             </ws>
         </Monster>
 
-        <Monster monsterId="00.monsters.rat_01" slot="18" x="22" y="10">
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="18" x="22" y="10">
             <ws type="ptp">
                 <Point x="22" y="10"/>
                 <Point x="28" y="10"/>
@@ -249,7 +249,7 @@
                 <Point x="22" y="10"/>
             </ws>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="19" x="28" y="10">
+        <Monster monsterId="00.monsters.Spider_01" slot="19" x="28" y="10">
             <ws type="ptp">
                 <Point x="28" y="10"/>
                 <Point x="28" y="16"/>
@@ -258,7 +258,7 @@
                 <Point x="28" y="10"/>
             </ws>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="20" x="28" y="16">
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="20" x="28" y="16">
             <ws type="ptp">
                 <Point x="28" y="16"/>
                 <Point x="22" y="16"/>
@@ -267,7 +267,7 @@
                 <Point x="28" y="16"/>
             </ws>
         </Monster>
-        <Monster monsterId="00.monsters.rat_01" slot="21" x="22" y="16">
+        <Monster monsterId="00.monsters.Spider_01" slot="21" x="22" y="16">
             <ws type="ptp">
                 <Point x="22" y="16"/>
                 <Point x="22" y="10"/>
