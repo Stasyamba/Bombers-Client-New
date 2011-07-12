@@ -356,6 +356,19 @@ public class GameProfile {
         res.currentBomberType = BomberType.byValue(obj.getInt("BomberId"));
         //res.selectedWeaponRightHand = new ItemProfileObject(res.currentBomberType.baseBomb, -1);
 
+        var medArr:ISFSArray = obj.getSFSArray("Medals");
+        for (var i:int = 0; i < medArr.size(); i++) {
+            var q:ISFSArray = medArr.getSFSArray(i);
+            var qId:String = q.getUtfString(0)
+            var qM:int = q.getInt(1)
+            if((qM & 1) > 0)
+                res.medals.push(new MedalObject(qId,MedalType.BRONZE_MEDAL))
+            if((qM & 2) > 0)
+                res.medals.push(new MedalObject(qId,MedalType.SILVER_MEDAL))
+            if((qM & 4) > 0)
+                res.medals.push(new MedalObject(qId,MedalType.GOLD_MEDAL))
+        }
+
         var items:ISFSArray = obj.getSFSArray("WeaponsOpen");
 		
         for (var i:int = 0; i < items.size(); i++) 
