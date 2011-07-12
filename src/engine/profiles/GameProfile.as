@@ -280,8 +280,6 @@ public class GameProfile {
 
 	public function useQuestLeftWeapon(): void
 	{
-		Alert.show("Using weapon");
-		
 		if(_selectedWeaponLeftHand != null)
 		{
 			_selectedWeaponLeftHand.itemCount--;

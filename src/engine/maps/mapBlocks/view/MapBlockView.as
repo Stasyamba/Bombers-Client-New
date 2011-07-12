@@ -48,10 +48,10 @@ public class MapBlockView extends Sprite implements IDrawable {
         block.objectSet.add(onObjectSet);
         block.objectCollected.add(onObjectCollected);
 
+        draw();
         if (block.object != null && block.object.type != DynObjectType.NULL) {
             onObjectSet(block.object)
         }
-        draw();
     }
 
     private function onObjectCollected(byMe:Boolean):void {
@@ -99,9 +99,10 @@ public class MapBlockView extends Sprite implements IDrawable {
 //    }
 
     private function drawObject():void {
-        if (objectView != null) {
+        if (objectView != null && contains(objectView)) {
             objectView.draw();
             objectView.visible = block.canShowObjects;
+            setChildIndex(objectView,numChildren - 1);
         }
     }
 
