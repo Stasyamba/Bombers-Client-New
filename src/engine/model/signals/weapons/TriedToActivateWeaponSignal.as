@@ -10,7 +10,7 @@ import org.osflash.signals.Signal
 
 public class TriedToActivateWeaponSignal extends Signal {
     public function TriedToActivateWeaponSignal() {
-        super(int, int, int, WeaponType);
+        super(int, Number, Number, WeaponType);
     }
 }
 }

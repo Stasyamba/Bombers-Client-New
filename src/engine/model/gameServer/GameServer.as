@@ -85,7 +85,8 @@ public class GameServer extends SmartFox {
     private static const WEAPON_DEACTIVATED:String = "game.WDA";
     private static const PING:String = "ping";
     private static const PONG:String = "pong";
-
+    private static const PI:String = "PI";
+    private static const PO:String = "PO";
     //interface
     private static const INT_GAME_PROFILE_LOADED:String = "interface.gameProfileLoaded";
     private static const INT_SET_PHOTO:String = "interface.setPhoto";
@@ -102,19 +103,19 @@ public class GameServer extends SmartFox {
     private static const INT_CREATE_GAME_RESULT:String = "interface.gameManager.createGame.result"
 
 
-	private static const INT_QUEST_START: String = "interface.missions.start";
-	private static const INT_QUEST_START_RESULT: String = "interface.missions.start.result";
-	private static const INT_QUEST_SUBMIT: String = "interface.missions.submitResult";
-	private static const INT_QUEST_SUBMIT_RESULT: String = "interface.missions.submitResult.result";
-	
-	private static const INT_COLLECT_COLLECTION: String = "interface.collectCollection";
-	private static const INT_COLLECT_COLLECTION_RESULT: String = "interface.collectCollection.result";
-	
-	private static const INT_SET_TUTORIAL_PART: String = "interface.setTrainingStatus";
-	private static const INT_SET_TUTORIAL_PART_RESULT: String = "interface.setTrainingStatus.result";
-	
-	private static const INT_SET_NICK: String = "interface.setNick";
-	
+    private static const INT_QUEST_START:String = "interface.missions.start";
+    private static const INT_QUEST_START_RESULT:String = "interface.missions.start.result";
+    private static const INT_QUEST_SUBMIT:String = "interface.missions.submitResult";
+    private static const INT_QUEST_SUBMIT_RESULT:String = "interface.missions.submitResult.result";
+
+    private static const INT_COLLECT_COLLECTION:String = "interface.collectCollection";
+    private static const INT_COLLECT_COLLECTION_RESULT:String = "interface.collectCollection.result";
+
+    private static const INT_SET_TUTORIAL_PART:String = "interface.setTrainingStatus";
+    private static const INT_SET_TUTORIAL_PART_RESULT:String = "interface.setTrainingStatus.result";
+
+    private static const INT_SET_NICK:String = "interface.setNick";
+
 
     private static const LOBBY_PROFILES:String = "game.lobby.playersProfiles"
     private static const LOBBY_READY:String = "game.lobby.readyChanged"
@@ -259,6 +260,8 @@ public class GameServer extends SmartFox {
     }
 
     public function setReadyRequest(value:Boolean):void {
+        if (gameRoom == null)
+            return;
         var params:ISFSObject = new SFSObject();
         params.putBool("game.lobby.userReady.fields.isReady", value);
         send(new ExtensionRequest("game.lobby.userReady", params, gameRoom));
@@ -267,8 +270,8 @@ public class GameServer extends SmartFox {
     public function sendPlayerDirectionChanged(x:Number, y:Number, dir:Direction, viewDirectionChanged:Boolean):void {
 
         var params:ISFSObject = new SFSObject();
-        params.putInt("x", x);
-        params.putInt("y", y);
+        params.putInt("x", x * 1000);
+        params.putInt("y", y * 1000);
         params.putInt("dir", dir.value);
 
         send(new ExtensionRequest(INPUT_DIRECTION_CHANGED, params, gameRoom));
@@ -300,9 +303,11 @@ public class GameServer extends SmartFox {
 //        send(new ExtensionRequest(ACTIVATE_DYNAMIC_OBJECT, params, gameRoom));
     }
 
-    public function sendActivateWeapon(x:int, y:int, weaponType:WeaponType):void {
+    public function sendActivateWeapon(x:Number, y:Number, weaponType:WeaponType):void {
         var params:ISFSObject = new SFSObject();
         params.putInt("game.AW.f.t", weaponType.value);
+        params.putInt("x", x*1000);
+        params.putInt("x", y*1000);
 
         send(new ExtensionRequest(ACTIVATE_WEAPON, params, gameRoom));
     }
@@ -355,49 +360,46 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest("interface.setNick", params, null));
     }
 
-	public function sendStartQuest(missionId: String):void {
-		var params:ISFSObject = new SFSObject();
-		params.putUtfString("interface.missions.start.f.missionId", missionId);
-		
-		send(new ExtensionRequest(INT_QUEST_START, params, null));
-	}
-	
-	public function sendStartQuestSubmit(missionId: String, token: int, 
-										 isBronze: Boolean, isSilver: Boolean, isGold: Boolean
-	):void {
-		var params:ISFSObject = new SFSObject();
-		params.putUtfString("interface.missions.submitResult.f.missionId", missionId);
-		params.putInt("interface.missions.submitResult.f.token", token);
-		
-		params.putBool("interface.missions.submitResult.f.isBronze", isBronze);
-		params.putBool("interface.missions.submitResult.f.isSilver", isSilver);
-		params.putBool("interface.missions.submitResult.f.isGold", isGold);
-		
-		send(new ExtensionRequest(INT_QUEST_SUBMIT, params, null));
-	}
-	
-	public function sendCollectCollection(resultItemId: int):void {
-		var params:ISFSObject = new SFSObject();
-		params.putInt("interface.collectCollection.f.collectionId", resultItemId);
-		
-		send(new ExtensionRequest(INT_COLLECT_COLLECTION, params, null));
-	}
-	
-	public function sendSetTutorialPart(tutorialPart: TutorialPartType):void {
-		var params:ISFSObject = new SFSObject();
-		params.putInt("interface.setTrainingStatus.f.status", tutorialPart.value);
-		
-		send(new ExtensionRequest(INT_SET_TUTORIAL_PART, params, null));
-	}
-	
-	public function sendSetNick(nick: String):void {
-		var params:ISFSObject = new SFSObject();
-		params.putUtfString("interface.setNick.fields.nick", nick);
-		
-		send(new ExtensionRequest(INT_SET_NICK, params, null));
-	}
-	
-	
+    public function sendStartQuest(missionId:String):void {
+        var params:ISFSObject = new SFSObject();
+        params.putUtfString("interface.missions.start.f.missionId", missionId);
+
+        send(new ExtensionRequest(INT_QUEST_START, params, null));
+    }
+
+    public function sendStartQuestSubmit(missionId:String, token:int, isBronze:Boolean, isSilver:Boolean, isGold:Boolean):void {
+        var params:ISFSObject = new SFSObject();
+        params.putUtfString("interface.missions.submitResult.f.missionId", missionId);
+        params.putInt("interface.missions.submitResult.f.token", token);
+
+        params.putBool("interface.missions.submitResult.f.isBronze", isBronze);
+        params.putBool("interface.missions.submitResult.f.isSilver", isSilver);
+        params.putBool("interface.missions.submitResult.f.isGold", isGold);
+
+        send(new ExtensionRequest(INT_QUEST_SUBMIT, params, null));
+    }
+
+    public function sendCollectCollection(resultItemId:int):void {
+        var params:ISFSObject = new SFSObject();
+        params.putInt("interface.collectCollection.f.collectionId", resultItemId);
+
+        send(new ExtensionRequest(INT_COLLECT_COLLECTION, params, null));
+    }
+
+    public function sendSetTutorialPart(tutorialPart:TutorialPartType):void {
+        var params:ISFSObject = new SFSObject();
+        params.putInt("interface.setTrainingStatus.f.status", tutorialPart.value);
+
+        send(new ExtensionRequest(INT_SET_TUTORIAL_PART, params, null));
+    }
+
+    public function sendSetNick(nick:String):void {
+        var params:ISFSObject = new SFSObject();
+        params.putUtfString("interface.setNick.fields.nick", nick);
+
+        send(new ExtensionRequest(INT_SET_NICK, params, null));
+    }
+
 
     public function wall_sendSubmitPrice(posterId:String):void {
         var params:ISFSObject = new SFSObject();
@@ -530,6 +532,9 @@ public class GameServer extends SmartFox {
             case PONG:
                 onPONG(responseParams)
                 break
+            case PI:
+                onPI(responseParams)
+                break;
             case MOVE_TICK:
                 onMOVE_TICK(responseParams)
                 break;
@@ -578,11 +583,11 @@ public class GameServer extends SmartFox {
                 trace("damaged enemy " + responseParams.getInt("HealthLeft"))
                 break;
             case PLAYER_DIED:
-                var slot:int
-                EngineContext.someoneDied.dispatch(slot);
+                var slot:int;
                 var lp:LobbyProfile = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("UserId"));
                 if (lp != null) {
                     slot = lp.slot
+                    EngineContext.someoneDied.dispatch(slot);
                     if (Context.gameModel.isMySlot(slot)) {
                         updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
                         Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("Experience")
@@ -625,126 +630,120 @@ public class GameServer extends SmartFox {
             case INT_GAME_PROFILE_LOADED:
 
 
+                try {
 
-				try {
-					
-					Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
-					
-					var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
-					
-					Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
-					Context.resourceMarket.CRYSTAL_VOICES = plist.getInt("CrystalCost")
-					Context.resourceMarket.ADAMANTIUM_VOICES = plist.getInt("AdamantiumCost")
-					Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost")
-					var enArr:ISFSArray = plist.getSFSArray("EnergyCost");
-					
-					/* parse missions */
-					/* Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost") */
-					
-					
-					for (var i:int = 0; i < enArr.size(); i++) {
-						var it:ISFSObject = enArr.getSFSObject(i);
-						Context.resourceMarket.ENERGY_VOICES[it.getInt("Count")] = it.getInt("Price");
-					}
-					
-					//itemCost
-					var itemsArr:ISFSArray = plist.getSFSArray("Items");
-					var prices:Array = new Array();
-					
-					for (var i:int = 0; i < itemsArr.size(); i++) 
-					{
-						var obj:ISFSObject = itemsArr.getSFSObject(i);
-						var id:int = obj.getInt("Id")
-						var rp:ResourcePrice = new ResourcePrice(obj.getInt("Gold"), obj.getInt("Crystal"), obj.getInt("Adamantium"), obj.getInt("Antimatter"))
-						var stack:int = obj.getInt("Stack")
-						var so:Boolean = obj.getBool("SpecialOffer")
-						var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
-						prices[id] = imo
-						var lev:int = obj.getInt("Level")
-						var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
-						
-						if (io != null)
-						{
-							io.addRule(new AccessLevelRule(lev));
-						}
-					}
-					Context.Model.marketManager.setItemPrices(prices)
-					
-					//levels
-					var levelsArr:ISFSArray = plist.getSFSArray("Levels");
-					for (var i:int = 0; i < levelsArr.size(); i++) 
-					{
-						var exp:int = levelsArr.getInt(i);
-						Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(i + 1, exp))
-					}
-					
-					//gp
-					var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
-					profileLoaded.dispatch(gp);
-					
-					/* testing */
-					/*Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.AURA_FIRE, 1));
-					
-					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
-					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-					Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));*/
-					/*	Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));
-					Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));*/
-					
-					
-					
-					//Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-					//Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-					
-					var appFriendsArr: Array = new Array();
-					var gp3: GameProfile = new GameProfile();
-					gp3.id = "1";
-					gp3.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
-					appFriendsArr.push(new FriendObject(gp3, true, null));
-					
-					var gp1: GameProfile = new GameProfile();
-					gp1.id = "2";
-					gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
-					appFriendsArr.push(new FriendObject(gp1, true, null));
-					
-					
-					var gp2: GameProfile = new GameProfile();
-					gp2.id = "3";
-					gp2.photoURL = "http://cs10029.vkontakte.ru/u34230304/a_f5649b2f.jpg";
-					appFriendsArr.push(new FriendObject(gp2, false, null));
-					
-					Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, []);
-					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
-					
-					switch(Context.Model.currentTutorialPart)
-					{
-						case TutorialPartType.PART1:
-							Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
-							break;
-						case TutorialPartType.PART2:
-							Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
-							break;
-						case TutorialPartType.PART3:
-							Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
-							break;
-						case TutorialPartType.PART4:
-							Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
-							break;
-						case TutorialPartType.PART5:
-							Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
-							break;
-					}
-					
-					/* locations */
-					Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
-				}
-				catch(errObject:Error) {
-					  Alert.show(errObject.message);
-				}
-                
+                    Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
+
+                    var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
+
+                    Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
+                    Context.resourceMarket.CRYSTAL_VOICES = plist.getInt("CrystalCost")
+                    Context.resourceMarket.ADAMANTIUM_VOICES = plist.getInt("AdamantiumCost")
+                    Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost")
+                    var enArr:ISFSArray = plist.getSFSArray("EnergyCost");
+
+                    /* parse missions */
+                    /* Context.resourceMarket.ANTIMATTER_VOICES = plist.getInt("AntimatterCost") */
+
+
+                    for (var i:int = 0; i < enArr.size(); i++) {
+                        var it:ISFSObject = enArr.getSFSObject(i);
+                        Context.resourceMarket.ENERGY_VOICES[it.getInt("Count")] = it.getInt("Price");
+                    }
+
+                    //itemCost
+                    var itemsArr:ISFSArray = plist.getSFSArray("Items");
+                    var prices:Array = new Array();
+
+                    for (var i:int = 0; i < itemsArr.size(); i++) {
+                        var obj:ISFSObject = itemsArr.getSFSObject(i);
+                        var id:int = obj.getInt("Id")
+                        var rp:ResourcePrice = new ResourcePrice(obj.getInt("Gold"), obj.getInt("Crystal"), obj.getInt("Adamantium"), obj.getInt("Antimatter"))
+                        var stack:int = obj.getInt("Stack")
+                        var so:Boolean = obj.getBool("SpecialOffer")
+                        var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
+                        prices[id] = imo
+                        var lev:int = obj.getInt("Level")
+                        var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
+
+                        if (io != null) {
+                            io.addRule(new AccessLevelRule(lev));
+                        }
+                    }
+                    Context.Model.marketManager.setItemPrices(prices)
+
+                    //levels
+                    var levelsArr:ISFSArray = plist.getSFSArray("Levels");
+                    for (var i:int = 0; i < levelsArr.size(); i++) {
+                        var exp:int = levelsArr.getInt(i);
+                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(i + 1, exp))
+                    }
+
+                    //gp
+                    var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
+                    profileLoaded.dispatch(gp);
+
+                    /* testing */
+                    /*Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.AURA_FIRE, 1));
+
+                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
+                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
+                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
+                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
+                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
+                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));*/
+                    /*	Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));
+                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));*/
+
+
+                    //Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
+                    //Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
+
+                    var appFriendsArr:Array = new Array();
+                    var gp3:GameProfile = new GameProfile();
+                    gp3.id = "1";
+                    gp3.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
+                    appFriendsArr.push(new FriendObject(gp3, true, null));
+
+                    var gp1:GameProfile = new GameProfile();
+                    gp1.id = "2";
+                    gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
+                    appFriendsArr.push(new FriendObject(gp1, true, null));
+
+
+                    var gp2:GameProfile = new GameProfile();
+                    gp2.id = "3";
+                    gp2.photoURL = "http://cs10029.vkontakte.ru/u34230304/a_f5649b2f.jpg";
+                    appFriendsArr.push(new FriendObject(gp2, false, null));
+
+                    Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, []);
+                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
+
+                    switch (Context.Model.currentTutorialPart) {
+                        case TutorialPartType.PART1:
+                            Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+                            break;
+                        case TutorialPartType.PART2:
+                            Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
+                            break;
+                        case TutorialPartType.PART3:
+                            Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
+                            break;
+                        case TutorialPartType.PART4:
+                            Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
+                            break;
+                        case TutorialPartType.PART5:
+                            Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
+                            break;
+                    }
+
+                    /* locations */
+                    Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
+                }
+                catch(errObject:Error) {
+                    Alert.show(errObject.message);
+                }
+
                 break;
             case INT_BUY_RESOURCES_RESULT:
 
@@ -761,7 +760,7 @@ public class GameServer extends SmartFox {
                                 responseParams.getInt("interface.buyResources.result.fields.resourceType1"),
                                 responseParams.getInt("interface.buyResources.result.fields.resourceType2"),
                                 responseParams.getInt("interface.buyResources.result.fields.resourceType3")
-                                )
+                        )
 
                         Context.Model.currentSettings.gameProfile.resources = rp.clone();
                         Context.Model.dispatchCustomEvent(ContextEvent.RS_BUY_SUCCESS, rp)
@@ -791,7 +790,7 @@ public class GameServer extends SmartFox {
                         responseParams.getInt("interface.buyItem.result.fields.resourceType1"),
                         responseParams.getInt("interface.buyItem.result.fields.resourceType2"),
                         responseParams.getInt("interface.buyItem.result.fields.resourceType3")
-                        );
+                );
 
                 Context.Model.currentSettings.gameProfile.addItem(iType, count);
                 Context.Model.currentSettings.gameProfile.resources.setFrom(rp);
@@ -831,93 +830,91 @@ public class GameServer extends SmartFox {
                     lp.isReady = ready;
                 Context.gameModel.playerReadyChanged.dispatch();
                 break;
-	
-			case INT_QUEST_START_RESULT:
-				
-				Context.Model.questToken = responseParams.getInt("interface.missions.start.result.f.token");
-				Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("interface.missions.start.result.f.youNewEnergy");   
-				
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
-				break;
-			
-			case INT_QUEST_SUBMIT_RESULT:
-				
-				var qo: QuestObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
-				var r: Array = new Array();
-				
-				if(responseParams.containsKey("interface.missions.submitResult.result.f.bronze"))
-				{
-					r = r.concat(qo.getTask(MedalType.BRONZE_MEDAL).regards);	
-				}
-				
-				if(responseParams.containsKey("interface.missions.submitResult.result.f.silver"))
-				{
-					
-					r = r.concat(qo.getTask(MedalType.SILVER_MEDAL).regards);
-					
-				}
-				
-				if(responseParams.containsKey("interface.missions.submitResult.result.f.gold"))
-				{
-					r = r.concat(qo.getTask(MedalType.GOLD_MEDAL).regards);
-				}
-				
-				for each(var ro: RegardObject in r)
-				{
-					switch(ro.type)
-					{
-						/* resources */
-						case RegardType.RESOURCE_GOLD:
-							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(ro.amount,0,0,0));
-							break;
-						case RegardType.RESOURCE_CRYSTALS:
-							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,ro.amount,0,0));
-							break;
-						case RegardType.RESOURCE_ADAMANT:
-							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,0,ro.amount,0));
-							break;
-						case RegardType.RESOURCE_ANTIMATTER:
-							Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,0,0,ro.amount));
-							break;
-						
-						case RegardType.RESOURCE_ITEM:
-							Context.Model.currentSettings.gameProfile.addItem(ItemType.byValue(ro.itemId), ro.amount);
-							break;
-					}
-				}
-				
-				
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
-				
-				break;
-			
-			case INT_COLLECT_COLLECTION_RESULT:
-				
-				var resultItem: ItemType = ItemType.byValue(responseParams.getInt("interface.collectCollection.result.f.collectionId"));
-				Context.Model.currentSettings.gameProfile.addItem(resultItem, 1);
-				
-				for each(var itemType: ItemType in Context.Model.itemCollectionsManager.getCollectionByResultItem(resultItem).itemParts)
-				{
-					Context.Model.currentSettings.gameProfile.removeItem(itemType, 1);
-				}
-				
-				
-				Context.Model.dispatchCustomEvent(ContextEvent.IM_HIDE_COLLECTION);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
-				
-				break;
-			
-			case INT_SET_TUTORIAL_PART_RESULT:
-				
-				// interface.setTrainingStatus.result.f.youNewExperience
-				
-				break;
+
+            case INT_QUEST_START_RESULT:
+
+                Context.Model.questToken = responseParams.getInt("interface.missions.start.result.f.token");
+                Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("interface.missions.start.result.f.youNewEnergy");
+
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+                break;
+
+            case INT_QUEST_SUBMIT_RESULT:
+
+                var qo:QuestObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
+                var r:Array = new Array();
+
+                if (responseParams.containsKey("interface.missions.submitResult.result.f.bronze")) {
+                    r = r.concat(qo.getTask(MedalType.BRONZE_MEDAL).regards);
+                }
+
+                if (responseParams.containsKey("interface.missions.submitResult.result.f.silver")) {
+
+                    r = r.concat(qo.getTask(MedalType.SILVER_MEDAL).regards);
+
+                }
+
+                if (responseParams.containsKey("interface.missions.submitResult.result.f.gold")) {
+                    r = r.concat(qo.getTask(MedalType.GOLD_MEDAL).regards);
+                }
+
+                for each(var ro:RegardObject in r) {
+                    switch (ro.type) {
+                        /* resources */
+                        case RegardType.RESOURCE_GOLD:
+                            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(ro.amount, 0, 0, 0));
+                            break;
+                        case RegardType.RESOURCE_CRYSTALS:
+                            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0, ro.amount, 0, 0));
+                            break;
+                        case RegardType.RESOURCE_ADAMANT:
+                            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0, 0, ro.amount, 0));
+                            break;
+                        case RegardType.RESOURCE_ANTIMATTER:
+                            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0, 0, 0, ro.amount));
+                            break;
+
+                        case RegardType.RESOURCE_ITEM:
+                            Context.Model.currentSettings.gameProfile.addItem(ItemType.byValue(ro.itemId), ro.amount);
+                            break;
+                    }
+                }
+
+
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
+
+                break;
+
+            case INT_COLLECT_COLLECTION_RESULT:
+
+                var resultItem:ItemType = ItemType.byValue(responseParams.getInt("interface.collectCollection.result.f.collectionId"));
+                Context.Model.currentSettings.gameProfile.addItem(resultItem, 1);
+
+                for each(var itemType:ItemType in Context.Model.itemCollectionsManager.getCollectionByResultItem(resultItem).itemParts) {
+                    Context.Model.currentSettings.gameProfile.removeItem(itemType, 1);
+                }
+
+
+                Context.Model.dispatchCustomEvent(ContextEvent.IM_HIDE_COLLECTION);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+                Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED);
+
+                break;
+
+            case INT_SET_TUTORIAL_PART_RESULT:
+
+                // interface.setTrainingStatus.result.f.youNewExperience
+
+                break;
         }
+    }
+
+    private function onPI(responseParams:ISFSObject):void {
+        send(new ExtensionRequest(PO, responseParams, null));
     }
 
 
