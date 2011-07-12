@@ -33,6 +33,22 @@ public class GameProfile {
      */
     public var medals:Array = new Array();
 	
+	public function hasMedal(questId: String, medalType: MedalType): Boolean
+	{
+		var res:Boolean = false;
+		
+		for each(var mo: MedalObject in medals)
+		{
+			if(mo.questId == questId && mo.medalType == medalType)
+			{
+				res = true;
+				break;
+			}
+		}
+		
+		return res;
+	}
+	
 	public function addMedal(questId: String, medalsNew: Array): void
 	{
 		var findMedal: Array = new Array();

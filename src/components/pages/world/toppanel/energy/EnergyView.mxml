@@ -36,6 +36,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.common.utils.adjustcolor.ColorMatrix;
 			import components.pages.global.energymarket.EnergyMarketW;
 			
@@ -139,10 +140,10 @@
 				
 				energyStringView = energy.toString();
 				
-				var currentPercent:Number = energy/50;
+				var currentPercent:Number = energy/CommonConstans.ENERGY_MAXIMUM_REFILL;
 				expiranceMaskRect.width = int(expiranceMaskRect.maxWidth * currentPercent);
 				
-				if(energy > 50)
+				if(energy > CommonConstans.ENERGY_MAXIMUM_REFILL)
 				{
 					expiranceMaskRect.width = expiranceMaskRect.maxWidth;
 				}
@@ -151,12 +152,6 @@
 			private function openEnergyWindow(): void
 			{
 				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET);
-				/* var ew: EnergyMarketW = new EnergyMarketW();
-				
-				PopUpManager.addPopUp(ew, (parentApplication as Bombers), true);
-				PopUpManager.centerPopUp(ew);
-				
-				ew.y -= 80; */
 			}
 		]]>
 	</fx:Script>
