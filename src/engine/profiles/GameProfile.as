@@ -380,7 +380,7 @@ public class GameProfile {
             if((qM & 1) > 0)
                 res.addMedal(qId,[MedalType.BRONZE_MEDAL])
             if((qM & 2) > 0)
-                res.addMedal(qId,[qId,MedalType.SILVER_MEDAL])
+                res.addMedal(qId,[MedalType.SILVER_MEDAL])
             if((qM & 4) > 0)
                 res.addMedal(qId,[MedalType.GOLD_MEDAL])
         }
