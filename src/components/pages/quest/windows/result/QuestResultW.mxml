@@ -106,25 +106,20 @@
 
             questObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
             energyCostLabel.text = questObject.energyCost.toString();
-
-            if (questResultObject != null) {
-                /* medal from own profile */
-
-				/* послыаешь событие interface.missions.submitResult
-				21:12
-				в нем параметры
-				21:12
-				String missionId = params.getUtfString("interface.missions.submitResult.f.missionId");
-				int token = params.getInt("interface.missions.start.f.token");;
-				boolean isBronze = params.getBool("interface.missions.start.f.isBronze");
-				boolean isSilver = params.getBool("interface.missions.start.f.isSilver");
-				boolean isGold = params.getBool("interface.missions.start.f.isGold");
-				21:13
-				ид миссии, токен, флаги медалей)
-				21:13
-				и приходит ответ (если все медали false, то он не приходит за бессмысленностью)
-				21:13
-				а, приходит все равно, если валидный токен) */
+			
+            if (questResultObject != null) 
+			{
+				var bestMedal: MedalType = MedalType.BRONZE_MEDAL;
+				questResultObject.isNew = false;
+				
+				for each(var mt: MedalType in questResultObject.medals)
+				{
+					if(Context.Model.currentSettings.gameProfile.hasMedal(Context.Model.questIdLastOpened, mt))
+					{
+						questResultObject.isNew = true;
+						bestMedal = mt;
+					}
+				}
 				
 				if (questResultObject.isNew)
 				{
@@ -134,16 +129,6 @@
 					pulseA.play();
 					
 					Context.Model.currentSettings.gameProfile.addMedal(questObject.id, questResultObject.medals);
-					
-					var bestMedal: MedalType = MedalType.BRONZE_MEDAL;
-					
-					for each(var mt: MedalType in questResultObject.medals)
-					{
-						if(bestMedal.isLessOrEqual(mt))
-						{
-							bestMedal = mt;
-						}
-					}
 					
 					switch (bestMedal) 
 					{
