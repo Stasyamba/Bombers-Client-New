@@ -110,21 +110,24 @@
             if (questResultObject != null) 
 			{
 				var bestMedal: MedalType = MedalType.BRONZE_MEDAL;
-				questResultObject.isNew = false;
+				questResultObject.isNew = true;
 				
 				for each(var mt: MedalType in questResultObject.medals)
 				{
 					if(Context.Model.currentSettings.gameProfile.hasMedal(Context.Model.questIdLastOpened, mt))
 					{
-						questResultObject.isNew = true;
-						bestMedal = mt;
+						questResultObject.isNew = false;
+					}else
+					{
+						if(bestMedal.isLessOrEqual(mt))
+						{
+							bestMedal = mt;
+						}
 					}
 				}
 				
 				if (questResultObject.isNew)
 				{
-					
-					
 					resultTitleLabel.text = "Новая медаль!";
 					pulseA.play();
 					
@@ -142,8 +145,6 @@
 							bronzeMedal.visible = true;
 							break;
 					}
-					
-					//goldMedal.visible = gotGold;
 					
 				} else {
 					resultTitleLabel.text = "Нет новых медалей";
