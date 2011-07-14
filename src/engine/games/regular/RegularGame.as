@@ -4,42 +4,41 @@
  */
 
 package engine.games.regular {
-import components.common.worlds.locations.LocationType;
+import components.common.worlds.locations.LocationType
 
-import engine.EngineContext;
-import engine.bombers.PlayerBomber;
-import engine.bombers.PlayersBuilder;
-import engine.bombers.interfaces.IBomber;
-import engine.bombers.interfaces.IEnemyBomber;
-import engine.bombers.interfaces.IPlayerBomber;
-import engine.data.common.maps.Maps;
-import engine.explosionss.ExplosionsBuilder;
-import engine.games.*;
-import engine.maps.builders.DynObjectBuilder;
-import engine.maps.builders.MapBlockBuilder;
-import engine.maps.builders.MapBlockStateBuilder;
-import engine.maps.interfaces.IDynObject;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.interfaces.IMapBlock;
-import engine.model.explosionss.ExplosionType;
-import engine.model.managers.interfaces.IEnemiesManager;
-import engine.model.managers.quest.MonstersManager;
-import engine.model.managers.regular.DynObjectManager;
-import engine.model.managers.regular.EnemiesManager;
-import engine.model.managers.regular.ExplosionsManager;
-import engine.model.managers.regular.MapManager;
-import engine.model.managers.regular.PlayerManager;
-import engine.playerColors.PlayerColor;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponBuilder;
-import engine.weapons.WeaponType;
-import engine.weapons.interfaces.IActivatableWeapon;
-import engine.weapons.interfaces.IDeactivatableWeapon;
+import engine.EngineContext
+import engine.bombers.PlayerBomber
+import engine.bombers.PlayersBuilder
+import engine.bombers.interfaces.IBomber
+import engine.bombers.interfaces.IEnemyBomber
+import engine.bombers.interfaces.IPlayerBomber
+import engine.data.common.maps.Maps
+import engine.explosionss.ExplosionsBuilder
+import engine.games.*
+import engine.maps.builders.DynObjectBuilder
+import engine.maps.builders.MapBlockBuilder
+import engine.maps.builders.MapBlockStateBuilder
+import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.interfaces.IMapBlock
+import engine.maps.mapObjects.DynObjectType
+import engine.model.explosionss.ExplosionType
+import engine.model.managers.interfaces.IEnemiesManager
+import engine.model.managers.quest.MonstersManager
+import engine.model.managers.regular.DynObjectManager
+import engine.model.managers.regular.EnemiesManager
+import engine.model.managers.regular.ExplosionsManager
+import engine.model.managers.regular.MapManager
+import engine.model.managers.regular.PlayerManager
+import engine.playerColors.PlayerColor
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponBuilder
+import engine.weapons.WeaponType
+import engine.weapons.interfaces.IActivatableWeapon
+import engine.weapons.interfaces.IDeactivatableWeapon
 
-import flash.geom.Point;
-
-import greensock.TweenMax;
+import greensock.TweenMax
 
 public class RegularGame extends GameBase implements IMultiPlayerGame {
 
@@ -82,7 +81,7 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
 
             EngineContext.playerDamaged.add(onPlayerDamaged)
 
-            EngineContext.objectAdded.add(onObjectAdded)
+            EngineContext.objectAdded.add(addObject)
             EngineContext.triedToActivateObject.add(tryToActivateObject)
             EngineContext.objectActivated.add(onObjectActivated);
 
@@ -175,23 +174,26 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
         return playerManager.mySlot == slot || enemiesManager.hasEnemy(slot);
     }
 
-    public function applyMap(mapId:String, playerProfiles:Array):void {
+    public function applyMap(mapId:String, playerProfiles:Array, bonuses:Array):void {
         var xml:XML = Maps.getXmlById(mapId);
         if (xml == null) {
             Context.gameModel.mapLoaded.addOnce(function (lXml:XML):void {
-                onMapLoaded(lXml, playerProfiles);
+                onMapLoaded(lXml, playerProfiles, bonuses);
             })
         } else {
-            onMapLoaded(xml, playerProfiles)
+            onMapLoaded(xml, playerProfiles, bonuses)
         }
     }
 
-    private function onMapLoaded(xml:XML, playerProfiles:Array):void {
+    private function onMapLoaded(xml:XML, playerProfiles:Array, bonuses:Array):void {
         mapManager.make(xml);
         for each (var item:PlayerGameProfile in playerProfiles) {
             var bomber:IBomber = getPlayer(item.slot);
             if (bomber != null)
                 bomber.putOnMap(mapManager.map, item.x, item.y);
+        }
+        for each (var bObj:Object in bonuses) {
+            addObject(-1, bObj.x, bObj.y, DynObjectType.byValue(bObj.type))
         }
         _ready = true;
     }
@@ -213,11 +215,14 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
     }
 
 
-    private function onObjectActivated(id:int, x:int, y:int, objType:IDynObjectType,destList:Array):void {
+    private function onObjectActivated(id:int, x:int, y:int, objType:IDynObjectType, destList:Array):void {
         var bomber:IBomber = getPlayer(id);
         dynObjectManager.activateObject(x, y, bomber);
-        for each (var point:Point in destList) {
-            (dynObjectManager as DynObjectManager).explodeBlock(point.x,point.y,ExplosionType.byValue(objType.key))
+        for each (var point:Object in destList) {
+            if (point.isS)
+                (dynObjectManager as DynObjectManager).explodeBlock(point.x, point.y, ExplosionType.byValue(objType.key))
+            else
+                dynObjectManager.activateObject(point.x, point.y, bomber);
         }
     }
 
@@ -225,13 +230,15 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
         Context.gameServer.sendActivateDynamicObject(object);
     }
 
-    private function onObjectAdded(slot:int, x:int, y:int, objType:IDynObjectType):void {
+    public function addObject(slot:int, x:int, y:int, objType:IDynObjectType, params:Object = null):void {
         var b:IMapBlock = mapManager.map.getBlock(x, y);
-        var player:IBomber = getPlayer(slot)
+        var player:IBomber = getPlayer(slot)  //can be null
 
-        var object:IDynObject = dynObjectBuilder.make(objType, b, player);
+        var object:IDynObject = dynObjectBuilder.make(objType, b, player, params);
         b.setObject(object);
+
         object.grabCorrespondingWeapon()
+
         if (objType.waitToAdd > 0)
             TweenMax.delayedCall(objType.waitToAdd, function():void {
                 dynObjectManager.addObject(object);

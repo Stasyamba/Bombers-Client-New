@@ -87,7 +87,8 @@
 				{
 					switchContent(CONTENT_NOT_ENOUGH_ENERGY);
 				}
-				Context.gameModel.threeSecondsToStart.add( function (p0:*,p1:*){
+                //all listeners will be removed in model
+				Context.gameModel.threeSecondsToStart.add( function (p0:*,p1:*,p2:*){
 					Context.Model.dispatchCustomEvent(ContextEvent.GP_PREGAME_CLOSE);
 				})
 			}

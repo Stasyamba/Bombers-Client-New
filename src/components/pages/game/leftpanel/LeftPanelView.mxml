@@ -12,29 +12,25 @@
 
     <fx:Script>
 		<![CDATA[
-			import components.ApplicationView;
-			import components.common.bombers.BomberColorType;
-			
-			import engine.games.GameType;
-			import engine.profiles.LobbyProfile;
-			
-			import mx.controls.Alert;
-			import mx.utils.ObjectUtil;
+        import components.ApplicationView
+        import components.common.bombers.BomberColorType
+
+        import engine.games.GameType
+        import engine.profiles.LobbyProfile
 
         private var players:Array = new Array();
 
         private function init():void {
-            Context.Model.addCustomListener(ContextEvent.MAIN_TAB_CHANGED, function(e:ContextEvent):void 
-			{
+            Context.Model.addCustomListener(ContextEvent.MAIN_TAB_CHANGED, function(e:ContextEvent):void {
                 if (e.data == ApplicationView.TAB_NAME_GAME)
                     onTabChanged();
             })
-				
-			/* init once */
+
+            /* init once */
             onTabChanged();
-			
-			
-			/* testing  */
+
+
+            /* testing  */
 //			addPlayer(new LobbyProfile("1", "Banana", "http://cs9678.vkontakte.ru/u86070/a_26c9fee5.jpg", 10, 0, true),0);
 //			addPlayer(new LobbyProfile("2", "Banana", "http://cs10882.vkontakte.ru/u87322300/a_af56eaae.jpg", 10, 2, true),2);
 //			addPlayer(new LobbyProfile("4", "Banana", "http://cs10888.vkontakte.ru/u35046782/a_135cf331.jpg", 10, 3, true),3);
@@ -42,10 +38,14 @@
 
         private function getPlayerSlot(slot:int):PlayerSlot {
             switch (slot) {
-                case 0:return player0
-                case 1:return player1
-                case 2:return player2
-                case 3:return player3
+                case 0:
+                    return player0
+                case 1:
+                    return player1
+                case 2:
+                    return player2
+                case 3:
+                    return player3
             }
             return null
         }
@@ -69,20 +69,18 @@
 
 
         private function setReady(isReady:Boolean, slot:int):void {
-			
+
             var el:PlayerSlot = getPlayerSlot(slot);
-			
-			if (el != null)
-			{
+
+            if (el != null) {
                 el.isReady = isReady;
-			}
-			
+            }
+
         }
 
-        private function onTabChanged():void 
-		{
+        private function onTabChanged():void {
             //listeners will be removed in gameModel, when user leaves game
-			
+
             Context.gameModel.someoneJoinedToGame.add(onSomeoneJoinedToGame)
             Context.gameModel.someoneLeftGame.add(onSomeoneLeftGame)
             Context.gameModel.playerReadyChanged.add(onReadyChanged)
@@ -90,7 +88,7 @@
 
             Context.gameModel.leftGame.add(onLeftGame)
             Context.gameModel.readyToPlayAgain.add(onReadyToPlayAgain)
-				
+
             onConnectedToGame();
         }
 
@@ -100,7 +98,7 @@
             }
         }
 
-        private function onThreeSecondsToStart(p1:*, p2:*):void {
+        private function onThreeSecondsToStart(p1:*, p2:*, p3:*):void {
             for (var j:int = 0; j < Context.gameModel.lobbyProfiles.length; j++) {
                 setReady(false, j)
             }
@@ -113,12 +111,10 @@
             }
         }
 
-        private function onConnectedToGame():void 
-		{
+        private function onConnectedToGame():void {
             if (Context.gameModel.gameType == GameType.REGULAR) {
                 onSomeoneJoinedToGame(null)
-                if (Context.gameModel.createdByMe) 
-				{
+                if (Context.gameModel.createdByMe) {
                     //Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_IS_CREATED_WINDOW);
                 } else {
                     //Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_READY_WINDOW);
@@ -134,16 +130,15 @@
         }
 
         private function onSomeoneJoinedToGame(p1:*):void {
-            for (var j:int = 0; j < 4; j++) 
-			{
+            for (var j:int = 0; j < 4; j++) {
                 deletePlayer(j)
             }
-			
+
             for each (var prof:LobbyProfile in Context.gameModel.lobbyProfiles) {
                 if (prof != null)
                     addPlayer(prof, prof.slot)
             }
-			
+
             onReadyChanged();
         }
 
@@ -178,13 +173,13 @@
               verticalAlign="middle" horizontalAlign="center"
               gap="20"
               id="playersGroup"
-			  paddingLeft="20"
+              paddingLeft="20"
             >
 
-        <leftpanel:PlayerSlot id="player0" playerColor="{BomberColorType.BASE_BLUE}" />
-        <leftpanel:PlayerSlot id="player1" playerColor="{BomberColorType.BASE_GREEN}" />
-        <leftpanel:PlayerSlot id="player2" playerColor="{BomberColorType.BASE_PINK}" />
-        <leftpanel:PlayerSlot id="player3" playerColor="{BomberColorType.BASE_RED}" />
+        <leftpanel:PlayerSlot id="player0" playerColor="{BomberColorType.BASE_BLUE}"/>
+        <leftpanel:PlayerSlot id="player1" playerColor="{BomberColorType.BASE_GREEN}"/>
+        <leftpanel:PlayerSlot id="player2" playerColor="{BomberColorType.BASE_PINK}"/>
+        <leftpanel:PlayerSlot id="player3" playerColor="{BomberColorType.BASE_RED}"/>
 
     </s:VGroup>
 
