@@ -218,7 +218,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     public function activateWeapon(x:int, y:int, type:WeaponType):void {
         //regular bomb special case
         if (type.value == this.bomberType.baseBomb.value) {
-            EngineContext.qAddObject.dispatch(slot, x, y, DynObjectType.byValue(type.value))
+            EngineContext.qAddObject.dispatch(slot, x, y, DynObjectType.byValue(type.value),null)
             takeBomb()
         } else {
             if (currentWeapon.type == type) {

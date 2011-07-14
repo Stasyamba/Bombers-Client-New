@@ -110,8 +110,8 @@ public class BomberType implements ICreatureType {
         return _specialCritChances
     }
 
-    public function getViewSpeed(speed:Number):int {
-        return int(Math.round((Math.log(speed) - Math.log(_speed)) / Math.log(1.1))) + 1
+    public static function getViewSpeed(speed:Number):int {
+        return int(Math.round((Math.log(speed) - Math.log(100)) / Math.log(1.1))) + 1
     }
 
     public static function byStringId(sID:String):BomberType {

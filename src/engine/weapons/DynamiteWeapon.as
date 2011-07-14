@@ -45,7 +45,7 @@ public class DynamiteWeapon extends ActivatableWeaponBase implements IActivatabl
     }
 
     public function qActivateStatic(x:int, y:int, by:IBomber):void {
-        EngineContext.qAddObject.dispatch(by.slot, x, y, BombType.DYNAMITE)
+        EngineContext.qAddObject.dispatch(by.slot, x, y, BombType.DYNAMITE, null)
     }
 }
 }

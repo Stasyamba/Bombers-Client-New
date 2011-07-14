@@ -12,7 +12,7 @@ public class LittleHealthPack extends ActivatableWeaponBase implements IActivata
         super(charges)
     }
 
-    public static const HEALING_POWER:int = 1;
+    public static const HEALING_POWER:int = 5;
 
     public function canActivate(x:uint, y:uint, by:IBomber):Boolean {
         return _charges > 0 && by.life < by.startLife

@@ -20,7 +20,5 @@ public interface ICreatureType {
 
     function get graphicsId():String
 
-    function getViewSpeed(speed:Number):int
-
 }
 }

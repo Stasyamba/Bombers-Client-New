@@ -114,6 +114,10 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
 
 
     private function onWeaponUnitSpent(type:WeaponType):void {
+         if(type.value == Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand.itemType.value) {
+             Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand.itemCount--;
+         }
+
         for (var i:int = 0; i < Context.Model.currentSettings.gameProfile.gotItems.length; i++) {
             var obj:ItemProfileObject = Context.Model.currentSettings.gameProfile.gotItems[i];
             if (obj.itemType.value == type.value) {
@@ -121,7 +125,6 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
                 break
             }
         }
-        Context.Model.dispatchCustomEvent(ContextEvent.GP_CURRENT_LEFT_WEAPON_IS_CHANGED)
         Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED)
         Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED)
         Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_UPDATE_GAME_WEAPONS);

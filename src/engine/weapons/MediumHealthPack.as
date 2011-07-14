@@ -12,7 +12,7 @@ public class MediumHealthPack extends ActivatableWeaponBase implements IActivata
         super(charges)
     }
 
-    public static const HEALING_POWER:int = 2;
+    public static const HEALING_POWER:int = 10;
 
     public function canActivate(x:uint, y:uint, by:IBomber):Boolean {
         return _charges > 0 && by.life < by.startLife

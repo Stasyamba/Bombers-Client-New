@@ -31,7 +31,7 @@ public class RegularMineWeapon extends ActivatableWeaponBase implements IMineWea
     }
 
     public function qActivateStatic(x:int, y:int, by:IBomber):void {
-        EngineContext.qAddObject.dispatch(by.slot, x, y, type)
+        EngineContext.qAddObject.dispatch(by.slot, x, y, type, null)
     }
 
     public function explode():void {

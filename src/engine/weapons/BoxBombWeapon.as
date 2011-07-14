@@ -39,7 +39,7 @@ public class BoxBombWeapon extends ActivatableWeaponBase implements IActivatable
     }
 
     public function qActivateStatic(x:int, y:int,by:IBomber):void {
-        EngineContext.qAddObject.dispatch(by.slot, x, y, BombType.BOX)
+        EngineContext.qAddObject.dispatch(by.slot, x, y, BombType.BOX, null)
     }
 
     public override function get type():WeaponType {
