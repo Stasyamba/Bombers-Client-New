@@ -253,6 +253,7 @@ public class GameModel {
         _questId = null
         _gameId = null;
         isPlayingNow = false
+        Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_MY_PARAMETERS_IS_CHANGED);
         EngineContext.clear()
     }
 
@@ -451,6 +452,7 @@ public class GameModel {
 
     private function onGameEnded(p1:*, p2:*):void {
         isPlayingNow = false
+        Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_MY_PARAMETERS_IS_CHANGED);
         EngineContext.clear();
         readyToPlayAgain.addOnce(onReadyToPlayAgain)
     }

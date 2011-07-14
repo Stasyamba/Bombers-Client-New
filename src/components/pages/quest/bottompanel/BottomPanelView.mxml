@@ -26,15 +26,10 @@
             });
 
             Context.Model.addCustomListener(ContextEvent.GPAGE_MY_PARAMETERS_IS_CHANGED, function (e:ContextEvent):void {
-                if (Context.gameModel.isPlayingNow) 
-				{
-                   /*  mySpeed.count = Context.Model.currentSettings.gameProfile.currentBomberType.getViewSpeed(Context.game.playerManager.me.speed);
-                    myBombsCount.count = Context.game.playerManager.me.baseBombCount;
-                    myWavePower.count = Context.game.playerManager.me.bombPower;
-                    myHealth.count = Context.game.playerManager.me.life; */
-                } else 
-				{
-                    /* updateFromBomberType() */
+                if (Context.gameModel.isPlayingNow) {
+                    params.updateParametersFromGameState()
+                } else {
+                    params.updateParametersFromBomberType()
                 }
             });
 			
@@ -94,7 +89,7 @@
 
 		<flexcomponents:InventoryButton id="inventoryButton" click="openInventory();" />
 		
-		<bottompanel:BombasterParameters />
+		<bottompanel:BombasterParameters id="params" />
 		
 		<s:HGroup width="100%" horizontalAlign="right" paddingRight="20">
 			<s:HGroup verticalAlign="middle">

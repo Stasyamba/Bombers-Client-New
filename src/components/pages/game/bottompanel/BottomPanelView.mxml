@@ -11,29 +11,17 @@
         >
     <fx:Script>
 		<![CDATA[
-		import components.ApplicationView;
-		import engine.bombers.BomberType;
-		import skins.buttons.InventoryButtonS;
-
-			
-			
-        private function init():void 
-		{
+        private function init():void {
 
             Context.Model.addCustomListener(ContextEvent.GPAGE_UPDATE_GAME_WEAPONS, function(e:ContextEvent):void {
                 updateWeapon();
             });
 
             Context.Model.addCustomListener(ContextEvent.GPAGE_MY_PARAMETERS_IS_CHANGED, function (e:ContextEvent):void {
-                if (Context.gameModel.isPlayingNow) 
-				{
-                   /*  mySpeed.count = Context.Model.currentSettings.gameProfile.currentBomberType.getViewSpeed(Context.game.playerManager.me.speed);
-                    myBombsCount.count = Context.game.playerManager.me.baseBombCount;
-                    myWavePower.count = Context.game.playerManager.me.bombPower;
-                    myHealth.count = Context.game.playerManager.me.life; */
-                } else 
-				{
-                    /* updateFromBomberType() */
+                if (Context.gameModel.isPlayingNow) {
+                    params.updateParametersFromGameState()
+                } else {
+                    params.updateParametersFromBomberType()
                 }
             });
 
@@ -41,8 +29,7 @@
             updateWeapon();
         }
 
-        private function updateWeapon():void 
-		{
+        private function updateWeapon():void {
             leftHandWeapon.initContent(Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand);
         }
 
@@ -50,16 +37,13 @@
             //updateFromBomberType()
         }
 
-        private function openInventory():void 
-		{
+        private function openInventory():void {
             Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW);
         }
 
         private function quitTheGame():void {
-          	/* quit the game now! */
+            /* quit the game now! */
         }
-
-
         ]]>
 	</fx:Script>
 
@@ -86,22 +70,20 @@
               paddingLeft="10"
               gap="18">
 
-		<flexcomponents:InventoryButton click="openInventory();" />
-		
-		<bottompanel:BombasterParameters />
-		
-		<s:HGroup width="100%" horizontalAlign="right" paddingRight="20">
-			<s:HGroup verticalAlign="middle">
-				<bottompanel:Weapon id="leftHandWeapon" buttonMode="true" useHandCursor="true"/>
-				<s:VGroup>
-					<s:Label text="X" fontFamily="mpbc" fontSize="14" color="0xffffff"/>
-					<s:Label text="Второе оружие" fontFamily="mpbc" fontSize="12" color="0xa5a5a5"/>
-					
-				</s:VGroup>
-			</s:HGroup>
-		</s:HGroup>
-	
-       	
+        <flexcomponents:InventoryButton click="openInventory();"/>
+
+        <bottompanel:BombasterParameters id="params"/>
+
+        <s:HGroup width="100%" horizontalAlign="right" paddingRight="20">
+            <s:HGroup verticalAlign="middle">
+                <bottompanel:Weapon id="leftHandWeapon" buttonMode="true" useHandCursor="true"/>
+                <s:VGroup>
+                    <s:Label text="X" fontFamily="mpbc" fontSize="14" color="0xffffff"/>
+                    <s:Label text="Второе оружие" fontFamily="mpbc" fontSize="12" color="0xa5a5a5"/>
+
+                </s:VGroup>
+            </s:HGroup>
+        </s:HGroup>
 
 
     </s:HGroup>
