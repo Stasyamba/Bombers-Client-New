@@ -44,11 +44,8 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
         _self.y = (Consts.BLOCK_SIZE - _self.height) / 2
         addChild(_self)
 
-//		_self.setMode(2)
-//        if(_creature color != -1)
-//            _self.setColor(color)
         if (_creature is IBomber) {
-            (_creature as IBomber).color
+            _self.setColor((_creature as IBomber).color.value)
         }
 
         this.x = creature.coords.getRealX();
@@ -163,7 +160,7 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
             case "scaleY":
                 return 1.0;
         }
-        throw Context.Exception("Ошибка в файле CreatureViewBase.as: property " + prop + " is not supported");
+        throw Context.Exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ CreatureViewBase.as: property " + prop + " is not supported");
     }
 }
 }

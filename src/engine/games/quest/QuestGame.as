@@ -121,7 +121,7 @@ public class QuestGame extends GameBase implements IQuestGame {
             //goals
             EngineContext.frameEntered.add(checkFinishOnGoals);
 
-            Context.gameModel.questCompleted.add(onQuestCompleted)
+            Context.gameModel.questCompleted.addOnce(onQuestCompleted)
 
             EngineContext.playerDied.add(onPlayerDied)
             EngineContext.qTimeOut.add(onTimeOut)
@@ -169,6 +169,7 @@ public class QuestGame extends GameBase implements IQuestGame {
     private function onQuestFailed(qfr:QuestFailReason):void {
         //Alert.show(qfr.text);
         Context.gameModel.questCompleted.removeAll()
+        Context.gameModel.questFailed.removeAll()
         TweenMax.delayedCall(2, Context.gameModel.fadeOutGameView.dispatch)
         TweenMax.delayedCall(4, function():void {
             Context.gameModel.questEnded.dispatch(false, [])
@@ -254,6 +255,7 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     private function onQuestCompleted(medals:Array):void {
         //Alert.show("task accomplished with medal " + medal.string);
+        Context.gameModel.questCompleted.removeAll()
         Context.gameModel.questFailed.removeAll()
         TweenMax.delayedCall(2, Context.gameModel.fadeOutGameView.dispatch)
         TweenMax.delayedCall(4, function():void {

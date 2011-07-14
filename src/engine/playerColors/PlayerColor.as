@@ -39,5 +39,9 @@ public class PlayerColor {
     public function get color():uint {
         return _color;
     }
+
+    public function get value():int {
+        return _value
+    }
 }
 }
