@@ -118,8 +118,8 @@ public class CreatureBase {
     }
 
     public function set life(life:int):void {
-        _lifeChanged.dispatch(life - _life)
         _life = life;
+        _lifeChanged.dispatch(life - _life)
     }
 
     public function get isDead():Boolean {

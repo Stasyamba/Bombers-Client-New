@@ -95,7 +95,7 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
         }
         })
 
-//        TweenMax.to(lifePopup, 2, {scaleX:1.5, scaleY:1.5})
+        drawHealthBar()
     }
 
     private function addState(state:ViewState):void {
