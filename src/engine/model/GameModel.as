@@ -218,7 +218,7 @@ public class GameModel {
     private function createQuestGame(questId:String, gameId:String):void {
 
         Context.game = gameBuilder.makeQuest(getQuestObject(questId), gameId);
-        threeSecondsToStart.dispatch(null, 0)
+        threeSecondsToStart.dispatch(null, 0, null)
     }
 
     public function startCurrentQuest():void{
@@ -230,7 +230,7 @@ public class GameModel {
             })
         })
 
-        threeSecondsToStart.addOnce(function(p0:*, p1:*):void {
+        threeSecondsToStart.addOnce(function(p0:*, p1:*,p2:*):void {
             questReady.dispatch()
             TweenMax.delayedCall(3, function():void {
                 questStarted.dispatch();
@@ -420,7 +420,7 @@ public class GameModel {
         lobbyProfiles[lp.slot] = null
     }
 
-    private function onThreeSecondsToStart(data:Array, mapId:int):void {
+    private function onThreeSecondsToStart(data:Array, mapId:int, bonuses:Array):void {
         Context.gameServer.measurePing()
         gameStarted.addOnce(onGameStarted)
 
@@ -429,7 +429,7 @@ public class GameModel {
             var playerGP:PlayerGameProfile = data[i];
             this.playerGameProfiles[playerGP.slot] = playerGP
         }
-        Context.game = gameBuilder.makeRegular(mapId, currentLocation, playerGameProfiles);
+        Context.game = gameBuilder.makeRegular(mapId, currentLocation, playerGameProfiles, bonuses);
         if (Context.game.ready) {
             gameReady.dispatch();
         } else {

@@ -77,7 +77,7 @@ public class SimpleBigObject extends BigObjectBase {
                 block.setState(_mapBlockStateBuilder.make(oldState.typeAfterObjectDestroyed));
 
                 if (oldState.objectAfterObjectDestroyed != DynObjectType.NULL)
-                    EngineContext.objectAdded.dispatch(block.x, block.y, oldState.objectAfterObjectDestroyed)
+                    EngineContext.objectAdded.dispatch(-1, block.x, block.y, oldState.objectAfterObjectDestroyed, null)
             }
         }
         destroyed.dispatch();

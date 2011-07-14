@@ -306,8 +306,8 @@ public class GameServer extends SmartFox {
     public function sendActivateWeapon(x:Number, y:Number, weaponType:WeaponType):void {
         var params:ISFSObject = new SFSObject();
         params.putInt("game.AW.f.t", weaponType.value);
-        params.putInt("x", x*1000);
-        params.putInt("x", y*1000);
+        params.putInt("x", x * 1000);
+        params.putInt("x", y * 1000);
 
         send(new ExtensionRequest(ACTIVATE_WEAPON, params, gameRoom));
     }
@@ -1003,7 +1003,14 @@ public class GameServer extends SmartFox {
             playerGameData.push(new PlayerGameProfile(lp.slot, bType, x, y, auras))
         }
         var mapId:int = responseParams.getInt("game.lobby.3SecondsToStart.fields.MapId");
-        Context.gameModel.threeSecondsToStart.dispatch(playerGameData, mapId);
+        var bonuses:Array = new Array();
+        var bonusArr:ISFSArray = responseParams.getSFSArray("game.lobby.3SecondsToStart.fields.mapObjects");
+        for (var i:int = 0; i < bonusArr.size(); i++) {
+            var obj:ISFSObject = bonusArr.getSFSObject(i);
+            bonuses.push({x:obj.getInt("X"), y:obj.getInt("Y"), type:obj.getInt("T")})
+        }
+
+        Context.gameModel.threeSecondsToStart.dispatch(playerGameData, mapId, bonuses);
     }
 
     private function onDYNAMIC_OBJECT_ADDED(responseParams:ISFSObject):void {
@@ -1016,7 +1023,7 @@ public class GameServer extends SmartFox {
                 slot,
                 responseParams.getInt("game.DOAdd.f.x"),
                 responseParams.getInt("game.DOAdd.f.y"),
-                ot)
+                ot, null)
     }
 
     private function onDYNAMIC_OBJECT_ACTIVATED(responseParams:ISFSObject):void {
@@ -1028,7 +1035,7 @@ public class GameServer extends SmartFox {
         if (sfsArr) {
             for (var i:int = 0; i < sfsArr.size(); i++) {
                 var i1:ISFSObject = sfsArr.getSFSObject(i);
-                destList.push(new Point(i1.getInt("X"), i1.getInt("Y")))
+                destList.push({x: i1.getInt("X"), y: i1.getInt("Y"),isS:i1.getBool("isS")})
             }
         }
         EngineContext.objectActivated.dispatch(

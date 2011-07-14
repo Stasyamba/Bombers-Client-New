@@ -29,6 +29,11 @@ public class MineView extends DynObjectView implements IStatedView {
         this.block.objectCollected.add(onTakenAnimation)
 
         stateManager = new ViewStateManager(this)
+
+        TweenMax.delayedCall(2,function(){
+            if(_defaultAlpha != 0)
+                alpha = 0.2;
+        })
     }
 
 

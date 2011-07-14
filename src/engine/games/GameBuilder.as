@@ -40,12 +40,13 @@ public class GameBuilder {
         throw Context.Exception("Îרטבךא ג פאיכו GameBuilder.as: No more colors")
     }
 
-    public function makeRegular(mapId:int, location:LocationType, playerProfiles:Array):IGame {
+    public function makeRegular(mapId:int, location:LocationType, playerProfiles:Array, bonuses:Array):IGame {
         var game:RegularGame = new RegularGame(location);
         for each (var prof:PlayerGameProfile in playerProfiles) {
             game.addPlayer(prof, getColor(prof.slot))
         }
-        game.applyMap(String(mapId), playerProfiles)
+
+        game.applyMap(String(mapId), playerProfiles, bonuses)
         return game;
     }
 
