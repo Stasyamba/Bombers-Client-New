@@ -57,6 +57,7 @@
 
 	<fx:Script>
 		<![CDATA[
+			import mx.utils.ObjectUtil;
 		import components.pages.world.windows.tutorial.part2.TutorialQuestEndToolTip;
 		import components.common.tutorial.TutorialPartType;
         import components.ApplicationView;
@@ -109,10 +110,12 @@
 			
             if (questResultObject != null) 
 			{
+				Alert.show(ObjectUtil.toString({medals: questResultObject.medals}));
+				
 				var bestMedal: MedalType = MedalType.BRONZE_MEDAL;
 				
 				/* have got new medals */
-				//questResultObject.isNew = true;
+				
 				var medalsAlreadyHaveCount: int = 0;
 				
 				for each(var mt: MedalType in questResultObject.medals)
@@ -120,7 +123,6 @@
 					if(Context.Model.currentSettings.gameProfile.hasMedal(Context.Model.questIdLastOpened, mt))
 					{
 						medalsAlreadyHaveCount++;
-						//questResultObject.isNew = false;
 					}else
 					{
 						if(bestMedal.isLessOrEqual(mt))
@@ -130,7 +132,9 @@
 					}
 				}
 				
-				if (medalsAlreadyHaveCount == questResultObject.medals.length)
+				/* new medals have*/
+				
+				if (medalsAlreadyHaveCount != questResultObject.medals.length)
 				{
 					resultTitleLabel.text = "Новая медаль!";
 					pulseA.play();
