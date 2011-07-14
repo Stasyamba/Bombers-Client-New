@@ -394,7 +394,7 @@ public class GameProfile {
 			
 			if(itemType != null)
 			{
-				if(Context.Model.itemCollectionsManager.getCollection(itemType) != null)
+				if(Context.Model.itemCollectionsManager.getCollection(itemType) == null)
 				{
 					/* not collection part */
 	            	var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
@@ -417,6 +417,7 @@ public class GameProfile {
 			}
         }
 
+		
         var a:int = obj.getInt("AuraOne");
 		var aType:ItemType;
 		
