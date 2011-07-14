@@ -110,7 +110,6 @@
 			
             if (questResultObject != null) 
 			{
-				Alert.show(ObjectUtil.toString({medals: questResultObject.medals}));
 				
 				var bestMedal: MedalType = MedalType.BRONZE_MEDAL;
 				

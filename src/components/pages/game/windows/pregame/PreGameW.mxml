@@ -75,6 +75,8 @@
 			
 			private function panelCreationComplete():void 
 			{
+				Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, true);
+				
 				apearingAnimation.play();
 				
 				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);

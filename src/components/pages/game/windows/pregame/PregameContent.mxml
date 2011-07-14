@@ -60,6 +60,13 @@
 			
 			public function setReady(): void
 			{
+				/* на этом этапе мы точно знаем что у игрока есть энергия */
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, false);
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_CLOSE);
+				
+				/* server request */
+				
 				readyTimer.stop();
 				readyTimer.reset();
 				
