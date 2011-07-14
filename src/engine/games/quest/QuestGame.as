@@ -179,7 +179,15 @@ public class QuestGame extends GameBase implements IQuestGame {
     private function onPlayerDied():void {
         if (!Context.gameModel.isPlayingNow) return;
         Context.gameModel.isPlayingNow = false;
-        Context.gameModel.questFailed.dispatch(QuestFailReason.DEATH)
+
+        if (_questObject.finishOnGoal)
+            Context.gameModel.questFailed.dispatch(QuestFailReason.DEATH)
+        else {
+            if (_currentMedals.length > 0)
+                Context.gameModel.questCompleted.dispatch(_currentMedals)
+            else
+                Context.gameModel.questFailed.dispatch(QuestFailReason.TIME)
+        }
     }
 
 
