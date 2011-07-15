@@ -450,7 +450,7 @@ public class GameModel {
         gameEnded.addOnce(onGameEnded);
     }
 
-    private function onGameEnded(p1:*, p2:*):void {
+    private function onGameEnded():void {
         isPlayingNow = false
         Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_MY_PARAMETERS_IS_CHANGED);
         EngineContext.clear();
@@ -463,6 +463,14 @@ public class GameModel {
 
     public function getLobbyProfileById(id:String):LobbyProfile {
         for each (var lp:LobbyProfile in lobbyProfiles) {
+            if (lp != null && lp.id == id)
+                return lp
+        }
+        return null
+    }
+
+    public function getLastLobbyProfileById(id:String):LobbyProfile {
+        for each (var lp:LobbyProfile in lastGameLobbyProfiles) {
             if (lp != null && lp.id == id)
                 return lp
         }

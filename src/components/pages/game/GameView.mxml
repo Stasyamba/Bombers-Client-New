@@ -57,7 +57,7 @@
                     unsubscribeEnterFrameEvent();
             })
             //listener'll be removed in gameModel
-            Context.gameModel.gameEnded.add(function (winnerId:String, winnerExp:int):void {
+            Context.gameModel.gameEnded.add(function ():void {
                 endGame();
 				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW);
             });

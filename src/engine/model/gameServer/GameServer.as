@@ -47,7 +47,6 @@ import engine.utils.Direction
 import engine.weapons.WeaponType
 
 import flash.events.TimerEvent
-import flash.geom.Point
 import flash.utils.Timer
 
 import greensock.TweenMax
@@ -588,22 +587,22 @@ public class GameServer extends SmartFox {
                 if (lp != null) {
                     slot = lp.slot
                     EngineContext.someoneDied.dispatch(slot);
-                    if (Context.gameModel.isMySlot(slot)) {
-                        updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
-                        Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("Experience")
-                        return
-                    }
+//                    if (Context.gameModel.isMySlot(slot)) {
+//                        updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
+//                        Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("Experience")
+//                        return
+//                    }
                 } else {
-                    for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
-                        if (lobbyProfile != null) {
-                            if (lobbyProfile.id == responseParams.getUtfString("UserId")) {
-                                slot = lobbyProfile.slot
-                                break
-                            }
-                        }
-                    }
+//                    for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
+//                        if (lobbyProfile != null) {
+//                            if (lobbyProfile.id == responseParams.getUtfString("UserId")) {
+//                                slot = lobbyProfile.slot
+//                                break
+//                            }
+//                        }
+//                    }
                 }
-                updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
+//                updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
                 break;
 
             case DEATH_WALL_APPEARED:
@@ -613,18 +612,24 @@ public class GameServer extends SmartFox {
                 break;
 
             case GAME_ENDED:
-                var wId:String = responseParams.getUtfString("game.gameEnded.WinnerId")
-                var wExp:int = responseParams.getInt("game.gameEnded.WinnerExperience")
-                slot = Context.gameModel.getLobbyProfileById(wId).slot
-                updLobbyExperience(slot, 1, wExp)
-                if (Context.gameModel.isMySlot(slot)) {
-                    Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("game.gameEnded.WinnerExperience")
+//                var wId:String = responseParams.getUtfString("game.gameEnded.WinnerId")
+//                var wExp:int = responseParams.getInt("game.gameEnded.WinnerExperience")
+//                slot = Context.gameModel.getLobbyProfileById(wId).slot
+//                updLobbyExperience(slot, 1, wExp)
+//                if (Context.gameModel.isMySlot(slot)) {
+//                    Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("game.gameEnded.WinnerExperience")
+//                }
+
+                var arr:ISFSArray = responseParams.getSFSArray("expProfiles");
+                for (var i:int = 0; i < arr.size(); i++) {
+                    var objP:ISFSObject = arr.getSFSObject(i);
+                    var slot:int = Context.gameModel.getLastLobbyProfileById(objP.getUtfString("Id")).slot
+                    updLobbyExperience(slot, objP.getInt("Rank"), objP.getInt("Experience"))
                 }
                 TweenMax.delayedCall(3.0, function ():void {
-                    Context.gameModel.gameEnded.dispatch(wId, wExp)
+                    Context.gameModel.gameEnded.dispatch()
                 })
-                var arr:ISFSArray = responseParams.getSFSArray("profiles");
-                Context.gameModel.lobbyProfiles = getLobbyProfilesFromSFSArray(arr)
+//                Context.gameModel.lobbyProfiles = getLobbyProfilesFromSFSArray(arr)
                 break;
 
             case INT_GAME_PROFILE_LOADED:

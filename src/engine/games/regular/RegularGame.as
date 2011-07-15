@@ -93,7 +93,7 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
 
     }
 
-    private function onEndedGE(p1:*, p2:*):void {
+    private function onEndedGE():void {
         destroy()
         Context.gameModel.leftGame.remove(onEndedLG)
     }
