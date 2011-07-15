@@ -57,7 +57,6 @@
             closeTimer.stop();
 
             Context.Model.addCustomListener(ContextEvent.GP_EXPERIENCE_CHANGED, function (e:ContextEvent):void {
-                //setExpirance(int(e.data));
 				setExpirance(Context.Model.currentSettings.gameProfile.experience);
             });
 

@@ -92,8 +92,6 @@
 			
 			import mx.managers.PopUpManager;
 			
-			[Bindable] public var currentExpeiance: int;
-			
 			public function close():void {
 				
 				PopUpManager.removePopUp(this);
