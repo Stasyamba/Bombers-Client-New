@@ -28,7 +28,10 @@
 
              jgw.y -= 100; */
 			if(Context.gameModel.isPlayingNow)
+			{
 				return;
+			}
+			
             Context.gameModel.fastJoin();
 			
             Context.gameModel.someoneJoinedToGame.addOnce(function (p1:*):void {

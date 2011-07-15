@@ -105,7 +105,12 @@
 			import components.common.utils.adjustcolor.ColorMatrix;
 			import components.common.utils.adjustcolor.ColorMatrixObject;
 			
+			import greensock.TweenMax;
+			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			
+			import spark.events.IndexChangeEvent;
 
 		private var isBlockedForTime: Boolean = false;
 
@@ -306,8 +311,30 @@
             resourceAmount.text = amount.toString();
         }
 			
-		public function resourceBuying():void	
+		public function resourceBuying(e: IndexChangeEvent):void	
 		{
+			var resourceVotePrice: int = (pricesCollection[e.newIndex] as ResourceCostView).votes;
+			var resourceAmount: int = (pricesCollection[e.newIndex] as ResourceCostView).amount;
+			var resourceType: ResourceType = (pricesCollection[e.newIndex] as ResourceCostView).type;
+				
+			if(Context.Model.currentSettings.votes < resourceVotePrice)
+			{
+				(parentApplication as Bombers).setAFBAction(Bombers.AFB_BUY_RESOURCE, resourceType, resourceAmount);
+				
+				Context.Model.dispatchCustomEvent(
+					ContextEvent.VK_SHOW_VOTE_CONTROL, 
+					resourceVotePrice - Context.Model.currentSettings.votes
+				);
+				
+			}else
+			{	
+				var rp: ResourcePrice = new ResourcePrice(0,0,0,0);
+				rp.setResourceValue(resourceType, resourceAmount);
+				
+				Context.gameServer.sendBuyResourcesRequest(rp);
+				
+			}
+			
 			resourcePopUp.displayPopUp = false;
 			resourcePriceList.selectedIndex = -1;
 		}
@@ -445,7 +472,7 @@
 				<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" paddingTop="-10">
 					<s:List id="resourcePriceList" dataProvider="{pricesCollection}" itemRenderer="components.pages.world.toppanel.resources.ResourceCostIR"
 							borderVisible="false" contentBackgroundAlpha="0"
-							change="resourceBuying();"
+							change="resourceBuying(event);"
 							>
 						<s:layout>
 							<s:VerticalLayout requestedRowCount="3" gap="1" horizontalAlign="center" />
