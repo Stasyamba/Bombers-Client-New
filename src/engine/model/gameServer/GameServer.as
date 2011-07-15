@@ -682,23 +682,10 @@ public class GameServer extends SmartFox {
                     //gp
                     var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
                     profileLoaded.dispatch(gp);
+					
+					Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
 
-                    /* testing */
-                    /*Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.AURA_FIRE, 1));
-
-                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
-                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_BOOTS, 3));
-                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-                     Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));
-                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_GLOVES, 1));*/
-                    /*	Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));
-                     Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_CAP, 5));*/
-
-
-                    //Context.Model.currentSettings.gameProfile.gotItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-                    //Context.Model.currentSettings.gameProfile.packItems.push(new ItemProfileObject(ItemType.PART_MAGIC_SNOW, 1));
-
+					/* testing */
                     var appFriendsArr:Array = new Array();
                     var gp3:GameProfile = new GameProfile();
                     gp3.id = "1";
@@ -739,6 +726,8 @@ public class GameServer extends SmartFox {
 
                     /* locations */
                     Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
+					
+					
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);
@@ -829,6 +818,12 @@ public class GameServer extends SmartFox {
                 if (lp != null)
                     lp.isReady = ready;
                 Context.gameModel.playerReadyChanged.dispatch();
+				
+				//params.putInt("NewEnergy", energy);
+				
+				Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("NewEnergy");
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+				
                 break;
 
             case INT_QUEST_START_RESULT:
@@ -906,9 +901,10 @@ public class GameServer extends SmartFox {
                 break;
 
             case INT_SET_TUTORIAL_PART_RESULT:
-
-                // interface.setTrainingStatus.result.f.youNewExperience
-
+				
+				Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("interface.setTrainingStatus.result.f.youNewExperience");
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+				
                 break;
         }
     }

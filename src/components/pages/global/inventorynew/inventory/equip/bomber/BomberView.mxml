@@ -15,6 +15,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import engine.bombers.BomberType;
 			
 			public function initContent(bomberParams: BomberParams): void
 			{
@@ -22,21 +23,61 @@
 			
 			public function destory():void
 			{
-				Context.Model.removeCustomEventListener(ContextEvent.BOMBER_CHANGED,refreshBomberImage);
+				Context.Model.removeCustomEventListener(ContextEvent.BOMBER_CHANGED,refreshBomberView);
 			}
 			
 			private function init(): void
 			{
-				Context.Model.addCustomListener(ContextEvent.BOMBER_CHANGED,refreshBomberImage);
+				Context.Model.addCustomListener(ContextEvent.BOMBER_CHANGED,refreshBomberView);
 				
-				refreshBomberImage(null);
+				refreshBomberView(null);
 			}
 			
-			private function refreshBomberImage(e:ContextEvent): void
+			private function refreshBomberView(e:ContextEvent): void
 			{
 				if(Context.Model.currentSettings.gameProfile != null)
 				{
 					bomberImage.source = Context.Model.bomberManager.getBomber(Context.Model.currentSettings.gameProfile.currentBomberType).viewObject.bigImageURL;
+				
+					/* refresh parameters */
+					
+					
+					healthLabel.text = (Context.Model.currentSettings.gameProfile.lifeAuraBonus + Context.Model.currentSettings.gameProfile.startLife).toString();
+					speedLabel.text = (BomberType.getViewSpeed(Context.Model.currentSettings.gameProfile.speed + Context.Model.currentSettings.gameProfile.speedAuraBonus)).toString();
+					waveLabel.text = (Context.Model.currentSettings.gameProfile.bombPower + Context.Model.currentSettings.gameProfile.bombPowerAuraBonus).toString();
+					bombsCountLabel.text = (Context.Model.currentSettings.gameProfile.bombCount + Context.Model.currentSettings.gameProfile.bombCountAuraBonus).toString();
+					
+					if(Context.Model.currentSettings.gameProfile.lifeAuraBonus != 0)
+					{
+						healthLabel.setStyle("color", 0xfff000);
+					}else
+					{
+						healthLabel.setStyle("color", 0xebebeb);
+					}
+					
+					if(Context.Model.currentSettings.gameProfile.speedAuraBonus != 0)
+					{
+						speedLabel.setStyle("color", 0xfff000);
+					}else
+					{
+						speedLabel.setStyle("color", 0xebebeb);
+					}
+					
+					if(Context.Model.currentSettings.gameProfile.bombCountAuraBonus != 0)
+					{
+						bombsCountLabel.setStyle("color", 0xfff000);
+					}else
+					{ 
+						bombsCountLabel.setStyle("color", 0xebebeb);
+					}
+					
+					if(Context.Model.currentSettings.gameProfile.bombPowerAuraBonus != 0)
+					{
+						waveLabel.setStyle("color", 0xfff000);
+					}else
+					{ 
+						waveLabel.setStyle("color", 0xebebeb);
+					}
 				}
 			}
 			
@@ -49,7 +90,7 @@
 				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/health.png')" />
 				<s:HGroup width="17" height="17" x="25" y="8"
 						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="70" fontFamily="mpbc" fontSize="14" color="0xfff000" />
+					<s:Label id="healthLabel" text="70" fontFamily="mpbc" fontSize="14" color="0xfff000" />
 				</s:HGroup>
 			</s:Group>
 			
@@ -57,7 +98,7 @@
 				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/speed.png')" />
 				<s:HGroup width="17" height="17" x="25" y="8"
 						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="9" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+					<s:Label id="speedLabel" text="9" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
 				</s:HGroup>
 			</s:Group>
 			
@@ -65,7 +106,7 @@
 				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/waveSize.png')" />
 				<s:HGroup width="17" height="17" x="25" y="8"
 						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+					<s:Label id="waveLabel" text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
 				</s:HGroup>
 			</s:Group>
 			
@@ -73,7 +114,7 @@
 				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/bombsCount.png')" />
 				<s:HGroup width="17" height="17" x="25" y="8"
 						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="7" fontFamily="mpbc" fontSize="14" color="0xfff000" />
+					<s:Label id="bombsCountLabel" text="7" fontFamily="mpbc" fontSize="14" color="0xfff000" />
 				</s:HGroup>
 			</s:Group>
 			
@@ -84,7 +125,7 @@
 				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/defenceBg.png')" />
 				<s:HGroup width="17" height="17" x="30" y="13"
 						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="7" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+					<s:Label text="0" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
 				</s:HGroup>
 			</s:Group>
 			
@@ -92,7 +133,7 @@
 				<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/damageBg.png')" />
 				<s:HGroup width="11" height="17" x="59" y="11"
 						  horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="17" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+					<s:Label text="5" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
 				</s:HGroup>
 			</s:Group>
 		</s:VGroup>

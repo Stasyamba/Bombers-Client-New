@@ -369,6 +369,7 @@ public class GameProfile {
         res.energy = obj.getInt("Energy");
         res.currentBomberType = BomberType.byValue(obj.getInt("BomberId"));
         //res.selectedWeaponRightHand = new ItemProfileObject(res.currentBomberType.baseBomb, -1);
+		
 
         var medArr:ISFSArray = obj.getSFSArray("Medals");
         for (var i:int = 0; i < medArr.size(); i++) {

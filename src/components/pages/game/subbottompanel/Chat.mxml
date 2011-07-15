@@ -90,11 +90,18 @@
             updateScrollPosition()
         }
 
-        private function onSend(event:MouseEvent):void {
-            if (messageText.text.length > 0) {
+        private function onSend(event:MouseEvent):void 
+		{	
+			/* if(Context.gameModel.isPlayingNow && !Context.game.playerManager.me.isDead)
+			{
+				
+			} */
+			
+            if (messageText.text.length > 0) 
+			{
 
                 Context.gameServer.sendInGameMessage(messageText.text)
-                messageText.setFocus();
+                //messageText.setFocus();
                 messageText.text = "";
                 updateScrollPosition()
                 //chatTextArea.verticalScrollPosition = chatTextArea.maxVerticalScrollPosition;
@@ -106,6 +113,14 @@
                 chatTextArea.verticalScrollPosition = chatTextArea.maxVerticalScrollPosition;
             })
         }
+		
+		private function setGameFocusGroup():void
+		{
+			/* if(Context.gameModel.isPlayingNow && !Context.game.playerManager.me.isDead)
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_SET_GAME_FOCUS);
+			} */
+		}
         ]]>
 	</fx:Script>
 
@@ -119,6 +134,7 @@
     <s:HGroup height="32" verticalAlign="middle">
         <s:TextInput id="messageText" width="567" borderColor="0x999999" contentBackgroundColor="0x000000" alpha="0.37"
                      focusSkin="skins.common.NoFocusS" color="0xffffff" fontFamily="mpbc" fontSize="14"
+					 focusIn="setGameFocusGroup();"
                 />
         <s:HGroup gap="0" verticalAlign="middle">
             <s:Button id="send" width="50" click="onSend(event);" skinClass="skins.buttons.SendChatButtonS"
