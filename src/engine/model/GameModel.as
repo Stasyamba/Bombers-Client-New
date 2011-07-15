@@ -244,7 +244,7 @@ public class GameModel {
             taskSignal.addOnce(function():void {
                 createQuestGame(_questId, _gameId)
             })
-            BombersContentLoader.addTask(taskSignal, [currentLocation.stringId,"bombers","common"])
+            BombersContentLoader.addTask(taskSignal, [currentLocation.stringId,"common"])
 
         }
     }

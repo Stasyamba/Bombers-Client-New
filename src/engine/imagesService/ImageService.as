@@ -51,10 +51,10 @@ public class ImageService {
     public function loadedObject(id:String):LoadedObject {
         var res:LoadedObject = loadedStuff[id]
         if (res == null) {
-            throw Context.Exception("Îרטבךא ג פאיכו ImageService.as: Object " + id + " was not found")
+            throw Context.Exception("Error in file ImageService.as: Object " + id + " was not found")
         }
         if (!res.loaded) {
-            throw Context.Exception("Îרטבךא ג פאיכו ImageService.as: Object " + id + " is not yet loaded")
+            throw Context.Exception("Error in file ImageService.as: Object " + id + " is not yet loaded")
         }
         return res
     }
@@ -65,7 +65,7 @@ public class ImageService {
         }
         var res:LoadedObject = loadedStuff[id]
         if (res == null) {
-            throw Context.Exception("Îרטבךא ג פאיכו ImageService.as: Object " + id + " was not found")
+            throw Context.Exception("Error in file ImageService.as: Object " + id + " was not found")
         }
         return res.loaded
     }
@@ -106,7 +106,7 @@ public class ImageService {
     //todo:add variety support
     public function mapBlock(blockType:MapBlockType, locationType:LocationType):Sprite {
         if (!blockType.draws)
-            throw Context.Exception("Îרטבךא ג פאיכו ImageService.as: no image for not drawn block " + blockType.key)
+            throw Context.Exception("Error in file ImageService.as: no image for not drawn block " + blockType.key)
         var lo:LoadedObject;
         var res:Sprite;
         if (blockType.graphicsName == MapBlockType.DEFAULT_GRAPHICS_NAME) {
@@ -171,7 +171,7 @@ public class ImageService {
 
     public function dieExplosion(index:int):BitmapData {
         if (index < 0 || index > 2)
-            throw Context.Exception("Îרטבךא ג פאיכו ImageService.as: wrong die explosion index");
+            throw Context.Exception("Error in file ImageService.as: wrong die explosion index");
         return loadedObject("common.explosions.die" + index).content.bitmapData as BitmapData
     }
 

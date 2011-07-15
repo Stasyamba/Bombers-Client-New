@@ -49,7 +49,7 @@ public class Direction {
             case 4:
                 return DOWN;
         }
-        throw Context.Exception("Îרטבךא ג פאיכו Direction.as: Invalid direction value");
+        throw Context.Exception("Error in file Direction.as: Invalid direction value");
     }
 
     public static function random():Direction {

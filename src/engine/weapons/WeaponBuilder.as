@@ -29,7 +29,7 @@ public class WeaponBuilder {
             case WeaponType.SMOKE_BOMB_WEAPON:
                 return new SmokeBombWeapon(_mapManager, charges)
         }
-        throw Context.Exception("Îרטבךא ג פאיכו WeaponBuilder.as: unknown special bomb type");
+        throw Context.Exception("Error in file WeaponBuilder.as: unknown special bomb type");
     }
 
     public function makePotion(duration:Number, charges:int, type:WeaponType):IActivatableWeapon {
@@ -41,7 +41,7 @@ public class WeaponBuilder {
             case WeaponType.MEDIUM_HEALTH_PACK_WEAPON:
                 return new MediumHealthPack(charges)
         }
-        throw Context.Exception("Îרטבךא ג פאיכו WeaponBuilder.as: unknown potion type")
+        throw Context.Exception("Error in file WeaponBuilder.as: unknown potion type")
     }
 
     public function makeMine(charges:int, type:WeaponType):IMineWeapon {
@@ -49,7 +49,7 @@ public class WeaponBuilder {
             case WeaponType.REGULAR_MINE:
                 return new RegularMineWeapon(charges, _mapManager)
         }
-        throw Context.Exception("Îרטבךא ג פאיכו WeaponBuilder.as: unknown mine type")
+        throw Context.Exception("Error in file WeaponBuilder.as: unknown mine type")
     }
 
     public function fromItemType(itemType:ItemType, itemCount:int):IWeapon {
@@ -72,7 +72,7 @@ public class WeaponBuilder {
             case WeaponType.REGULAR_MINE:
                 return makeMine(count, weaponType)
         }
-        throw Context.Exception("Îרטבךא ג פאיכו WeaponBuilder.as: unknown weapon type " + weaponType.key)
+        throw Context.Exception("Error in file WeaponBuilder.as: unknown weapon type " + weaponType.key)
     }
 }
 }

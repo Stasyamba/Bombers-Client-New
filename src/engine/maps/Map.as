@@ -76,7 +76,7 @@ public class Map extends MapBase implements IMap {
                     lowerBigObjects.push(bo);
                     break
                 default:
-                    throw Context.Exception("Îרטבךא ג פאיכו Map.as: impossible case")
+                    throw Context.Exception("Error in file Map.as: impossible case")
             }
         }
         //resolve activators links
@@ -85,7 +85,7 @@ public class Map extends MapBase implements IMap {
             if (bo is BigObjectActivator) {
                 var target:ActivatedBigObject = getBO(bObj.@target) as ActivatedBigObject
                 if (target == null) {
-                    throw Context.Exception("Îרטבךא ג פאיכו Map.as: couldn't find target with id = " + bObj.@target)
+                    throw Context.Exception("Error in file Map.as: couldn't find target with id = " + bObj.@target)
                 }
                 (bo as BigObjectActivator).setTarget(target)
             }

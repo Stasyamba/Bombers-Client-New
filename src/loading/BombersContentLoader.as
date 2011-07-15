@@ -392,6 +392,8 @@ public class BombersContentLoader {
             taskObj[id] = Context.imageService.isLoaded(id)
             if (!taskObj[id]) {
                 var ldr:LoaderCore = LoaderMax.getLoader(id)
+                if (ldr == null)
+                    throw Context.Exception("Error in file BombersContentLoader.as: no loader with id = " + id)
                 if (ldr.status == LoaderStatus.COMPLETED) //'completed' already fired but not handled
                     taskObj[id] = true
                 else

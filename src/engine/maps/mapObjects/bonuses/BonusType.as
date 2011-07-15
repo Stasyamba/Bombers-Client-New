@@ -28,7 +28,7 @@ public class BonusType extends DynObjectType implements IDynObjectType {
             return bt.value == value
         })[0]
         if(r) return r;
-        throw Context.Exception("Îרטבךא ג פאיכו BonusType.as: wrong bonus type value")
+        throw Context.Exception("Error in file BonusType.as: wrong bonus type value")
     }
 
 

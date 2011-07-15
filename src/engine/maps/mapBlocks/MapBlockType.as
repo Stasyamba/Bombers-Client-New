@@ -71,7 +71,7 @@ public class MapBlockType {
             case "ELECTRO_HOR":return ELECTRO_HOR;
             case "ELECTRO_VERT":return ELECTRO_VERT;
         }
-        throw Context.Exception("Îרטבךא ג פאיכו MapBlockType.as: invalid key value " + key)
+        throw Context.Exception("Error in file MapBlockType.as: invalid key value " + key)
     }
 
     public static function fromChar(ch:uint):MapBlockType {
@@ -88,7 +88,7 @@ public class MapBlockType {
             case d: return FRAGILE_WALL;
             case u: return UNDER_BIG_OBJECT;
         }
-        throw Context.Exception("Îרטבךא ג פאיכו MapBlockType.as: Invalid block type char");
+        throw Context.Exception("Error in file MapBlockType.as: Invalid block type char");
     }
 
     public function get draws():Boolean {

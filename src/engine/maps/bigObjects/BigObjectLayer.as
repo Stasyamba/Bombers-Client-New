@@ -25,7 +25,7 @@ public class BigObjectLayer {
             case HIGHER._value:
                 return HIGHER
         }
-        throw Context.Exception("Îרטבךא ג פאיכו BigObjectLayer.as: no layer with name" + id)
+        throw Context.Exception("Error in file BigObjectLayer.as: no layer with name" + id)
     }
 }
 }

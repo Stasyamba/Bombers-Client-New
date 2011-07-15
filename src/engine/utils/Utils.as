@@ -36,12 +36,12 @@ public class Utils {
             case Keyboard.DOWN:
                 return Direction.DOWN;
         }
-        throw Context.Exception("Ошибка в файле Utils.as: Argument Code is not a valid keyboard arrow code");
+        throw Context.Exception("Error in file Utils.as: Argument Code is not a valid keyboard arrow code");
     }
 
     public static function between(x1:Number, arg:Number, x2:Number):Boolean {
         if (x2 < x1) {
-            throw Context.Exception("Ошибка в файле Utils.as: x1 must be less or equal than x2");
+            throw Context.Exception("Error in file Utils.as: x1 must be less or equal than x2");
         }
         return arg <= x2 && arg >= x1;
     }
