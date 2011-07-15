@@ -63,7 +63,7 @@ public class DynObjectManager implements IDynObjectManager {
     public function activateObject(x:int, y:int, player:IBomber):void {
         var object:IDynObject = getObjectAt(x, y);
         if (object == null) {
-            trace("OH MY GOD!!! NO OBJECT AT " + x + "," + y)
+            throw Context.Exception("SERVER ERROR: No object to activate at (" + x + "," + y + ").")
         }
         object.activateOn(player)
 
