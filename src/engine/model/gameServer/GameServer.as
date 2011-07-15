@@ -752,8 +752,8 @@ public class GameServer extends SmartFox {
                         )
 
                         Context.Model.currentSettings.gameProfile.resources = rp.clone();
-                        Context.Model.dispatchCustomEvent(ContextEvent.RS_BUY_SUCCESS, rp)
-                        Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED)
+						
+                        Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
                     } else {
 
                         Context.Model.currentSettings.gameProfile.energy = en;
