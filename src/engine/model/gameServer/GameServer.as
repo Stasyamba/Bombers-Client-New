@@ -4,57 +4,57 @@
  */
 
 package engine.model.gameServer {
-import com.smartfoxserver.v2.SmartFox
-import com.smartfoxserver.v2.core.SFSEvent
-import com.smartfoxserver.v2.entities.Room
-import com.smartfoxserver.v2.entities.data.ISFSArray
-import com.smartfoxserver.v2.entities.data.ISFSObject
-import com.smartfoxserver.v2.entities.data.SFSObject
-import com.smartfoxserver.v2.requests.ExtensionRequest
-import com.smartfoxserver.v2.requests.JoinRoomRequest
-import com.smartfoxserver.v2.requests.LeaveRoomRequest
-import com.smartfoxserver.v2.requests.LoginRequest
-import com.smartfoxserver.v2.requests.PublicMessageRequest
+import com.smartfoxserver.v2.SmartFox;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.requests.ExtensionRequest;
+import com.smartfoxserver.v2.requests.JoinRoomRequest;
+import com.smartfoxserver.v2.requests.LeaveRoomRequest;
+import com.smartfoxserver.v2.requests.LoginRequest;
+import com.smartfoxserver.v2.requests.PublicMessageRequest;
 
-import components.common.base.access.rules.levelrule.AccessLevelRule
-import components.common.base.expirance.ExperianceObject
-import components.common.base.market.ItemMarketObject
-import components.common.bombers.BomberType
-import components.common.friendslent.FriendObject
-import components.common.items.ItemObject
-import components.common.items.ItemType
-import components.common.quests.QuestObject
-import components.common.quests.medals.MedalType
-import components.common.quests.regard.RegardObject
-import components.common.quests.regard.RegardType
-import components.common.resources.ResourcePrice
-import components.common.tutorial.TutorialPartType
-import components.common.worlds.locations.LocationType
+import components.common.base.access.rules.levelrule.AccessLevelRule;
+import components.common.base.expirance.ExperianceObject;
+import components.common.base.market.ItemMarketObject;
+import components.common.bombers.BomberType;
+import components.common.friendslent.FriendObject;
+import components.common.items.ItemObject;
+import components.common.items.ItemType;
+import components.common.quests.QuestObject;
+import components.common.quests.medals.MedalType;
+import components.common.quests.regard.RegardObject;
+import components.common.quests.regard.RegardType;
+import components.common.resources.ResourcePrice;
+import components.common.tutorial.TutorialPartType;
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.bombers.MoveTickObject
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.mapObjects.DynObjectType
-import engine.model.signals.InGameMessageReceivedSignal
-import engine.model.signals.ProfileLoadedSignal
-import engine.model.signals.manage.GameServerConnectedSignal
-import engine.model.signals.manage.LoggedInSignal
-import engine.profiles.GameProfile
-import engine.profiles.LobbyProfile
-import engine.profiles.PlayerGameProfile
-import engine.utils.Direction
-import engine.weapons.WeaponType
+import engine.EngineContext;
+import engine.bombers.MoveTickObject;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.mapObjects.DynObjectType;
+import engine.model.signals.InGameMessageReceivedSignal;
+import engine.model.signals.ProfileLoadedSignal;
+import engine.model.signals.manage.GameServerConnectedSignal;
+import engine.model.signals.manage.LoggedInSignal;
+import engine.profiles.GameProfile;
+import engine.profiles.LobbyProfile;
+import engine.profiles.PlayerGameProfile;
+import engine.utils.Direction;
+import engine.weapons.WeaponType;
 
-import flash.events.TimerEvent
-import flash.utils.Timer
+import flash.events.TimerEvent;
+import flash.utils.Timer;
 
-import greensock.TweenMax
+import greensock.TweenMax;
 
-import mx.controls.Alert
-import mx.utils.ObjectUtil
+import mx.controls.Alert;
+import mx.utils.ObjectUtil;
 
-import org.osflash.signals.Signal
+import org.osflash.signals.Signal;
 
 public class GameServer extends SmartFox {
 
@@ -744,26 +744,27 @@ public class GameServer extends SmartFox {
                 var status:Boolean = responseParams.getBool("interface.buyResources.result.fields.status")
                 if (!status) {
                     Context.Model.dispatchCustomEvent(ContextEvent.RS_BUY_FAILED)
-                    return
+                    return;
                 } else {
+					//Alert.show("Got event");
+					
                     var en:int = responseParams.getInt("interface.buyResources.result.fields.resourceType4");
 
-                    if (en == 0) {
-                        var rp:ResourcePrice = new ResourcePrice(
-                                responseParams.getInt("interface.buyResources.result.fields.resourceType0"),
-                                responseParams.getInt("interface.buyResources.result.fields.resourceType1"),
-                                responseParams.getInt("interface.buyResources.result.fields.resourceType2"),
-                                responseParams.getInt("interface.buyResources.result.fields.resourceType3")
-                        )
+                    var rp:ResourcePrice = new ResourcePrice(
+                            responseParams.getInt("interface.buyResources.result.fields.resourceType0"),
+                            responseParams.getInt("interface.buyResources.result.fields.resourceType1"),
+                            responseParams.getInt("interface.buyResources.result.fields.resourceType2"),
+                            responseParams.getInt("interface.buyResources.result.fields.resourceType3")
+                    )
 
-                        Context.Model.currentSettings.gameProfile.resources = rp.clone();
-						
-                        Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
-                    } else {
-
-                        Context.Model.currentSettings.gameProfile.energy = en;
-                        Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
-                    }
+                    Context.Model.currentSettings.gameProfile.resources = rp.clone(); 
+					
+					//Alert.show(rp.toString());
+					
+                    Context.Model.currentSettings.gameProfile.energy = en;
+                    Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+                    Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
+					
                 }
                 break;
 
@@ -785,7 +786,7 @@ public class GameServer extends SmartFox {
                         responseParams.getInt("interface.buyItem.result.fields.resourceType2"),
                         responseParams.getInt("interface.buyItem.result.fields.resourceType3")
                 );
-
+				
                 Context.Model.currentSettings.gameProfile.addItem(iType, count);
                 Context.Model.currentSettings.gameProfile.resources.setFrom(rp);
 

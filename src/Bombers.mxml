@@ -165,9 +165,13 @@
 			
 			private function setDefaultModalStyle(e: ContextEvent): void
 			{
-				parentApplication.setStyle("modalTransparencyBlur",3);
+				/* parentApplication.setStyle("modalTransparencyBlur",3);
 				parentApplication.setStyle("modalTransparency",0.5);
-				parentApplication.setStyle("modalTransparencyColor",0x000000);
+				parentApplication.setStyle("modalTransparencyColor",0x000000); */
+				
+				this.setStyle("modalTransparencyBlur",3);
+				this.setStyle("modalTransparency",0.5);
+				this.setStyle("modalTransparencyColor",0x000000);
 			}
 			
 			override protected function onAddedToStage(e:Event):void {
