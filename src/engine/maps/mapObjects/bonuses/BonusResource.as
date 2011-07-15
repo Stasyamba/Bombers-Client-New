@@ -21,7 +21,7 @@ public class BonusResource extends BonusBase implements ICollectableDynObject {
     }
 
     public override function activateOn(player:IBomber):void {
-        throw Context.Exception("Îרטבךא ג פאיכו BonusResource.as:implement adding resources")
+        throw Context.Exception("Error in file BonusResource.as:implement adding resources")
     }
 
     public function get type():IDynObjectType {

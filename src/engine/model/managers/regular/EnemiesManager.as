@@ -17,15 +17,15 @@ public class EnemiesManager extends EnemiesManagerBase implements IEnemiesManage
     }
 
     public function addMonster(monster:Monster):void {
-        throw Context.Exception("Îרטבךא ג פאיכו EnemiesManager.as: can't add monster to regular enemies manager")
+        throw Context.Exception("Error in file EnemiesManager.as: can't add monster to regular enemies manager")
     }
 
     public function checkEnemiesMetExplosion(e:IExplosion):void {
-        throw Context.Exception("Îרטבךא ג פאיכו EnemiesManager.as: checkEnemiesMetExplosion call is not allowed")
+        throw Context.Exception("Error in file EnemiesManager.as: checkEnemiesMetExplosion call is not allowed")
     }
 
     public function checkEnemyTakenObject(enemie:IEnemyBomber, object:IDynObject):Boolean {
-        throw Context.Exception("Îרטבךא ג פאיכו EnemiesManager.as: checkEnemyTakenObject call is not allowed")
+        throw Context.Exception("Error in file EnemiesManager.as: checkEnemyTakenObject call is not allowed")
     }
 }
 }

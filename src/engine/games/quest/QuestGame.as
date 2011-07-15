@@ -250,7 +250,7 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     private function onMonsterActivateObject(id:int, x:int, y:int, objType:IDynObjectType):void {
         //now it does nothing
-        throw Context.Exception("Îרטבךא ג פאיכו QuestGame.as: for now monsters aren't allowed to activate objects")
+        throw Context.Exception("Error in file QuestGame.as: for now monsters aren't allowed to activate objects")
     }
 
     private function onQuestCompleted(medals:Array):void {
@@ -326,7 +326,7 @@ public class QuestGame extends GameBase implements IQuestGame {
             }
             w = weaponBuilder.fromWeaponType(type, 0) as IActivatableWeapon
             if (w == null)
-                throw Context.Exception("Îרטבךא ג פאיכו QuestGame.as: wrong weapon type " + type.key + ". IActivatable weapon expected")
+                throw Context.Exception("Error in file QuestGame.as: wrong weapon type " + type.key + ". IActivatable weapon expected")
             w.qActivateStatic(x, y, b)
             _weaponsUsed[type.value] = w
         }
@@ -334,7 +334,7 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     public function addGoal(medal:Medal, goal:IGoal):void {
         if (goal == null)
-            throw Context.Exception("Îרטבךא ג פאיכו QuestGame.as: goal == null")
+            throw Context.Exception("Error in file QuestGame.as: goal == null")
         trace(medal, Medal.BRONZE, Medal.SILVER, Medal.GOLD)
         if (medal == null) {
             _commonGoal = goal
@@ -351,7 +351,7 @@ public class QuestGame extends GameBase implements IQuestGame {
                     _goldGoal = goal
                     break
                 default:
-                    throw Context.Exception("Îרטבךא ג פאיכו QuestGame.as:no such medal: " + medal.value)
+                    throw Context.Exception("Error in file QuestGame.as:no such medal: " + medal.value)
             }
         }
     }

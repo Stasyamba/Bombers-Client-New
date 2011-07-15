@@ -41,7 +41,7 @@ public class GoalsBuilder {
             case TimeGoal.name:
                 return makeTimeGoal(xml)
         }
-        throw Context.Exception("Îרטבךא ג פאיכו GoalsBuilder.as:invalid goal xml " + xml.@t)
+        throw Context.Exception("Error in file GoalsBuilder.as:invalid goal xml " + xml.@t)
     }
 
     private static function makeTimeGoal(xml:XML):TimeGoal {

@@ -33,7 +33,7 @@ public class ExplosionsBuilder {
             case ExplosionType.NULL:
                 return NullExplosion.getInstance();
         }
-        throw Context.Exception("Îרטבךא ג פאיכו ExplosionPointType.as: Not implemented making explosions of type \"" + explType.value + "\"")
+        throw Context.Exception("Error in file ExplosionPointType.as: Not implemented making explosions of type \"" + explType.value + "\"")
     }
 }
 }

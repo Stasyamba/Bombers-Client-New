@@ -44,7 +44,7 @@ public class MapBase {
 
     public function getBlock(x:uint, y:uint):IMapBlock {
         if (!areCoordsOk(x, y))
-            throw Context.Exception("Îרטבךא ג פאיכו MapBase.as: One of indexes is out of range.");
+            throw Context.Exception("Error in file MapBase.as: One of indexes is out of range.");
         return _blocks[index(x, y)];
     }
 
@@ -73,7 +73,7 @@ public class MapBase {
             case Direction.DOWN:
                 return getDown(ofX, ofY);
         }
-        throw Context.Exception("Îרטבךא ג פאיכו MapBase.as: Invalid neighbour direction");
+        throw Context.Exception("Error in file MapBase.as: Invalid neighbour direction");
     }
 
     private function getLeft(ofX:int, ofY:int):IMapBlock {

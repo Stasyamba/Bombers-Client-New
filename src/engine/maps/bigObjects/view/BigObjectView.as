@@ -124,7 +124,7 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
             case "scaleX": return 1.0;
             case "scaleY": return 1.0;
         }
-        throw Context.Exception("Îרטבךא ג פאיכו BigObjectView.as: property " + prop + " is not supported")
+        throw Context.Exception("Error in file BigObjectView.as: property " + prop + " is not supported")
     }
 }
 }

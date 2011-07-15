@@ -24,7 +24,7 @@ public class MonsterType implements ICreatureType {
     private var _damage:int
 
     public function get value():int {
-        throw Context.Exception("Îרטבךא ג פאיכו MonsterType.as: no value for monster")
+        throw Context.Exception("Error in file MonsterType.as: no value for monster")
     }
 
     public function get name():String {
@@ -70,14 +70,14 @@ public class MonsterType implements ICreatureType {
 
     public static function add(monsterType:MonsterType):void {
         if (_all[monsterType.id] != null)
-            throw Context.Exception("Îרטבךא ג פאיכו MonsterType.as:already have a monster with id = " + monsterType.id)
+            throw Context.Exception("Error in file MonsterType.as:already have a monster with id = " + monsterType.id)
         _all[monsterType.id] = monsterType
     }
 
     public static function byId(id:String):MonsterType {
         var res:MonsterType = _all[id];
         if (res == null)
-            throw Context.Exception("Îרטבךא ג פאיכו MonsterType.as: no monster with id = " + id)
+            throw Context.Exception("Error in file MonsterType.as: no monster with id = " + id)
         return res
     }
 

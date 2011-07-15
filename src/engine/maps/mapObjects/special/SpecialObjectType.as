@@ -14,7 +14,7 @@ public class SpecialObjectType extends DynObjectType implements IDynObjectType {
 
     public static const VIOLET_MUSHROOM:SpecialObjectType = new SpecialObjectType(1011, "VIOLET_MUSHROOM");
     public static const GREEN_MUSHROOM:SpecialObjectType = new SpecialObjectType(1012, "GREEN_MUSHROOM","GreenMarshrum");
-    public static const RED_MUSHROOM:SpecialObjectType = new SpecialObjectType(1013, "RED_MUSHROOM");
+    public static const RED_MUSHROOM:SpecialObjectType = new SpecialObjectType(1013, "RED_MUSHROOM","RedMarshrum");
 
 
     public function SpecialObjectType(value:int, key:String, swfClassName:String = null) {
@@ -30,7 +30,7 @@ public class SpecialObjectType extends DynObjectType implements IDynObjectType {
             case RED_MUSHROOM.value:
                 return RED_MUSHROOM;
         }
-        throw Context.Exception("Îרטבךא ג פאיכו SpecialObjectType.as: wrong special object type value " + int)
+        throw Context.Exception("Error in file SpecialObjectType.as: wrong special object type value " + int)
     }
 
 

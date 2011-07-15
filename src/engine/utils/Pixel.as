@@ -25,7 +25,7 @@ public class Pixel {
 
     public function setAlpha(n:int):void {
         if (n < 0 || n > 255) {
-            throw Context.Exception("Îרטבךא ג פאיכו Pixel.as: Supplied value must be range in 0-255");
+            throw Context.Exception("Error in file Pixel.as: Supplied value must be range in 0-255");
         }
 
         value &= (0x00ffffff);
@@ -34,7 +34,7 @@ public class Pixel {
 
     public function setRed(n:int):void {
         if (n < 0 || n > 255) {
-            throw Context.Exception("Îרטבךא ג פאיכו Pixel.as: Supplied value must be range in 0-255");
+            throw Context.Exception("Error in file Pixel.as: Supplied value must be range in 0-255");
         }
 
         value &= (0xff00ffff);
@@ -43,7 +43,7 @@ public class Pixel {
 
     public function setGreen(n:int):void {
         if (n < 0 || n > 255) {
-            throw Context.Exception("Îרטבךא ג פאיכו Pixel.as: Supplied value must be range in 0-255");
+            throw Context.Exception("Error in file Pixel.as: Supplied value must be range in 0-255");
         }
 
         value &= (0xffff00ff);
@@ -52,7 +52,7 @@ public class Pixel {
 
     public function setBlue(n:int):void {
         if (n < 0 || n > 255) {
-            throw Context.Exception("Îרטבךא ג פאיכו Pixel.as: Supplied value must be range in 0-255");
+            throw Context.Exception("Error in file Pixel.as: Supplied value must be range in 0-255");
         }
 
         value &= (0xffffff00);

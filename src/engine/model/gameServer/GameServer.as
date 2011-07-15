@@ -592,17 +592,7 @@ public class GameServer extends SmartFox {
 //                        Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("Experience")
 //                        return
 //                    }
-                } else {
-//                    for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
-//                        if (lobbyProfile != null) {
-//                            if (lobbyProfile.id == responseParams.getUtfString("UserId")) {
-//                                slot = lobbyProfile.slot
-//                                break
-//                            }
-//                        }
-//                    }
                 }
-//                updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
                 break;
 
             case DEATH_WALL_APPEARED:
@@ -629,7 +619,6 @@ public class GameServer extends SmartFox {
                 TweenMax.delayedCall(3.0, function ():void {
                     Context.gameModel.gameEnded.dispatch()
                 })
-//                Context.gameModel.lobbyProfiles = getLobbyProfilesFromSFSArray(arr)
                 break;
 
             case INT_GAME_PROFILE_LOADED:

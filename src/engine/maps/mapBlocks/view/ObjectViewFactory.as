@@ -27,7 +27,7 @@ public class ObjectViewFactory {
             return new BombView(object.block, baseView)
         else if (object.type is SpecialObjectType)
             return new SpecialObjectView(object.block, baseView)
-        throw Context.Exception("Îרטבךא ג פאיכו ObjectViewFactory.as: Unknown object type " + object.type.key);
+        throw Context.Exception("Error in file ObjectViewFactory.as: Unknown object type " + object.type.key);
     }
 }
 }

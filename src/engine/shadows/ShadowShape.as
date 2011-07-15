@@ -22,7 +22,7 @@ public class ShadowShape {
             case ELLIPSE._value:
                 return ELLIPSE
         }
-        throw Context.Exception("Îרטבךא ג פאיכו ShadowShape.as: no shadow shape with id = " + id)
+        throw Context.Exception("Error in file ShadowShape.as: no shadow shape with id = " + id)
     }
 }
 }

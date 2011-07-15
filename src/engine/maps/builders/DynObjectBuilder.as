@@ -67,7 +67,7 @@ public class DynObjectBuilder {
             case MineType.REGULAR:
                 return new RegularMine(block, owner);
         }
-        throw Context.Exception("Îרטבךא ג פאיכו DynObjectBuilder.as: NotImplemented: " + objType.key);
+        throw Context.Exception("Error in file DynObjectBuilder.as: NotImplemented: " + objType.key);
     }
 
     public function setExplosionsBuilder(explosionsBuilder:ExplosionsBuilder):void {

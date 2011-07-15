@@ -81,7 +81,7 @@ public class QuestMap extends MapBase implements IMap{
                     lowerBigObjects.push(bo);
                     break
                 default:
-                    throw Context.Exception("Îרטבךא ג פאיכו QuestMap.as: impossible case")
+                    throw Context.Exception("Error in file QuestMap.as: impossible case")
             }
         }
         //resolve activators links
@@ -90,7 +90,7 @@ public class QuestMap extends MapBase implements IMap{
             if (bo is BigObjectActivator) {
                 var target:ActivatedBigObject = getBO(bObj.@target) as ActivatedBigObject
                 if (target == null) {
-                    throw Context.Exception("Îרטבךא ג פאיכו QuestMap.as: couldn't find target with id = " + bObj.@target)
+                    throw Context.Exception("Error in file QuestMap.as: couldn't find target with id = " + bObj.@target)
                 }
                 (bo as BigObjectActivator).setTarget(target)
             }
