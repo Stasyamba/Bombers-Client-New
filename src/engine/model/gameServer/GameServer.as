@@ -609,11 +609,11 @@ public class GameServer extends SmartFox {
                     var slot:int = Context.gameModel.getLastLobbyProfileById(objP.getUtfString("Id")).slot
                     updLobbyExperience(slot, objP.getInt("Rank"), objP.getInt("Experience"))
                 }
-				
+
                 TweenMax.delayedCall(3.0, function ():void {
                     Context.gameModel.gameEnded.dispatch()
                 });
-				
+
                 break;
 
             case INT_GAME_PROFILE_LOADED:
@@ -663,69 +663,61 @@ public class GameServer extends SmartFox {
 
                     //levels
                     var levelsArr:ISFSArray = plist.getSFSArray("Levels");
-                    for (var i:int = 0; i < levelsArr.size(); i++) 
-					{
+                    for (var i:int = 0; i < levelsArr.size(); i++) {
                         var lo:ISFSObject = levelsArr.getSFSObject(i);
                         var lev:int = lo.getInt("Level")
                         var exp:int = lo.getInt("Exp")
                         var reward:ISFSObject = lo.getSFSObject("Reward");
+
+                        /* parse rewards */
+                        var rewards:Array = new Array();
+                        if (reward != null) {
+                            var rGold:int = reward.getInt("RO");
+                            if (rGold != 0) {
+                                rewards.push(new RegardObject(RegardType.RESOURCE_GOLD, rGold));
+                            }
+
+                            var rCrystalls:int = reward.getInt("R1");
+                            if (rCrystalls != 0) {
+                                rewards.push(new RegardObject(RegardType.RESOURCE_CRYSTALS, rCrystalls));
+                            }
+
+                            var rAdamant:int = reward.getInt("R2");
+                            if (rAdamant != 0) {
+                                rewards.push(new RegardObject(RegardType.RESOURCE_ADAMANT, rAdamant));
+                            }
+
+                            var rAntimatter:int = reward.getInt("R3");
+                            if (rAntimatter != 0) {
+                                rewards.push(new RegardObject(RegardType.RESOURCE_ANTIMATTER, rAntimatter));
+                            }
+
+                            var rEnergy:int = reward.getInt("R4");
+                            if (rEnergy != 0) {
+                                rewards.push(new RegardObject(RegardType.RESOURCE_ENERGY, rEnergy));
+                            }
+
+                            var rExp:int = reward.getInt("Exp");
+                            if (rExp != 0) {
+                                rewards.push(new RegardObject(RegardType.RESOURCE_EXP, rExp));
+                            }
                         
-						/* parse rewards */
-						var rewards: Array = new Array();
-						
-						var rGold:int = reward.getInt("RO");
-						if(rGold != 0)
-						{
-							rewards.push(new RegardObject(RegardType.RESOURCE_GOLD, rGold));
+	                        itemsArr = reward.getSFSArray("Items");
+	                        for (var j:int = 0; j < itemsArr.size(); j++) {
+	                            obj = itemsArr.getSFSObject(j);
+	                            rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, obj.getInt("C"), obj.getInt("Id")));
+	                        }
 						}
-						
-						var rCrystalls:int = reward.getInt("R1");
-						if(rCrystalls != 0)
-						{
-							rewards.push(new RegardObject(RegardType.RESOURCE_CRYSTALS, rCrystalls));
-						}
-						
-						var rAdamant:int = reward.getInt("R2");
-						if(rAdamant != 0)
-						{
-							rewards.push(new RegardObject(RegardType.RESOURCE_ADAMANT,rAdamant));
-						}
-						
-						var rAntimatter:int = reward.getInt("R3");
-						if(rAntimatter != 0)
-						{
-							rewards.push(new RegardObject(RegardType.RESOURCE_ANTIMATTER,rAntimatter));
-						}
-						
-						var rEnergy:int = reward.getInt("R4");
-						if(rEnergy != 0)
-						{
-							rewards.push(new RegardObject(RegardType.RESOURCE_ENERGY, rEnergy));
-						}
-						
-						var rExp:int = reward.getInt("Exp");
-						if(rExp != 0)
-						{
-							rewards.push(new RegardObject(RegardType.RESOURCE_EXP, rExp));
-						}
-						
-						itemsArr = plist.getSFSArray("Items");
-						for (i = 0; i < itemsArr.size(); i++) 
-						{
-							obj = itemsArr.getSFSObject(i);
-							rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, obj.getInt("C"),obj.getInt("Id")));
-						}
-						
-                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(lev,exp,rewards))
+                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(lev, exp, rewards))
                     }
 
                     //gp
                     var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
                     profileLoaded.dispatch(gp);
-					
-					Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
 
-					/* testing */
+                    Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+
+                    /* testing */
                     var appFriendsArr:Array = new Array();
                     var gp3:GameProfile = new GameProfile();
                     gp3.id = "1";
@@ -766,8 +758,8 @@ public class GameServer extends SmartFox {
 
                     /* locations */
                     Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
-					
-					
+
+
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);
@@ -781,8 +773,8 @@ public class GameServer extends SmartFox {
                     Context.Model.dispatchCustomEvent(ContextEvent.RS_BUY_FAILED)
                     return;
                 } else {
-					//Alert.show("Got event");
-					
+                    //Alert.show("Got event");
+
                     var en:int = responseParams.getInt("interface.buyResources.result.fields.resourceType4");
 
                     var rp:ResourcePrice = new ResourcePrice(
@@ -792,14 +784,14 @@ public class GameServer extends SmartFox {
                             responseParams.getInt("interface.buyResources.result.fields.resourceType3")
                     )
 
-                    Context.Model.currentSettings.gameProfile.resources = rp.clone(); 
-					
-					//Alert.show(rp.toString());
-					
+                    Context.Model.currentSettings.gameProfile.resources = rp.clone();
+
+                    //Alert.show(rp.toString());
+
                     Context.Model.currentSettings.gameProfile.energy = en;
                     Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
                     Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
-					
+
                 }
                 break;
 
@@ -821,7 +813,7 @@ public class GameServer extends SmartFox {
                         responseParams.getInt("interface.buyItem.result.fields.resourceType2"),
                         responseParams.getInt("interface.buyItem.result.fields.resourceType3")
                 );
-				
+
                 Context.Model.currentSettings.gameProfile.addItem(iType, count);
                 Context.Model.currentSettings.gameProfile.resources.setFrom(rp);
 
@@ -859,14 +851,13 @@ public class GameServer extends SmartFox {
                 if (lp != null)
                     lp.isReady = ready;
                 Context.gameModel.playerReadyChanged.dispatch();
-				
-				
-				if(name == Context.Model.currentSettings.gameProfile.id)
-				{
-					Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("NewEnergy");
-					Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
-				}
-				
+
+
+                if (name == Context.Model.currentSettings.gameProfile.id) {
+                    Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("NewEnergy");
+                    Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+                }
+
                 break;
 
             case INT_QUEST_START_RESULT:
@@ -944,14 +935,13 @@ public class GameServer extends SmartFox {
                 break;
 
             case INT_SET_TUTORIAL_PART_RESULT:
-				
-				/* не на всех шагах нужно выставлять опыт а только на одном */
-				if(responseParams.containsKey("interface.setTrainingStatus.result.f.youNewExperience"))
-				{
-					Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("interface.setTrainingStatus.result.f.youNewExperience");
-					Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
-				}
-				
+
+                /* не на всех шагах нужно выставлять опыт а только на одном */
+                if (responseParams.containsKey("interface.setTrainingStatus.result.f.youNewExperience")) {
+                    Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("interface.setTrainingStatus.result.f.youNewExperience");
+                    Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+                }
+
                 break;
         }
     }
@@ -1082,7 +1072,7 @@ public class GameServer extends SmartFox {
             }
         }
         var params:Object = {};
-        params["power"]= responseParams.getInt("game.DOAct.f.s.power");
+        params["power"] = responseParams.getInt("game.DOAct.f.s.power");
         params["lifetime"] = responseParams.getInt("game.DOAct.f.s.lifetime");
 
         EngineContext.objectActivated.dispatch(

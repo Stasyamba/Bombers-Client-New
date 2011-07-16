@@ -10,18 +10,26 @@ public class ExperienceManager {
         for (var i:int = 0; i < levelExperiencePair.length; i++) {
             var eo:ExperianceObject = levelExperiencePair[i];
             if (experience < eo.experiance)
-                return levelExperiencePair[i - 1]
+                return getEObyLevel(eo.level - 1)
         }
-        return levelExperiencePair[levelExperiencePair.length - 1]
+        return null
     }
 
     public function getNextLevel(experience:int):ExperianceObject {
         for (var i:int = 0; i < levelExperiencePair.length; i++) {
             var eo:ExperianceObject = levelExperiencePair[i];
             if (experience < eo.experiance)
-                return levelExperiencePair[i]
+                return getEObyLevel(eo.level)
         }
-        return new ExperianceObject(-1,-1)
+        return null
+    }
+
+    public function getEObyLevel(level:int):ExperianceObject {
+        for each (var eo:ExperianceObject in levelExperiencePair) {
+            if (eo.level == level)
+                return eo;
+        }
+        throw Context.Exception("Error in file ExperienceManages.as: no Experience object for level " + level)
     }
 
 }
