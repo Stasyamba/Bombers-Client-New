@@ -78,6 +78,10 @@ public class ContextEvent extends Event {
 	
 	public static const QUEST_LEFT_HAND_WEAPON_UPDATE: String = "QUESTWeaponChanged";
 	
+	public static const QUEST_TIME_STOP: String = "QUESTStopTime";
+	public static const QUEST_TIME_START: String = "QUESTStartTime";
+	public static const QUEST_TIME_SET: String = "QUESTSetTime";
+	// pass: int -> quest time
 	
     /***** inventory market events *****/
 	

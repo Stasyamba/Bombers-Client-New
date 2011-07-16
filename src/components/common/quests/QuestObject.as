@@ -2,8 +2,8 @@ package components.common.quests
 {
 	import components.common.base.access.rules.AccessRuleObject;
 	import components.common.base.access.rules.IAccessRule;
-import components.common.base.server.ImagesPrefixes
-import components.common.quests.medals.MedalType;
+	import components.common.base.server.ImagesPrefixes;
+	import components.common.quests.medals.MedalType;
 	import components.common.quests.tasks.TaskObject;
 	import components.common.worlds.locations.LocationType;
 
@@ -21,6 +21,8 @@ import components.common.quests.medals.MedalType;
 		
 		public var tasks: Array;
 		
+		public var timeLimit: int;
+		
 		public function QuestObject(idP: String,
                                     locationIdP:int,
 									imageURLP: String, 
@@ -29,7 +31,8 @@ import components.common.quests.medals.MedalType;
 									accessRulesP: Array = null,
 									tasksP: Array = null,
 									describe: String = "",
-									additionalImageURL: String = ""
+									additionalImageURL: String = "",
+									timeLimitP: int = 0
 		)
 		{
 			id = idP;
@@ -55,6 +58,8 @@ import components.common.quests.medals.MedalType;
 					accessRules.push(ar);
 				}
 			}
+			
+			timeLimit = timeLimitP;
 		}
 		
 		public function getTask(mt: MedalType): TaskObject

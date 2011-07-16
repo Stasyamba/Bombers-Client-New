@@ -110,6 +110,7 @@
 			
             if (questResultObject != null) 
 			{
+				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_STOP);
 				
 				var bestMedal: MedalType = MedalType.BRONZE_MEDAL;
 				

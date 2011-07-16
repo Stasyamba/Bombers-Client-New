@@ -82,6 +82,8 @@
 				
 				if(questObject != null)
 				{
+					Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_SET, questObject.timeLimit + 3);
+					
 					Context.gameServer.sendStartQuest(questObject.id);
 					
 					questContent.initContent(questObject);
@@ -105,6 +107,7 @@
 			
 			private function startQuest(): void
 			{
+				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_START);
 				Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, false);
 				
 				startButton.enabled = false;

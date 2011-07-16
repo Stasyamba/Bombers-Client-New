@@ -2,7 +2,9 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="100%">
+		 width="100%"
+		 creationComplete="init();"
+		 >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -10,27 +12,93 @@
 	<fx:Script>
 		<![CDATA[
 			
-			public function init(): void
+			public var timer:Timer = new Timer(1000, 1000);
+			private var questTimeStart: int = 0;
+			private var questTime: int = 0;
+			
+			private function init(): void
 			{
+				timer.addEventListener(TimerEvent.TIMER, timerTick);
+				timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerComplete);
 				
+				Context.Model.addCustomListener(ContextEvent.QUEST_TIME_SET, function (e: ContextEvent): void
+				{
+					if(e.data is int)
+					{
+						questTime = questTimeStart = e.data;
+						refreshTimer();
+					}
+				});
+				
+				Context.Model.addCustomListener(ContextEvent.QUEST_TIME_START, function (e: ContextEvent): void
+				{
+					timer.start();
+				});
+				
+				Context.Model.addCustomListener(ContextEvent.QUEST_TIME_STOP, function (e: ContextEvent): void
+				{
+					timer.stop();
+				});
+			}
+			
+			private function timerComplete(e: TimerEvent): void
+			{
+				timer.reset();
+				timer.start();
+			}
+			
+			private function timerTick(e: TimerEvent): void
+			{
+				if(questTime > 0)
+				{
+					timeLabel.text = getTimeStringView(questTime);
+					questTime--;
+				}else
+				{
+					timer.stop();
+				}
+			}
+			
+			public function refreshTimer(): void
+			{
+				timer.reset();
+				timer.stop();
+			}
+			
+			public function getTimeStringView(timeSeconds: int): String
+			{
+				var res: String = " сек";
+				
+				var minutes: int = Math.floor(timeSeconds / 60);
+				var seconds: int = timeSeconds - minutes * 60;
+				
+				var secondsStringView:String = seconds.toString();
+				
+				if(seconds < 10)
+				{
+					secondsStringView = "0"+seconds.toString();
+				}
+				
+				res = minutes.toString() + " : "+secondsStringView + res;
+				
+				return res;
 			}
 			
 		]]>
 	</fx:Script>
 	
-	<s:HGroup width="100%" horizontalAlign="center">
-		<s:Rect radiusX="5" radiusY="5" width="70" height="15">
-			<s:fill>
-				<s:LinearGradient rotation="-90">
-					<s:GradientEntry ratio="0" color="0x4c971f" />
-					<s:GradientEntry color="0x3cd930" />	
-				</s:LinearGradient>
-			</s:fill>
-		</s:Rect>
-	</s:HGroup>
+	<s:Group x="14" y="9">
+		<s:BitmapImage source="@Embed(source='assets/pagequests/time/bgBar.png')" smooth="true" />
+		<s:BitmapImage mask="{progressMask}" y="3" x="3" source="@Embed(source='assets/pagequests/time/progressBar.png')" smooth="true" />
+	</s:Group>
 	
-	<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-		<s:Label id="timeLabel" color="0x1e5400" text="12 мин 45 сек" fontFamily="mpbc" fontSize="14" />
+	<s:BorderContainer id="progressMask" x="17" y="12" backgroundColor="0xffffff"
+					   width="20" height="18"/>
+	
+	<s:BitmapImage source="@Embed(source='assets/pagequests/time/watch.png')" smooth="true" />
+	
+	<s:HGroup x="14" y="9" width="100%" height="23" horizontalAlign="center" verticalAlign="middle">
+		<s:Label id="timeLabel" color="0xffc600" text="12 мин 45 сек" fontFamily="mpbc" fontSize="14" />
 	</s:HGroup>
 	
 </s:Group>
