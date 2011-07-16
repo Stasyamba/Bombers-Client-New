@@ -65,7 +65,7 @@ public class BombersContentLoader {
     }
 
     private static function onBombersXmlError(e:LoaderEvent):void {
-        throw new Error("error loading bombers description: " + e.text)
+        throw Context.Exception("Error in file BombersContentLoader.as : error loading bombers description: " + e.text)
     }
 
     private static function onBombersXmlComplete(e:LoaderEvent):void {
@@ -107,7 +107,7 @@ public class BombersContentLoader {
     }
 
     private static function onQuestsXmlError(e:LoaderEvent):void {
-        throw new Error("error loading quests description: " + e.text)
+        throw Context.Exception("Error in file BombersContentLoader.as :error loading quests description: " + e.text)
     }
 
     public static function onQuestsXmlComlete(e:LoaderEvent):void {
@@ -125,7 +125,7 @@ public class BombersContentLoader {
                 }))
                 .onError(
                 function(e:LoaderEvent) {
-                    throw new Error("Error loading quests: " + e.target.text)
+                    throw Context.Exception("Error in file BombersContentLoader.as :Error loading quests: " + e.target.text)
                 })
                 )
 
@@ -137,7 +137,7 @@ public class BombersContentLoader {
                     .noCache(true)
                     .onError(
                     function(e:LoaderEvent) {
-                        throw new Error("Error loading quest " + e.target.name + ": " + e.text)
+                        throw Context.Exception("Error in file BombersContentLoader.as: Error loading quest " + e.target.name + ": " + e.text)
                     })
                     .onComplete(
                     function(e:LoaderEvent) {
@@ -164,7 +164,7 @@ public class BombersContentLoader {
     }
 
     private static function onMonstersXmlError(e:LoaderEvent):void {
-        throw new Error("error loading monsters description: " + e.text)
+        throw Context.Exception("Error in file BombersContentLoader.as: error loading monsters description: " + e.text)
     }
 
     private static function onMonstersXmlComplete(e:LoaderEvent):void {
@@ -185,7 +185,7 @@ public class BombersContentLoader {
     }
 
     private static function onGraphicsXmlError(e:LoaderEvent):void {
-        throw new Error("Error loading files.xml: " + e.text)
+        throw Context.Exception("Error in file BombersContentLoader.as: Error loading files.xml: " + e.text)
     }
 
     private static function commonHelper(subGroup:String, comQueue:LoaderMax):void {
@@ -199,7 +199,7 @@ public class BombersContentLoader {
             var ldr:LoaderCore = LoaderMax.parse(faddr,
                     new LoaderMaxVars()
                             .onError(function (e:LoaderEvent):void {
-                        throw new Error("Error loading file " + e.target.name + ": " + e.text)
+                        throw Context.Exception("Error in file BombersContentLoader.as: Error loading file " + e.target.name + ": " + e.text)
                     })
                             .name(fid))
             if(ldr is SWFLoader){
@@ -220,7 +220,7 @@ public class BombersContentLoader {
         var comQueue:LoaderMax = new LoaderMax(new LoaderMaxVars()
                 .onError(
                 function (e:LoaderEvent):void {
-                    throw new Error("Error loading common folder: " + e.text)
+                    throw Context.Exception("Error in file BombersContentLoader.as: Error loading common folder: " + e.text)
                 })
                 .onComplete(
                 function (e:LoaderEvent):void {
@@ -241,7 +241,7 @@ public class BombersContentLoader {
         var locationsQueue:LoaderMax = new LoaderMax(new LoaderMaxVars()
                 .onError(
                 function (e:LoaderEvent):void {
-                    throw new Error("Error loading locations: " + e.text)
+                    throw Context.Exception("Error in file BombersContentLoader.as: Error loading locations: " + e.text)
                 })
                 .onComplete(
                 function (e:LoaderEvent):void {
@@ -258,7 +258,7 @@ public class BombersContentLoader {
             var locLdr:LoaderMax = new LoaderMax(new LoaderMaxVars()
                     .onError(
                     function (e:LoaderEvent):void {
-                        throw new Error("Error loading location " + e.target.name + ": " + e.text)
+                        throw Context.Exception("Error in file BombersContentLoader.as: Error loading location " + e.target.name + ": " + e.text)
                     })
                     .onComplete(
                     function (e:LoaderEvent):void {
@@ -273,7 +273,7 @@ public class BombersContentLoader {
                 var fldrLdr:LoaderMax = new LoaderMax(new LoaderMaxVars()
                         .onError(
                         function (e:LoaderEvent):void {
-                            throw new Error("Error loading fldr " + e.target.name + ": " + e.text)
+                            throw Context.Exception("Error in file BombersContentLoader.as: Error loading fldr " + e.target.name + ": " + e.text)
                         })
                         .onComplete(
                         function (e:LoaderEvent):void {
@@ -289,7 +289,7 @@ public class BombersContentLoader {
                             new LoaderMaxVars()
                                     .onError(
                                     function (e:LoaderEvent):void {
-                                        throw new Error("Error loading file " + e.target.name + ": " + e.text)
+                                        throw Context.Exception("Error in file BombersContentLoader.as: Error loading file " + e.target.name + ": " + e.text)
                                     })
                                     .name(fid))
                     fldrLdr.append(ldr)
@@ -307,7 +307,7 @@ public class BombersContentLoader {
                 new LoaderMaxVars()
                         .onError(
                         function (e:LoaderEvent):void {
-                            throw new Error("Error loading all: " + e.text)
+                            throw Context.Exception("Error in file BombersContentLoader.as: Error loading all: " + e.text)
                         })
                         .onComplete(
                         function (e:LoaderEvent):void {
@@ -343,11 +343,11 @@ public class BombersContentLoader {
                 function(e:LoaderEvent):void {
                     boSwf = (e.target as SWFLoader).rawContent
                     if (boSwf == null)
-                        throw new Error("couldn't find boSwf at " + BO_SWF_ADDRESS)
+                        throw Context.Exception("Error in file BombersContentLoader.as: couldn't find boSwf at " + BO_SWF_ADDRESS)
                 })
                 .onError(
                 function(e:LoaderEvent):void {
-                    throw new Error("error loading bo swf: " + e.text)
+                    throw Context.Exception("Error in file BombersContentLoader.as: error loading bo swf: " + e.text)
                 }))
         l.load()
     }
@@ -404,7 +404,7 @@ public class BombersContentLoader {
                 }))
                 .onError(
                 function(e:LoaderEvent) {
-                    throw new Error("Error loading sounds: " + e.target.text)
+                    throw Context.Exception("Error in file BombersContentLoader.as: Error loading sounds: " + e.target.text)
                 })
                 )
         for each (var name:String in _soundsNames) {
@@ -414,7 +414,7 @@ public class BombersContentLoader {
 					.autoPlay(false)
                     .onError(
                     function(e:LoaderEvent) {
-                        throw new Error("Error loading sound " + e.target.name + ": " + e.target.text)
+                        throw Context.Exception("Error in file BombersContentLoader.as: Error loading sound " + e.target.name + ": " + e.text)
                     })
                     .onComplete(
                     function(e:LoaderEvent) {
