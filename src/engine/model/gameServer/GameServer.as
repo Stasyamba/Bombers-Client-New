@@ -664,8 +664,12 @@ public class GameServer extends SmartFox {
                     //levels
                     var levelsArr:ISFSArray = plist.getSFSArray("Levels");
                     for (var i:int = 0; i < levelsArr.size(); i++) {
-                        var exp:int = levelsArr.getInt(i);
-                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(i + 1, exp))
+                        var lo:ISFSObject = levelsArr.getSFSObject(i);
+                        var lev:int = lo.getInt("Level")
+                        var exp:int = lo.getInt("Exp")
+                        var reward:ISFSObject = lo.getSFSObject("Reward");
+                        //HERE, BLEAT
+                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(lev,exp))
                     }
 
                     //gp
