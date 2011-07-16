@@ -19,7 +19,7 @@ public class SpecialObject extends BonusBase implements ICollectableDynObject {
         _type = type
     }
 
-    public override function activateOn(player:IBomber):void {
+    public override function activateOn(player:IBomber, params:Object = null):void {
         super.activateOn(player)
     }
 

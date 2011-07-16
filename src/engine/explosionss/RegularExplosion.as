@@ -16,10 +16,10 @@ public class RegularExplosion extends ExplosionBase implements IExplosion {
     private var initialPower:int;
     private var _damage:int = 5
 
-    public function RegularExplosion(map:IMap, owner:IBomber, centerX:int = -1, centerY:int = -1, power:int = -1) {
+    public function RegularExplosion(map:IMap, owner:IBomber, centerX:int = -1, centerY:int = -1, power:int = 0, lifetime:int = 0) {
         super(map, centerX, centerY, owner)
+        timeToLive = lifetime > 0 ? lifetime : type.timeToLive
         this.initialPower = power;
-        timeToLive = type.timeToLive;
     }
 
     private function canExpand(dir:Direction, fromX:int, fromY:int):Boolean {

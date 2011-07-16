@@ -40,7 +40,18 @@ public class Monster extends CreatureBase {
                 EngineContext.qMonsterDirectionChanged.dispatch(slot, _coords.getRealX(), _coords.getRealY(), d);
             }
         }
-        performMotion(elapsedMilliSecs * speed / 1000);
+
+        var moveAmount:Number = elapsedMilliSecs * speed / 1000;
+        while(true){
+            if (moveAmount > 30){
+                performMotion(30)
+                moveAmount -= 30
+            }else
+            {
+                performMotion(moveAmount)
+                break
+            }
+        }
     }
 
     private function willGetToBlockCenter(willCover:Number):Boolean {

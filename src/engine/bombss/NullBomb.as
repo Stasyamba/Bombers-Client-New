@@ -39,7 +39,7 @@ public class NullBomb implements ITimeActivatableDynObject {
         return 0
     }
 
-    public function activateOn(player:IBomber):void {
+    public function activateOn(player:IBomber, params:Object = null):void {
     }
 
     public function grabCorrespondingWeapon():void {

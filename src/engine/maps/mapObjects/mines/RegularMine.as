@@ -61,10 +61,10 @@ public class RegularMine implements ICollectableDynObject {
         return MineType.REGULAR;
     }
 
-    public function activateOn(bomber:IBomber):void {
-        if (!bomber.isImmortal)
-            bomber.explode(new RegularExplosion(null, null, -1, -1, 5))
-        block.collectObject(Context.game.playerManager.isItMe(bomber))
+    public function activateOn(player:IBomber, params:Object = null):void {
+        if (!player.isImmortal)
+            player.explode(new RegularExplosion(null, null, -1, -1, 5))
+        block.collectObject(Context.game.playerManager.isItMe(player))
     }
 
     public function tryToTake():void {

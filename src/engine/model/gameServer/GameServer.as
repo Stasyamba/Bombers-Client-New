@@ -1028,11 +1028,15 @@ public class GameServer extends SmartFox {
                 destList.push({x: i1.getInt("X"), y: i1.getInt("Y"),isS:i1.getBool("isS")})
             }
         }
+        var params:Object = {};
+        params["power"]= responseParams.getInt("game.DOAct.f.s.power");
+        params["lifetime"] = responseParams.getInt("game.DOAct.f.s.lifetime");
+
         EngineContext.objectActivated.dispatch(
                 slot,
                 responseParams.getInt("game.DOAct.f.x"),
                 responseParams.getInt("game.DOAct.f.y"),
-                ot, destList)
+                ot, destList, params)
     }
 
     private function onMULTI_DYNAMIC_OBJECT_ACTIVATED(responseParams:ISFSObject):void {

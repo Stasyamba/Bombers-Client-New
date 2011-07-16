@@ -20,7 +20,7 @@ public class BonusResource extends BonusBase implements ICollectableDynObject {
         _amount = amount;
     }
 
-    public override function activateOn(player:IBomber):void {
+    public override function activateOn(player:IBomber, params:Object = null):void {
         throw Context.Exception("Error in file BonusResource.as:implement adding resources")
     }
 

@@ -22,7 +22,7 @@ public interface IDynObject {
 
     function get type():IDynObjectType;
 
-    function activateOn(player:IBomber):void;
+    function activateOn(player:IBomber, params:Object = null):void;
 
     //only in multiplayer games!
     function grabCorrespondingWeapon():void

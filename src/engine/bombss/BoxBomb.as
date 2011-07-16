@@ -24,7 +24,7 @@ public class BoxBomb extends BombBase implements ITimeActivatableDynObject {
         return BombType.BOX;
     }
 
-    override protected function getExplosion():IExplosion {
+    override protected function getExplosion(power:int = 0, lifetime:int = 0):IExplosion {
         return _explosionsBuilder.make(ExplosionType.BOX, owner, block.x, block.y)
     }
 

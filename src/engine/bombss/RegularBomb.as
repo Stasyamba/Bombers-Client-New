@@ -32,8 +32,15 @@ public class RegularBomb extends BombBase implements ITimeActivatableDynObject {
         owner.takeBomb()
     }
 
-    override protected function getExplosion():IExplosion {
-        return _explosionsBuilder.make(ExplosionType.REGULAR, owner, block.x, block.y, owner != null ? owner.bombPower : _power)
+    override protected function getExplosion(power:int = 0, lifetime:int = 0):IExplosion {
+        var act_power:int
+
+        if (power > 0)
+            act_power = power;
+        else
+            act_power = owner != null ? owner.bombPower : _power
+
+        return _explosionsBuilder.make(ExplosionType.REGULAR, owner, block.x, block.y, act_power, lifetime)
     }
 }
 }

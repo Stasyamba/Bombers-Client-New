@@ -242,13 +242,13 @@ public class QuestGame extends GameBase implements IQuestGame {
             dynObjectManager.addObject(object);
     }
 
-    private function onPlayerActivateObject(id:int, x:int, y:int, objType:IDynObjectType):void {
+    private function onPlayerActivateObject(id:int, x:int, y:int, objType:IDynObjectType, params:Object = null):void {
         var bomber:IBomber = getPlayer(id) as IBomber;
-        dynObjectManager.activateObject(x, y, bomber);
+        dynObjectManager.activateObject(x, y, bomber, params);
         gameStats.collectedObjects.addItem(new CollectedDOObject(objType, x, y))
     }
 
-    private function onMonsterActivateObject(id:int, x:int, y:int, objType:IDynObjectType):void {
+    private function onMonsterActivateObject(id:int, x:int, y:int, objType:IDynObjectType, params:Object = null):void {
         //now it does nothing
         throw Context.Exception("Error in file QuestGame.as: for now monsters aren't allowed to activate objects")
     }

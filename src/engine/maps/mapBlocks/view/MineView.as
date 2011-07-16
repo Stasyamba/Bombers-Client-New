@@ -32,7 +32,7 @@ public class MineView extends DynObjectView implements IStatedView {
 
         TweenMax.delayedCall(2,function(){
             if(_defaultAlpha != 0)
-                alpha = 0.2;
+                alpha = 0.3;
         })
     }
 

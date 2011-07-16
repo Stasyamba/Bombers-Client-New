@@ -70,8 +70,8 @@ public class BombBase {
             Context.game.playerManager.me.decWeapon(WeaponType.byValue(type.value))
     }
 
-    public function activateOn(player:IBomber):void {
-        var expl:IExplosion = getExplosion()
+    public function activateOn(player:IBomber, params:Object = null):void {
+        var expl:IExplosion = params != null ? getExplosion(params["power"], params["lifetime"]) : getExplosion()
         expl.perform();
         Context.game.explosionExchangeBuffer.push(expl)
 
@@ -83,7 +83,7 @@ public class BombBase {
         throw Context.Exception("Error in file BombBase.as: abstract method call")
     }
 
-    protected function getExplosion():IExplosion {
+    protected function getExplosion(power:int = 0, lifetime:int = 0):IExplosion {
         throw Context.Exception("Error in file BombBase.as: abstract method call")
     }
 

@@ -24,7 +24,7 @@ public class SmokeBomb extends BombBase implements ITimeActivatableDynObject {
         return BombType.SMOKE;
     }
 
-    override protected function getExplosion():IExplosion {
+    override protected function getExplosion(power:int = 0, lifetime:int = 0):IExplosion {
         return _explosionsBuilder.make(ExplosionType.SMOKE, owner, block.x, block.y)
     }
 }

@@ -92,7 +92,17 @@ public class EnemyBomber extends BomberBase implements IEnemyBomber {
     }
 
     public override function move(elapsedMilliSecs:int):void {
-        performSmoothMotion(elapsedMilliSecs * speed / 1000);
+        var moveAmount:Number = elapsedMilliSecs * speed / 1000;
+        while(true){
+            if (moveAmount > 30){
+                performSmoothMotion(30)
+                moveAmount -= 30
+            }else
+            {
+                performSmoothMotion(moveAmount)
+                break
+            }
+        }
     }
 
     public override function kill():void {

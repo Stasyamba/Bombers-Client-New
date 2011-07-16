@@ -13,9 +13,9 @@ public class AtomExplosion extends ExplosionBase implements IExplosion {
 
     private static const BRANCH_LENGTH:int = 2;
 
-    public function AtomExplosion(map:IMap, owner:IBomber, centerX:int = -1, centerY:int = -1) {
+    public function AtomExplosion(map:IMap, owner:IBomber, centerX:int = -1, centerY:int = -1, lifetime:int = 0) {
         super(map, centerX, centerY, owner)
-        timeToLive = type.timeToLive
+        timeToLive = lifetime > 0 ? lifetime : type.timeToLive
     }
 
     private function addHorBranches(y:int):void {
@@ -131,7 +131,7 @@ public class AtomExplosion extends ExplosionBase implements IExplosion {
     }
 
     public function get damage():int {
-        return 1;
+        return 25;
     }
 }
 }

@@ -9,13 +9,10 @@ import engine.bombers.interfaces.IBomber
 import engine.games.quest.monsters.Monster
 import engine.maps.interfaces.ICollectableDynObject
 import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IMapBlock
 import engine.maps.interfaces.ITimeActivatableDynObject
 import engine.model.managers.interfaces.IMapManager
 import engine.model.managers.interfaces.IPlayerManager
 import engine.model.managers.regular.DynObjectManager
-
-import greensock.TweenMax
 
 import mx.collections.ArrayList
 
@@ -49,17 +46,17 @@ public class QuestDOManager extends DynObjectManager {
         checkBuffer(elapsedMilliSecs)
     }
 
-    public override function activateObject(x:int, y:int, player:IBomber):void {
+    public override function activateObject(x:int, y:int, player:IBomber, params:Object = null):void {
         var object:IDynObject = getObjectAt(x, y);
         if (object == null) {
             trace("OH MY GOD!!! NO OBJECT AT " + x + "," + y)
         }
         if (object is ITimeActivatableDynObject) {
             (object as ITimeActivatableDynObject).addVictim(player)
-            readyToActivate.addItem(object)
+            readyToActivate.addItem(new ReadyToActivateItem(object, params))
         }
         else
-            object.activateOn(player)
+            object.activateOn(player, params)
 
         if (object.removeAfterActivation)
             _objects.removeItem(object);
@@ -75,8 +72,9 @@ public class QuestDOManager extends DynObjectManager {
 
             Context.game.explosionExchangeBuffer.length = 0
             if (readyToActivate.length > 0) {
-                for each (var b:ITimeActivatableDynObject in readyToActivate.source) {
-                    b.activateOn(b.victim)
+                for each (var i:ReadyToActivateItem in readyToActivate.source) {
+                    var b:ITimeActivatableDynObject = i.object as ITimeActivatableDynObject
+                    b.activateOn(b.victim, i.params)
                 }
                 readyToActivate.removeAll();
                 if (Context.game.explosionExchangeBuffer.length > 0)
@@ -88,7 +86,7 @@ public class QuestDOManager extends DynObjectManager {
     private function checkTimeActivatedObject(object:ITimeActivatableDynObject, elapsedMilliSecs:int):void {
         object.onTimeElapsed(elapsedMilliSecs);
         if (object.timeToActivate <= 0) {
-            EngineContext.qPlayerActivateObject.dispatch(object.victim == null ? -1 : object.victim.slot, object.block.x, object.block.y, object.type)
+            EngineContext.qPlayerActivateObject.dispatch(object.victim == null ? -1 : object.victim.slot, object.block.x, object.block.y, object.type, null)
         }
     }
 
@@ -97,7 +95,7 @@ public class QuestDOManager extends DynObjectManager {
             if (!object.wasTriedToBeTaken) {
                 trace("player tried to take")
                 object.tryToTake();
-                EngineContext.qPlayerActivateObject.dispatch(playerManager.mySlot, object.block.x, object.block.y, object.type);
+                EngineContext.qPlayerActivateObject.dispatch(playerManager.mySlot, object.block.x, object.block.y, object.type, null);
             }
         }
         _monstersManager.forEachAliveMonster(function todo(monster:Monster, id:int) {
@@ -106,7 +104,7 @@ public class QuestDOManager extends DynObjectManager {
                     trace("monster " + id + " tried to take")
                     if (monster.activatesObjects(object.type)) {
                         object.tryToTake()
-                        EngineContext.qMonsterActivateObject.dispatch(id, object.block.x, object.block.y, object.type);
+                        EngineContext.qMonsterActivateObject.dispatch(id, object.block.x, object.block.y, object.type, null);
                     }
                 }
             }
@@ -114,4 +112,26 @@ public class QuestDOManager extends DynObjectManager {
     }
 
 }
+}
+
+import engine.maps.interfaces.IDynObject
+
+class ReadyToActivateItem {
+
+    private var _object:IDynObject;
+    private var _params:Object
+
+    public function ReadyToActivateItem(object:IDynObject, params:Object) {
+        this._object = object
+        this._params = params
+    }
+
+    public function get object():IDynObject {
+        return _object
+    }
+
+    public function get params():Object {
+        return _params
+    }
+
 }

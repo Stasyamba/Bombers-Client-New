@@ -6,6 +6,7 @@
 package engine.explosionss {
 import engine.bombers.interfaces.IBomber
 import engine.maps.IMap
+import engine.model.explosionss.ExplosionType
 
 import mx.collections.ArrayList
 

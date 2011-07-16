@@ -215,9 +215,9 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
     }
 
 
-    private function onObjectActivated(id:int, x:int, y:int, objType:IDynObjectType, destList:Array):void {
+    private function onObjectActivated(id:int, x:int, y:int, objType:IDynObjectType, destList:Array, params:Object):void {
         var bomber:IBomber = getPlayer(id);
-        dynObjectManager.activateObject(x, y, bomber);
+        dynObjectManager.activateObject(x, y, bomber, params);
         for each (var point:Object in destList) {
             if (point.isS)
                 (dynObjectManager as DynObjectManager).explodeBlock(point.x, point.y, ExplosionType.byValue(objType.key))

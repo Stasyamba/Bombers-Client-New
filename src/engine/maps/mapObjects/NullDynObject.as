@@ -46,7 +46,7 @@ public class NullDynObject implements IDynObject {
         return DynObjectType.NULL;
     }
 
-    public function activateOn(player:IBomber):void {
+    public function activateOn(player:IBomber, params:Object = null):void {
     }
 
     public function tryToTake():void {

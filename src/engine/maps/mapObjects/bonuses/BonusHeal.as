@@ -15,7 +15,7 @@ public class BonusHeal extends BonusBase implements ICollectableDynObject {
         super(block)
     }
 
-    public override function activateOn(player:IBomber):void {
+    public override function activateOn(player:IBomber, params:Object = null):void {
         super.activateOn(player)
         if (player.life < player.startLife)
             player.life += 5;

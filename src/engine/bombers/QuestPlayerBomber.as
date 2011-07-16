@@ -162,7 +162,17 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     }
 
     public override function move(elapsedMilliSecs:int):void {
-        performMotion(elapsedMilliSecs * speed / 1000)
+        var moveAmount:Number = elapsedMilliSecs * speed / 1000;
+        while(true){
+            if (moveAmount > 30){
+                performMotion(30)
+                moveAmount -= 30
+            }else
+            {
+                performMotion(moveAmount)
+                break
+            }
+        }
     }
 
     public function setBomb(bombType:BombType):void {

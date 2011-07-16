@@ -60,12 +60,12 @@ public class DynObjectManager implements IDynObjectManager {
         trace("added")
     }
 
-    public function activateObject(x:int, y:int, player:IBomber):void {
+    public function activateObject(x:int, y:int, player:IBomber,params:Object = null):void {
         var object:IDynObject = getObjectAt(x, y);
         if (object == null) {
             throw Context.Exception("SERVER ERROR: No object to activate at (" + x + "," + y + ").")
         }
-        object.activateOn(player)
+        object.activateOn(player, params)
 
         if (object.removeAfterActivation)
             _objects.removeItem(object);

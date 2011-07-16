@@ -40,7 +40,7 @@ public class BonusBase {
         return block.y;
     }
 
-    public function activateOn(player:IBomber):void {
+    public function activateOn(player:IBomber, params:Object = null):void {
         block.collectObject(Context.game.playerManager.isItMe(player));
     }
 

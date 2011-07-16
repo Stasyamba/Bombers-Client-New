@@ -15,7 +15,7 @@ public class BonusAddBomb extends BonusBase implements ICollectableDynObject {
         super(block);
     }
 
-    public override function activateOn(player:IBomber):void {
+    public override function activateOn(player:IBomber, params:Object = null):void {
         super.activateOn(player)
         player.incBombCount();
         trace("player " + player.slot + " collected bonus bomb , bombs = " + player.bombCount);
