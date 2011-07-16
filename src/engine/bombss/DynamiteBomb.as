@@ -25,7 +25,7 @@ public class DynamiteBomb extends BombBase implements ITimeActivatableDynObject 
     }
 
     override protected function getExplosion(power:int = 0, lifetime:int = 0):IExplosion {
-        return _explosionsBuilder.make(ExplosionType.DYNAMITE, owner, block.x, block.y, power != 0 ? power : 4, lifetime)
+        return _explosionsBuilder.make(ExplosionType.DYNAMITE, owner, block.x, block.y, power != 0 ? power : 5 + _owner.bombPower, lifetime)
     }
 }
 }
