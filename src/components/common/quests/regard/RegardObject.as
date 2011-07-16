@@ -12,5 +12,10 @@ package components.common.quests.regard
 			amount = amountP;
 			itemId = itemIdP;
 		}
+		
+		public function clone():RegardObject
+		{
+			return new RegardObject(type, amount, itemId);
+		}
 	}
 }

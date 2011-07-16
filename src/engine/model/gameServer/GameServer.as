@@ -663,13 +663,60 @@ public class GameServer extends SmartFox {
 
                     //levels
                     var levelsArr:ISFSArray = plist.getSFSArray("Levels");
-                    for (var i:int = 0; i < levelsArr.size(); i++) {
+                    for (var i:int = 0; i < levelsArr.size(); i++) 
+					{
                         var lo:ISFSObject = levelsArr.getSFSObject(i);
                         var lev:int = lo.getInt("Level")
                         var exp:int = lo.getInt("Exp")
                         var reward:ISFSObject = lo.getSFSObject("Reward");
-                        //HERE, BLEAT
-                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(lev,exp))
+                        
+						/* parse rewards */
+						var rewards: Array = new Array();
+						
+						var rGold:int = reward.getInt("RO");
+						if(rGold != 0)
+						{
+							rewards.push(new RegardObject(RegardType.RESOURCE_GOLD, rGold));
+						}
+						
+						var rCrystalls:int = reward.getInt("R1");
+						if(rCrystalls != 0)
+						{
+							rewards.push(new RegardObject(RegardType.RESOURCE_CRYSTALS, rCrystalls));
+						}
+						
+						var rAdamant:int = reward.getInt("R2");
+						if(rAdamant != 0)
+						{
+							rewards.push(new RegardObject(RegardType.RESOURCE_ADAMANT,rAdamant));
+						}
+						
+						var rAntimatter:int = reward.getInt("R3");
+						if(rAntimatter != 0)
+						{
+							rewards.push(new RegardObject(RegardType.RESOURCE_ANTIMATTER,rAntimatter));
+						}
+						
+						var rEnergy:int = reward.getInt("R4");
+						if(rEnergy != 0)
+						{
+							rewards.push(new RegardObject(RegardType.RESOURCE_ENERGY, rEnergy));
+						}
+						
+						var rExp:int = reward.getInt("Exp");
+						if(rExp != 0)
+						{
+							rewards.push(new RegardObject(RegardType.RESOURCE_EXP, rExp));
+						}
+						
+						itemsArr = plist.getSFSArray("Items");
+						for (i = 0; i < itemsArr.size(); i++) 
+						{
+							obj = itemsArr.getSFSObject(i);
+							rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, obj.getInt("C"),obj.getInt("Id")));
+						}
+						
+                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(lev,exp,rewards))
                     }
 
                     //gp
