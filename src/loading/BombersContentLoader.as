@@ -464,5 +464,11 @@ public class BombersContentLoader {
         return _sounds[file]
     }
 
+    //management
+
+    public static function stopAll():void {
+        (LoaderMax.getLoader("engine") as LoaderCore).dispose();
+        (LoaderMax.getLoader("sounds") as LoaderCore).dispose();
+    }
 }
 }

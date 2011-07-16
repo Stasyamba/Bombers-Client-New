@@ -20,7 +20,7 @@ public interface IMapBlockState {
 
     function canHaveExplosionPrint(explType:ExplosionType):Boolean;
 
-    function explode(expl:ExplosionType):void;
+    function explode(expl:ExplosionType, damage:int = 0):void;
 
     function get type():MapBlockType;
 

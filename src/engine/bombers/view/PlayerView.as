@@ -38,7 +38,7 @@ public class PlayerView extends CreatureViewBase implements IDestroyable {
     }
 
     private function onPlayerDied(slot:int):void {
-        if(slot == _creature.slot){
+        if (slot == _creature.slot) {
             onDied()
             destroy()
         }
@@ -52,6 +52,8 @@ public class PlayerView extends CreatureViewBase implements IDestroyable {
 
 
     private function updateCoords(x:int, y:int):void {
+        if (_creature.isDead)
+            return;
         this.x = x;
         this.y = y;
     }

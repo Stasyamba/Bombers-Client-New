@@ -220,7 +220,7 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
         dynObjectManager.activateObject(x, y, bomber, params);
         for each (var point:Object in destList) {
             if (point.isS)
-                (dynObjectManager as DynObjectManager).explodeBlock(point.x, point.y, ExplosionType.byValue(objType.key))
+                (dynObjectManager as DynObjectManager).explodeBlock(point.x, point.y, ExplosionType.byValue(objType.key), params != null ? params.damage : 0)
             else
                 dynObjectManager.activateObject(point.x, point.y, bomber);
         }

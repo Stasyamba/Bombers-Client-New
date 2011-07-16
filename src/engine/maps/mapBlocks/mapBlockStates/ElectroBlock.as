@@ -52,7 +52,7 @@ public class ElectroBlock implements IActiveMapBlockState {
         return false
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
     }
 
     public function get type():MapBlockType {

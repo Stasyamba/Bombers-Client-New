@@ -349,6 +349,7 @@ public class GameModel {
 
     private function onServerDisconnected():void {
         onLeftGame()
+        BombersContentLoader.stopAll()
     }
 
     private function onProfileLoaded(profile:GameProfile):void {

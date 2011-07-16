@@ -39,6 +39,8 @@ import flash.geom.Point
 
 import org.osflash.signals.Signal
 
+import org.osflash.signals.Signal
+
 public class EngineContext {
 
     private static var _instance:EngineContext;
@@ -64,6 +66,8 @@ public class EngineContext {
     private var _explosionGroupAdded:ExplosionsAddedSignal = new ExplosionsAddedSignal();
     private var _explosionsUpdated:ExplosionsUpdatedSignal = new ExplosionsUpdatedSignal();
     private var _explosionsRemoved:ExplosionsRemovedSignal = new ExplosionsRemovedSignal();
+    private static var _explosionPrintAdded:Signal = new Signal(int,int)
+
     //---dynObjects
     private var _objectAdded:ObjectAddedSignal = new ObjectAddedSignal();
     private var _triedToActivateObject:TriedToActivateObjectSignal = new TriedToActivateObjectSignal();
@@ -169,6 +173,10 @@ public class EngineContext {
 
     public static function get smokeAdded():SmokeAddedSignal {
         return _instance._smokeAdded
+    }
+
+    public static function get explosionPrintAdded():Signal {
+        return _explosionPrintAdded
     }
 
     public static function get objectAdded():ObjectAddedSignal {
@@ -288,6 +296,8 @@ public class EngineContext {
         explosionsUpdated.removeAll()
         explosionsRemoved.removeAll()
         smokeAdded.removeAll()
+        explosionPrintAdded.removeAll();
+
         //---dynObjects
         objectAdded.removeAll()
         triedToActivateObject.removeAll()

@@ -44,13 +44,13 @@ public class SimpleBigObject extends BigObjectBase {
         return life <= 0;
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType,damage:int):void {
         if (isDestroyed) return;
         if (!_isExplodingNow) {
-            if (expl.damage >= life)
+            if (damage >= life)
                 destroy()
             else {
-                _life -= expl.damage;
+                _life -= damage;
                 startExplosion();
                 TweenMax.delayedCall(3, function():void {
                     stopExplosion();

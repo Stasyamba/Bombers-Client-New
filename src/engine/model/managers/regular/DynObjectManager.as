@@ -60,7 +60,7 @@ public class DynObjectManager implements IDynObjectManager {
         trace("added")
     }
 
-    public function activateObject(x:int, y:int, player:IBomber,params:Object = null):void {
+    public function activateObject(x:int, y:int, player:IBomber, params:Object = null):void {
         var object:IDynObject = getObjectAt(x, y);
         if (object == null) {
             throw Context.Exception("SERVER ERROR: No object to activate at (" + x + "," + y + ").")
@@ -85,9 +85,9 @@ public class DynObjectManager implements IDynObjectManager {
         object.onTimeElapsed(elapsedMilliSecs);
     }
 
-    public function explodeBlock(x:int, y:int, etype:ExplosionType):void {
+    public function explodeBlock(x:int, y:int, etype:ExplosionType, damage:int):void {
         var bb:IMapBlock = mapManager.map.getBlock(x, y)
-        bb.explode(etype)
+        bb.explode(etype, damage)
         TweenMax.delayedCall(etype.timeToLive / 1000, bb.stopExplosion)
     }
 }
