@@ -61,7 +61,9 @@
 			
 			private function init(): void
 			{
-				resourceGroup.removeAllElements();
+				/* init resources */
+				
+				/* resourceGroup.removeAllElements();
 				for each(var rt: ResourceType in rType)
 				{
 					var resourceObject: ResourceViewObject = Context.Model.resourceViewManager.getResourceViewObject(rt);
@@ -73,7 +75,7 @@
 					bmp.scaleY = 0.7;
 					
 					resourceGroup.addElement(bmp);
-				}
+				} */
 			}
 			
 			public function doAction(isPlay: Boolean): void
@@ -123,11 +125,12 @@
 				<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/locationenter/swords.png')" />
 				
 				<s:VGroup>
-					<s:Label text="Играют: {playersCount} чел." fontFamily="mpr" color="0xffde00" fontSize="12" />
-					<s:HGroup verticalAlign="middle" horizontalAlign="left" gap="2">
+					<!--<s:Label text="Играют: {playersCount} чел." fontFamily="mpr" color="0xffde00" fontSize="12" />-->
+					<s:Label text="{'Бои на этой\n локации'}" fontFamily="mpr" color="0xffde00" fontSize="12" />
+					<!--<s:HGroup verticalAlign="middle" horizontalAlign="left" gap="2" alpha="0">
 						<s:Label text="Добыча:" fontFamily="mpr" color="0xffde00" fontSize="12" />
 						<s:HGroup id="resourceGroup" gap="2" />
-					</s:HGroup>
+					</s:HGroup>-->
 				</s:VGroup>
 			</s:HGroup>
 			<flexcomponents:PatternButton id="fightButton" skinClass="skins.buttons.Pattern3ButtonS"
