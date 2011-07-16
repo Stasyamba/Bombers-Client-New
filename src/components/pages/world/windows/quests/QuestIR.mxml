@@ -125,7 +125,7 @@
 					if(betaRule is AccessBetaRule)
 					{ 
 						isBetaRule = true;
-						deniedLabel.text = "Закрыт на тестирование";
+						deniedLabel.text = "Закрыт \nна тестирование";
 					}
 				}
 				
