@@ -602,13 +602,6 @@ public class GameServer extends SmartFox {
                 break;
 
             case GAME_ENDED:
-//                var wId:String = responseParams.getUtfString("game.gameEnded.WinnerId")
-//                var wExp:int = responseParams.getInt("game.gameEnded.WinnerExperience")
-//                slot = Context.gameModel.getLobbyProfileById(wId).slot
-//                updLobbyExperience(slot, 1, wExp)
-//                if (Context.gameModel.isMySlot(slot)) {
-//                    Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("game.gameEnded.WinnerExperience")
-//                }
 
                 var arr:ISFSArray = responseParams.getSFSArray("expProfiles");
                 for (var i:int = 0; i < arr.size(); i++) {
@@ -616,9 +609,11 @@ public class GameServer extends SmartFox {
                     var slot:int = Context.gameModel.getLastLobbyProfileById(objP.getUtfString("Id")).slot
                     updLobbyExperience(slot, objP.getInt("Rank"), objP.getInt("Experience"))
                 }
+				
                 TweenMax.delayedCall(3.0, function ():void {
                     Context.gameModel.gameEnded.dispatch()
-                })
+                });
+				
                 break;
 
             case INT_GAME_PROFILE_LOADED:
@@ -711,7 +706,7 @@ public class GameServer extends SmartFox {
                             Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
                             break;
                         case TutorialPartType.PART4:
-                            Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
+                            Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_2_SHOW);
                             break;
                         case TutorialPartType.PART5:
                             Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
@@ -814,10 +809,12 @@ public class GameServer extends SmartFox {
                     lp.isReady = ready;
                 Context.gameModel.playerReadyChanged.dispatch();
 				
-				//params.putInt("NewEnergy", energy);
 				
-				Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("NewEnergy");
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+				if(name == Context.Model.currentSettings.gameProfile.id)
+				{
+					Context.Model.currentSettings.gameProfile.energy = responseParams.getInt("NewEnergy");
+					Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
+				}
 				
                 break;
 
@@ -897,8 +894,12 @@ public class GameServer extends SmartFox {
 
             case INT_SET_TUTORIAL_PART_RESULT:
 				
-				Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("interface.setTrainingStatus.result.f.youNewExperience");
-				Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+				/* не на всех шагах нужно выставлять опыт а только на одном */
+				if(responseParams.containsKey("interface.setTrainingStatus.result.f.youNewExperience"))
+				{
+					Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("interface.setTrainingStatus.result.f.youNewExperience");
+					Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+				}
 				
                 break;
         }

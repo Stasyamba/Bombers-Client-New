@@ -92,6 +92,8 @@
 			
 			import mx.managers.PopUpManager;
 			
+			public var rewards: Array = new Array();
+			
 			public function close():void {
 				
 				PopUpManager.removePopUp(this);
@@ -109,9 +111,9 @@
 				/* get pizes by level */
 				
 				/* testing */
-				var rewards: Array = new Array();
+				/* var rewards: Array = new Array();
 				rewards.push(new RegardObject(RegardType.RESOURCE_GOLD, 100));
-				rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, 1));
+				rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, 1)); */
 				
 				for each(var ro: RegardObject in rewards)
 				{
@@ -166,6 +168,17 @@
 				Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
 				
 				closeWrapper();
+			}
+			
+			private function getLevel(): void
+			{
+				if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
+				{
+					nextTutorialStep();
+				}else
+				{
+					closeWrapper();
+				}
 			}
 			
 		]]>
@@ -246,7 +259,7 @@
 												  fontSize="26" fontSizeOver="26"
 												  scale="1"
 												  fontColor="0xfff19f"
-												  click="nextTutorialStep();"
+												  click="getLevel();"
 												  />
 				</s:HGroup>
 			</s:VGroup>

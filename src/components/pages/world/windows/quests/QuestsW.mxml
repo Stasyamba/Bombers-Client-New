@@ -66,6 +66,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.access.rules.betarule.AccessBetaRule;
+			import components.pages.world.windows.locationenter.BetaContent;
 			import components.common.tutorial.TutorialPartType;
 			import mx.core.ScrollPolicy;
 			import components.pages.world.windows.tutorial.part2.TutorialQuestsEnterToolTip;
@@ -157,6 +159,11 @@
 									{
 										q.addFailRule(aro.accessRule);
 									}
+									break;
+								
+								case AccessRuleType.BETA_RULE:
+									
+									q.addFailRule(aro.accessRule);
 									break;
 							}
 						}

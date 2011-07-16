@@ -74,7 +74,7 @@
 
         private function panelCreationComplete():void {
             apearingAnimation.play();
-
+			
             closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, openPregame);
             closeTimer.start();
 
@@ -82,12 +82,25 @@
 
             scoreGroup.removeAllElements();
 
-            /* testing */
             var lobbies:Array = new Array();
-            for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
+            for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) 
+			{
+				/* its own profile */
+				if(lobbyProfile.id == Context.Model.currentSettings.gameProfile.id)
+				{
+					if(Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience) != 
+						Context.Model.experianceManager.getLevel(lobbyProfile.experience))
+					{
+						/* new level server request */
+					}
+					
+					Context.Model.currentSettings.gameProfile.experience = lobbyProfile.experience;
+					Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+				}
+				
                 lobbies.push(lobbyProfile);
             }
-            //var lobbies: Array = Context.gameModel.lastGameLobbyProfiles.concat();
+           
             lobbies.sortOn('place');
 
             for each(var lp:LobbyProfile in lobbies) {
@@ -132,7 +145,7 @@
             // prizes = Context.gameModel.lastPrizes.concat();
 
             /* testing */
-            prizes = new Array();
+            /* prizes = new Array();
             prizes.push(new PrizeObject(
                     PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
             );
@@ -158,7 +171,7 @@
             );
             prizes.push(new PrizeObject(
                     PrizeType.RESOURCE, ResourceType.CRYSTALS, 5)
-            );
+            ); */
 
 
             setPage(0);

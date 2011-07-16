@@ -17,6 +17,8 @@
 			import api.vkontakte.VkontakteGlobals;
 			
 			import components.common.profiles.VkontakteProfile;
+			import components.common.quests.regard.RegardObject;
+			import components.common.quests.regard.RegardType;
 			import components.common.superoffer.SuperOfferObject;
 			import components.common.superoffer.SuperOfferType;
 			import components.common.tutorial.TutorialPartType;
@@ -299,9 +301,10 @@
 				PopUpManager.addPopUp(shpw, (parentApplication as Bombers), false); 
 			});
 			
-			Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e: ContextEvent):void
-			{	
+			Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_2_SHOW, function (e: ContextEvent): void
+			{
 				var nlw: NewLevelW = new NewLevelW();
+				nlw.rewards = [new RegardObject(RegardType.RESOURCE_GOLD, 100), new RegardObject(RegardType.RESOURCE_ITEM, 1)];
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
 				
@@ -312,6 +315,26 @@
 				PopUpManager.centerPopUp(nlw);
 				
 				nlw.y -= 80;
+			});
+			
+			Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e: ContextEvent):void
+			{	
+				if(e.data is Array)
+				{
+					var nlw: NewLevelW = new NewLevelW();
+					nlw.rewards = (e.data as Array).concat();
+					
+					
+					Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
+					
+					parentApplication.setStyle("modalTransparencyBlur",0);
+					parentApplication.setStyle("modalTransparency", 0.2);
+					
+					PopUpManager.addPopUp(nlw, (parentApplication as Bombers), true);
+					PopUpManager.centerPopUp(nlw);
+					
+					nlw.y -= 80;
+				}
 			});
 			
 			/* testing */
