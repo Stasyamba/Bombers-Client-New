@@ -44,6 +44,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import greensock.TweenMax;
 			import components.common.tutorial.TutorialPartType;
 			import components.pages.world.windows.tutorial.part2.TutorialQuestStartToolTip;
 			import components.common.quests.QuestObject;
@@ -82,7 +83,7 @@
 				
 				if(questObject != null)
 				{
-					Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_SET, questObject.timeLimit + 3);
+					//Alert.show("Event sended"+questObject.timeLimit.toString());
 					
 					Context.gameServer.sendStartQuest(questObject.id);
 					
@@ -93,6 +94,14 @@
 					{
 						bonusGroup.addElement(new TutorialQuestStartToolTip());
 					}
+					
+					Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_SET, questObject.timeLimit + 3);
+					
+					/* TweenMax.delayedCall(1, function(): void
+					{
+						Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_SET, questObject.timeLimit + 3);
+					}); */
+					
 				}else
 				{
 					Alert.show("Error with passing data | QuestStartW.mxml");
