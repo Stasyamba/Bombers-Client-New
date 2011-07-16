@@ -14,49 +14,44 @@
 
     <fx:Script>
 		<![CDATA[
-			import api.vkontakte.VkontakteGlobals;
+        import api.vkontakte.VkontakteGlobals
 
-            import components.common.base.window.WindowsManager
+        import components.common.profiles.VkontakteProfile
+        import components.common.quests.regard.RegardObject
+        import components.common.quests.regard.RegardType
+        import components.common.superoffer.SuperOfferObject
+        import components.common.superoffer.SuperOfferType
+        import components.common.tutorial.TutorialPartType
+        import components.common.worlds.locations.LocationType
+        import components.pages.global.energymarket.EnergyMarketW
+        import components.pages.global.inventorynew.InventoryW
+        import components.pages.global.newlevel.NewLevelW
+        import components.pages.world.windows.daybonus.DayBonusW
+        import components.pages.world.windows.invite.InviteW
+        import components.pages.world.windows.quests.QuestsW
+        import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW
+        import components.pages.world.windows.tutorial.part1.TutorialW
+        import components.pages.world.windows.tutorial.part2.TutorialLocationW
+        import components.pages.world.windows.tutorial.part3.TutorialGetFriendBonusW
+        import components.pages.world.windows.tutorial.part5.TutorialOwnPackW
+        import components.pages.world.windows.tutorial.part5.TutorialPlayButtonW
+        import components.wall.SendWallObject
 
-            import components.common.profiles.VkontakteProfile;
-			import components.common.superoffer.SuperOfferObject;
-			import components.common.superoffer.SuperOfferType;
-			import components.common.tutorial.TutorialPartType;
-			import components.common.worlds.locations.LocationType;
-			import components.pages.global.energymarket.EnergyMarketW;
-			import components.pages.global.inventorynew.InventoryW;
-			import components.pages.global.newlevel.NewLevelW;
-			import components.pages.world.windows.daybonus.DayBonusW;
-			import components.pages.world.windows.invite.InviteW;
-			import components.pages.world.windows.quests.QuestsW;
-			import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW;
-			import components.pages.world.windows.tutorial.part1.TutorialW;
-			import components.pages.world.windows.tutorial.part2.TutorialLocationW;
-			import components.pages.world.windows.tutorial.part3.TutorialGetFriendBonusW;
-			import components.pages.world.windows.tutorial.part5.TutorialOwnPackW;
-			import components.pages.world.windows.tutorial.part5.TutorialPlayButtonW;
-			import components.wall.SendWallObject;
-			
-			import greensock.TweenMax;
-			
-			import loading.BombersContentLoader;
-			import loading.SoundManager;
-			
-			import mx.controls.Alert;
-			import mx.core.IVisualElement;
-			import mx.managers.PopUpManager;
+        import mx.controls.Alert
+        import mx.core.IVisualElement
+        import mx.managers.PopUpManager
 
         public static const TAB_NAME_WORLD:String = "WorldPage";
         public static const TAB_NAME_GAME:String = "GamePage";
-		public static const TAB_NAME_QUEST:String = "QuestPage";
+        public static const TAB_NAME_QUEST:String = "QuestPage";
 
         public var activeWindow:IVisualElement = null;
-			
-		/* testing */	
-			
-		private var bgSound:Sound;
-		private var bgSoundChannel: SoundChannel;
-			
+
+        /* testing */
+
+        private var bgSound:Sound;
+        private var bgSoundChannel:SoundChannel;
+
         public static function getTabIndexByName(name:String):int {
             var res:int = 0;
             switch (name) {
@@ -66,10 +61,10 @@
                 case ApplicationView.TAB_NAME_GAME:
                     res = 1;
                     break;
-				case ApplicationView.TAB_NAME_QUEST:
-					res = 2;
-					break;
-				
+                case ApplicationView.TAB_NAME_QUEST:
+                    res = 2;
+                    break;
+
                 default:
                     res = -1;
                     break;
@@ -88,9 +83,9 @@
                 case 1:
                     tabName = TAB_NAME_GAME;
                     break;
-				case 2:
-					tabName = TAB_NAME_QUEST;
-					break;
+                case 2:
+                    tabName = TAB_NAME_QUEST;
+                    break;
                 default:
                     break;
             }
@@ -110,18 +105,18 @@
                 }
 
             });
-			
+
 
             Context.Model.addCustomListener(ContextEvent.NEED_TO_OPEN_ENERGY_MARKET, function (e:ContextEvent):void {
-				
-				parentApplication.setStyle("modalTransparencyBlur",5);
 
-				var emw:EnergyMarketW = new EnergyMarketW();
-				
-				PopUpManager.addPopUp(emw, (parentApplication as Bombers), true);
-				PopUpManager.centerPopUp(emw);
-				
-				emw.y -= 92;
+                parentApplication.setStyle("modalTransparencyBlur", 5);
+
+                var emw:EnergyMarketW = new EnergyMarketW();
+
+                PopUpManager.addPopUp(emw, (parentApplication as Bombers), true);
+                PopUpManager.centerPopUp(emw);
+
+                emw.y -= 92;
             });
 
             Context.Model.addCustomListener(ContextEvent.VK_SEND_TO_WALL, function (e:ContextEvent):void {
@@ -130,245 +125,237 @@
                 }
             });
 
-			
-			Context.Model.addCustomListener(ContextEvent.NEED_TO_OPEN_LOCATION_QUESTS, function (e: ContextEvent):void
-			{
-				if(e.data is LocationType)
-				{
-					var qw: QuestsW = new QuestsW();
-					qw.locationType = e.data;
-					
-					/* is tutorial now */
-					if(Context.Model.currentTutorialPart != TutorialPartType.DONE)
-					{
-						Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
-						
-						parentApplication.setStyle("modalTransparencyBlur",0);
-						parentApplication.setStyle("modalTransparency", 0);
-						
-						PopUpManager.addPopUp(qw, (parentApplication as Bombers), true);
-					}else
-					{
-						PopUpManager.addPopUp(qw, (parentApplication as Bombers), false);
-					}
-					
-					PopUpManager.centerPopUp(qw);
-				}else
-				{
-					Alert.show("Error: data is not location type | ApplicationView");
-				}
-			});
-			
-			Context.Model.addCustomListener(ContextEvent.SUPER_OFFER_OPEN, function (e: ContextEvent):void
-			{
-				parentApplication.setStyle("modalTransparencyBlur",3);
-				
-				if(e.data is SuperOfferObject)
-				{
-					switch((e.data as SuperOfferObject).type)
-					{
-						case SuperOfferType.GET_PRIZE:
-							var sqew: SuperQuestGetPrizeW = new SuperQuestGetPrizeW();
-							sqew.superOfferObject = e.data;
-							
-							PopUpManager.addPopUp(sqew, (parentApplication as Bombers), true);
-							PopUpManager.centerPopUp(sqew);
-							
-							sqew.y += 20;
-							break;
-					}
-				}else
-				{
-					Alert.show("Error: data is not SuperOfferobject | ApplicationView");
-				}
-			});
-			
-			
-			
-			Context.Model.addCustomListener(ContextEvent.IM_SHOW, function (e: ContextEvent): void
-			{
-				parentApplication.setStyle("modalTransparencyBlur",3);
-				
-				var iw:InventoryW = new InventoryW();
-				iw.isShop = e.data;
 
-				PopUpManager.addPopUp(iw, (parentApplication as Bombers), true);
-				PopUpManager.centerPopUp(iw);
+            Context.Model.addCustomListener(ContextEvent.NEED_TO_OPEN_LOCATION_QUESTS, function (e:ContextEvent):void {
+                if (e.data is LocationType) {
+                    var qw:QuestsW = new QuestsW();
+                    qw.locationType = e.data;
 
-				iw.y -= 90;
-			});
-			
-			Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_DAY_BONUS, function (e: ContextEvent): void
-			{
-				parentApplication.setStyle("modalTransparencyBlur",3);
-				
-				var dbw: DayBonusW = new DayBonusW();
-				dbw.currentDay = e.data;
-				
-				PopUpManager.addPopUp(dbw, (parentApplication as Bombers), true);
-				PopUpManager.centerPopUp(dbw);
-				
-				dbw.y -= 90;
-			});
-			
-			Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_FRIENDS_HELP, function (e: ContextEvent): void
-			{
-				var iw: InviteW = new InviteW();
-				
-				PopUpManager.addPopUp(iw, (parentApplication as Bombers), false);
-				PopUpManager.centerPopUp(iw);
-				
-				iw.y -= 95;
-			});
-			
+                    /* is tutorial now */
+                    if (Context.Model.currentTutorialPart != TutorialPartType.DONE) {
+                        Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
+
+                        parentApplication.setStyle("modalTransparencyBlur", 0);
+                        parentApplication.setStyle("modalTransparency", 0);
+
+                        PopUpManager.addPopUp(qw, (parentApplication as Bombers), true);
+                    } else {
+                        PopUpManager.addPopUp(qw, (parentApplication as Bombers), false);
+                    }
+
+                    PopUpManager.centerPopUp(qw);
+                } else {
+                    Alert.show("Error: data is not location type | ApplicationView");
+                }
+            });
+
+            Context.Model.addCustomListener(ContextEvent.SUPER_OFFER_OPEN, function (e:ContextEvent):void {
+                parentApplication.setStyle("modalTransparencyBlur", 3);
+
+                if (e.data is SuperOfferObject) {
+                    switch ((e.data as SuperOfferObject).type) {
+                        case SuperOfferType.GET_PRIZE:
+                            var sqew:SuperQuestGetPrizeW = new SuperQuestGetPrizeW();
+                            sqew.superOfferObject = e.data;
+
+                            PopUpManager.addPopUp(sqew, (parentApplication as Bombers), true);
+                            PopUpManager.centerPopUp(sqew);
+
+                            sqew.y += 20;
+                            break;
+                    }
+                } else {
+                    Alert.show("Error: data is not SuperOfferobject | ApplicationView");
+                }
+            });
+
+
+            Context.Model.addCustomListener(ContextEvent.IM_SHOW, function (e:ContextEvent):void {
+                parentApplication.setStyle("modalTransparencyBlur", 3);
+
+                var iw:InventoryW = new InventoryW();
+                iw.isShop = e.data;
+
+                PopUpManager.addPopUp(iw, (parentApplication as Bombers), true);
+                PopUpManager.centerPopUp(iw);
+
+                iw.y -= 90;
+            });
+
+            Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_DAY_BONUS, function (e:ContextEvent):void {
+                parentApplication.setStyle("modalTransparencyBlur", 3);
+
+                var dbw:DayBonusW = new DayBonusW();
+                dbw.currentDay = e.data;
+
+                PopUpManager.addPopUp(dbw, (parentApplication as Bombers), true);
+                PopUpManager.centerPopUp(dbw);
+
+                dbw.y -= 90;
+            });
+
+            Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_FRIENDS_HELP, function (e:ContextEvent):void {
+                var iw:InviteW = new InviteW();
+
+                PopUpManager.addPopUp(iw, (parentApplication as Bombers), false);
+                PopUpManager.centerPopUp(iw);
+
+                iw.y -= 95;
+            });
+
             /* disconnected */
             Context.gameServer.disconnected.add(onDisconnected);
 
-				
+
             /* local testing */
-			
-			if(Context.Model.isDevelopment || !(parentApplication as Bombers).isWrapperExists)
-			{
-				idGroup.visible = true;
-			}else
-			{
-				idGroup.visible = false;
-			}
-			
+
+            if (Context.Model.isDevelopment || !(parentApplication as Bombers).isWrapperExists) {
+                idGroup.visible = true;
+            } else {
+                idGroup.visible = false;
+            }
+
             //idGroup.visible = !(parentApplication as Bombers).isWrapperExists;
-			
-			
+
+
             /* for development */
             //devGroup.visible = Context.Model.isDevelopment;
 
-			
-			/* parse game request if it's opened from the wall */
-			/* фишка работает только для ВК */
-			
+
+            /* parse game request if it's opened from the wall */
+            /* фишка работает только для ВК */
+
             if ((parentApplication as Bombers).isWrapperExists) {
                 var currentLocation:String = "" + VkontakteGlobals.wrapper.external.getLocation();
                 if (currentLocation != "") {
                     Context.gameServer.profileLoaded.addOnce(function(p1:*):void {
                         var arr:Array = currentLocation.split("-");
 
-                        if (arr.length == 2) 
-						{
-                           /*  Context.gameModel.fastJoinFailed.addOnce(joinTheGameFailed);
-                            Context.gameModel.someoneJoinedToGame.addOnce(joinTheGame);
+                        if (arr.length == 2) {
+                            /*  Context.gameModel.fastJoinFailed.addOnce(joinTheGameFailed);
+                             Context.gameModel.someoneJoinedToGame.addOnce(joinTheGame);
 
-                            Context.gameModel.joinConcreteGame(arr[0], arr[1]); */
+                             Context.gameModel.joinConcreteGame(arr[0], arr[1]); */
                         }
                     });
                 }
             }
-			
-			
-			/* tutorial */
-			
-			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART1, function (e: ContextEvent):void
-			{
-				parentApplication.setStyle("modalTransparencyBlur",0);
-				
-				var tw: TutorialW = new TutorialW();
-				
-				PopUpManager.addPopUp(tw, (parentApplication as Bombers), true);
-				PopUpManager.centerPopUp(tw);
-				
-				tw.y -= 100;
-			});
-			
-			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART2, function (e: ContextEvent):void
-			{	
-				var lw: TutorialLocationW = new TutorialLocationW();	
-				PopUpManager.addPopUp(lw, (parentApplication as Bombers), false);
-			});
-			
-			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART3, function (e: ContextEvent):void
-			{	
-				var fw: TutorialGetFriendBonusW = new TutorialGetFriendBonusW();
-				PopUpManager.addPopUp(fw, (parentApplication as Bombers), false);
-			});
-			
-			Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART5, function (e: ContextEvent):void
-			{	
-				var opw: TutorialOwnPackW = new TutorialOwnPackW();
-				PopUpManager.addPopUp(opw, (parentApplication as Bombers), false); 
-			});
-			
-			Context.Model.addCustomListener(ContextEvent.TUTORIAL_SHOW_PLAY_BUTTON, function (e: ContextEvent):void
-			{	
-				var shpw: TutorialPlayButtonW = new TutorialPlayButtonW();
-				PopUpManager.addPopUp(shpw, (parentApplication as Bombers), false); 
-			});
-			
-			Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e: ContextEvent):void
-			{	
-				var nlw: NewLevelW = new NewLevelW();
-				
-				Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
-				
-				parentApplication.setStyle("modalTransparencyBlur",0);
-				parentApplication.setStyle("modalTransparency", 0.2);
-				
-				PopUpManager.addPopUp(nlw, (parentApplication as Bombers), true);
-				PopUpManager.centerPopUp(nlw);
-				
-				nlw.y -= 80;
-			});
-			
-			/* testing */
-			
-			//setId(2);
-			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
-			
-			//Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
-			
-			/* Context.Model.dispatchCustomEvent(ContextEvent.SUPER_OFFER_OPEN, 
-				new SuperOfferObject(
-					SuperOfferType.ENERGY,
-					1,
-					"http://www.vensella.ru/eg/superQuestEnergy.jpg",
-					"",
-					2,
-					null
-					)); */
-				
-		   //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
-		   //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
-		 	
-		   /* 
-		   
-		   bgSound = new Sound();
-		   bgSoundChannel = new SoundChannel();
-		   bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-		   bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded); 
-			
-			*/
+
+
+            /* tutorial */
+
+            Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART1, function (e:ContextEvent):void {
+                parentApplication.setStyle("modalTransparencyBlur", 0);
+
+                var tw:TutorialW = new TutorialW();
+
+                PopUpManager.addPopUp(tw, (parentApplication as Bombers), true);
+                PopUpManager.centerPopUp(tw);
+
+                tw.y -= 100;
+            });
+
+            Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART2, function (e:ContextEvent):void {
+                var lw:TutorialLocationW = new TutorialLocationW();
+                PopUpManager.addPopUp(lw, (parentApplication as Bombers), false);
+            });
+
+            Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART3, function (e:ContextEvent):void {
+                var fw:TutorialGetFriendBonusW = new TutorialGetFriendBonusW();
+                PopUpManager.addPopUp(fw, (parentApplication as Bombers), false);
+            });
+
+            Context.Model.addCustomListener(ContextEvent.TUTORIAL_OPEN_PART5, function (e:ContextEvent):void {
+                var opw:TutorialOwnPackW = new TutorialOwnPackW();
+                PopUpManager.addPopUp(opw, (parentApplication as Bombers), false);
+            });
+
+            Context.Model.addCustomListener(ContextEvent.TUTORIAL_SHOW_PLAY_BUTTON, function (e:ContextEvent):void {
+                var shpw:TutorialPlayButtonW = new TutorialPlayButtonW();
+                PopUpManager.addPopUp(shpw, (parentApplication as Bombers), false);
+            });
+
+            Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_2_SHOW, function (e:ContextEvent):void {
+                var nlw:NewLevelW = new NewLevelW();
+                nlw.rewards = [new RegardObject(RegardType.RESOURCE_GOLD, 100), new RegardObject(RegardType.RESOURCE_ITEM, 1)];
+
+                Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
+
+                parentApplication.setStyle("modalTransparencyBlur", 0);
+                parentApplication.setStyle("modalTransparency", 0.2);
+
+                PopUpManager.addPopUp(nlw, (parentApplication as Bombers), true);
+                PopUpManager.centerPopUp(nlw);
+
+                nlw.y -= 80;
+            });
+
+            Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e:ContextEvent):void {
+                if (e.data is Array) {
+                    var nlw:NewLevelW = new NewLevelW();
+                    nlw.rewards = (e.data as Array).concat();
+
+
+                    Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
+
+                    parentApplication.setStyle("modalTransparencyBlur", 0);
+                    parentApplication.setStyle("modalTransparency", 0.2);
+
+                    PopUpManager.addPopUp(nlw, (parentApplication as Bombers), true);
+                    PopUpManager.centerPopUp(nlw);
+
+                    nlw.y -= 80;
+                }
+            });
+
+            /* testing */
+
+            //setId(2);
+            //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+
+            //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART2);
+
+            /* Context.Model.dispatchCustomEvent(ContextEvent.SUPER_OFFER_OPEN,
+             new SuperOfferObject(
+             SuperOfferType.ENERGY,
+             1,
+             "http://www.vensella.ru/eg/superQuestEnergy.jpg",
+             "",
+             2,
+             null
+             )); */
+
+            //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
+            //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
+
+            /*
+
+             bgSound = new Sound();
+             bgSoundChannel = new SoundChannel();
+             bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
+             bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
+
+             */
         }
-			
-		private function repeatSound(e: Event): void	
-		{
-			bgSoundChannel.removeEventListener(Event.SOUND_COMPLETE, repeatSound);
-			playBgSound();
-		}
-		
-		private function playBgSound(): void
-		{
-			bgSoundChannel = bgSound.play();
-			bgSoundChannel.soundTransform = new SoundTransform(0.9);
-			bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, repeatSound);	
-		}
-			
-		private function bgSoundLoaded(e: Event): void
-		{
-			//playBgSound();
-			bgSoundChannel = bgSound.play();
-			bgSoundChannel.soundTransform = new SoundTransform(0.9);
-			bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, repeatSound);	
-		}
-			
-			
-			
+
+        private function repeatSound(e:Event):void {
+            bgSoundChannel.removeEventListener(Event.SOUND_COMPLETE, repeatSound);
+            playBgSound();
+        }
+
+        private function playBgSound():void {
+            bgSoundChannel = bgSound.play();
+            bgSoundChannel.soundTransform = new SoundTransform(0.9);
+            bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, repeatSound);
+        }
+
+        private function bgSoundLoaded(e:Event):void {
+            //playBgSound();
+            bgSoundChannel = bgSound.play();
+            bgSoundChannel.soundTransform = new SoundTransform(0.9);
+            bgSoundChannel.addEventListener(Event.SOUND_COMPLETE, repeatSound);
+        }
+
 
         private function joinTheGameFailed():void {
             Context.gameModel.someoneJoinedToGame.remove(joinTheGame);
@@ -402,36 +389,31 @@
             tw.y -= 102;
         }
 
-	   	
-       /* local testing */
-			
-       private function setId(id:int):void {
-		   
-		    if(id != 6)
-			{
-	            Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
-	            Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
-	            idGroup.visible = false;
-	            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
-					
-	            Context.gameModel.init();
-			}else
-			{
-				idGroup.visible = false;
-				Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
-				Context.gameModel.init();
-			}
+
+        /* local testing */
+
+        private function setId(id:int):void {
+
+            if (id != 6) {
+                Context.Model.currentSettings.socialProfile = new VkontakteProfile("test" + id.toString());
+                Context.Model.currentSettings.flashVars.auth_key = "test" + id.toString();
+                idGroup.visible = false;
+                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
+
+                Context.gameModel.init();
+            } else {
+                idGroup.visible = false;
+                Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true)
+                Context.gameModel.init();
+            }
         }
-		
-		private function testing(): void	
-		{
-			Context.Model.currentSettings.gameProfile.resources.antimatter.value += (Math.random()*100-50);
-			Context.Model.currentSettings.gameProfile.resources.gold.value += (Math.random()*100-50);
-			
-			Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
-		}
-			
-			
+
+        private function testing():void {
+            Context.Model.currentSettings.gameProfile.resources.antimatter.value += (Math.random() * 100 - 50);
+            Context.Model.currentSettings.gameProfile.resources.gold.value += (Math.random() * 100 - 50);
+
+            Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
+        }
         ]]>
 	</fx:Script>
 
@@ -439,7 +421,7 @@
                  visible="false"
                  enabled="true"
                  dataProvider="{contentMainViewStack}"
-				 selectedIndex="0"
+                 selectedIndex="0"
             />
 
     <mx:ViewStack id="contentMainViewStack"
@@ -455,12 +437,12 @@
 
         <world:WorldPage/>
         <game:GamePage/>
-		<quest:QuestPage />
+        <quest:QuestPage/>
 
 
     </mx:ViewStack>
 
- <!--   <s:HGroup id="devGroup" y="20" alpha="1">
+    <!--   <s:HGroup id="devGroup" y="20" alpha="1">
         <s:Button label="Reload Maps" click="Context.gameServer.adminReloadMaps();"/>
         <s:Button label="Reload Price" click="Context.gameServer.adminReloadPrice();"/>
     </s:HGroup>-->
@@ -471,9 +453,9 @@
         <s:Button label="ID3" click="setId(3);"/>
         <s:Button label="ID4" click="setId(4);"/>
         <s:Button label="ID5" click="setId(5);"/>
-		<s:Button label="Use VK_ID" click="setId(6);"/>
+        <s:Button label="Use VK_ID" click="setId(6);"/>
     </s:HGroup>
-	
-	<!--<s:Button x="300" label="testing" click="testing();"/>-->
-	
+
+    <!--<s:Button x="300" label="testing" click="testing();"/>-->
+
 </s:Group>

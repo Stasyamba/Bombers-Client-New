@@ -25,6 +25,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.betarule.AccessBetaRule;
 			import components.common.tutorial.TutorialPartType;
         import components.ApplicationView;
         import components.common.base.access.rules.medalrule.AccessMedalRule;
@@ -115,29 +117,48 @@
 
                 this.filters = [cm.filter.clone()];
 
-                /* check for one rule only */
-                for each(var rule:AccessMedalRule in (data as QuestObject).view.accessFailedRules) {
-                    if (rule.needAnyMedalInQuestsBefore) 
+				/* check for beta rule */
+				var isBetaRule: Boolean = false;
+				
+				for each(var betaRule:IAccessRule in (data as QuestObject).view.accessFailedRules)
+				{
+					if(betaRule is AccessBetaRule)
+					{ 
+						isBetaRule = true;
+						deniedLabel.text = "Закрыт на тестирование";
+					}
+				}
+				
+				if(!isBetaRule)
+				{
+                    /* check for medal rule */
+	                for each(var rule:IAccessRule in (data as QuestObject).view.accessFailedRules) 
 					{
-                        deniedLabel.text = "Взять любые медали \n в пред квестах";
-                    } else {
-                        deniedLabel.text = "Нужны " + rule.medalsCount.toString();
-
-                        switch (rule.medalsType) {
-                            case MedalType.GOLD_MEDAL:
-                                deniedLabel.text += " зол. ";
-                                break;
-                            case MedalType.SILVER_MEDAL:
-                                deniedLabel.text += " сер. ";
-                                break;
-                            case MedalType.BRONZE_MEDAL:
-                                deniedLabel.text += " бронз. ";
-                                break;
-                        }
-
-                        deniedLabel.text += "медали\nза прошлые квесты";
-                    }
-                }
+						if(rule is AccessMedalRule)
+						{
+		                    if ((rule as AccessMedalRule).needAnyMedalInQuestsBefore) 
+							{
+		                        deniedLabel.text = "Взять любые медали \n в пред квестах";
+		                    } else {
+		                        deniedLabel.text = "Нужны " + (rule as AccessMedalRule).medalsCount.toString();
+		
+		                        switch ((rule as AccessMedalRule).medalsType) {
+		                            case MedalType.GOLD_MEDAL:
+		                                deniedLabel.text += " зол. ";
+		                                break;
+		                            case MedalType.SILVER_MEDAL:
+		                                deniedLabel.text += " сер. ";
+		                                break;
+		                            case MedalType.BRONZE_MEDAL:
+		                                deniedLabel.text += " бронз. ";
+		                                break;
+		                        }
+		
+		                        deniedLabel.text += "медали\nза прошлые квесты";
+		                    }
+						}
+	                }
+				}
             }
         }
 

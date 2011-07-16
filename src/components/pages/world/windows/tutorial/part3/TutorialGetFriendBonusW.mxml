@@ -145,7 +145,7 @@
 				closeWrapper();
 				Context.gameServer.sendSetTutorialPart(TutorialPartType.PART4);
 				Context.Model.currentTutorialPart = TutorialPartType.PART4;
-				Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
+				Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_2_SHOW);
 			}
 			
 		]]>

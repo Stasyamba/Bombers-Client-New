@@ -17,7 +17,7 @@ public class LocationManager
 
         locations.push(new LocationObject(
                 LocationType.WORLD1_CASTLE,
-                [new AccessLevelRule(4)]
+                [new AccessLevelRule(4), new AccessBetaRule()]
                 ));
 
 
