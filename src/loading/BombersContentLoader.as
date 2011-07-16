@@ -84,10 +84,9 @@ public class BombersContentLoader {
 
     // Quests
 
-    private static var _questsNames:Array = ["q00_00","q00_01","q00_02","q00_03"]
-
     private static var _areQuestsLoaded:Boolean = false
     private static var _questXmls:Array = new Array()
+    private static var _questsNames:Array = new Array()
 
     public static var questsLoaded:Signal = new Signal()
 
@@ -95,7 +94,25 @@ public class BombersContentLoader {
         return _areQuestsLoaded
     }
 
+    public static function get questsNames():Array {
+        return _questsNames
+    }
     public static function loadQuests():void {
+        var questsXmlLoader:XMLLoader = new XMLLoader(QUESTS_ADDRESS + "quests.xml",
+                new XMLLoaderVars()
+                        .onComplete(onQuestsXmlComlete)
+                        .onError(onQuestsXmlError)
+                        .noCache(true))
+        questsXmlLoader.load()
+    }
+
+    private static function onQuestsXmlError(e:LoaderEvent):void {
+        throw new Error("error loading quests description: " + e.text)
+    }
+
+    public static function onQuestsXmlComlete(e:LoaderEvent):void {
+        var _questsXml:XML = (e.target as XMLLoader).content
+
         var queue:LoaderMax = new LoaderMax(new LoaderMaxVars()
                 .name("quests")
                 .onComplete((
@@ -111,7 +128,10 @@ public class BombersContentLoader {
                     throw new Error("Error loading quests: " + e.target.text)
                 })
                 )
-        for each (var name:String in _questsNames) {
+
+        for each (var quest:XML in _questsXml.quest) {
+            var name:String = quest.@name;
+            _questsNames.push(name)
             queue.append(new XMLLoader(name + ".xml", new XMLLoaderVars()
                     .name(name)
                     .noCache(true)
@@ -131,10 +151,6 @@ public class BombersContentLoader {
 
     public static function questXML(questId:String):XML {
         return _questXmls[questId]
-    }
-
-    public static function get questsNames():Array {
-        return _questsNames
     }
 
     // monsters
@@ -220,54 +236,6 @@ public class BombersContentLoader {
         commonHelper("healthBar", comQueue)
         commonHelper("other", comQueue)
         commonHelper("bombers", comQueue)
-
-//        //bombers
-//        var bombersQueue:LoaderMax = new LoaderMax(new LoaderMaxVars()
-//                .onError(
-//                function (e:LoaderEvent):void {
-//                    throw new Error("Error loading bombers: " + e.text)
-//                })
-//                .onComplete(
-//                function (e:LoaderEvent):void {
-//                    whatIsLoaded["bombers"] = true
-//                    allBombersGraphicsLoaded.dispatch()
-//                    trace("bombers loaded")
-//                })
-//                .name("bombers")
-//                )
-//        var bbsAddr:String = IMAGES_ADDRESS + _filesXml.bombers.@addr
-//        for each (var bomber:XML in _filesXml.bombers.File) {
-//            var bId:String = bomber.@id
-//            var bArr:Array = new Array()
-//            for each (var file:XML in bomber.File) {
-//                var fname:String = file.@name
-//                var faddr:String = bbsAddr + bId + "/" + fname + file.@ext
-//                var fid:String = bId + "." + fname
-//                var ldr:LoaderCore = LoaderMax.parse(faddr,
-//                        new LoaderMaxVars()
-//                                .onError(
-//                                function (e:LoaderEvent):void {
-//                                    throw new Error("Error loading file " + e.target.name + ": " + e.text)
-//                                })
-//                                .name(fid))
-//                bArr.push(ldr)
-//                _loadedGraphics[fid] = new LoadedObject(fid, ldr)
-//            }
-//            var bLdr:LoaderCore = LoaderMax.parse(bArr,
-//                    new LoaderMaxVars()
-//                            .onError(
-//                            function (e:LoaderEvent):void {
-//                                throw new Error("Error loading bomber " + e.target.name + ": " + e.text)
-//                            })
-//                            .onComplete(
-//                            function (e:LoaderEvent):void {
-//                                whatIsLoaded[bId] = true
-//                                trace("bomber " + bId + " loaded")
-//                                bomberGraphicsLoaded.dispatch(BomberType.byStringId(bId))
-//                            })
-//                            .name(bId))
-//            bombersQueue.append(bLdr)
-//        }
 
         //locations
         var locationsQueue:LoaderMax = new LoaderMax(new LoaderMaxVars()
