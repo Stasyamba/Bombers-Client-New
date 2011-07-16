@@ -180,7 +180,7 @@ public class GameModel {
                     return new TaskObject(index, medal.text, rewards, MedalType.byValue(index))
                 })
 
-                return new QuestObject(item.id, item.locationId, item.imageURL, item.name, item.energyCost, item.accessRules, tasks, item.description, item.previewImageURL)
+                return new QuestObject(item.id, item.locationId, item.imageURL, item.name, item.energyCost, item.accessRules, tasks, item.description, item.previewImageURL,item.timeLimit)
 
             })
         Context.Model.questManager.addQuests(_commonQuests)
