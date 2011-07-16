@@ -145,8 +145,8 @@
             // prizes = Context.gameModel.lastPrizes.concat();
 
             /* testing */
-            /* prizes = new Array();
-            prizes.push(new PrizeObject(
+             prizes = new Array();
+			 /*prizes.push(new PrizeObject(
                     PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
             );
 
