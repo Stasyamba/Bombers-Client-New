@@ -36,7 +36,7 @@ public class FreeBlock implements IMapBlockState {
         return false;
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
         //do nothing: nothing to explode
     }
 

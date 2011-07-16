@@ -23,7 +23,7 @@ public class BoxBlock implements IMapBlockState {
         return true;
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
         // do nothing 'cause type will change
     }
 

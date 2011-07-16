@@ -210,7 +210,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     public override function kill():void {
         EngineContext.playerDied.dispatch();
         EngineContext.playerDamaged.dispatch(_life, true);
-        life = 0;
+        _life = 0;
     }
 
     public function tryActivateWeapon():void {

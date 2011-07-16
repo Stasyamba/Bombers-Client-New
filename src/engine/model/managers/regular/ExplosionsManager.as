@@ -36,6 +36,19 @@ public class ExplosionsManager implements IExplosionsManager {
                 explosions.addItem(e);
         }
         updateAllExplosions();
+
+        for each (e in expls) {
+            if (e.type.printsPrints) {
+                if (e.type.printsEverywhere) {
+                    e.forEachPoint(function (point:ExplosionPoint):void {
+                        EngineContext.explosionPrintAdded.dispatch(point.x, point.y)
+                    })
+                } else {
+                    EngineContext.explosionPrintAdded.dispatch(e.centerX, e.centerY)
+                }
+            }
+        }
+
     }
 
     public function updateAllExplosions():void {

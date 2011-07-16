@@ -21,7 +21,7 @@ public class FireBlock implements IActiveMapBlockState {
        var b:IPlayerBomber = creature as IPlayerBomber
        if (b != null) {
             if (!b.hasAura(WeaponType.FIRE_AURA)) {
-                b.hitWithoutImmortal(1)
+                b.hitWithoutImmortal(5)
             }
         }
     }
@@ -50,7 +50,7 @@ public class FireBlock implements IActiveMapBlockState {
         return false
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
     }
 
     public function get type():MapBlockType {

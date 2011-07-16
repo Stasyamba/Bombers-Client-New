@@ -41,7 +41,7 @@ public class FragileWallBlock implements IMapBlockState {
         return true;
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
         throw Context.Exception("Error in file FragileWallBlock.as: Implement fragile walls exploding")
     }
 

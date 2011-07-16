@@ -70,18 +70,7 @@ public class MapBlock extends MapBlockBase implements IMapBlock {
         return state.canHaveExplosionPrint(explType);
     }
 
-    private function checkExplosionPrint(expl:IExplosion):void {
-        if (!expl.type.printsPrints)
-            return;
-        if (expl.type.printsEverywhere || (expl.centerX == x && expl.centerY == y)) {
-            if (state.canHaveExplosionPrint(expl.type)) {
-                _hasExplosionPrint = true;
-                _explodedBy = expl.type
-            }
-        }
-    }
-
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
 
 //        checkExplosionPrint(expl);
 
@@ -109,7 +98,7 @@ public class MapBlock extends MapBlockBase implements IMapBlock {
             });
         }
         else
-            state.explode(expl);
+            state.explode(expl,damage);
 
         _isExplodingNow = true;
         explosionStarted.dispatch();

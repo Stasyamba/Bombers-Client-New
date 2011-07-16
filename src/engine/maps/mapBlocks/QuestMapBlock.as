@@ -79,7 +79,7 @@ public class QuestMapBlock extends MapBlockBase implements IMapBlock {
         }
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
 
 //        checkExplosionPrint(expl);
 
@@ -107,7 +107,7 @@ public class QuestMapBlock extends MapBlockBase implements IMapBlock {
             });
         }
         else
-            state.explode(expl);
+            state.explode(expl,damage);
 
         _isExplodingNow = true;
         explosionStarted.dispatch();

@@ -1037,7 +1037,7 @@ class MockMapBlock implements IMapBlock {
         throw new Error()
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
         throw new Error()
     }
 

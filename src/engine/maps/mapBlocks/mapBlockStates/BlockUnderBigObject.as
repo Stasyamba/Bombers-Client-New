@@ -46,9 +46,9 @@ public class BlockUnderBigObject implements IMapBlockState {
         return false;
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
         if (_explodes)
-            (objectUnder as SimpleBigObject).explode(expl);
+            (objectUnder as SimpleBigObject).explode(expl, damage);
     }
 
     public function get type():MapBlockType {

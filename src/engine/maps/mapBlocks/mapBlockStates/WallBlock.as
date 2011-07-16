@@ -41,7 +41,7 @@ public class WallBlock implements IMapBlockState {
         return MapBlockType.WALL;
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
         //do nothing, this is a wall dude
         // atom explosion makes it free so do nothing either
     }

@@ -89,7 +89,7 @@ public class NullMapBlock extends MapBlockBase implements IMapBlock {
         return false;
     }
 
-    public function explode(expl:ExplosionType):void {
+    public function explode(expl:ExplosionType, damage:int = 0):void {
     }
 
     public function stateAfterExplosion(expl:ExplosionType):MapBlockType {

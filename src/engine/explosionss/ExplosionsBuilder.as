@@ -26,7 +26,7 @@ public class ExplosionsBuilder {
                 return new BoxExplosion(mapManager.map, centerX, centerY)
             case ExplosionType.DYNAMITE:
                 var e:RegularExplosion = new RegularExplosion(mapManager.map, owner, centerX, centerY, power, lifetime)
-                e.damage = 2;
+                e.damage = 15;
                 return e
             case ExplosionType.SMOKE:
                 return new SmokeExplosion(mapManager.map, owner, centerX, centerY)

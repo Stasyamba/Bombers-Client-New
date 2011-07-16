@@ -8,10 +8,9 @@ import engine.EngineContext
 import engine.data.Consts
 import engine.interfaces.IDrawable
 import engine.maps.interfaces.IMapBlock
+import engine.model.explosionss.ExplosionType
 
 import flash.display.Sprite
-
-import mx.collections.ArrayList
 
 public class OverMapView extends Sprite implements IDrawable {
 
@@ -21,9 +20,7 @@ public class OverMapView extends Sprite implements IDrawable {
     public function OverMapView(map:IMap) {
 
         this.map = map;
-        EngineContext.explosionsRemoved.add(function(list:ArrayList):void {
-            draw();
-        })
+        EngineContext.explosionPrintAdded.add(onPrintAdded)
 
         prints = new Vector.<Sprite>();
         for each (var block:IMapBlock in map.blocks) {
@@ -35,24 +32,19 @@ public class OverMapView extends Sprite implements IDrawable {
         }
     }
 
+    private function onPrintAdded(x:int, y:int):void {
+        var print:Sprite = getPrint(x, y);
+        print.graphics.clear();
+        print.graphics.beginBitmapFill(Context.imageService.explosionPrint(ExplosionType.REGULAR))
+        print.graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
+        print.graphics.endFill();
+    }
+
     private function getPrint(x:int, y:int):Sprite {
         return prints[y * map.width + x];
     }
 
-    private function drawPrint(block:IMapBlock):void {
-        var print:Sprite = getPrint(block.x, block.y);
-        print.graphics.clear();
-        if (block.hasExplosionPrint) {
-            print.graphics.beginBitmapFill(Context.imageService.explosionPrint(block.explodedBy))
-            print.graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
-            print.graphics.endFill();
-        }
-    }
-
     public function draw():void {
-        for each (var block:IMapBlock in map.blocks) {
-            drawPrint(block);
-        }
     }
 }
 }
