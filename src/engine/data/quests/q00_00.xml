@@ -39,8 +39,7 @@
             </rows>
             <objects>
                 <!--bonuses-->
-                <Object id="100" x="13" y="7" wt="01"/>
-                <Object id="100" x="2" y="10" wt="01"/>
+                <Object id="100" x="13" y="7" wt="03"/>
                 <Object id="103" x="20" y="5"/>
                 <Object id="103" x="20" y="7"/>
                 <Object id="102" x="21" y="6"/>

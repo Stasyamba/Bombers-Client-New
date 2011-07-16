@@ -132,7 +132,6 @@ public class GameModel {
         BombersContentLoader.readyToUseAppView.addOnce(function() {
             BombersContentLoader.loadGraphics()
             BombersContentLoader.loadSounds()
-            Context.gameServer.measurePing()
 
             Context.gameServer.connected.add(onGameServerConnected);
             Context.gameServer.loggedIn.add(onLoggedIn);
@@ -176,7 +175,7 @@ public class GameModel {
                             return new RegardObject(RegardType.RESOURCE_EXP, (reward as ExperianceObject).experiance)
                         else if (reward is ItemProfileObject)
                             return new RegardObject(RegardType.RESOURCE_ITEM, 1, (reward as ItemProfileObject).itemCount)
-                        throw Context.Exception("������ � ����� GameModel.as: Unknown reward")
+                        throw Context.Exception("Error in file GameModel.as: Unknown reward")
                     })
                     return new TaskObject(index, medal.text, rewards, MedalType.byValue(index))
                 })
@@ -192,7 +191,7 @@ public class GameModel {
             if (q.id == id)
                 return q
         }
-        throw Context.Exception("������ � ����� GameModel.as: no quest with id = " + id)
+        throw Context.Exception("Error in file GameModel.as: no quest with id = " + id)
     }
 
     private function onGameServerConnected():void {
@@ -382,6 +381,7 @@ public class GameModel {
 
     private function onLoggedIn(name:String):void {
         Context.gameServer.joinDefaultRoom();
+        Context.gameServer.measurePing()
     }
 
 

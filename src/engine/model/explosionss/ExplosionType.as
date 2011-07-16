@@ -11,11 +11,11 @@ public class ExplosionType {
     public static const COMPLEX:ExplosionType = new ExplosionType("COMPLEX", 0, true, false,0);
     public static const ATOM:ExplosionType = new ExplosionType("ATOM", 3000, true, true,10);
     public static const BOX:ExplosionType = new ExplosionType("BOX", 0, false, false,0);
-    public static const DYNAMITE:ExplosionType = new ExplosionType("DYNAMITE", 2000, true, false,5);
+    public static const DYNAMITE:ExplosionType = new ExplosionType("DYNAMITE", 2000, true, false,15);
     public static const SMOKE:ExplosionType = new ExplosionType("SMOKE", 0, false, false,0)
 
 
-    public static function byValue(value:String):ExplosionType {
+    public static function byValue(value:String):ExplosionType  {
         switch (value) {
             case "REGULAR":return REGULAR;
             case "NULL":return NULL;

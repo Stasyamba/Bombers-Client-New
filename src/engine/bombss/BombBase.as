@@ -76,7 +76,7 @@ public class BombBase {
         Context.game.explosionExchangeBuffer.push(expl)
 
         block.collectObject(false)
-        _owner.returnBomb();
+
     }
 
     public function get type():IDynObjectType {

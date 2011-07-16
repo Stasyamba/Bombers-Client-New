@@ -239,7 +239,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
                     Context.Model.currentSettings.gameProfile.useQuestLeftWeapon()
                 }
             }else{
-                Context.Exception("������ � �����: QuestPlayerBomber.as: tried to activate weapon that doesn't exist")
+                Context.Exception("Error in file: QuestPlayerBomber.as: tried to activate weapon that doesn't exist")
             }
         }
     }
@@ -247,7 +247,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     public function deactivateWeapon(type:WeaponType):void {
         var w:IDeactivatableWeapon = _weaponBuilder.fromWeaponType(type, 1) as IDeactivatableWeapon
         if (w == null){
-           throw Context.Exception("������ � ����� QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
+           throw Context.Exception("Error in file QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
         }
         w.qDeactivateStatic(this);
     }

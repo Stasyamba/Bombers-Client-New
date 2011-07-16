@@ -4,6 +4,7 @@
  */
 
 package engine.games.quest {
+import components.common.base.access.rules.betarule.AccessBetaRule
 import components.common.base.access.rules.medalrule.AccessMedalRule
 
 import components.common.quests.medals.MedalType
@@ -56,6 +57,9 @@ public class EngineQuestObject {
         }else if(xml.accessRules.CountMedals.length() > 0) {
             var cm:XML = xml.accessRules.CountMedals[0]
             _accessRules.push(new AccessMedalRule(id,MedalType.byValue(int(cm.@type)),int(cm.@count)))
+        }
+        else if(xml.accessRules.BetaRule.length() > 0) {
+            _accessRules.push(new AccessBetaRule())
         }
     }
 

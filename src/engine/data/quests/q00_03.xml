@@ -12,21 +12,14 @@
     <energyCost>15</energyCost>
     <timeLimit>20</timeLimit>
     <finishOnGoal/>
-    <!--убрать, если надо чтобы время точно завершилось-->
     <accessRules>
-        <AllBefore/>
-        <!--<CountMedals type="1" count="20" />-->
+        <BetaRule/>
     </accessRules>
     <map>
         <Map>
             <size width="21" height="17"/>
             <spawns>
                 <Spawn x="19" y="15"/>
-                <!--frequency=[Hz], start=[sec]-->
-                <!--<MonsterSpawn x="5" y="2"-->
-                <!--monsterId="00.monsters.rat_02" freq="0.5" start="0" maxCount="3" object="2">-->
-                <!--<ws type="random" maxSec="4"/>-->
-                <!--</MonsterSpawn>-->
             </spawns>
             <rows>
                 <Row val="wwwwwwwwwbfbwwwwwwwww"/>
@@ -55,8 +48,6 @@
                 <!--violet: 2 rand-->
                 <Random id="1011" count="2" hide="box"/>
                 <Object id="1011" x="10" y="8"/>
-                <!--<Object id="1011" x="3" y="4"/>
-                <Object id="1011" x="3" y="5"/>-->
                 <!--yellow:7 rand-->
                 <Random id="1012" count="7" hide="box"/>
                 <Object id="1012" x="0" y="8"/>

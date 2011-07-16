@@ -42,5 +42,10 @@ public class RegularBomb extends BombBase implements ITimeActivatableDynObject {
 
         return _explosionsBuilder.make(ExplosionType.REGULAR, owner, block.x, block.y, act_power, lifetime)
     }
+
+    override public function activateOn(player:IBomber, params:Object = null):void {
+        super.activateOn(player, params)
+        _owner.returnBomb();
+    }
 }
 }
