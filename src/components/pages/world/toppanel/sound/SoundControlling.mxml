@@ -67,10 +67,10 @@
 			
 			public function init(): void
 			{
-				/* set start state */
 				if(Context.Model.musicState == -1)
 				{
-					selectedState = STATE_OFF;
+					/* start state */
+					selectedState = STATE_ON;
 				}else
 				{
 					selectedState = Context.Model.musicState;

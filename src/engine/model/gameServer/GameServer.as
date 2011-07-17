@@ -827,7 +827,7 @@ public class GameServer extends SmartFox {
                             Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART3);
                             break;
                         case TutorialPartType.PART4:
-                            Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_2_SHOW);
+                            Context.Model.dispatchCustomEvent(ContextEvent.NEW_LEVEL_SHOW);
                             break;
                         case TutorialPartType.PART5:
                             Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART5);
@@ -1015,9 +1015,16 @@ public class GameServer extends SmartFox {
             case INT_SET_TUTORIAL_PART_RESULT:
 
                 /* не на всех шагах нужно выставлять опыт а только на одном */
-                if (responseParams.containsKey("interface.setTrainingStatus.result.f.youNewExperience")) {
+                if (responseParams.containsKey("interface.setTrainingStatus.result.f.youNewExperience")) 
+				{
                     Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("interface.setTrainingStatus.result.f.youNewExperience");
                     Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+					
+					/* get 2 level */
+					Context.Model.dispatchCustomEvent(
+						ContextEvent.NEW_LEVEL_SHOW,
+						Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience).rewards
+					);
                 }
 
                 break;

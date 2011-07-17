@@ -97,6 +97,7 @@
 			
 			public var rewards: Array = new Array();
 			private var newResources:ResourcePrice;
+			private var isNewItem:Boolean = false;
 			
 			public function close():void {
 				
@@ -213,6 +214,8 @@
 									(ro as RegardObject).amount)
 							); 
 							
+							isNewItem = true;
+							
 							break;
 						
 						case RegardType.RESOURCE_ENERGY:
@@ -253,6 +256,7 @@
 				
 				Context.Model.currentSettings.gameProfile.resources = newResources.clone();
 				Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, true);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
 			}
 			
 		]]>
