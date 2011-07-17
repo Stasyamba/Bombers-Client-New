@@ -81,6 +81,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.common.items.ItemType;
 			import components.common.items.ItemProfileObject;
 			import components.common.resources.ResourcePrice;
@@ -254,9 +255,12 @@
 					closeWrapper();
 				}
 				
+				
+				Context.Model.currentSettings.gameProfile.energy = CommonConstans.ENERGY_MAXIMUM_REFILL;
 				Context.Model.currentSettings.gameProfile.resources = newResources.clone();
-				Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, true);
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, isNewItem);
 				Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
 			}
 			
 		]]>
