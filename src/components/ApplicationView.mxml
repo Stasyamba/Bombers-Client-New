@@ -37,8 +37,12 @@
 			import components.pages.world.windows.tutorial.part5.TutorialOwnPackW;
 			import components.pages.world.windows.tutorial.part5.TutorialPlayButtonW;
 			import components.wall.SendWallObject;
-			
-			import mx.controls.Alert;
+
+            import greensock.TweenMax
+
+            import loading.SoundManager
+
+            import mx.controls.Alert;
 			import mx.core.IVisualElement;
 			import mx.managers.PopUpManager;
 
@@ -340,14 +344,16 @@
             //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
             //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 
-            /*
 
-             bgSound = new Sound();
-             bgSoundChannel = new SoundChannel();
-             bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-             bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
+//             bgSound = new Sound();
+//             bgSoundChannel = new SoundChannel();
+//             bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
+//             bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
 
-             */
+            SoundManager.playMusic("bg.mp3");
+
+            TweenMax.delayedCall(10,SoundManager.changeMusicVolume,[0.1])
+
         }
 
         private function repeatSound(e:Event):void {

@@ -162,7 +162,7 @@
 	
 	
 	<s:Group x="12" y="474" click="nextTutorialStep();"
-			 rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
+			 rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"
 			 >
 		<s:Button skinClass="skins.buttons.InventoryButtonS" 
 				  useHandCursor="true" buttonMode="true"

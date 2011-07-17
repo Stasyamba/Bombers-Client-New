@@ -171,14 +171,14 @@
 	<s:Button id="playButton" x="696" y="489" 
 			  label="Играть" click="showMarket();" skinClass="skins.buttons.PlayGameButtonS"
 			  useHandCursor="true" buttonMode="true"
-			  rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
+			  rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"
 			  />
 	
 	<s:Button id="marketButton" visible="false" alpha="0" y="466" x="131"
 			  label="Market" click="openMarket();" 
 			  skinClass="skins.buttons.MarketButtonS"
 			  buttonMode="true" useHandCursor="true"
-			  rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
+			  rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
 	
 	<s:controlBarContent/>
 </s:Panel>

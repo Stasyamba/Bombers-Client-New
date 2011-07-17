@@ -55,6 +55,7 @@ public class BombersContentLoader {
 
     private static var _areBomberTypesLoaded:Boolean
 
+
     public static function loadBombers():void {
         var xmlLoader:XMLLoader = new XMLLoader(BOMBERS_ADDRESS,
                 new XMLLoaderVars()
@@ -385,12 +386,9 @@ public class BombersContentLoader {
     //sounds
     private static const SOUNDS_ADDRESS:String = "http://www.vensella.ru/vp/sounds/"
     private static const _soundsNames:Array = [
-		"acustech",
-		"01",
 		"03",
 		"windowMoveOpen",
-		"button_21",
-		"button_20",
+        "bg",
 		"button_30",
 		"button_46"
 	]
@@ -401,6 +399,7 @@ public class BombersContentLoader {
                 .onComplete((
                 function(e:LoaderEvent) {
                     trace("all sounds loaded")
+                    soundsLoaded.dispatch();
                 }))
                 .onError(
                 function(e:LoaderEvent) {
@@ -427,6 +426,8 @@ public class BombersContentLoader {
     }
 
     private static var _sounds:Object = new Object()
+
+    public static var soundsLoaded:Signal = new Signal();
 
     public static function sound(file:String):MP3Loader {
         return _sounds[file]

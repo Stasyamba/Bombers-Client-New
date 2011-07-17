@@ -40,7 +40,7 @@
 		
 		<s:Parallel id="apearingAnimation" startDelay="400">
 			<s:Sequence><!--effectStart="{this.y = -450}"-->
-				<s:Animate target="{this}" duration="500" effectStart="{SoundManager.play(SoundManager.WINDOW_MOVE_OPENING,0.6);}">
+				<s:Animate target="{this}" duration="500" effectStart="{SoundManager.playSound(SoundManager.WINDOW_MOVE_OPENING,0.6);}">
 					<s:SimpleMotionPath property="y"
 										valueFrom="-450" valueTo="100"
 										/>

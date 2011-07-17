@@ -115,12 +115,12 @@
 
         <s:HGroup height="41" paddingTop="-13">
             <flexcomponents:InventoryButton click="openInventory();"
-                                            rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
+                                            rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
         </s:HGroup>
         <s:HGroup height="41" paddingTop="-22" paddingLeft="15">
             <s:Button label="Market" click="openInventoryMarket();" skinClass="skins.buttons.MarketButtonS"
                       buttonMode="true" useHandCursor="true"
-                      rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
+                      rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
         </s:HGroup>
 
         <s:HGroup width="100%"/>
@@ -138,7 +138,7 @@
 
             <s:Button label="Играть" id="randomGameButton" click="joinGame();" skinClass="skins.buttons.PlayGameButtonS"
                       useHandCursor="true" buttonMode="true"
-                      rollOver="{SoundManager.play(SoundManager.BUTTON_CLICK_46, 0.2);}"
+                      rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"
                     />
 			
 			<!-- mouseMove="onMouseMove(event);" mouseOut="onMouseOut(event);" -->
