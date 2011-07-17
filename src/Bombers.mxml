@@ -177,6 +177,8 @@
 			override protected function onAddedToStage(e:Event):void {
 				super.onAddedToStage(e);
 				
+				//Alert.show("After added");
+				
 				if (!Context.Model.isDevelopment) 
 				{
 					Context.Model.applicationId = "2206924";
@@ -337,8 +339,13 @@
 						});
 						
 						/* vkontakte testing */
+						
+						//Alert.show("App started common");
+						
 						if (isWrapperExists) 
 						{
+							//Alert.show("Wrapper is exist");
+							
 							if(!Context.Model.isDevelopment)
 							{
 								//Alert.show("not development");
@@ -347,7 +354,7 @@
 								BombersContentLoader.readyToUseAppView.addOnce(
 									function():void 
 									{
-//										Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
+										//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
 									});
 							
 								Context.gameModel.init();
@@ -358,11 +365,11 @@
 					case APP_STARTED_DEVELOPMENT:
 						
 						chooseModeGroup.visible = false;
-						basePreloaderGroup.visible = false;
-						
+						basePreloaderGroup.visible = false;	
 						initApp(APP_STARTED_COMMON);
 						
 						break;
+					
 					default:
 						break;
 				}

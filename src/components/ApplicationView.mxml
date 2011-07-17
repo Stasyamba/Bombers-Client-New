@@ -281,21 +281,6 @@
                 PopUpManager.addPopUp(shpw, (parentApplication as Bombers), false);
             });
 
-            /* Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_2_SHOW, function (e:ContextEvent):void {
-                var nlw:NewLevelW = new NewLevelW();
-                nlw.rewards = [new RegardObject(RegardType.RESOURCE_GOLD, 100), new RegardObject(RegardType.RESOURCE_ITEM, 1)];
-
-                Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
-
-                parentApplication.setStyle("modalTransparencyBlur", 0);
-                parentApplication.setStyle("modalTransparency", 0.2);
-
-                PopUpManager.addPopUp(nlw, (parentApplication as Bombers), true);
-                PopUpManager.centerPopUp(nlw);
-
-                nlw.y -= 80;
-            }); */
-
             Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e:ContextEvent):void {
                 if (e.data is Array) {
                     var nlw:NewLevelW = new NewLevelW();
@@ -345,13 +330,7 @@
             //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
             //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 
-
-//             bgSound = new Sound();
-//             bgSoundChannel = new SoundChannel();
-//             bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
-//             bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
-
-
+			
             SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, CommonConstans.MUSIC_HALF_NORMAL_VOLUME);
 
         }
@@ -392,9 +371,8 @@
         }
 
         private function onDisconnected():void {
-            //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, TAB_NAME_GAME)
             Context.Model.windowsManager.closeAll(true);
-            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DISCONNECTED_WINDOW)
+            Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DISCONNECTED_WINDOW);
         }
 
         private function openTutorialPreview():void {
