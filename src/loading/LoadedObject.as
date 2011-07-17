@@ -57,11 +57,13 @@ public class LoadedObject {
     }
 
     public function swfClass(name:String):Class {
-        if(_contentType != LoadedContentType.SWF)
-           throw Context.Exception("Ошибка в LoadedObject.as: swfClass is only accessible for swf loaders");
+        if (_contentType != LoadedContentType.SWF)
+            throw Context.Exception("Error in LoadedObject.as: swfClass is only accessible for swf loaders");
+        if (!_loaded)
+            throw Context.Exception("Error in LoadedObject.as: content " + _id + " is not loaded yet");
         var res:Class = (_loader as SWFLoader).getClass(name)
-        if (res == null){
-           throw Context.Exception("Ошибка в LoadedObject.as: didn't find class " + name + " in object with id = " + _id);
+        if (res == null) {
+            throw Context.Exception("Error in LoadedObject.as: didn't find class " + name + " in object with id = " + _id);
         }
         return res;
     }
