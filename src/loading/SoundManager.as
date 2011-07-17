@@ -84,12 +84,12 @@ public class SoundManager {
         }
     }
 
-    public function switchMusicOff():void {
+    public static function switchMusicOff():void {
         changeMusicVolume(0);
         _isPlayingMusic = false;
     }
 
-    public function switchMusicOn():void {
+    public static function switchMusicOn():void {
         _isPlayingMusic = true;
         changeMusicVolume(1);
     }
