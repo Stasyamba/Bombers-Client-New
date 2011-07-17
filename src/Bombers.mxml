@@ -356,7 +356,7 @@
 									{
 										//Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
 									});
-							
+
 								Context.gameModel.init();
 							}
 						}
