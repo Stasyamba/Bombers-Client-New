@@ -127,7 +127,7 @@ public class BombersContentLoader {
                 }))
                 .onError(
                 function(e:LoaderEvent) {
-                    throw Context.Exception("Error in file BombersContentLoader.as :Error loading quests: " + e.target.text)
+                    throw Context.Exception("Error in file BombersContentLoader.as :Error loading quests: " + e.text)
                 })
         )
 
@@ -408,7 +408,7 @@ public class BombersContentLoader {
                 }))
                 .onError(
                 function(e:LoaderEvent) {
-                    throw Context.Exception("Error in file BombersContentLoader.as: Error loading sounds: " + e.target.text)
+                    throw Context.Exception("Error in file BombersContentLoader.as: Error loading sounds: " + e.text)
                 })
         )
         for each (var name:String in _soundsNames) {
