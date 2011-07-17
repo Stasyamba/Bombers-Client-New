@@ -37,6 +37,9 @@
 			{
 				if(value != _selectedState)
 				{	
+					Context.Model.musicState = value;
+					_selectedState = value;
+					
 					switch(value)
 					{
 						case STATE_OFF:
@@ -57,9 +60,6 @@
 							
 							break;
 					}
-
-					Context.Model.musicState = value;
-					_selectedState = value;
 				}
 				
 				
