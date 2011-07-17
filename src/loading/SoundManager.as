@@ -27,6 +27,7 @@ public class SoundManager {
 
     private static var musicStopped:Signal = new Signal()
 
+    private static var _currentMusicVolume:Number = 1.0
 
     public static function playSound(file:String, volume:Number = 1.0):void {
         var s:MP3Loader = sound(file)
@@ -45,6 +46,8 @@ public class SoundManager {
             })
         } else
             startSurely(file, volume)
+
+        _currentMusicVolume = volume;
     }
 
     private static function startSurely(file:String, volume:Number = 1.0):void {
@@ -82,16 +85,19 @@ public class SoundManager {
         if (playingForever && _isPlayingMusic) {
             TweenMax.to(playingForever, FADE_TIME, {volume:volume})
         }
+        _currentMusicVolume = volume;
     }
 
     public static function switchMusicOff():void {
-        changeMusicVolume(0);
+        if (playingForever)
+            TweenMax.to(playingForever, FADE_TIME, {volume:0})
         _isPlayingMusic = false;
     }
 
     public static function switchMusicOn():void {
         _isPlayingMusic = true;
-        changeMusicVolume(1);
+        if (playingForever)
+            TweenMax.to(playingForever, FADE_TIME, {volume:_currentMusicVolume})
     }
 
     private static function sound(file:String):MP3Loader {
