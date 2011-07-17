@@ -678,7 +678,7 @@ public class GameServer extends SmartFox {
 						
                         if (reward != null) 
 						{
-                            var rGold:int = reward.getInt("RO");
+                            var rGold:int = reward.getInt("R0");
                             if (rGold != 0) {
                                 rewardsArray.push(new RegardObject(RegardType.RESOURCE_GOLD, rGold));
                             }
@@ -722,13 +722,13 @@ public class GameServer extends SmartFox {
                     }
 
 					
-					for each(var eo: ExperianceObject in Context.Model.experianceManager.levelExperiencePair)
+					/*for each(var eo: ExperianceObject in Context.Model.experianceManager.levelExperiencePair)
 					{
 						debugRewards += "Level: "+eo.level.toString()+"\n\n";
 						debugRewards += ObjectUtil.toString({rw: eo.rewards});
 						debugRewards += "\n\n--------------------------------\n\n";
 					}	
-					Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, debugRewards);
+					Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, debugRewards);*/
 					
 					
                     //gp
