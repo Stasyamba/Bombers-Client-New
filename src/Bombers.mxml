@@ -344,12 +344,6 @@
 								//Alert.show("not development");
 								Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true);
 								
-								BombersContentLoader.readyToUseAppView.addOnce(
-									function():void 
-									{
-//										Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false)
-									});
-							
 								Context.gameModel.init();
 							}
 						}
