@@ -6,7 +6,7 @@
 		 creationComplete="init();"
 		 click="changeState();"
 		 useHandCursor="true" buttonMode="true"
-		 verticalAlign="middle" gap="3"
+		 verticalAlign="middle" gap="-3"
 		 >
 	
 	<fx:Metadata>
@@ -19,6 +19,8 @@
 	<fx:Script>
 		<![CDATA[
 			import components.common.utils.adjustcolor.ColorMatrix;
+			
+			import loading.SoundManager;
 			
 			public static const STATE_ON: int = 0;
 			public static const STATE_OFF: int = 1;
@@ -39,13 +41,15 @@
 						case STATE_OFF:
 							waveImage.visible = false;
 							
-							/* turn music off */
+							/* turn the music off */
+							SoundManager.changeMusicVolume(0);
 							
 							break;
 						case STATE_ON:
 							waveImage.visible = true;
 							
-							/* turn music on */
+							/* turn the music on */
+							SoundManager.changeMusicVolume(0.3);
 							
 							break;
 					}
