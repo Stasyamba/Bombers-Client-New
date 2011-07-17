@@ -35,5 +35,6 @@ public class Consts {
 
 
     public static const SPEED_BONUS_MULTIPLIER:Number = 1.1
+    public static const MONSTER_ALLOWED_DELTA:Number = 7;
 }
 }

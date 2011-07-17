@@ -152,7 +152,7 @@
 					/>
 	
 	
-	<s:Label id="tText" x="420" y="209" text="{'Нажмите чтобы\nоткрыть локацию'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
+	<s:Label id="tText" x="420" y="209" text="{'Нажми, чтобы\nоткрыть локацию'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
 		<s:filters>
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />

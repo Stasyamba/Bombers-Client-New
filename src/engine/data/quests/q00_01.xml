@@ -6,11 +6,11 @@
     <id>q00_01</id>
     <location>0</location>
     <name>Грибная лихорадка</name>
-    <description>Описание</description>
+    <description>Салют тебе славный житель Бомбастерии, у нас в разгаре грибной сезон! Грибники поговаривают, что в лесах завелись коварные грибы. Твоя задача найти их и сдать в Госнаркоконтроль, парочку можешь оставить себе ;)</description>
     <questImage>1.jpg</questImage>
     <previewImage>marshrums.png</previewImage>
     <energyCost>10</energyCost>
-    <timeLimit>350</timeLimit>
+    <timeLimit>270</timeLimit>
     <accessRules>
         <AllBefore/>
     </accessRules>
@@ -278,22 +278,21 @@
         <Element t="enemiesAlive"/>
     </donePanel>
     <medals>
-	<!--        <goal t="CollectObjectsGoal" type="1012" amount="100" text="Собрать 1 желтый гриб"/> -->
-        <Bronze text="Бронзовая цель">
-            <goal t="CollectObjectsGoal" type="1012" amount="1" text="Собрать 1 желтый гриб"/>
+        <Bronze text="10 зеленых">
+            <goal t="CollectObjectsGoal" type="1012" amount="10" text=""/>
             <prize>
                 <Resource id="00" val="100"/>
             </prize>
         </Bronze>
-        <Silver text="Серебряная цель">
-            <goal t="CollectObjectsGoal" type="1012" amount="2" text="Собрать 1 желтый гриб"/>
+        <Silver text="20 зеленых">
+            <goal t="CollectObjectsGoal" type="1012" amount="20" text=""/>
             <prize>
                 <Resource id="00" val="300"/>
                 <Experience val="20"/>
             </prize>
         </Silver>
-        <Gold text="Золотая цель">
-            <goal t="CollectObjectsGoal" type="1013" amount="1" text="Собрать 1 желтый гриб"/>
+        <Gold text="3 мухомора">
+            <goal t="CollectObjectsGoal" type="1013" amount="3" text=""/>
             <prize>
                 <Resource id="00" val="500"/>
                 <Experience val="30"/>

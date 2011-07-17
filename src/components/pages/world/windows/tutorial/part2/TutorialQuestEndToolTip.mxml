@@ -9,7 +9,7 @@
 	
 	<tutorial:Arrow y="60" id="tArrow" customRotation="-30" selectedState="{Arrow.STATE_LINEAR_PUPMED}" />
 	
-	<s:Label id="tText1" x="-65" y="122" text="{'Нажми чтобы\nвернуться'}" 
+	<s:Label id="tText1" x="-65" y="122" text="{'Нажми, чтобы\nвернуться'}"
 			 fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center"
 			 >
 		<s:filters>

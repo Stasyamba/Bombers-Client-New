@@ -152,7 +152,7 @@
 					   borderVisible="false"
 					   />
 	
-	<s:Label id="tText" x="150" y="259" text="{'Кажется в рюкзаке\nпоявился новый предмет\nнужно проверить!'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
+	<s:Label id="tText" x="150" y="259" text="{'Кажется, в рюкзаке\nпоявился новый предмет.\nНужно проверить!'}" fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center">
 		<s:filters>
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />
 			<s:GlowFilter color="0x97490d" blurX="10" blurY="10" />

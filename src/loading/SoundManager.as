@@ -28,6 +28,8 @@ public class SoundManager {
     private static var musicStopped:Signal = new Signal()
 
     private static var _currentMusicVolume:Number = 1.0
+    private static var _lastRequestedFile:String
+    private static var _lastRequestedVol:Number
 
     public static function playSound(file:String, volume:Number = 1.0):void {
         var s:MP3Loader = sound(file)
@@ -52,13 +54,17 @@ public class SoundManager {
 
     private static function startSurely(file:String, volume:Number = 1.0):void {
         if (!startMusic(file, volume)) {
+            _lastRequestedFile = file;
+            _lastRequestedVol = volume;
             BombersContentLoader.soundsLoaded.addOnce(function() {
-                startMusic(file, volume)
+                startMusic(_lastRequestedFile, _lastRequestedVol)
             })
         }
     }
 
     private static function startMusic(file:String, volume:Number = 1.0):Boolean {
+        if(playingForever != null)
+            return false;
         var s:MP3Loader = sound(file)
         if (s != null) {
             s.volume = _isPlayingMusic ? volume : 0;

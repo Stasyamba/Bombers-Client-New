@@ -96,8 +96,8 @@ public class MonstersManager {
         forEachAliveMonster(function(monster:Monster,slot:int):void {
             if (me.isImmortal) return;
             if (monster.monsterType.damage <= 0) return
-            if ((me.coords.elemY == monster.coords.elemY && Math.abs(x - monster.coords.getRealX()) < Consts.BOMBER_SIZE) ||
-                    (me.coords.elemX == monster.coords.elemX && Math.abs(y - monster.coords.getRealY()) < Consts.BOMBER_SIZE)){
+            if ((me.coords.elemY == monster.coords.elemY && Math.abs(x - monster.coords.getRealX()) < Consts.BOMBER_SIZE - Consts.MONSTER_ALLOWED_DELTA) ||
+                    (me.coords.elemX == monster.coords.elemX && Math.abs(y - monster.coords.getRealY()) < Consts.BOMBER_SIZE - Consts.MONSTER_ALLOWED_DELTA)){
                me.hit(monster.monsterType.damage)
             }
         })
