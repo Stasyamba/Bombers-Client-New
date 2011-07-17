@@ -81,6 +81,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.items.ItemType;
+			import components.common.items.ItemProfileObject;
+			import components.common.resources.ResourcePrice;
 			import components.common.tutorial.TutorialPartType;
 			import components.pages.global.newlevel.rewards.RewardEnergyContent;
 			import components.pages.global.newlevel.rewards.RewardItemContent;
@@ -93,6 +96,7 @@
 			import mx.managers.PopUpManager;
 			
 			public var rewards: Array = new Array();
+			private var newResources:ResourcePrice;
 			
 			public function close():void {
 				
@@ -114,7 +118,7 @@
 				/* var rewards: Array = new Array();
 				rewards.push(new RegardObject(RegardType.RESOURCE_GOLD, 100));
 				rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, 1)); */
-				
+			
 				for each(var ro: RegardObject in rewards)
 				{
 					var content: * = null;
@@ -122,8 +126,26 @@
 					switch(ro.type)
 					{
 						case RegardType.RESOURCE_ADAMANT:
+							
+							content = new RewardResourceContent();
+							(content as RewardResourceContent).initContent(ro);
+							
+							break;
+							
 						case RegardType.RESOURCE_ANTIMATTER:
+							
+							content = new RewardResourceContent();
+							(content as RewardResourceContent).initContent(ro);
+							
+							break;
+							
 						case RegardType.RESOURCE_CRYSTALS:
+							
+							content = new RewardResourceContent();
+							(content as RewardResourceContent).initContent(ro);
+							
+							break;
+							
 						case RegardType.RESOURCE_GOLD:
 							
 							content = new RewardResourceContent();
@@ -154,6 +176,55 @@
 						prizeGroup.addElement(content);
 					}
 				}
+				
+				newResources = Context.Model.currentSettings.gameProfile.resources.clone();
+				//var newEnegy: int;
+				
+				for each(ro in rewards)
+				{
+					switch(ro.type)
+					{
+						case RegardType.RESOURCE_ADAMANT:
+							newResources.add(new ResourcePrice(0,0,ro.amount, 0));
+							break;
+						
+						case RegardType.RESOURCE_ANTIMATTER:
+							newResources.add(new ResourcePrice(0,0,0,ro.amount));
+							break;
+						
+						case RegardType.RESOURCE_CRYSTALS:
+							newResources.add(new ResourcePrice(0,ro.amount,0,0));
+							break;
+						
+						case RegardType.RESOURCE_GOLD:
+							newResources.add(new ResourcePrice(ro.amount,0,0,0));
+							break;
+						
+						case RegardType.RESOURCE_ITEM:
+							
+							Context.Model.currentSettings.gameProfile.gotItems.push(
+								new ItemProfileObject(
+														ItemType.byValue((ro as RegardObject).itemId),
+														(ro as RegardObject).amount)
+							); 
+							Context.Model.currentSettings.gameProfile.packItems.push(
+								new ItemProfileObject(
+									ItemType.byValue((ro as RegardObject).itemId),
+									(ro as RegardObject).amount)
+							); 
+							
+							break;
+						
+						case RegardType.RESOURCE_ENERGY:
+							
+							
+							break;
+						
+						case RegardType.RESOURCE_EXP:
+							break;
+					}
+					
+				}
 			}
 			
 			private function closeWrapper1(e:ContextEvent): void
@@ -179,6 +250,9 @@
 				{
 					closeWrapper();
 				}
+				
+				Context.Model.currentSettings.gameProfile.resources = newResources.clone();
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_NEW_ITEM, true);
 			}
 			
 		]]>

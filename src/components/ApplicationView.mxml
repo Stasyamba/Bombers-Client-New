@@ -14,32 +14,33 @@
 
     <fx:Script>
 		<![CDATA[
-        import api.vkontakte.VkontakteGlobals
-
-        import components.common.profiles.VkontakteProfile
-        import components.common.quests.regard.RegardObject
-        import components.common.quests.regard.RegardType
-        import components.common.superoffer.SuperOfferObject
-        import components.common.superoffer.SuperOfferType
-        import components.common.tutorial.TutorialPartType
-        import components.common.worlds.locations.LocationType
-        import components.pages.global.energymarket.EnergyMarketW
-        import components.pages.global.inventorynew.InventoryW
-        import components.pages.global.newlevel.NewLevelW
-        import components.pages.world.windows.daybonus.DayBonusW
-        import components.pages.world.windows.invite.InviteW
-        import components.pages.world.windows.quests.QuestsW
-        import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW
-        import components.pages.world.windows.tutorial.part1.TutorialW
-        import components.pages.world.windows.tutorial.part2.TutorialLocationW
-        import components.pages.world.windows.tutorial.part3.TutorialGetFriendBonusW
-        import components.pages.world.windows.tutorial.part5.TutorialOwnPackW
-        import components.pages.world.windows.tutorial.part5.TutorialPlayButtonW
-        import components.wall.SendWallObject
-
-        import mx.controls.Alert
-        import mx.core.IVisualElement
-        import mx.managers.PopUpManager
+			import api.vkontakte.VkontakteGlobals;
+			
+			import components.common.profiles.VkontakteProfile;
+			import components.common.quests.regard.RegardObject;
+			import components.common.quests.regard.RegardType;
+			import components.common.superoffer.SuperOfferObject;
+			import components.common.superoffer.SuperOfferType;
+			import components.common.tutorial.TutorialPartType;
+			import components.common.worlds.locations.LocationType;
+			import components.pages.global.developing.DebugW;
+			import components.pages.global.energymarket.EnergyMarketW;
+			import components.pages.global.inventorynew.InventoryW;
+			import components.pages.global.newlevel.NewLevelW;
+			import components.pages.world.windows.daybonus.DayBonusW;
+			import components.pages.world.windows.invite.InviteW;
+			import components.pages.world.windows.quests.QuestsW;
+			import components.pages.world.windows.superoffer.getprize.SuperQuestGetPrizeW;
+			import components.pages.world.windows.tutorial.part1.TutorialW;
+			import components.pages.world.windows.tutorial.part2.TutorialLocationW;
+			import components.pages.world.windows.tutorial.part3.TutorialGetFriendBonusW;
+			import components.pages.world.windows.tutorial.part5.TutorialOwnPackW;
+			import components.pages.world.windows.tutorial.part5.TutorialPlayButtonW;
+			import components.wall.SendWallObject;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
 
         public static const TAB_NAME_WORLD:String = "WorldPage";
         public static const TAB_NAME_GAME:String = "GamePage";
@@ -307,6 +308,17 @@
                     nlw.y -= 80;
                 }
             });
+			
+			
+			Context.Model.addCustomListener(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, function (e:ContextEvent):void {
+				
+					var dw:DebugW = new DebugW();
+					dw.debugString = e.data.toString();
+					
+				
+					PopUpManager.addPopUp(dw, (parentApplication as Bombers), true);
+					PopUpManager.centerPopUp(dw);
+			});
 
             /* testing */
 

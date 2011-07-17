@@ -152,6 +152,8 @@ public class ContextEvent extends Event {
 	public static const FRIENDS_PANEL_GET_BONUS: String = "FRIENDSPANELGetBonus";
 	public static const FRIENDS_PANEL_FRIENDS_IS_LOADED: String = "FRIENDSPANELFriendsIsLoaded";
 
+	public static const DEVELOP_DEBUG_STRING_SHOW: String = "DEVELOPDebugString";
+	// pass: String;
 	
     public var data:*;
 

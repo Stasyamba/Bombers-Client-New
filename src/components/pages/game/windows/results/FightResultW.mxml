@@ -92,6 +92,10 @@
 						Context.Model.experianceManager.getLevel(lobbyProfile.experience))
 					{
 						/* new level server request */
+						Context.Model.dispatchCustomEvent(
+							ContextEvent.NEW_LEVEL_SHOW, 
+							Context.Model.experianceManager.getLevel(lobbyProfile.experience).rewards
+							);
 					}
 					
 					Context.Model.currentSettings.gameProfile.experience = lobbyProfile.experience;

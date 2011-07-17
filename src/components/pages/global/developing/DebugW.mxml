@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="603" height="603"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.Pattern3ButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<!--<s:Animate target="{this}" duration="500">
+			<s:SimpleMotionPath property="x"
+			valueFrom="100"
+			valueTo="800"
+			/>
+			</s:Animate>-->
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="750">
+				<s:SimpleMotionPath property="x"
+									valueFrom="800" valueTo="100"
+									/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="x"
+									valueFrom="100" valueTo="180"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public function close():void {
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			public var debugString: String;
+			
+			private function panelCreationComplete():void {
+				debugTextArea.text = debugString;
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="15">
+		
+		<s:TextArea id="debugTextArea" width="100%" height="100%" />
+		
+	</s:HGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="380" y="15" scale="0.8"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

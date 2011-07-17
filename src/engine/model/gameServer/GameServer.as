@@ -662,55 +662,75 @@ public class GameServer extends SmartFox {
                     Context.Model.marketManager.setItemPrices(prices)
 
                     //levels
+						
+					var debugRewards: String = "";		
                     var levelsArr:ISFSArray = plist.getSFSArray("Levels");
-                    for (var i:int = 0; i < levelsArr.size(); i++) {
+					
+                    for (var i:int = 0; i < levelsArr.size(); i++) 
+					{
                         var lo:ISFSObject = levelsArr.getSFSObject(i);
-                        var lev:int = lo.getInt("Level")
-                        var exp:int = lo.getInt("Exp")
-                        var reward:ISFSObject = lo.getSFSObject("Reward");
-
-                        /* parse rewards */
-                        var rewards:Array = new Array();
-                        if (reward != null) {
+						
+                        var lev:int = lo.getInt("Level");
+                        var exp:int = lo.getInt("Exp");
+						
+						var reward: ISFSObject = lo.getSFSObject("Reward");
+						var rewardsArray:Array = new Array();
+						
+                        if (reward != null) 
+						{
                             var rGold:int = reward.getInt("RO");
                             if (rGold != 0) {
-                                rewards.push(new RegardObject(RegardType.RESOURCE_GOLD, rGold));
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_GOLD, rGold));
                             }
 
                             var rCrystalls:int = reward.getInt("R1");
                             if (rCrystalls != 0) {
-                                rewards.push(new RegardObject(RegardType.RESOURCE_CRYSTALS, rCrystalls));
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_CRYSTALS, rCrystalls));
                             }
 
                             var rAdamant:int = reward.getInt("R2");
                             if (rAdamant != 0) {
-                                rewards.push(new RegardObject(RegardType.RESOURCE_ADAMANT, rAdamant));
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_ADAMANT, rAdamant));
                             }
 
                             var rAntimatter:int = reward.getInt("R3");
                             if (rAntimatter != 0) {
-                                rewards.push(new RegardObject(RegardType.RESOURCE_ANTIMATTER, rAntimatter));
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_ANTIMATTER, rAntimatter));
                             }
 
                             var rEnergy:int = reward.getInt("R4");
                             if (rEnergy != 0) {
-                                rewards.push(new RegardObject(RegardType.RESOURCE_ENERGY, rEnergy));
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_ENERGY, rEnergy));
                             }
 
                             var rExp:int = reward.getInt("Exp");
                             if (rExp != 0) {
-                                rewards.push(new RegardObject(RegardType.RESOURCE_EXP, rExp));
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_EXP, rExp));
                             }
                         
 	                        itemsArr = reward.getSFSArray("Items");
-	                        for (var j:int = 0; j < itemsArr.size(); j++) {
+							
+	                        for (var j:int = 0; j < itemsArr.size(); j++) 
+							{
 	                            obj = itemsArr.getSFSObject(j);
-	                            rewards.push(new RegardObject(RegardType.RESOURCE_ITEM, obj.getInt("C"), obj.getInt("Id")));
+	                            rewardsArray.push(new RegardObject(RegardType.RESOURCE_ITEM, obj.getInt("C"), obj.getInt("Id")));
 	                        }
+							
 						}
-                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(lev, exp, rewards))
+						
+                        Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(lev, exp, rewardsArray.concat()))
                     }
 
+					
+					for each(var eo: ExperianceObject in Context.Model.experianceManager.levelExperiencePair)
+					{
+						debugRewards += "Level: "+eo.level.toString()+"\n\n";
+						debugRewards += ObjectUtil.toString({rw: eo.rewards});
+						debugRewards += "\n\n--------------------------------\n\n";
+					}	
+					Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, debugRewards);
+					
+					
                     //gp
                     var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
                     profileLoaded.dispatch(gp);
