@@ -814,7 +814,7 @@ public class GameServer extends SmartFox {
                     appFriendsArr.push(new FriendObject(gp2, false, null));
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, []);
-                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
+//                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
 
                     switch (Context.Model.currentTutorialPart) {
                         case TutorialPartType.PART1:
