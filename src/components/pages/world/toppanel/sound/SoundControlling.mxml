@@ -49,7 +49,7 @@
 							waveImage.visible = true;
 							
 							/* turn the music on */
-							SoundManager.changeMusicVolume(0.3);
+							SoundManager.changeMusicVolume(0.2);
 							
 							break;
 					}
