@@ -14,6 +14,8 @@ public class SoundManager {
     public static const RESOURCE_MOUSE_OVER:String = "03.mp3";
     public static const BATTLE_1:String = "battle1.mp3";
     public static const WORLD_BACKGROUND:String = "bg.mp3"
+    public static const BONUS_1:String = "bonus1.mp3"
+    public static const EXPLOSION_1:String = "expl1.mp3"
 
 
     private static var _isPlayingSounds:Boolean = true;
@@ -24,6 +26,7 @@ public class SoundManager {
     private static const FADE_TIME:Number = 2.0;
 
     private static var musicStopped:Signal = new Signal()
+
 
     public static function playSound(file:String, volume:Number = 1.0):void {
         var s:MP3Loader = sound(file)

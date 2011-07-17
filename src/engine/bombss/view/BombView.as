@@ -16,6 +16,8 @@ import engine.maps.mapObjects.DynObjectType
 import flash.display.BlendMode
 import flash.display.Sprite
 
+import loading.SoundManager
+
 public class BombView extends DestroyableSprite implements IDrawable {
     private var block:IMapBlock;
 
@@ -39,6 +41,7 @@ public class BombView extends DestroyableSprite implements IDrawable {
     }
 
     private function onCollected(byMe:Boolean):void {
+        SoundManager.playSound(SoundManager.EXPLOSION_1,0.6)
         destroy()
     }
 

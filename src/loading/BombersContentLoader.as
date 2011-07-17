@@ -392,7 +392,9 @@ public class BombersContentLoader {
         "bg",
         "button_30",
         "button_46",
-        "battle1"
+        "battle1",
+        "bonus1",
+        "expl1"
     ]
 
     public static function loadSounds():void {
