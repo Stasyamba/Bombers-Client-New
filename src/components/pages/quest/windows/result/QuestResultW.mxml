@@ -57,6 +57,8 @@
 
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
+			import loading.SoundManager;
 			import mx.utils.ObjectUtil;
 		import components.pages.world.windows.tutorial.part2.TutorialQuestEndToolTip;
 		import components.common.tutorial.TutorialPartType;
@@ -100,6 +102,8 @@
 			
         private function panelCreationComplete():void {
 
+			SoundManager.changeMusicVolume(CommonConstans.MUSIC_WEAK_VOLUME);
+			
 			Context.Model.currentSettings.gameProfile.clearQuestWeapon();
 			
 			Context.Model.addCustomListener(ContextEvent.QUEST_MEDAL_REFRESH, medalRefresh);

@@ -18,11 +18,14 @@
     <fx:Script>
 		<![CDATA[
 			import components.ApplicationView;
+			import components.common.base.CommonConstans;
 			import components.pages.game.windows.pregame.PreGameW;
 			import components.pages.game.windows.results.FightResultW;
 			
 			import engine.bombss.BombType;
 			import engine.utils.Utils;
+			
+			import loading.SoundManager;
 			
 			import mx.managers.PopUpManager;
 
@@ -34,6 +37,9 @@
 					
                     gameView.everyGameTabOpeningInit();
                     Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW);
+					
+					/* sounds */
+					SoundManager.playMusic(SoundManager.BATTLE_1, CommonConstans.MUSIC_WEAK_VOLUME);
                 }
             });
 

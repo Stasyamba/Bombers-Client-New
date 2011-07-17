@@ -42,6 +42,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import loading.SoundManager;
 			import components.ApplicationView;
 			import appmodel.ApplicationModel;
 			import components.common.base.CommonConstans;
@@ -70,6 +71,8 @@
 			}
 			
 			public function closeWrapper():void {
+				SoundManager.changeMusicVolume(CommonConstans.MUSIC_NORMAL_VOLUME);
+				
 				disapearingAnimation.play();
 			}
 			

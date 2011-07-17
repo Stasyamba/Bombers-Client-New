@@ -44,6 +44,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import loading.SoundManager;
 			import components.common.base.CommonConstans;
 			import greensock.TweenMax;
 			import components.common.tutorial.TutorialPartType;
@@ -117,6 +118,8 @@
 			
 			private function startQuest(): void
 			{
+				SoundManager.changeMusicVolume(CommonConstans.MUSIC_NORMAL_VOLUME);
+				
 				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_START);
 				Context.Model.dispatchCustomEvent(ContextEvent.GLOBAL_INVENTORY_BUTTON_ENABLED, false);
 				

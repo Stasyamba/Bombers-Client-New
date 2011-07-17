@@ -18,6 +18,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.common.utils.adjustcolor.ColorMatrix;
 			
 			import loading.SoundManager;
@@ -42,26 +43,33 @@
 							waveImage.visible = false;
 							
 							/* turn the music off */
-							SoundManager.changeMusicVolume(0);
+							//SoundManager
 							
 							break;
 						case STATE_ON:
 							waveImage.visible = true;
 							
 							/* turn the music on */
-							SoundManager.changeMusicVolume(0.2);
+							//SoundManager.changeMusicVolume(CommonConstans.MUSIC_NORMAL_VOLUME);
 							
 							break;
 					}
 				}
 				
+				Context.Model.musicState = value;
 				_selectedState = value;
 			}
 			
 			public function init(): void
 			{
 				/* set start state */
-				selectedState = STATE_ON;
+				if(Context.Model.musicState == -1)
+				{
+					selectedState = STATE_OFF;
+				}else
+				{
+					selectedState = Context.Model.musicState;
+				}
 			}
 			
 			public function changeState(): void

@@ -105,6 +105,9 @@ public class ApplicationModel extends VkontakteApplicationModel {
 	public var questToken: int;
 	
 	
+	public var musicState: int = -1;
+	
+	
     public var disp:EventDispatcher;
 
     public function hasCustomListener(event:String):Boolean {

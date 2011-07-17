@@ -42,20 +42,22 @@
 
     <fx:Script>
 		<![CDATA[
-        import components.common.base.CommonConstans
-        import components.common.game.multygameresult.PlaceType
-        import components.common.game.multygameresult.PrizeObject
-        import components.common.game.multygameresult.PrizeType
-        import components.common.resources.ResourceType
-        import components.pages.game.windows.results.slots.PrizeCupSlot
-        import components.pages.game.windows.results.slots.PrizeResourceSlot
-
-        import engine.profiles.LobbyProfile
-
-        import mx.collections.ArrayCollection
-        import mx.managers.PopUpManager
-
-        import spark.components.HGroup
+			import components.common.base.CommonConstans;
+			import components.common.game.multygameresult.PlaceType;
+			import components.common.game.multygameresult.PrizeObject;
+			import components.common.game.multygameresult.PrizeType;
+			import components.common.resources.ResourceType;
+			import components.pages.game.windows.results.slots.PrizeCupSlot;
+			import components.pages.game.windows.results.slots.PrizeResourceSlot;
+			
+			import engine.profiles.LobbyProfile;
+			
+			import loading.SoundManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.HGroup;
 
         public function close():void {
             PopUpManager.removePopUp(this);
@@ -73,6 +75,9 @@
         private var closeTimer:Timer = new Timer(1000, CommonConstans.TIME_TO_CLOSE_RESULT_GAME_WINDOW);
 
         private function panelCreationComplete():void {
+			
+			SoundManager.changeMusicVolume(CommonConstans.MUSIC_WEAK_VOLUME);
+			
             apearingAnimation.play();
 			
             closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, openPregame);

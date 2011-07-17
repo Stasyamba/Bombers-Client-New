@@ -17,6 +17,7 @@
 	<fx:Script>
 		<![CDATA[
 			import components.ApplicationView;
+			import components.common.base.CommonConstans;
 			import components.common.game.questgameresult.QuestResultObject;
 			import components.common.quests.medals.MedalType;
 			import components.common.tutorial.TutorialPartType;
@@ -28,6 +29,8 @@
 			
 			import engine.bombss.BombType;
 			import engine.utils.Utils;
+			
+			import loading.SoundManager;
 			
 			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
@@ -43,6 +46,8 @@
                     Context.Model.dispatchCustomEvent(ContextEvent.QUEST_START_SHOW);
                     gameView.everyGameTabOpeningInit();
 					
+					/* sounds */
+					SoundManager.playMusic(SoundManager.BATTLE_1, CommonConstans.MUSIC_WEAK_VOLUME);
                 }
             });
 
