@@ -43,21 +43,26 @@
 							waveImage.visible = false;
 							
 							/* turn the music off */
-							//SoundManager
+							SoundManager.switchMusicOff();
+							Context.Model.dispatchCustomEvent(ContextEvent.MUSIC_SWITCH, false);
 							
 							break;
 						case STATE_ON:
 							waveImage.visible = true;
 							
+							
 							/* turn the music on */
-							//SoundManager.changeMusicVolume(CommonConstans.MUSIC_NORMAL_VOLUME);
+							SoundManager.switchMusicOn();
+							Context.Model.dispatchCustomEvent(ContextEvent.MUSIC_SWITCH, true);
 							
 							break;
 					}
+
+					Context.Model.musicState = value;
+					_selectedState = value;
 				}
 				
-				Context.Model.musicState = value;
-				_selectedState = value;
+				
 			}
 			
 			public function init(): void
@@ -70,6 +75,17 @@
 				{
 					selectedState = Context.Model.musicState;
 				}
+				
+				Context.Model.addCustomListener(ContextEvent.MUSIC_SWITCH, function(e: ContextEvent):void
+				{
+					if(e.data)
+					{
+						selectedState = STATE_ON;
+					}else
+					{
+						selectedState = STATE_OFF;
+					}
+				});
 			}
 			
 			public function changeState(): void

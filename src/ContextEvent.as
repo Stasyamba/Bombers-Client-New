@@ -155,6 +155,10 @@ public class ContextEvent extends Event {
 	public static const DEVELOP_DEBUG_STRING_SHOW: String = "DEVELOPDebugString";
 	// pass: String;
 	
+	
+	public static const MUSIC_SWITCH: String = "MUSICSwitch";
+	// pass: Boolean
+	
     public var data:*;
 
 
