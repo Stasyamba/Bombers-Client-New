@@ -16,6 +16,7 @@
 		<![CDATA[
 			import api.vkontakte.VkontakteGlobals;
 			
+			import components.common.base.CommonConstans;
 			import components.common.profiles.VkontakteProfile;
 			import components.common.quests.regard.RegardObject;
 			import components.common.quests.regard.RegardType;
@@ -37,12 +38,12 @@
 			import components.pages.world.windows.tutorial.part5.TutorialOwnPackW;
 			import components.pages.world.windows.tutorial.part5.TutorialPlayButtonW;
 			import components.wall.SendWallObject;
-
-            import greensock.TweenMax
-
-            import loading.SoundManager
-
-            import mx.controls.Alert;
+			
+			import greensock.TweenMax;
+			
+			import loading.SoundManager;
+			
+			import mx.controls.Alert;
 			import mx.core.IVisualElement;
 			import mx.managers.PopUpManager;
 
@@ -280,7 +281,7 @@
                 PopUpManager.addPopUp(shpw, (parentApplication as Bombers), false);
             });
 
-            Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_2_SHOW, function (e:ContextEvent):void {
+            /* Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_2_SHOW, function (e:ContextEvent):void {
                 var nlw:NewLevelW = new NewLevelW();
                 nlw.rewards = [new RegardObject(RegardType.RESOURCE_GOLD, 100), new RegardObject(RegardType.RESOURCE_ITEM, 1)];
 
@@ -293,7 +294,7 @@
                 PopUpManager.centerPopUp(nlw);
 
                 nlw.y -= 80;
-            });
+            }); */
 
             Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e:ContextEvent):void {
                 if (e.data is Array) {
@@ -351,7 +352,7 @@
 //             bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
 
 
-            SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, 0.1);
+            SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, CommonConstans.MUSIC_HALF_NORMAL_VOLUME);
 
         }
 

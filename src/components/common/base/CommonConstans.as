@@ -11,6 +11,7 @@ package components.common.base
 		public static const FAKE_USER_IMAGE_URL: String = "http://www.vensella.ru/eg/bombers/fakeuserphoto.jpg";
 		
 		public static const MUSIC_WEAK_VOLUME: Number = 0.05;
+		public static const MUSIC_HALF_NORMAL_VOLUME: Number = 0.1;
 		public static const MUSIC_NORMAL_VOLUME: Number = 0.2;
 		
 		

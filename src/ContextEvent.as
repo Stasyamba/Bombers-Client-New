@@ -9,7 +9,7 @@ public class ContextEvent extends Event {
 	public static const GLOBAL_INVENTORY_BUTTON_ENABLED: String = "GLOBALBlockInventoryButton";
 	
 	public static const NEW_LEVEL_SHOW: String = "NEWLEVELShow";
-	public static const NEW_LEVEL_2_SHOW: String = "NEWLEVEL2Show";
+	//public static const NEW_LEVEL_2_SHOW: String = "NEWLEVEL2Show";
 	
 	public static const NEED_TO_SHOW_WORLD_ANIMATION: String = "NeedToShowWorldAnimation";
 	// pass: Boolean
