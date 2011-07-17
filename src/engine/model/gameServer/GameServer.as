@@ -4,57 +4,59 @@
  */
 
 package engine.model.gameServer {
-import com.smartfoxserver.v2.SmartFox;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.requests.ExtensionRequest;
-import com.smartfoxserver.v2.requests.JoinRoomRequest;
-import com.smartfoxserver.v2.requests.LeaveRoomRequest;
-import com.smartfoxserver.v2.requests.LoginRequest;
-import com.smartfoxserver.v2.requests.PublicMessageRequest;
+import com.smartfoxserver.v2.SmartFox
+import com.smartfoxserver.v2.core.SFSEvent
+import com.smartfoxserver.v2.entities.Room
+import com.smartfoxserver.v2.entities.data.ISFSArray
+import com.smartfoxserver.v2.entities.data.ISFSObject
+import com.smartfoxserver.v2.entities.data.SFSObject
+import com.smartfoxserver.v2.requests.ExtensionRequest
+import com.smartfoxserver.v2.requests.JoinRoomRequest
+import com.smartfoxserver.v2.requests.LeaveRoomRequest
+import com.smartfoxserver.v2.requests.LoginRequest
+import com.smartfoxserver.v2.requests.PublicMessageRequest
 
-import components.common.base.access.rules.levelrule.AccessLevelRule;
-import components.common.base.expirance.ExperianceObject;
-import components.common.base.market.ItemMarketObject;
-import components.common.bombers.BomberType;
-import components.common.friendslent.FriendObject;
-import components.common.items.ItemObject;
-import components.common.items.ItemType;
-import components.common.quests.QuestObject;
-import components.common.quests.medals.MedalType;
-import components.common.quests.regard.RegardObject;
-import components.common.quests.regard.RegardType;
-import components.common.resources.ResourcePrice;
-import components.common.tutorial.TutorialPartType;
-import components.common.worlds.locations.LocationType;
+import components.common.base.access.rules.levelrule.AccessLevelRule
+import components.common.base.expirance.ExperianceObject
+import components.common.base.market.ItemMarketObject
+import components.common.bombers.BomberType
+import components.common.friendslent.FriendObject
+import components.common.items.ItemObject
+import components.common.items.ItemType
+import components.common.quests.QuestObject
+import components.common.quests.medals.MedalType
+import components.common.quests.regard.RegardObject
+import components.common.quests.regard.RegardType
+import components.common.resources.ResourcePrice
+import components.common.tutorial.TutorialPartType
+import components.common.worlds.locations.LocationType
 
-import engine.EngineContext;
-import engine.bombers.MoveTickObject;
-import engine.maps.interfaces.IDynObject;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.mapObjects.DynObjectType;
-import engine.model.signals.InGameMessageReceivedSignal;
-import engine.model.signals.ProfileLoadedSignal;
-import engine.model.signals.manage.GameServerConnectedSignal;
-import engine.model.signals.manage.LoggedInSignal;
-import engine.profiles.GameProfile;
-import engine.profiles.LobbyProfile;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponType;
+import engine.EngineContext
+import engine.bombers.MoveTickObject
+import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.mapObjects.DynObjectType
+import engine.model.signals.InGameMessageReceivedSignal
+import engine.model.signals.ProfileLoadedSignal
+import engine.model.signals.manage.GameServerConnectedSignal
+import engine.model.signals.manage.LoggedInSignal
+import engine.profiles.GameProfile
+import engine.profiles.LobbyProfile
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponType
 
-import flash.events.TimerEvent;
-import flash.utils.Timer;
+import flash.events.TimerEvent
+import flash.utils.Timer
 
-import greensock.TweenMax;
+import greensock.TweenMax
 
-import mx.controls.Alert;
-import mx.utils.ObjectUtil;
+import loading.ServerQuestObject
 
-import org.osflash.signals.Signal;
+import mx.controls.Alert
+import mx.utils.ObjectUtil
+
+import org.osflash.signals.Signal
 
 public class GameServer extends SmartFox {
 
@@ -662,22 +664,20 @@ public class GameServer extends SmartFox {
                     Context.Model.marketManager.setItemPrices(prices)
 
                     //levels
-						
-					var debugRewards: String = "";		
+
+                    var debugRewards:String = "";
                     var levelsArr:ISFSArray = plist.getSFSArray("Levels");
-					
-                    for (var i:int = 0; i < levelsArr.size(); i++) 
-					{
+
+                    for (var i:int = 0; i < levelsArr.size(); i++) {
                         var lo:ISFSObject = levelsArr.getSFSObject(i);
-						
+
                         var lev:int = lo.getInt("Level");
                         var exp:int = lo.getInt("Exp");
-						
-						var reward: ISFSObject = lo.getSFSObject("Reward");
-						var rewardsArray:Array = new Array();
-						
-                        if (reward != null) 
-						{
+
+                        var reward:ISFSObject = lo.getSFSObject("Reward");
+                        var rewardsArray:Array = new Array();
+
+                        if (reward != null) {
                             var rGold:int = reward.getInt("R0");
                             if (rGold != 0) {
                                 rewardsArray.push(new RegardObject(RegardType.RESOURCE_GOLD, rGold));
@@ -707,30 +707,88 @@ public class GameServer extends SmartFox {
                             if (rExp != 0) {
                                 rewardsArray.push(new RegardObject(RegardType.RESOURCE_EXP, rExp));
                             }
-                        
-	                        itemsArr = reward.getSFSArray("Items");
-							
-	                        for (var j:int = 0; j < itemsArr.size(); j++) 
-							{
-	                            obj = itemsArr.getSFSObject(j);
-	                            rewardsArray.push(new RegardObject(RegardType.RESOURCE_ITEM, obj.getInt("C"), obj.getInt("Id")));
-	                        }
-							
-						}
-						
+
+                            itemsArr = reward.getSFSArray("Items");
+
+                            for (var j:int = 0; j < itemsArr.size(); j++) {
+                                obj = itemsArr.getSFSObject(j);
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_ITEM, obj.getInt("C"), obj.getInt("Id")));
+                            }
+
+                        }
+
                         Context.Model.experianceManager.levelExperiencePair.push(new ExperianceObject(lev, exp, rewardsArray.concat()))
                     }
 
-					
-					/*for each(var eo: ExperianceObject in Context.Model.experianceManager.levelExperiencePair)
-					{
-						debugRewards += "Level: "+eo.level.toString()+"\n\n";
-						debugRewards += ObjectUtil.toString({rw: eo.rewards});
-						debugRewards += "\n\n--------------------------------\n\n";
-					}	
-					Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, debugRewards);*/
-					
-					
+                    //quests
+
+                    var questsArr:ISFSArray = plist.getSFSArray("Missions");
+                    var sqoArray:Array = new Array();
+
+                    for (var i:int = 0; i < questsArr.size(); i++) {
+                        var sqo:ISFSObject = questsArr.getSFSObject(i);
+
+                        var qid:String = sqo.getUtfString("Id")
+                        var eCost:int = sqo.getInt("E");
+                        var rewards:Array = ["Gold","Silver","Bronze"];
+                        var sqoRewards:Array = new Array();
+                        for each (var s:String in rewards) {
+                            var reward:ISFSObject = sqo.getSFSObject(s);
+                            var rewardsArray:Array = new Array();
+
+                            var rGold:int = reward.getInt("R0");
+                            if (rGold != 0) {
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_GOLD, rGold));
+                            }
+
+                            var rCrystalls:int = reward.getInt("R1");
+                            if (rCrystalls != 0) {
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_CRYSTALS, rCrystalls));
+                            }
+
+                            var rAdamant:int = reward.getInt("R2");
+                            if (rAdamant != 0) {
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_ADAMANT, rAdamant));
+                            }
+
+                            var rAntimatter:int = reward.getInt("R3");
+                            if (rAntimatter != 0) {
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_ANTIMATTER, rAntimatter));
+                            }
+
+                            var rEnergy:int = reward.getInt("R4");
+                            if (rEnergy != 0) {
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_ENERGY, rEnergy));
+                            }
+
+                            var rExp:int = reward.getInt("Exp");
+                            if (rExp != 0) {
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_EXP, rExp));
+                            }
+
+                            itemsArr = reward.getSFSArray("Items");
+
+                            for (var j:int = 0; j < itemsArr.size(); j++) {
+                                obj = itemsArr.getSFSObject(j);
+                                rewardsArray.push(new RegardObject(RegardType.RESOURCE_ITEM, obj.getInt("C"), obj.getInt("Id")));
+                            }
+                            sqoRewards.push(rewardsArray)
+                        }
+                        sqoArray.push(new ServerQuestObject(qid,eCost,sqoRewards));
+                    }
+                    Context.gameModel.serverQuests = sqoArray;
+                    Context.gameModel.fillServerQuestData();
+
+
+                    /*for each(var eo: ExperianceObject in Context.Model.experianceManager.levelExperiencePair)
+                     {
+                     debugRewards += "Level: "+eo.level.toString()+"\n\n";
+                     debugRewards += ObjectUtil.toString({rw: eo.rewards});
+                     debugRewards += "\n\n--------------------------------\n\n";
+                     }
+                     Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, debugRewards);*/
+
+
                     //gp
                     var gp:GameProfile = GameProfile.fromISFSObject(responseParams);
                     profileLoaded.dispatch(gp);

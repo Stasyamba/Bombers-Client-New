@@ -4,56 +4,54 @@
  */
 
 package engine.model {
-import components.common.base.expirance.ExperianceObject;
-import components.common.items.ItemProfileObject;
-import components.common.items.categories.ItemCategory;
-import components.common.quests.QuestObject;
-import components.common.quests.medals.MedalType;
-import components.common.quests.regard.RegardObject;
-import components.common.quests.regard.RegardType;
-import components.common.quests.tasks.TaskObject;
-import components.common.resources.ResourceObject;
-import components.common.resources.ResourceType;
-import components.common.worlds.locations.LocationType;
+import components.common.base.expirance.ExperianceObject
+import components.common.items.ItemProfileObject
+import components.common.items.categories.ItemCategory
+import components.common.quests.QuestObject
+import components.common.quests.medals.MedalType
+import components.common.quests.regard.RegardObject
+import components.common.quests.regard.RegardType
+import components.common.quests.tasks.TaskObject
+import components.common.resources.ResourceObject
+import components.common.resources.ResourceType
+import components.common.worlds.locations.LocationType
 
-import engine.EngineContext;
-import engine.data.quests.Quests;
-import engine.games.GameBuilder;
-import engine.games.GameType;
-import engine.games.quest.EngineQuestObject;
-import engine.games.quest.QuestFailReason;
-import engine.games.quest.medals.Medal;
-import engine.games.quest.medals.MedalBase;
-import engine.model.signals.GameEndedSignal;
-import engine.model.signals.GameReadySignal;
-import engine.model.signals.MapLoadedSignal;
-import engine.model.signals.ReadyToPlayAgainSignal;
-import engine.model.signals.manage.GameStartedSignal;
-import engine.model.signals.manage.JoinedToGameSignal;
-import engine.model.signals.manage.JoinedToRoomSignal;
-import engine.model.signals.manage.LeftGameSignal;
-import engine.model.signals.manage.PlayerReadyChangedSignal;
-import engine.model.signals.manage.ReadyToCreateGameSignal;
-import engine.model.signals.manage.SomeoneJoinedToGameSignal;
-import engine.model.signals.manage.SomeoneLeftGameSignal;
-import engine.model.signals.manage.ThreeSecondsToStartSignal;
-import engine.profiles.GameProfile;
-import engine.profiles.LobbyProfile;
-import engine.profiles.PlayerGameProfile;
+import engine.EngineContext
+import engine.data.quests.Quests
+import engine.games.GameBuilder
+import engine.games.GameType
+import engine.games.quest.EngineQuestObject
+import engine.games.quest.QuestFailReason
+import engine.games.quest.medals.MedalBase
+import engine.model.signals.GameEndedSignal
+import engine.model.signals.GameReadySignal
+import engine.model.signals.MapLoadedSignal
+import engine.model.signals.ReadyToPlayAgainSignal
+import engine.model.signals.manage.GameStartedSignal
+import engine.model.signals.manage.JoinedToGameSignal
+import engine.model.signals.manage.JoinedToRoomSignal
+import engine.model.signals.manage.LeftGameSignal
+import engine.model.signals.manage.PlayerReadyChangedSignal
+import engine.model.signals.manage.ReadyToCreateGameSignal
+import engine.model.signals.manage.SomeoneJoinedToGameSignal
+import engine.model.signals.manage.SomeoneLeftGameSignal
+import engine.model.signals.manage.ThreeSecondsToStartSignal
+import engine.profiles.GameProfile
+import engine.profiles.LobbyProfile
+import engine.profiles.PlayerGameProfile
 
-import flash.system.Security;
+import flash.system.Security
 
-import greensock.TweenMax;
-import greensock.loading.ImageLoader;
-import greensock.loading.LoaderMax;
-import greensock.loading.SWFLoader;
-import greensock.loading.XMLLoader;
+import greensock.TweenMax
+import greensock.loading.ImageLoader
+import greensock.loading.LoaderMax
+import greensock.loading.SWFLoader
+import greensock.loading.XMLLoader
 
-import loading.BombersContentLoader;
+import loading.BombersContentLoader
+import loading.ServerQuestObject
 
-import mx.controls.Alert;
-
-import org.osflash.signals.Signal;
+import org.osflash.signals.Signal
 
 public class GameModel {
 
@@ -114,6 +112,8 @@ public class GameModel {
     private var _questId:String
     private var _gameId:String
 
+    public var serverQuests:Array;
+
     function GameModel() {
     }
 
@@ -122,13 +122,13 @@ public class GameModel {
     public function init():void {
         LoaderMax.activate([XMLLoader,SWFLoader,ImageLoader])
         Security.allowDomain("*")
-			
+
         BombersContentLoader.questsLoaded.add(fillQuests)
         BombersContentLoader.loadBombers()
         BombersContentLoader.loadQuests()
         BombersContentLoader.loadMonsters()
         BombersContentLoader.loadBO()
-			
+
         BombersContentLoader.readyToUseAppView.addOnce(function() {
             BombersContentLoader.loadGraphics()
             BombersContentLoader.loadSounds()
@@ -138,6 +138,26 @@ public class GameModel {
             Context.gameServer.connectDefault();
             Context.gameServer.profileLoaded.add(onProfileLoaded);
         })
+    }
+
+    private function getServerQuest(id:String):ServerQuestObject {
+        for each (var sqo:ServerQuestObject in serverQuests) {
+            if (sqo.id == id)
+                return sqo;
+        }
+        return null
+    }
+
+    public function fillServerQuestData():void {
+        for each (var qo:QuestObject in Context.Model.questManager.getAllQuests()) {
+            var sqo:ServerQuestObject = getServerQuest(qo.id);
+            if (sqo != null) {
+                qo.energyCost = sqo.energyCost
+                for (var i:int = 0; i < 3; i++) {
+                    qo.tasks[i].regards = sqo.rewards[i];
+                }
+            }
+        }
     }
 
     private function fillQuests():void {
@@ -153,38 +173,39 @@ public class GameModel {
         }
         _quests = _quests.sort(compare_quest)
         var _commonQuests:Array = _quests.map(
-            function (item:EngineQuestObject, index:int, array:Array):QuestObject {
+                function (item:EngineQuestObject, index:int, array:Array):QuestObject {
+                    var tasks:Array;
 
-                var tasks:Array = [item.goldMedal,item.silverMedal,item.bronzeMedal].map(function (medal:MedalBase, index:int, array:Array):TaskObject {
-                    var rewards:Array = medal.prizes.map(function (reward:*, index:int, array:Array):RegardObject {
-                        if (reward is ResourceObject) {
-                            var ro:ResourceObject = reward
-                            switch (ro.type) {
-                                case ResourceType.ADAMANT:
-                                    return new RegardObject(RegardType.RESOURCE_ADAMANT, ro.value)
-                                case ResourceType.ANTIMATTER:
-                                    return new RegardObject(RegardType.RESOURCE_ANTIMATTER, ro.value)
-                                case ResourceType.GOLD:
-                                    return new RegardObject(RegardType.RESOURCE_GOLD, ro.value)
-                                case ResourceType.CRYSTALS:
-                                    return new RegardObject(RegardType.RESOURCE_CRYSTALS, ro.value)
-                                case ResourceType.ENERGY:
-                                    return new RegardObject(RegardType.RESOURCE_ENERGY, ro.value)
-                            }
-                        } else if (reward is ExperianceObject)
-                            return new RegardObject(RegardType.RESOURCE_EXP, (reward as ExperianceObject).experiance)
-                        else if (reward is ItemProfileObject)
-                            return new RegardObject(RegardType.RESOURCE_ITEM, 1, (reward as ItemProfileObject).itemCount)
-                        throw Context.Exception("Error in file GameModel.as: Unknown reward")
+                    tasks = [item.goldMedal,item.silverMedal,item.bronzeMedal].map(function (medal:MedalBase, index:int, array:Array):TaskObject {
+                        var rewards:Array = medal.prizes.map(function (reward:*, index:int, array:Array):RegardObject {
+                            if (reward is ResourceObject) {
+                                var ro:ResourceObject = reward
+                                switch (ro.type) {
+                                    case ResourceType.ADAMANT:
+                                        return new RegardObject(RegardType.RESOURCE_ADAMANT, ro.value)
+                                    case ResourceType.ANTIMATTER:
+                                        return new RegardObject(RegardType.RESOURCE_ANTIMATTER, ro.value)
+                                    case ResourceType.GOLD:
+                                        return new RegardObject(RegardType.RESOURCE_GOLD, ro.value)
+                                    case ResourceType.CRYSTALS:
+                                        return new RegardObject(RegardType.RESOURCE_CRYSTALS, ro.value)
+                                    case ResourceType.ENERGY:
+                                        return new RegardObject(RegardType.RESOURCE_ENERGY, ro.value)
+                                }
+                            } else if (reward is ExperianceObject)
+                                return new RegardObject(RegardType.RESOURCE_EXP, (reward as ExperianceObject).experiance)
+                            else if (reward is ItemProfileObject)
+                                return new RegardObject(RegardType.RESOURCE_ITEM, 1, (reward as ItemProfileObject).itemCount)
+                            throw Context.Exception("Error in file GameModel.as: Unknown reward")
+                        })
+                        return new TaskObject(index, medal.text, rewards, MedalType.byValue(index))
                     })
-                    return new TaskObject(index, medal.text, rewards, MedalType.byValue(index))
+
+                    return new QuestObject(item.id, item.locationId, item.imageURL, item.name, item.energyCost, item.accessRules, tasks, item.description, item.previewImageURL, item.timeLimit)
+
                 })
-
-                return new QuestObject(item.id, item.locationId, item.imageURL, item.name, item.energyCost, item.accessRules, tasks, item.description, item.previewImageURL,item.timeLimit)
-
-            })
         Context.Model.questManager.addQuests(_commonQuests)
-}
+    }
 
     public function getQuestObject(id:String):EngineQuestObject {
         for each (var q:EngineQuestObject in _quests) {
@@ -220,7 +241,7 @@ public class GameModel {
         threeSecondsToStart.dispatch(null, 0, null)
     }
 
-    public function startCurrentQuest():void{
+    public function startCurrentQuest():void {
 
         questStarted.addOnce(function():void {
             isPlayingNow = true
@@ -229,7 +250,7 @@ public class GameModel {
             })
         })
 
-        threeSecondsToStart.addOnce(function(p0:*, p1:*,p2:*):void {
+        threeSecondsToStart.addOnce(function(p0:*, p1:*, p2:*):void {
             questReady.dispatch()
             TweenMax.delayedCall(3, function():void {
                 questStarted.dispatch();
@@ -376,8 +397,8 @@ public class GameModel {
         Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED)
         Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED)
 
-		Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
-       
+        Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
+
     }
 
     private function onLoggedIn(name:String):void {
