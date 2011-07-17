@@ -6,7 +6,7 @@
          xmlns:toppanel="toppanel.*"
          xmlns:resources="components.pages.world.toppanel.resources.*"
          xmlns:expirance="components.pages.world.toppanel.expirance.*"
-         xmlns:energy="components.pages.world.toppanel.energy.*"
+         xmlns:energy="components.pages.world.toppanel.energy.*" xmlns:sound="components.pages.world.toppanel.sound.*"
         >
 
     <fx:Declarations>
@@ -34,6 +34,7 @@
 
         <expirance:Experiance paddingLeft="10"/>
         <energy:EnergyView />
+		<sound:SoundControlling paddingTop="3" />
 		<s:HGroup width="100%" />
         <resources:ResourcesView paddingRight="20"/>
 

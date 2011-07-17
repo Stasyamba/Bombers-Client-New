@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 height="40" width="37"
+		 creationComplete="init();"
+		 click="changeState();"
+		 useHandCursor="true" buttonMode="true"
+		 verticalAlign="middle" gap="3"
+		 >
+	
+	<fx:Metadata>
+		[Event(name="stateChanged", type="ContextEvent")]
+	</fx:Metadata>
+	
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.utils.adjustcolor.ColorMatrix;
+			
+			public static const STATE_ON: int = 0;
+			public static const STATE_OFF: int = 1;
+			
+			private var _selectedState: int;
+			
+			public function get selectedState():int
+			{
+				return _selectedState;
+			}
+			
+			public function set selectedState(value:int):void
+			{
+				if(value != _selectedState)
+				{	
+					switch(value)
+					{
+						case STATE_OFF:
+							waveImage.visible = false;
+							
+							/* turn music off */
+							
+							break;
+						case STATE_ON:
+							waveImage.visible = true;
+							
+							/* turn music on */
+							
+							break;
+					}
+				}
+				
+				_selectedState = value;
+			}
+			
+			public function init(): void
+			{
+				/* set start state */
+				selectedState = STATE_ON;
+			}
+			
+			public function changeState(): void
+			{
+				if(selectedState == STATE_ON)
+				{
+					selectedState = STATE_OFF;
+				}else
+				{
+					selectedState = STATE_ON;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/sound/bg.png')" />
+	<s:BitmapImage id="waveImage" source="@Embed(source='assets/pageworld/toppanel/sound/wave.png')" />
+	
+</s:HGroup>

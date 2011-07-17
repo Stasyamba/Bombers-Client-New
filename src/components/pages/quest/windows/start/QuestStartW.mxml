@@ -44,6 +44,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import greensock.TweenMax;
 			import components.common.tutorial.TutorialPartType;
 			import components.pages.world.windows.tutorial.part2.TutorialQuestStartToolTip;
@@ -95,7 +96,7 @@
 						bonusGroup.addElement(new TutorialQuestStartToolTip());
 					}
 					
-					Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_SET, questObject.timeLimit + 3);
+					Context.Model.dispatchCustomEvent(ContextEvent.QUEST_TIME_SET, questObject.timeLimit + CommonConstans.SECONDS_TO_START_QUEST);
 					
 					/* TweenMax.delayedCall(1, function(): void
 					{

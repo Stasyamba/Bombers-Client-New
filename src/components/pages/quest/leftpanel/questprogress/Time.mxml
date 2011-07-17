@@ -11,6 +11,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.common.quests.QuestObject;
 			
 			import mx.controls.Alert;
@@ -32,9 +33,9 @@
 				timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerComplete);
 				
 				var qo: QuestObject = Context.Model.questManager.getQuestObject(Context.Model.questIdLastOpened);
-				questTime = questTimeStart = qo.timeLimit;
+				questTime = questTimeStart = qo.timeLimit + CommonConstans.SECONDS_TO_START_QUEST;
 				timeLabel.text = getTimeStringView(questTime);
-				barDecreasingPerSecond = barLength/qo.timeLimit;
+				barDecreasingPerSecond = barLength/questTime;
 				
 				
 				Context.Model.addCustomListener(ContextEvent.QUEST_TIME_SET, function (e: ContextEvent): void
