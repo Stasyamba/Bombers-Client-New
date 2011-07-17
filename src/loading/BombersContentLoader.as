@@ -4,10 +4,10 @@
  */
 
 package loading {
-import engine.bombers.BomberType;
 import components.common.items.ItemType
 import components.common.worlds.locations.LocationType
 
+import engine.bombers.BomberType
 import engine.games.quest.monsters.MonsterType
 
 import flash.display.MovieClip
@@ -98,6 +98,7 @@ public class BombersContentLoader {
     public static function get questsNames():Array {
         return _questsNames
     }
+
     public static function loadQuests():void {
         var questsXmlLoader:XMLLoader = new XMLLoader(QUESTS_ADDRESS + "quests.xml",
                 new XMLLoaderVars()
@@ -128,7 +129,7 @@ public class BombersContentLoader {
                 function(e:LoaderEvent) {
                     throw Context.Exception("Error in file BombersContentLoader.as :Error loading quests: " + e.target.text)
                 })
-                )
+        )
 
         for each (var quest:XML in _questsXml.quest) {
             var name:String = quest.@name;
@@ -171,7 +172,7 @@ public class BombersContentLoader {
     private static function onMonstersXmlComplete(e:LoaderEvent):void {
         _monstersXml = (e.target as XMLLoader).content
         for each (var m:XML in _monstersXml.M) {
-            MonsterType.add(new MonsterType(m.@id, m.@graphicsId, m.@speed, m.@life, m.@immortalTime,m.@damage, m.@name))
+            MonsterType.add(new MonsterType(m.@id, m.@graphicsId, m.@speed, m.@life, m.@immortalTime, m.@damage, m.@name))
         }
     }
 
@@ -203,7 +204,7 @@ public class BombersContentLoader {
                         throw Context.Exception("Error in file BombersContentLoader.as: Error loading file " + e.target.name + ": " + e.text)
                     })
                             .name(fid))
-            if(ldr is SWFLoader){
+            if (ldr is SWFLoader) {
                 ldr.vars.context = new LoaderContext(false, ApplicationDomain.currentDomain)
                 ldr.vars.noCache = true;
             }
@@ -230,7 +231,7 @@ public class BombersContentLoader {
                     trace("common loaded")
                 })
                 .name("common")
-                )
+        )
         commonHelper("DO", comQueue)
         commonHelper("map", comQueue)
         commonHelper("explosions", comQueue)
@@ -250,7 +251,7 @@ public class BombersContentLoader {
                     trace("locations loaded")
                 })
                 .name("locations")
-                )
+        )
         var locsAddr:String = IMAGES_ADDRESS + _filesXml.locations.@addr
 
         for each (var location:XML in _filesXml.locations.Location) {
@@ -268,7 +269,7 @@ public class BombersContentLoader {
                         locationGraphicsLoaded.dispatch(LocationType.byStringId(e.target.name))
                     })
                     .name(loc_id)
-                    )
+            )
             for each (var fldr:XML in location.Folder) {
                 var fldrName:String = fldr.@name
                 var fldrLdr:LoaderMax = new LoaderMax(new LoaderMaxVars()
@@ -281,7 +282,7 @@ public class BombersContentLoader {
                             trace("fldr Loaded: " + e.target.name)
                         })
                         .name(loc_id + "." + fldrName)
-                        )
+                )
                 for each (var file:XML in fldr.File) {
                     var fname:String = file.@name
                     var faddr:String = locAddr + fldrName + "/" + fname + file.@ext
@@ -316,7 +317,7 @@ public class BombersContentLoader {
                             trace("engine loaded")
                         })
                         .name("engine")
-                )
+        )
 
         allLdr.load()
     }
@@ -386,12 +387,14 @@ public class BombersContentLoader {
     //sounds
     private static const SOUNDS_ADDRESS:String = "http://www.vensella.ru/vp/sounds/"
     private static const _soundsNames:Array = [
-		"03",
-		"windowMoveOpen",
+        "03",
+        "windowMoveOpen",
         "bg",
-		"button_30",
-		"button_46"
-	]
+        "button_30",
+        "button_46",
+        "battle1"
+    ]
+
     public static function loadSounds():void {
 
         var queue:LoaderMax = new LoaderMax(new LoaderMaxVars()
@@ -405,12 +408,12 @@ public class BombersContentLoader {
                 function(e:LoaderEvent) {
                     throw Context.Exception("Error in file BombersContentLoader.as: Error loading sounds: " + e.target.text)
                 })
-                )
+        )
         for each (var name:String in _soundsNames) {
             queue.append(new MP3Loader(name + ".mp3", new MP3LoaderVars()
                     .name(name + ".mp3")
                     .noCache(true)
-					.autoPlay(false)
+                    .autoPlay(false)
                     .onError(
                     function(e:LoaderEvent) {
                         throw Context.Exception("Error in file BombersContentLoader.as: Error loading sound " + e.target.name + ": " + e.text)
