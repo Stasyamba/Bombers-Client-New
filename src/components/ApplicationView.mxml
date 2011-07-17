@@ -350,7 +350,7 @@
 //             bgSound.load(new URLRequest("http://www.vensella.ru/eg/bg.mp3"));
 //             bgSound.addEventListener(Event.COMPLETE, bgSoundLoaded);
 
-            SoundManager.playMusic("bg.mp3");
+            SoundManager.playMusic(SoundManager.WORLD_BACKGROUND);
 
             TweenMax.delayedCall(10,SoundManager.changeMusicVolume,[0.1])
 

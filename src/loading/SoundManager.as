@@ -11,6 +11,10 @@ public class SoundManager {
     public static const BUTTON_CLICK_21:String = "button_21.mp3";
     public static const BUTTON_CLICK_30:String = "button_30.mp3";
     public static const BUTTON_CLICK_46:String = "button_46.mp3";
+    public static const RESOURCE_MOUSE_OVER:String = "03.mp3";
+    public static const BATTLE_1:String = "battle1.mp3";
+    public static const WORLD_BACKGROUND:String = "bg.mp3"
+
 
     private static var _isPlayingSounds:Boolean = true;
     private static var _isPlayingMusic:Boolean = true;
@@ -91,5 +95,8 @@ public class SoundManager {
         return BombersContentLoader.sound(file)
     }
 
+    public static function get isPlayingMusic():Boolean {
+        return _isPlayingMusic
+    }
 }
 }

@@ -46,7 +46,7 @@
         private function resourceFocusOver(e:Event):void {
             // play some sound
             // sndChannel = sndDropDown.play();
-            SoundManager.playSound("03.mp3");
+            SoundManager.playSound(SoundManager.RESOURCE_MOUSE_OVER);
 
             for (var i:int = 0; i <= resourcesGroup.numElements - 1; i++) {
                 var el:* = resourcesGroup.getElementAt(i);
