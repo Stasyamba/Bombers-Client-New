@@ -195,19 +195,27 @@ public class BombersContentLoader {
         var comAddr:String = IMAGES_ADDRESS + _filesXml.common.@addr
         for each (var file:XML in (_filesXml.common as XMLList).descendants(subGroup).File) {
 
+            var ext:String = file.@ext;
             var fname:String = file.@name
             var faddr:String = comAddr + subGroup + "/" + fname + file.@ext
             var fid:String = "common." + subGroup + "." + fname
-            var ldr:LoaderCore = LoaderMax.parse(faddr,
-                    new LoaderMaxVars()
-                            .onError(function (e:LoaderEvent):void {
-                        throw Context.Exception("Error in file BombersContentLoader.as: Error loading file " + e.target.name + ": " + e.text)
-                    })
-                            .name(fid))
-            if (ldr is SWFLoader) {
-                ldr.vars.context = new LoaderContext(false, ApplicationDomain.currentDomain)
-                ldr.vars.noCache = true;
-            }
+            var ldr:LoaderCore;
+            if (ext == ".swf")
+                ldr = new SWFLoader(faddr,
+                        new SWFLoaderVars()
+                                .onError(function (e:LoaderEvent):void {
+                            throw Context.Exception("Error in file BombersContentLoader.as: Error loading file " + e.target.name + ": " + e.text)
+                        })
+                                .name(fid)
+                                .context(new LoaderContext(false, ApplicationDomain.currentDomain))
+                                .noCache(true));
+            else
+                ldr = LoaderMax.parse(faddr,
+                        new LoaderMaxVars()
+                                .onError(function (e:LoaderEvent):void {
+                            throw Context.Exception("Error in file BombersContentLoader.as: Error loading file " + e.target.name + ": " + e.text)
+                        })
+                                .name(fid))
             comQueue.append(ldr)
             trace("added common: " + fid)
             _loadedGraphics[fid] = new LoadedObject(fid, ldr)
