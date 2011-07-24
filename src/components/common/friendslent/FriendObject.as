@@ -1,5 +1,7 @@
 package components.common.friendslent
 {
+	import components.common.profiles.ISocialProfile;
+	import components.common.profiles.SocialProfile;
 	import components.common.quests.regard.RegardObject;
 	
 	import engine.profiles.GameProfile;
@@ -7,27 +9,35 @@ package components.common.friendslent
 	public class FriendObject
 	{
 		public var profile: GameProfile;
-		public var isAskingForHelp: Boolean;
-		public var prize: Array;
+		public var sProfile: ISocialProfile;
 		
-		public function FriendObject(profileP:GameProfile, isAskingForHelpP: Boolean = false, prizeP: Array = null)
+		public var isAskingForHelp: Boolean;
+		public var isEnergy:Boolean;
+		
+		public var hasApp: Boolean;
+		
+		
+		
+		public function FriendObject(
+										profileP:GameProfile, 
+										hasAppP: Boolean, 
+										isAskingForHelpP: Boolean = false, 
+										isEnegryP: Boolean = false,
+										socialProfileP: ISocialProfile = null
+		)
 		{
 			profile = profileP;
 			isAskingForHelp = isAskingForHelpP;
+			isEnergy = isEnegryP;
 			
-			prize = new Array();
-			if(prizeP != null)
-			{
-				for each(var ro:RegardObject in prizeP)
-				{
-					prize.push(ro);	
-				}
-			}
+			hasApp = hasAppP;
+			
+			sProfile = socialProfileP;
 		}
 		
 		public function clone(): FriendObject
 		{
-			return new FriendObject(profile, isAskingForHelp, prize);				
+			return new FriendObject(profile, hasApp, isAskingForHelp, isEnergy, sProfile);				
 		}
 	}
 }

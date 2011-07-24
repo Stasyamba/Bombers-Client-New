@@ -106,14 +106,6 @@
 			
 			<s:Label id="itemCount" fontFamily="mpr" fontSize="12" color="0xc29b2f" text="10 шт." />
 			
-			<!--<s:HGroup id="buyGroup" width="100%" horizontalAlign="center" visible="false">
-				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
-											  scaleX="0.5" scaleY="0.5"
-											  customLabel="Купить"
-											  fontSize="32" fontSizeOver="32"
-											  fontColor="0xfff19f"
-											  />
-			</s:HGroup>-->
 		</s:VGroup>
 		
 		<s:VGroup gap="10">

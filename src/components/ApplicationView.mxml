@@ -17,6 +17,7 @@
 			import api.vkontakte.VkontakteGlobals;
 			
 			import components.common.base.CommonConstans;
+			import components.common.friendslent.FriendObject;
 			import components.common.profiles.VkontakteProfile;
 			import components.common.quests.regard.RegardObject;
 			import components.common.quests.regard.RegardType;
@@ -28,6 +29,8 @@
 			import components.pages.global.energymarket.EnergyMarketW;
 			import components.pages.global.inventorynew.InventoryW;
 			import components.pages.global.newlevel.NewLevelW;
+			import components.pages.global.people.InviteFriendW;
+			import components.pages.global.resourcemarket.ResourceMarketW;
 			import components.pages.world.windows.daybonus.DayBonusW;
 			import components.pages.world.windows.invite.InviteW;
 			import components.pages.world.windows.quests.QuestsW;
@@ -208,6 +211,33 @@
 
                 iw.y -= 95;
             });
+			
+			Context.Model.addCustomListener(ContextEvent.RESOURCE_MARKET_SHOW, function (e:ContextEvent):void {
+				parentApplication.setStyle("modalTransparencyBlur", 3);
+				
+				var rmw:ResourceMarketW = new ResourceMarketW();
+				
+				PopUpManager.addPopUp(rmw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(rmw);
+				
+				rmw.y -= 95;
+			});
+			
+			Context.Model.addCustomListener(ContextEvent.INVITE_FRIEND_SHOW, function (e:ContextEvent):void {
+				
+				if(e.data is FriendObject)
+				{
+					parentApplication.setStyle("modalTransparencyBlur", 3);
+					
+					var iw:InviteFriendW = new InviteFriendW();
+					iw.fo = e.data as FriendObject;
+					
+					PopUpManager.addPopUp(iw, (parentApplication as Bombers), true);
+					PopUpManager.centerPopUp(iw);
+					
+					iw.y -= 95;
+				}
+			});
 
             /* disconnected */
             Context.gameServer.disconnected.add(onDisconnected);
@@ -331,7 +361,7 @@
             //Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_DAY_BONUS, 2);
 
 			
-            SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, CommonConstans.MUSIC_HALF_NORMAL_VOLUME);
+            //SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, CommonConstans.MUSIC_HALF_NORMAL_VOLUME);
 
         }
 

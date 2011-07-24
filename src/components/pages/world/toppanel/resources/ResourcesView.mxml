@@ -6,6 +6,11 @@
           gap="5"
           creationComplete="init();"
         >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.toppanel.CrystallsButtonS;
+		]]>
+	</fx:Script>
 
     <fx:Declarations>
     </fx:Declarations>
@@ -27,18 +32,26 @@
         private function init():void {
 
             Context.Model.addCustomListener(ContextEvent.GP_RESOURCE_CHANGED, function (e:ContextEvent):void {
-                antimatterResource.setResource(Context.Model.currentSettings.gameProfile.resources.antimatter.value);
-                adamantResource.setResource(Context.Model.currentSettings.gameProfile.resources.adamant.value);
-                crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value);
-                goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value);
+				
+				crystallsLabel.text = Context.Model.currentSettings.gameProfile.resources.crystals.value.toString();
+				goldLabel.text = Context.Model.currentSettings.gameProfile.resources.gold.value.toString();
+				
+                //antimatterResource.setResource(Context.Model.currentSettings.gameProfile.resources.antimatter.value);
+                //adamantResource.setResource(Context.Model.currentSettings.gameProfile.resources.adamant.value);
+                //crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value);
+                //goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value);
             });
 
 
             if (Context.Model.currentSettings.gameProfile != null && Context.Model.currentSettings.gameProfile.resources != null) {
-                antimatterResource.setResource(Context.Model.currentSettings.gameProfile.resources.antimatter.value, true);
-                adamantResource.setResource(Context.Model.currentSettings.gameProfile.resources.adamant.value, true);
-                crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value, true);
-                goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value, true);
+				
+				crystallsLabel.text = Context.Model.currentSettings.gameProfile.resources.crystals.value.toString();
+				goldLabel.text = Context.Model.currentSettings.gameProfile.resources.gold.value.toString();
+				
+                //antimatterResource.setResource(Context.Model.currentSettings.gameProfile.resources.antimatter.value, true);
+                //adamantResource.setResource(Context.Model.currentSettings.gameProfile.resources.adamant.value, true);
+                //crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value, true);
+                //goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value, true);
             }
         }
 
@@ -57,6 +70,12 @@
                 }
             }
         }
+			
+		private function showResourceMarket(): void	
+		{
+			Context.Model.dispatchCustomEvent(ContextEvent.RESOURCE_MARKET_SHOW);
+		}
+			
         ]]>
 	</fx:Script>
 
@@ -64,7 +83,9 @@
     <s:HGroup id="resourcesGroup">
 
 
-        <resources:ResourceTemplate id="antimatterResource"
+     <!--
+		
+		<resources:ResourceTemplate id="antimatterResource"
                                     resourceType="{ResourceType.ANTIMATTER}"
                                     toolTipCalledFirst="resourceFocusOver(event);"
                 />
@@ -80,7 +101,38 @@
                                     resourceType="{ResourceType.GOLD}"
                                     toolTipCalledFirst="resourceFocusOver(event);"
                 />
-
-    </s:HGroup>
-
+		
+	   -->
+		<s:HGroup gap="17">
+			<s:HGroup verticalAlign="middle" paddingTop="1">
+				
+				<s:Label id="crystallsLabel" text="2" fontFamily="mpbc" fontSize="24" color="0xe3a8f2">
+					<s:filters>
+						<s:DropShadowFilter blurX="3" blurY="3" color="0x000000" alpha="0.5"
+											distance="1"
+											/>
+					</s:filters>
+				</s:Label>
+				<s:Button skinClass="skins.buttons.toppanel.CrystallsButtonS" useHandCursor="true" buttonMode="true"
+						  click="showResourceMarket()"
+						  />
+			</s:HGroup>
+			
+			<s:HGroup verticalAlign="middle" paddingTop="3">
+				<s:Label id="goldLabel" text="1726" fontFamily="mpbc" fontSize="24" color="0xffe500">
+					<s:filters>
+						<s:DropShadowFilter blurX="3" blurY="3" color="0x000000" alpha="0.5"
+											distance="1"
+											/>
+					</s:filters>
+				</s:Label>
+				<s:Button skinClass="skins.buttons.toppanel.GoldButtonS" useHandCursor="true" buttonMode="true"
+						  click="showResourceMarket()"
+						  />
+			</s:HGroup>
+		</s:HGroup>
+		
+		
+		
+	</s:HGroup>
 </s:HGroup>

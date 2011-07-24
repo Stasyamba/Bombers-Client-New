@@ -151,7 +151,7 @@
 						
 						if (!betaRuleDone) {
 							
-							(el as ILocationPreview).setLock(true, true, levelNeeded);
+							//(el as ILocationPreview).setLock(true, true, levelNeeded);
 							
 							/* desasture */
 							(el as DisplayObject).filters = [cm.filter];
@@ -168,7 +168,7 @@
 							
 						} else if (!openedLocationsRuleDone) {
 							
-							(el as ILocationPreview).setLock(true, true, levelNeeded);
+							//(el as ILocationPreview).setLock(true, true, levelNeeded);
 							
 							/* desasture */
 							(el as DisplayObject).filters = [cm.filter];
@@ -183,7 +183,7 @@
 							}
 							
 						} else if (!allRuleDone || !isLocationOpenedInProfile) {
-							(el as ILocationPreview).setLock(false, false, 0);
+							//(el as ILocationPreview).setLock(false, false, 0);
 							
 							// YELLOW
 							// by default

@@ -44,6 +44,7 @@ public class ApiResult {
                     up.surname = f["last_name"];
 					up.photoURL = f["photo_medium"];
                     up.photoSmallURL = f["photo"];
+					up.photoBigURL = f["photo_big"];
 					up.isUserOnline = f["online"];
                     //up.photoBigSrc = f["photo_big"];
                     up.isFriend = true;
@@ -65,9 +66,9 @@ public class ApiResult {
 					upAF.sex = f["sex"];
 					upAF.surname = f["last_name"];
 					upAF.photoURL = f["photo_medium"];
-					
+					upAF.photoBigURL = f["photo_big"];
 					//up.photoURL = f["photo"]
-					//up.photoBigSrc = f["photo_big"];
+					
 					upAF.isFriend = true;
 					
 					appFriends.push(upAF);

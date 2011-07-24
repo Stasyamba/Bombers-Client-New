@@ -39,7 +39,7 @@
                     Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_PREGAME_WINDOW);
 					
 					/* sounds */
-					SoundManager.playMusic(SoundManager.BATTLE_1, CommonConstans.MUSIC_WEAK_VOLUME);
+					//SoundManager.playMusic(SoundManager.BATTLE_1, CommonConstans.MUSIC_WEAK_VOLUME);
                 }
             });
 

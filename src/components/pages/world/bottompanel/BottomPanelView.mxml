@@ -6,7 +6,7 @@
          xmlns:resources="toppanel.resources.*"
          xmlns:bottompanel="components.pages.world.bottompanel.*"
          creationComplete="init();"
-         width="808" height="41" xmlns:flexcomponents="components.common.flexcomponents.*"
+         width="808" height="41" xmlns:flexcomponents="components.common.flexcomponents.*" xmlns:shoppanel="components.pages.world.bottompanel.shoppanel.*"
         >
     <fx:Script>
 		<![CDATA[
@@ -117,11 +117,14 @@
             <flexcomponents:InventoryButton click="openInventory();"
                                             rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
         </s:HGroup>
-        <s:HGroup height="41" paddingTop="-22" paddingLeft="15">
+      <!--  <s:HGroup height="41" paddingTop="-22" paddingLeft="15">
             <s:Button label="Market" click="openInventoryMarket();" skinClass="skins.buttons.MarketButtonS"
                       buttonMode="true" useHandCursor="true"
                       rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"/>
-        </s:HGroup>
+        </s:HGroup>-->
+		<s:HGroup height="41" paddingTop="-10">
+			<shoppanel:InventoryHitsPanel />
+		</s:HGroup>
 
         <s:HGroup width="100%"/>
         <s:HGroup verticalAlign="middle">

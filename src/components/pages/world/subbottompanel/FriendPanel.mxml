@@ -57,6 +57,24 @@
 			{
 				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLoaded);
 				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_GET_BONUS, getBonus);
+				Context.Model.addCustomListener(ContextEvent.FRIENDS_PANEL_HIDE_ENEGRY, hideEnegy);
+			}
+			
+			private function hideEnegy(e: ContextEvent): void
+			{
+				if(e.data is String)
+				{
+					for(var i: int = 0; i<= friends.length - 1; i++)
+					{
+						if((friends[i] as FriendObject).profile.id == e.data)	
+						{
+							(friends[i] as FriendObject).isEnergy = false;
+							break;
+						}
+					}
+					
+					setPage(currentPage);
+				}
 			}
 			
 			private function getBonus(e: ContextEvent): void
@@ -91,14 +109,14 @@
 			{
 				friends = new Array();
 				
-			 	var isFakeAsking: Boolean = false;
+				
 				var fakeGP: GameProfile = new GameProfile();
 				fakeGP.photoURL = CommonConstans.FAKE_USER_IMAGE_URL;
-				fakeGP.experience = 0;
+				fakeGP.experience = 100;
 			
-				var fakeFO: FriendObject = new FriendObject(fakeGP, isFakeAsking);
-				
+				var fakeFO: FriendObject = new FriendObject(fakeGP, true, false);			
 				friends.push(fakeFO);
+				
 				 
 				if(e.data is Array)
 				{
@@ -163,7 +181,7 @@
 		]]>
 	</fx:Script>
 	<s:HGroup verticalAlign="middle" height="170">
-		<s:Button id="backButton" skinClass="skins.buttons.friendslent.LeftArrowButtonS" />
+		<s:Button id="backButton" skinClass="skins.buttons.friendslent.LeftArrowButtonS" click="changePage(-1);" useHandCursor="true" buttonMode="true" />
 		
 		<s:List id="friendsList" dataProvider="{friendsCurrentCollection}" itemRenderer="components.pages.world.subbottompanel.FriendIR"
 				contentBackgroundAlpha="0" borderVisible="false"
@@ -173,7 +191,7 @@
 			</s:layout>
 		</s:List>
 		
-		<s:Button id="forwardButton" skinClass="skins.buttons.friendslent.RightArrowButtonS" />
+		<s:Button id="forwardButton" skinClass="skins.buttons.friendslent.RightArrowButtonS" click="changePage(1);" useHandCursor="true" buttonMode="true" />
 	</s:HGroup>
 	
 	<s:HGroup id="bonusGroup" visible="false" verticalAlign="middle">

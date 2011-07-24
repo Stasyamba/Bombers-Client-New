@@ -33,37 +33,51 @@
 			import skins.buttons.AskButtonS;
 			import skins.buttons.Pattern3ButtonS;
 			
+			public var fo: FriendObject;
+			
 			override public function set data(value:Object):void {
 				super.data = value;
 
+				fo = data as FriendObject;
+				
 				gotFriendGroup.visible = false;
 				inviteFriendGroup.visible = false;
 				baseInsideBg.visible = true;
 				levelGroup.visible = false;
 				askButton.visible = false;
+				enegryGroup.visible = false;
 				
 				if(data != null)
 				{
-					levelGroup.visible = true;
-					gotFriendGroup.visible = true;
-					
-					baseInsideBg.visible = false;
-					inviteFriendGroup.visible = false;
-					
 					if(data is FriendObject)
 					{
+						gotFriendGroup.visible = true;
+						baseInsideBg.visible = false;
+						inviteFriendGroup.visible = false;
+						
 						userPhoto.initPhoto((data as FriendObject).profile.photoURL);
 						levelLabel.text = Context.Model.experianceManager.getLevel((data as FriendObject).profile.experience).level.toString() +" ур.";
+						
+						if((data as FriendObject).hasApp)
+						{
+							levelGroup.visible = true;
+						}
+						
 						if((data as FriendObject).isAskingForHelp)
 						{
 							askButton.visible = true;
+							levelGroup.visible = true;
 						}
+						
+						if((data as FriendObject).isEnergy)
+						{
+							enegryGroup.visible = true;
+						}
+						
 					}else
 					{
 						Alert.show("Error data is not FriendObject | FriendIR");
 					}
-					
-					
 					
 				}else
 				{
@@ -77,6 +91,13 @@
 				askButton.visible = false;
 				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_GET_BONUS, data);
 			}
+			
+			private function takeEnergy(): void
+			{
+				/* show invite window */
+				Context.Model.dispatchCustomEvent(ContextEvent.INVITE_FRIEND_SHOW, fo);
+			}
+			
 			
 		]]>
 	</fx:Script>
@@ -144,6 +165,34 @@
 					  click="getBonus();"
 					  />
 			
+			<s:HGroup width="72" height="72"
+					  x="6" y="6"
+					  horizontalAlign="center" verticalAlign="middle"
+					  id="enegryGroup"
+					  visible="false"
+					  click="takeEnergy();"
+					  useHandCursor="true" buttonMode="true"
+					  alpha="0.8"
+					  rollOver="{enegryGroup.scaleX = 1.2; enegryGroup.scaleY = 1.2;}"
+					  rollOut="{enegryGroup.scaleX = 1; enegryGroup.scaleY = 1;}"
+					  >
+				
+					<s:Label id="energyLabel"
+							 text="+5" color="0xfed43d"
+							 fontFamily="mpbc" fontSize="30"
+							 />
+				
+					<s:HGroup paddingTop="-5">
+						<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')" smooth="true"/>
+					</s:HGroup>
+				
+					<s:filters>
+						<s:GlowFilter color="0x7c4401" blurX="10" blurY="10" strength="2" />
+						<s:GlowFilter color="0x7c4401" blurX="5" blurY="5" strength="1" />
+						<s:GlowFilter color="0x7c4401" blurX="15" blurY="15" strength="1" />
+					</s:filters>
+				
+			</s:HGroup>
 			
 		</s:Group>
 	</s:HGroup>

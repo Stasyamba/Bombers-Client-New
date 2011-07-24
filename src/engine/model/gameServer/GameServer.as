@@ -23,6 +23,7 @@ import components.common.bombers.BomberType;
 import components.common.friendslent.FriendObject;
 import components.common.items.ItemObject;
 import components.common.items.ItemType;
+import components.common.profiles.ISocialProfile;
 import components.common.quests.QuestObject;
 import components.common.quests.medals.MedalType;
 import components.common.quests.regard.RegardObject;
@@ -813,7 +814,7 @@ public class GameServer extends SmartFox {
                     gp2.photoURL = "http://cs10029.vkontakte.ru/u34230304/a_f5649b2f.jpg";
                     appFriendsArr.push(new FriendObject(gp2, false, null));
 
-                    Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, []);
+					
 //                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
 
                     switch (Context.Model.currentTutorialPart) {
@@ -837,7 +838,24 @@ public class GameServer extends SmartFox {
                     /* locations */
                     Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
 
-
+					/* immitation */
+					Context.Model.dispatchCustomEvent(ContextEvent.IM_HITS_LOADED, [ItemType.DINAMIT_BOMB, ItemType.HEALTH_PACK_POISON, ItemType.MINA_BOMB]);
+					
+					/* immitation */
+					var friendsLent:Array = new Array();
+					
+					for each(var p: ISocialProfile in Context.Model.currentSettings.apiResult.friends)
+					{
+						var fgp:GameProfile = new GameProfile();
+						fgp.photoURL = p.photoURL;
+						fgp.id = p.id;	
+						
+						var fo:FriendObject = new FriendObject(fgp, false, false, true, p);
+						friendsLent.push(fo);
+					}
+					
+					Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
+					
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);

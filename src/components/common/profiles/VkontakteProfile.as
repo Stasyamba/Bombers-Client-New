@@ -12,6 +12,8 @@ public class VkontakteProfile implements ISocialProfile {
 
     private var _photoURL:String = "";
 	private var _photoSmallURL:String = "";
+	private var _photoBigURL:String = "";
+	
     public var photoMediumSrc:String = "";
     public var photoBigSrc:String = "";
 
@@ -32,6 +34,16 @@ public class VkontakteProfile implements ISocialProfile {
 	
 	/* works only for own profile */
 	
+	public function get photoBigURL():String
+	{
+		return _photoBigURL;
+	}
+
+	public function set photoBigURL(value:String):void
+	{
+		_photoBigURL = value;
+	}
+
 	public function get isUserOnline():Boolean
 	{
 		return _isUserOnline;

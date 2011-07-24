@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="361" height="441"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 implements="components.common.base.window.IWindow" 
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.Pattern3ButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<!--<s:Animate target="{this}" duration="500">
+			<s:SimpleMotionPath property="x"
+			valueFrom="100"
+			valueTo="800"
+			/>
+			</s:Animate>-->
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="750">
+				<s:SimpleMotionPath property="x"
+									valueFrom="800" valueTo="100"
+									/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="x"
+									valueFrom="100" valueTo="180"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public function close():void {
+				Context.Model.windowsManager.deleteWindow(this);
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				Context.Model.windowsManager.closeAll(true);
+				Context.Model.windowsManager.addWindow(this);
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_SET_GAME_FOCUS);
+				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_SET_GAME_FOCUS);
+			}
+			
+			public function buyEnergy(energyAmount: int, energyVotePrice: int): void
+			{
+				if(Context.Model.currentSettings.votes < energyVotePrice)
+				{
+					(parentApplication as Bombers).setAFBAction(Bombers.AFB_BUY_ENERGY, null, energyAmount);
+					
+					Context.Model.dispatchCustomEvent(
+						ContextEvent.VK_SHOW_VOTE_CONTROL, 
+						energyVotePrice - Context.Model.currentSettings.votes
+					);
+					
+				}else
+				{	
+					Context.gameServer.sendBuyEnergyRequest(energyAmount);
+				}
+				
+				closeWrapper();
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="60"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="216"
+					   cornerRadius="60"
+					   x="3"
+					   borderVisible="false"
+					   />
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="70"
+					   y="156"
+					   cornerRadius="0"
+					   borderVisible="false"
+					   />
+	
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" gap="35">
+		
+		<s:VGroup horizontalAlign="center" gap="15">
+			<s:Label fontFamily="mpbc" color="0xfed600" fontSize="30" text="Кристаллы" />
+			
+			<s:VGroup>
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="2 шт" />
+					</s:HGroup>
+					
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="1 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyEnergy(25, 1);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="25 шт" />
+					</s:HGroup>
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="10 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyEnergy(25, 1);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="130 шт" />
+					</s:HGroup>
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="50 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyEnergy(25, 1);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="300 шт" />
+					</s:HGroup>
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="100 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyEnergy(25, 1);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+			</s:VGroup>
+		</s:VGroup>
+		
+		
+		<!-- gold -->
+		
+		<s:VGroup horizontalAlign="center" gap="15">
+			<s:Label fontFamily="mpbc" color="0xfed600" fontSize="30" text="Золотые слитки" />
+			
+			<s:VGroup>
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="100 шт" />
+					</s:HGroup>
+					
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceGoldSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="1 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyEnergy(25, 1);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="1100 шт" />
+					</s:HGroup>
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceGoldSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="10 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyEnergy(25, 1);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="5700 шт" />
+					</s:HGroup>
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceGoldSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="50 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyEnergy(25, 1);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="12 000 шт" />
+					</s:HGroup>
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceGoldSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="100 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyEnergy(25, 1);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+			</s:VGroup>
+		</s:VGroup>
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="300" y="15" scale="0.8"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

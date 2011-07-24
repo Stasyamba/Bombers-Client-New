@@ -34,7 +34,9 @@
 
         <expirance:Experiance paddingLeft="10"/>
         <energy:EnergyView />
-		<sound:SoundControlling paddingTop="2" paddingLeft="15" />
+	    
+		<!--<sound:SoundControlling paddingTop="2" paddingLeft="15" />-->
+		
 		<s:HGroup width="100%" />
         <resources:ResourcesView paddingRight="20"/>
 

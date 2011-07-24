@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
+		 height="55" xmlns:shoppanel="components.pages.world.bottompanel.shoppanel.*">
+	<fx:Script>
+		<![CDATA[
+			import components.common.items.ItemType;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.common.utils.adjustcolor.ColorMatrixObject;
+			
+			import loading.SoundManager;
+			
+			import skins.buttons.MarketButtonS;
+			
+			private function init(): void
+			{
+				/* colorize panel */
+				var cm: ColorMatrix = new ColorMatrix();
+				var cmo: ColorMatrixObject = new ColorMatrixObject(0,0.8);
+				cm.applyColorMatrixObject(cmo);
+				
+				bgGroup.filters = [cm.filter];
+				
+				Context.Model.addCustomListener(ContextEvent.IM_HITS_LOADED, function(e:ContextEvent):void
+				{
+					if(e.data is Array)
+					{
+						var i: int = 0;
+						
+						for each(var itemType: ItemType in e.data)
+						{
+							if(i <= hits.numElements - 1)
+							{
+								var el:* = hits.getElementAt(i);
+								
+								if(el is HitSlot)
+								{
+									(el as HitSlot).initContent(itemType);
+								}
+								
+							}else
+							{
+								break;
+							}
+							
+							i++;
+						}
+					}
+				});
+			}
+			
+			private function openInventoryMarket():void {
+				Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW, true);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Group id="bgGroup">
+		<s:BorderContainer width="287" height="55"
+						   x="3" y="3"
+						   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+						   backgroundImageFillMode="repeat"
+						   cornerRadius="15"
+						   borderVisible="false"
+						   />
+		
+		<s:BorderContainer width="287" height="55"
+						   backgroundImage="@Embed(source='assets/windows/bgBright.jpg')"
+						   backgroundImageFillMode="repeat"
+						   cornerRadius="15"
+						   borderVisible="false"
+						   />
+	</s:Group>
+	
+	
+	<s:HGroup width="100%" horizontalAlign="left" gap="20">
+		<s:HGroup height="100%" paddingTop="-18" paddingLeft="10">
+			<s:Button skinClass="skins.buttons.MarketButtonS" buttonMode="false" useHandCursor="true"
+					  rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"
+					  click="openInventoryMarket();"
+					  />
+		</s:HGroup>
+		
+		<s:HGroup id="hits" gap="10" paddingTop="5">
+			<shoppanel:HitSlot depth="3" />
+			<shoppanel:HitSlot depth="2" />
+			<shoppanel:HitSlot depth="1" />
+		</s:HGroup>
+		
+	</s:HGroup>
+	
+	
+</s:Group>
