@@ -22,6 +22,10 @@ public interface ISocialProfile {
 	function get photoSmallURL():String;
 	
 	function set photoSmallURL(value:String):void;
+	
+	function get photoBigURL():String;
+	
+	function set photoBigURL(value:String):void;
 
     function get profileLink():String;
 

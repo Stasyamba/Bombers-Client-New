@@ -38,6 +38,29 @@ public class ItemsManager {
 
         /*** BOMBS AND POISONS ***/
 
+		items.push(new ItemObject(
+			ItemType.SMOKE_BOMB,
+			[],
+			
+			new ItemViewObject(
+				ItemType.SMOKE_BOMB,
+				ImagesPrefixes.WEAPON_PREFIX + "smokeBomb.png",
+				"Дымовая бомба",
+				"Задыми всю карту, передвигайся как тень и верши свое правосудие в суде неравных"
+			)
+		));
+		
+		items.push(new ItemObject(
+			ItemType.HAMELEON_POISON,
+			[],
+			
+			new ItemViewObject(
+				ItemType.HAMELEON_POISON,
+				ImagesPrefixes.WEAPON_PREFIX + "hamelionPoison.png",
+				"Зелье хамелеона",
+				"На 30 секунд ваш бомбастер сольется с картой и станет практически незаметным для ваших врагов!"
+			)
+		));
 		
 		items.push(new ItemObject(
 			ItemType.HEALTH_PACK_POISON,
@@ -48,6 +71,42 @@ public class ItemsManager {
 				ImagesPrefixes.WEAPON_PREFIX + "healthPackPoison.png",
 				"Зелье здоровья",
 				"Приятное на вкус, бодрящее зелье. Хороший бой и 1 единица здоровья вам гарантированы."
+			)
+		));
+		
+		items.push(new ItemObject(
+			ItemType.MINA_BOMB,
+			[],
+			
+			new ItemViewObject(
+				ItemType.MINA_BOMB,
+				ImagesPrefixes.WEAPON_PREFIX + "minaBomb.png",
+				"Мина",
+				"Вызрывается только после касания! Почувствуй себя стратегом, ставь ловушки и блокируй ходы соперников!"
+			)
+		));
+
+		items.push(new ItemObject(
+			ItemType.DINAMIT_BOMB,
+			[new AccessLevelRule(5)],
+			
+			new ItemViewObject(
+				ItemType.DINAMIT_BOMB,
+				ImagesPrefixes.WEAPON_PREFIX + "dinamitBomb.png",
+				"Динамит",
+				"Мощная бомба, которая снимает сразу 2 жизни. Подорви салаг."
+			)
+		));
+		
+		items.push(new ItemObject(
+			ItemType.HEALTH_PACK_ADVANCED_POISON,
+			[new AccessLevelRule(5)],
+			
+			new ItemViewObject(
+				ItemType.HEALTH_PACK_ADVANCED_POISON,
+				ImagesPrefixes.WEAPON_PREFIX + "healthPackAdvancedPoison.png",
+				"Зелье здоровья (увеличенное)",
+				"Редчайшая выжимка из ночного опоссума, восстанавливает целых 2 единицы здоровья."
 			)
 		));
 		
@@ -63,41 +122,11 @@ public class ItemsManager {
 			)
 		));
 		
-		items.push(new ItemObject(
-			ItemType.HEALTH_PACK_ADVANCED_POISON,
-			[],
-			
-			new ItemViewObject(
-				ItemType.HEALTH_PACK_ADVANCED_POISON,
-				ImagesPrefixes.WEAPON_PREFIX + "healthPackAdvancedPoison.png",
-				"Зелье здоровья (увеличенное)",
-				"Редчайшая выжимка из ночного опоссума, восстанавливает целых 2 единицы здоровья."
-			)
-		));
 		
-		items.push(new ItemObject(
-			ItemType.SMOKE_BOMB,
-			[],
-			
-			new ItemViewObject(
-				ItemType.SMOKE_BOMB,
-				ImagesPrefixes.WEAPON_PREFIX + "smokeBomb.png",
-				"Дымовая бомба",
-				"Задыми всю карту, передвигайся как тень и верши свое правосудие в суде неравных"
-			)
-		));
+		
+		
 
-        items.push(new ItemObject(
-                ItemType.HAMELEON_POISON,
-                [],
-
-                new ItemViewObject(
-                        ItemType.HAMELEON_POISON,
-                        ImagesPrefixes.WEAPON_PREFIX + "hamelionPoison.png",
-                        "Зелье хамелеона",
-                        "На 30 секунд ваш бомбастер сольется с картой и станет практически незаметным для ваших врагов!"
-                        )
-                ));
+        
 
 
        /* items.push(new ItemObject(
@@ -112,18 +141,7 @@ public class ItemsManager {
                         )
                 ));*/
 
-        items.push(new ItemObject(
-                ItemType.MINA_BOMB,
-                [],
-
-                new ItemViewObject(
-                        ItemType.MINA_BOMB,
-                        ImagesPrefixes.WEAPON_PREFIX + "minaBomb.png",
-                        "Мина",
-                        "Вызрывается только после касания! Почувствуй себя стратегом, ставь ловушки и блокируй ходы соперников!"
-                        )
-                ));
-
+        
        /* items.push(new ItemObject(
                 ItemType.BOX_BOMB,
                 [],
@@ -137,18 +155,7 @@ public class ItemsManager {
                 ));*/
 
 
-        items.push(new ItemObject(
-                ItemType.DINAMIT_BOMB,
-                [],
-
-                new ItemViewObject(
-                        ItemType.DINAMIT_BOMB,
-                        ImagesPrefixes.WEAPON_PREFIX + "dinamitBomb.png",
-                        "Динамит",
-                        "Мощная бомба, которая снимает сразу 2 жизни. Подорви салаг."
-                        )
-                ));
-		
+       
 		
 		/* Parts */
 		

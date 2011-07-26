@@ -25,8 +25,56 @@
 				
 				var arr:Array = price.getResourceObjectArr();
 				
-				for each(var ro:ResourceObject in arr) {
+				var labOR: Label = new Label();
+				labOR.setStyle("fontFamily", "mpbc");
+				labOR.setStyle("fontSize", 16);
+				labOR.setStyle("color", 0xfbd98a);
+				labOR.text = "или";
+				
+				var index: int = 0;
+				
+				for(var i:int = 0; i<= arr.length - 1; i++)
+				{
+					if(i == 1 && arr[1].value != 0)
+					{
+						priceGroup.addElement(labOR);
+					}
+					
+					if(arr[i] is ResourceObject)
+					{
+						if(arr[i].value > 0)
+						{
+							var hg:HGroup = new HGroup();
+							hg.gap = 3;
+							
+							var lab:Label = new Label();
+							var resourceImage:BitmapImage = new BitmapImage();
+							resourceImage.smooth = true;
+							resourceImage.scaleX = 1;
+							resourceImage.scaleY = 1;
+							
+							lab.setStyle("fontFamily", "mpbc");
+							lab.setStyle("fontSize", 16);
+							lab.setStyle("color", 0xfbd98a);
+							
+							lab.text = arr[i].value.toString();
+							
+							hg.addElement(lab);
+							hg.addElement(resourceImage);
+							
+							resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(arr[i].type).smallImage;
+							
+							
+							hg.verticalAlign = VerticalAlign.MIDDLE;
+							
+							priceGroup.addElement(hg);
+						}
+					}
+				}
+				
+				/* for each(var ro:ResourceObject in arr) {
 					if (ro.value > 0) {
+						
 						var hg:HGroup = new HGroup();
 						hg.gap = 3;
 						
@@ -52,7 +100,7 @@
 						
 						priceGroup.addElement(hg);
 					}
-				}
+				} */
 				
 			}
 		]]>

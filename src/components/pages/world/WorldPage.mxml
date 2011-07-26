@@ -31,7 +31,7 @@
 					Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_WORLD_ANIMATION, true);
 					
 					/* sounds */
-					SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, CommonConstans.MUSIC_NORMAL_VOLUME);
+					//SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, CommonConstans.MUSIC_NORMAL_VOLUME);
 				}
 			});
 			

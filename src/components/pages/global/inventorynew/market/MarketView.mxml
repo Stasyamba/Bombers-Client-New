@@ -16,12 +16,16 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.access.AccessManager;
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
 			import components.common.bombers.BomberObject;
 			import components.common.bombers.BomberType;
 			import components.common.items.ItemObject;
 			import components.common.items.ItemType;
 			import components.common.items.categories.ItemCategory;
 			import components.common.items.categories.MarketCategory;
+			import components.common.resources.ResourcePrice;
 			import components.pages.global.inventorynew.market.content.WeaponContent;
 			
 			import mx.collections.ArrayCollection;
@@ -106,21 +110,40 @@
 						
 						if(mc == e.data)
 						{
-							currentItemCollection.addItem(new ItemMarket(itemObject.type, itemObject.viewObject.smallImageURL, ic));
+							/* put nessesory level and price also */
+							
+							
+							/* check for level rule */
+							var accessRulesObject:Array = AccessManager.checkAccessItem(itemObject.type);
+							var minimumLevel:int = 0;
+							var isLevelRuleSuccess:Boolean = false;
+							
+							for each(var aro:AccessRuleObject in accessRulesObject) {
+								if (aro.accessRule is AccessLevelRule) {
+									isLevelRuleSuccess = aro.isSuccess;
+									
+									if (!isLevelRuleSuccess) {
+										minimumLevel = (aro.accessRule as AccessLevelRule).minimumLevel;
+									}
+									
+									break;
+								}
+							}
+							
+							/* price  */
+							var itemPrice: ResourcePrice = Context.Model.marketManager.getItemPrice(itemObject.type).price;
+							
+							
+							currentItemCollection.addItem(
+								new ItemMarket(
+									itemObject.type, 
+									itemObject.viewObject.smallImageURL, 
+									ic,
+									minimumLevel,
+									itemPrice
+								));
 						}
 					}
-					
-					/* 
-					change layout etc
-					
-					switch(e.data)
-					{
-						case MarketCategory.BOMBS_AND_POISONS:
-							break;
-						case MarketCategory.BOMBERS:
-							
-							break;
-					} */
 					
 					showItem(null);
 				}

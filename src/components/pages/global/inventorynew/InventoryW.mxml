@@ -28,7 +28,7 @@
 								/>
 		</s:Animate>
 		
-		<s:Animate id="apearingA" target="{this}" duration="500">
+		<s:Animate id="apearingA" target="{this}" duration="500" effectEnd="{Context.Model.dispatchCustomEvent(ContextEvent.RESOURCE_TOP_PANEL_VISIBLE, false);}">
 			<s:SimpleMotionPath property="alpha"
 								valueFrom="0" valueTo="1"
 								/>
@@ -89,6 +89,8 @@
 			}
 			
 			public function closeWrapper():void {
+				Context.Model.dispatchCustomEvent(ContextEvent.RESOURCE_TOP_PANEL_VISIBLE, true);
+				
 				disapearingA.play();
 			}
 			
@@ -214,7 +216,7 @@
 	
 	<flexcomponents:CloseButton id="closeButton" skinClass="skins.buttons.CloseButtonOriginS" scale="0.7" x="722" y="10" click="closeWrapper();" />
 	
-	<resources:ResourcesView y="-42" x="406" />
+	<resources:ResourcesView y="-50" x="617" />
 	
 	<s:Group id="tutorialGroup" />
 	<s:Group id="needResourceToolTipGroup" />

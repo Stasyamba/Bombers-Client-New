@@ -11,60 +11,71 @@
 
     <fx:Script>
 		<![CDATA[
-		import components.common.resources.ResourcePrice;
-		import components.wall.PostIDObject;
-		import components.wall.enjoy.WallEnjoyTheGame;
-		
-		import mx.controls.Alert;
-		import mx.core.IVisualElement;
-		import mx.utils.ObjectUtil;
+			import api.vkontakte.VkontakteGlobals;
+			
+			import components.common.resources.ResourcePrice;
+			import components.wall.PostIDObject;
+			import components.wall.enjoy.WallEnjoyTheGame;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.utils.ObjectUtil;
 
         public static const POST_TYPE_REQUEST_TO_ENJOY_THE_GAME: int = 0;
         public static const POST_TYPE_HELP: int = 1;
 
         private function init():void {
 			
-           var content:IVisualElement = null;
-           var encoded:Array = UnicodeToPostIdEncoder.decodeStringArray(Context.Model.currentSettings.flashVars.postId);
+           //var content:IVisualElement = null;
+           //var encoded:Array = UnicodeToPostIdEncoder.decodeStringArray(Context.Model.currentSettings.flashVars.postId);
 			
 		   //Alert.show(ObjectUtil.toString({postIdArr: encoded}));
-		   var postingType:int = encoded[0];
+		   //var postingType:int = encoded[0];
 		   
-		   switch (postingType) 
+		  /*  switch (postingType) 
 			{
 		        case POST_TYPE_REQUEST_TO_ENJOY_THE_GAME:
 		
 		            content = new WallEnjoyTheGame();
-					//(content as WallEnjoyTheGame).initContent(encoded[1], encoded[2]);
+					(content as WallEnjoyTheGame).initContent(encoded[1], encoded[2]);
 					
 		            break;
 		        case POST_TYPE_HELP:
 					
-					//mx.controls.Alert.show("type help");
-		            
-					//content = new WallChest();
-					//(content as WallChest).initContent(new ResourcePrice(encoded[1],encoded[2],encoded[3],encoded[4]));
 					
-					//(content as WallChest).initContent(encoded[1]);
+					content = new WallChest();
+					(content as WallChest).initContent(new ResourcePrice(encoded[1],encoded[2],encoded[3],encoded[4]));
+					
+					(content as WallChest).initContent(encoded[1]);
 					
 		            break;
 		        default:
 		            break;
 		    }
 		
-		    mainWallContainer.addElement(content);
+		    mainWallContainer.addElement(content); */
         }
+			
+		private function goToApplication():void	
+		{
+			var link: String = Context.Model.applicationLink;
+			VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(link));
+		}
+			
         ]]>
 	</fx:Script>
 
-    <s:BorderContainer
+    <!--<s:BorderContainer
             id="mainWallContainer"
             width="607" height="412"
             backgroundImage="@Embed(source='assets/windows/bg.jpg')"
 			backgroundImageFillMode="repeat"
             borderVisible="false"
             >
-
-
-    </s:BorderContainer>
+    </s:BorderContainer>-->
+	
+	<s:HGroup useHandCursor="true" buttonMode="true" click="goToApplication();">
+		<s:BitmapImage source="@Embed(source='assets/wall/wall.jpg')" smooth="true" />	
+	</s:HGroup>
+	
 </s:Group>

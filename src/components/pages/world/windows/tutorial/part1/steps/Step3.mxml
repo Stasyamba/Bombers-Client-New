@@ -68,7 +68,7 @@
 										   />
 						</s:Group>
 					
-						<s:BitmapImage source="@Embed(source='assets/commonbuttons/marketcart2.png')"
+						<s:BitmapImage source="@Embed(source='assets/commonbuttons/marketcart3.png')"
 									   />
 					
 				</s:HGroup>

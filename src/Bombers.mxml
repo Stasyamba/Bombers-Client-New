@@ -339,16 +339,10 @@
 						});
 						
 						/* vkontakte testing */
-						
-						//Alert.show("App started common");
-						
 						if (isWrapperExists) 
 						{
-							//Alert.show("Wrapper is exist");
-							
 							if(!Context.Model.isDevelopment)
 							{
-								//Alert.show("not development");
 								Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, true);
 								
 								BombersContentLoader.readyToUseAppView.addOnce(

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="265" height="305"
+		 xmlns:flexcomponents="components.common.flexcomponents.*" 
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import skins.buttons.CloseButtonOriginS;
+			import skins.buttons.Pattern3ButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<!--<s:Animate target="{this}" duration="500">
+			<s:SimpleMotionPath property="x"
+			valueFrom="100"
+			valueTo="800"
+			/>
+			</s:Animate>-->
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="750">
+				<s:SimpleMotionPath property="x"
+									valueFrom="800" valueTo="100"
+									/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="x"
+									valueFrom="100" valueTo="180"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.wall.SendWallObject;
+			import components.common.friendslent.FriendObject;
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public var fo:FriendObject = null;
+			
+			public function close():void {
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				if(fo != null)
+				{
+					userImage.initPhoto(fo.sProfile.photoBigURL);
+				}
+			}
+			
+			private function wallPost(): void
+			{
+				Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_HIDE_ENEGRY, fo.profile.id);
+				
+				var swo: SendWallObject = new SendWallObject(
+					fo.sProfile, 
+					"", 
+					"Нужна твоя помощь в добыче энергии в Бомбастерах! http://vkontakte.ru/app2206924#fi", 
+					"72969483_265497808"
+				);
+				
+				Context.Model.dispatchCustomEvent(ContextEvent.VK_SEND_TO_WALL, swo);
+				closeWrapper();
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="60"
+					   borderVisible="true"
+					   borderColor="0x322a17" borderWeight="3"
+					   >
+		<s:filters>
+			<s:GlowFilter id="glow1" color="0xfff200" strength="1" blurX="10" blurY="10" alpha="0" />
+		</s:filters>
+	</s:BorderContainer>
+	
+	<!--<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+	backgroundImageFillMode="repeat"
+	width="100%" height="216"
+	cornerRadius="60"
+	x="3"
+	borderVisible="false"
+	/>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+	backgroundImageFillMode="repeat"
+	width="100%" height="70"
+	y="156"
+	cornerRadius="0"
+	borderVisible="false"
+	/>-->
+	
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		
+		<s:Label text="{'Пригласи друга, и собирай\nс него энергию каждый день!\nВместе играть веселее!'}" 
+				 color="0xfff200" fontFamily="mpr" fontSize="16"
+				 textAlign="center"
+				 />
+		
+		<flexcomponents:UserPhotoGroup id="userImage" 
+									   borderWitdh="2" borderHeight="2" 
+									   basePhotoSizeH="134" basePhotoSizeW="198" 
+									   bgColor="0x342a19" 
+									   />
+		
+		<s:Group useHandCursor="true" buttonMode="true"
+				 click="wallPost();"
+				 rollOver="{glow1.alpha = 0;glow2.alpha = 1;}"
+				 rollOut="{glow1.alpha = 0;glow2.alpha = 0;}">
+			<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   width="200" height="40"
+							   cornerRadius="0"
+							   borderVisible="false"
+							   />
+			
+			<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<s:Label text="Позвать!" color="0xfff200" fontFamily="mpr" fontSize="24" />
+				<s:HGroup paddingTop="-5">
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')" smooth="true"/>
+				</s:HGroup>
+				
+				<s:filters>
+					<s:GlowFilter id="glow2" color="0xfff200" strength="1" blurX="10" blurY="10" alpha="0" />
+				</s:filters>
+				
+			</s:HGroup>
+		</s:Group>
+		
+		
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="260" y="-15" scale="0.7"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

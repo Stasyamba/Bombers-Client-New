@@ -6,7 +6,7 @@
 		 alpha="1"
 		 >
 
-	<tutorial:Arrow x="330" y="40" customRotation="60" selectedState="{Arrow.STATE_LINEAR_PUPMED}" />
+	<tutorial:Arrow x="510" y="40" customRotation="60" selectedState="{Arrow.STATE_LINEAR_PUPMED}" />
 	
 	<s:Label id="tText" x="350" y="80" text="{'Необходимо докупить ресурсы'}" 
 			 fontFamily="mpbc" fontSize="36" color="0xf6da00" textAlign="center"

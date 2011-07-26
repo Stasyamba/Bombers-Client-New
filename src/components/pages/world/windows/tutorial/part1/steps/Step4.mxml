@@ -26,8 +26,8 @@
 				
 				goldImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.GOLD).bigImage;
 				crysImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.CRYSTALS).bigImage;
-				adamantImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.ADAMANT).bigImage;
-				antimatterImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.ANTIMATTER).bigImage;
+				//adamantImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.ADAMANT).bigImage;
+				//antimatterImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.ANTIMATTER).bigImage;
 			}
 			
 			private function nextStep(): void
@@ -57,7 +57,7 @@
 		<s:VGroup horizontalAlign="center" gap="15" verticalAlign="middle">
 			<s:Label id="glumLabel"
 					 fontFamily="mpr" color="0xffd746" fontSize="22" textAlign="center"
-					 text="{'У нас тут 4 вида ресурсов в ходу!'}"
+					 text="{'У нас тут 2 вида ресурсов в ходу!'}"
 					 />
 			<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
 							   backgroundImageFillMode="repeat"
@@ -83,7 +83,7 @@
 						<s:Label text="Кристаллы" color="0xffd746" fontFamily="mpr" fontSize="14" />
 					</s:VGroup>
 					
-					<s:VGroup horizontalAlign="center" verticalAlign="bottom">
+					<!--<s:VGroup horizontalAlign="center" verticalAlign="bottom">
 						<s:VGroup height="80" verticalAlign="middle">
 							<s:BitmapImage id="adamantImage" smooth="true" scaleX="0.9" scaleY="0.9" />
 						</s:VGroup>
@@ -96,7 +96,7 @@
 							<s:BitmapImage id="antimatterImage" smooth="true" scaleX="0.6" scaleY="0.6" />
 						</s:VGroup>
 						<s:Label text="Антиматерия" color="0xffd746" fontFamily="mpr" fontSize="14" />
-					</s:VGroup>
+					</s:VGroup>-->
 					
 				</s:HGroup>
 			</s:BorderContainer>

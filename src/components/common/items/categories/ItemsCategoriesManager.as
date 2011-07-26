@@ -71,14 +71,15 @@ public class ItemsCategoriesManager {
             case ItemType.MINA_BOMB:
             case ItemType.DINAMIT_BOMB:
 			case ItemType.SMOKE_BOMB:
-                res = MarketCategory.BOMBS_AND_POISONS;
-                break;
-			
 			case ItemType.HEALTH_PACK_ADVANCED_POISON:
 			case ItemType.HEALTH_PACK_POISON:
 			case ItemType.HAMELEON_POISON:
-				res = MarketCategory.POTIONS;
-				break;	
+                res = MarketCategory.BOMBS_AND_POISONS;
+                break;
+			
+			
+				/*res = MarketCategory.POTIONS;
+				break;	*/
         }
 		
         return res;

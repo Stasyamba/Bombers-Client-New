@@ -29,6 +29,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.items.ItemProfileObject;
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
 			
 			
 			
@@ -36,6 +39,54 @@
 			{
 				super.data = value;
 				itemImage.source = data.imageURL;
+				
+				levelNessesoryGroup.visible = false;
+				priceGroup.visible = false;
+				
+				if((data as ItemMarket).itemLevelNessesory != 0)
+				{
+					levelNessesoryGroup.visible = true;
+					levelNessesoryLabel.text = (data as ItemMarket).itemLevelNessesory.toString()+" уровень";
+				}else
+				{
+					var itemPrice: ResourcePrice = (data as ItemMarket).itemPrice;
+					priceGroupContent.removeAllElements();
+					
+					var lab:Label = new Label();
+					var resourceImage:BitmapImage = new BitmapImage();
+					resourceImage.smooth = true;
+					
+					
+					lab.setStyle("fontFamily", "mpbc");
+					lab.setStyle("fontSize", 13);
+					priceGroupContent.addElement(lab);
+					
+					
+					if(itemPrice.gold.value != 0)
+					{
+						resourceImage.scaleX = 0.6;
+						resourceImage.scaleY = 0.6;
+						
+						lab.setStyle("color", 0xfbd98a);
+						lab.text = itemPrice.gold.value.toString();
+						
+						priceGroupContent.addElement(resourceImage);
+						resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.GOLD).smallImage;
+					}else
+					{	
+						resourceImage.scaleX = 0.6;
+						resourceImage.scaleY = 0.6;
+						
+						lab.setStyle("color", 0xd172e9);
+						lab.text = itemPrice.crystals.value.toString();
+						
+						priceGroupContent.addElement(resourceImage);
+						resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.CRYSTALS).smallImage;
+						
+					}
+					
+					priceGroup.visible = true;
+				}
 			}
 			
 			
@@ -63,11 +114,43 @@
 				<mx:Image id="itemImage"
 						  smoothBitmapContent="true"
 						  trustContent="{Context.Model.trustContent}"
-						  blendMode="luminosity"
 						  complete="{appearingA.play();}"
+						  blendMode="luminosity"
 						  />
+				
+				<!-- blendMode="luminosity"-->
 			</s:HGroup>
 		</s:Group>
 	</s:HGroup> 
+	
+	<s:HGroup y="-5" x="5" id="levelNessesoryGroup" visible="false" height="100%" verticalAlign="bottom">
+		<s:Group>
+			<s:Rect alpha="0.24" width="70" height="14">
+				<s:fill>
+					<s:SolidColor color="0xfe0700" />
+				</s:fill>
+			</s:Rect>
+			
+			<s:HGroup width="70" height="14"
+					  horizontalAlign="center" verticalAlign="middle">
+				<s:Label id="levelNessesoryLabel" color="0xfed600" fontFamily="mpr" fontSize="12" />
+			</s:HGroup>
+		</s:Group>
+	</s:HGroup>
+	
+	<s:HGroup y="-5" x="5" id="priceGroup" visible="false" height="100%" verticalAlign="bottom">
+		<s:Group>
+			<s:Rect alpha="0.42" width="70" height="14" blendMode="multiply">
+				<s:fill>
+					<s:SolidColor color="0x362a09" />
+				</s:fill>
+			</s:Rect>
+			
+			<s:HGroup id="priceGroupContent" width="70" height="14"
+					  horizontalAlign="center" verticalAlign="middle">
+				
+			</s:HGroup>
+		</s:Group>
+	</s:HGroup>
 	
 </s:ItemRenderer>

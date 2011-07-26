@@ -25,6 +25,7 @@
 		<s:Transition toState="over">
 			<s:Parallel>
 				<s:Fade target="{buttonTextGlowFilter}" alphaFrom="0" alphaTo="1" duration="100"/>
+				<s:Fade target="{buttonShadow}" alphaFrom="1" alphaTo="0" duration="100"/>
 			</s:Parallel>
 		</s:Transition>
 		
@@ -32,6 +33,7 @@
 		<s:Transition toState="up">
 			<s:Parallel>
 				<s:Fade target="{buttonTextGlowFilter}" alphaFrom="1" alphaTo="0" duration="100"/>
+				<s:Fade target="{buttonShadow}" alphaFrom="0" alphaTo="1" duration="100"/>
 			</s:Parallel>
 			
 		</s:Transition>
@@ -56,14 +58,19 @@
 	</fx:Script>
 	
 	
-		<s:BitmapImage source="@Embed(source='assets/commonbuttons/marketcart3.png')" />
+	<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/crystallsButtonBg.png')" />
 	
-		<s:filters>
-			<s:GlowFilter id="buttonTextGlowFilter" blurX="10" blurY="10" color="0x88bc1f" alpha="0"
-						  strength="2.5"
-						  />
-		</s:filters>
+	<s:filters>
+		<s:DropShadowFilter id="buttonShadow" blurX="3" blurY="3" color="0x000000" alpha="1"
+							strength="1" distance="1"
+							/>
 		
+		
+		<s:GlowFilter id="buttonTextGlowFilter" blurX="10" blurY="10" color="0x88bc1f" alpha="0"
+					  strength="3.5"
+					  />
+	</s:filters>
+	
 	
 	
 	

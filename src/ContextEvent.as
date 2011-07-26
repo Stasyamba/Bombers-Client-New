@@ -4,6 +4,8 @@ import flash.events.Event;
 public class ContextEvent extends Event {
 
 	public static const WORLD_LOCATIONS_FILL_COLORS:String = "WORLDLocationsFillColors";
+	public static const WORLD_ANIMATION_VISIBLE:String = "WORLDAnimationVisible";
+	// pass: Boolean - > snow visible
 	
 	public static const VK_SHOW_VOTE_CONTROL: String = "GLOBALShowVoteControl";
 	public static const GLOBAL_INVENTORY_BUTTON_ENABLED: String = "GLOBALBlockInventoryButton";
@@ -51,8 +53,11 @@ public class ContextEvent extends Event {
 	
     public static const RESOURCE_VALUE_CHANGED:String = "ResourceValueChanged";
     // pass: {resourceType: ResourceType, value: int} -> resource that was changed
+	public static const RESOURCE_MARKET_SHOW:String = "ResourceMarketShow";
+	public static const RESOURCE_TOP_PANEL_VISIBLE:String = "ResourceTopPanelVisible";
+	// pass: Boolean -> visible
 
-
+	
     /***** game profile profile property change events *****/
     public static const GP_RESOURCE_CHANGED:String = "GPResourceChanged";
     public static const GP_CURRENT_LEFT_WEAPON_IS_CHANGED:String = "GPCurrentLeftWeaponIsChanged";
@@ -98,7 +103,8 @@ public class ContextEvent extends Event {
 	public static const IM_CLOSE:String = "IMClose";
 	public static const IM_NEED_RESOURCES:String = "IMNeedResources";
 	public static const IM_NEED_RESOURCES_CLOSE:String = "IMNeedResourcesClose";
-	
+	public static const IM_HITS_LOADED:String = "IMHitsLoaded";
+	// pass: Array -> [itemType, itemType, ...] hits now
 	
     /***** enegry market events *****/
     public static const NEED_TO_OPEN_ENERGY_MARKET:String = "IMNeedToOpenEnergyMarket";
@@ -151,6 +157,7 @@ public class ContextEvent extends Event {
 	
 	public static const FRIENDS_PANEL_GET_BONUS: String = "FRIENDSPANELGetBonus";
 	public static const FRIENDS_PANEL_FRIENDS_IS_LOADED: String = "FRIENDSPANELFriendsIsLoaded";
+	public static const FRIENDS_PANEL_HIDE_ENEGRY: String = "FRIENDSPANELHideEnergy";
 
 	public static const DEVELOP_DEBUG_STRING_SHOW: String = "DEVELOPDebugString";
 	// pass: String;
@@ -158,6 +165,9 @@ public class ContextEvent extends Event {
 	
 	public static const MUSIC_SWITCH: String = "MUSICSwitch";
 	// pass: Boolean
+	
+	public static const INVITE_FRIEND_SHOW: String = "INVITEFriendShow";
+	// pass: FriendObject
 	
     public var data:*;
 
