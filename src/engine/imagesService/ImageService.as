@@ -197,9 +197,11 @@ public class ImageService {
         return loadedObject("common.explosions.smoke").content.bitmapData as BitmapData
     }
 
-    //todo: later return LoadedObject
     public function mapBackground(locationType:LocationType):BitmapData {
-        return loadedObject(locationType.stringId + ".map.background").content.bitmapData as BitmapData
+        var lo:LoadedObject = loadedObject(locationType.stringId + ".map.background");
+        if (lo)
+            return lo.content.bitmapData as BitmapData
+        return loadedObject("l00.map.background").content.bitmapData as BitmapData
     }
 
     public function playerPointer():BitmapData {

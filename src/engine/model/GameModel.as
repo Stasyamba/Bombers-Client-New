@@ -417,6 +417,7 @@ public class GameModel {
 
     private function onFastJoinFailed():void {
         someoneJoinedToGame.removeAll()
+        _currentLocation = null;
     }
 
     private function onLeftGame():void {

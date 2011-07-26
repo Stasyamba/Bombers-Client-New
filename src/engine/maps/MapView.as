@@ -29,8 +29,7 @@ public class MapView extends Sprite implements IDrawable,IDestroyable {
 
         removeAllChildren();
 
-        //todo:real location
-        var bd:BitmapData = Context.imageService.mapBackground(LocationType.WORLD1_GRASSFIELDS)
+        var bd:BitmapData = Context.imageService.mapBackground(Context.gameModel.currentLocation)
 
         graphics.beginBitmapFill(bd)
         graphics.drawRect(0, 0, map.width * Consts.BLOCK_SIZE, map.height * Consts.BLOCK_SIZE)

@@ -53,7 +53,7 @@ public class GameBuilder {
     public function makeQuest(quest:EngineQuestObject, gameId:String):IGame {
         var xml:XML = Quests.questXml(quest.id)
         var game:QuestGame = new QuestGame(gameId, quest);
-        //todo:deal with colors
+
         var plSpawn:XML = xml.map.Map.spawns.Spawn[0]
         game.addPlayer(plSpawn.x, plSpawn.y, getColor(1))
 
