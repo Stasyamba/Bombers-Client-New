@@ -8,6 +8,7 @@ import engine.data.Consts
 import engine.explosionss.destroy.BasicDestroyExplosion
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapObjects.DynObjectType
+import engine.maps.mapObjects.mines.RegularMine
 import engine.utils.IStatedView
 import engine.utils.ViewState
 import engine.utils.ViewStateManager
@@ -31,7 +32,8 @@ public class MineView extends DynObjectView implements IStatedView {
         stateManager = new ViewStateManager(this)
 
         TweenMax.delayedCall(2,function(){
-            if(_defaultAlpha != 0)
+            if(_defaultAlpha != 0 && (block.object as RegularMine).owner != Context.game.playerManager.me)
+//            if(_defaultAlpha != 0)
                 alpha = 0.3;
         })
     }

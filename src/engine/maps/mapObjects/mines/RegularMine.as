@@ -19,6 +19,8 @@ public class RegularMine implements ICollectableDynObject {
 
     private var _wasTriedToBeTaken:Boolean = false;
 
+    private static const DAMAGE:int = 15
+
     public function RegularMine(block:IMapBlock, owner:IBomber) {
         _block = block
         _owner = owner
@@ -62,8 +64,11 @@ public class RegularMine implements ICollectableDynObject {
     }
 
     public function activateOn(player:IBomber, params:Object = null):void {
-        if (!player.isImmortal)
-            player.explode(new RegularExplosion(null, null, -1, -1, 5))
+        if (!player.isImmortal) {
+            var e:RegularExplosion = new RegularExplosion(null, null, -1, -1, 1)
+            e.damage = DAMAGE;
+            player.explode(e);
+        }
         block.collectObject(Context.game.playerManager.isItMe(player))
     }
 
@@ -74,5 +79,11 @@ public class RegularMine implements ICollectableDynObject {
     public function get wasTriedToBeTaken():Boolean {
         return _wasTriedToBeTaken;
     }
+
+    public function get owner():IBomber {
+        return _owner
+    }
+
+
 }
 }

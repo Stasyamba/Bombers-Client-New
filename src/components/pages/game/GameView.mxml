@@ -8,30 +8,34 @@
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
     <fx:Script><![CDATA[
-        import components.ApplicationView;
-        import components.common.game.questgameresult.QuestResultObject;
-        import components.common.quests.medals.MedalType;
-        import components.common.worlds.locations.LocationType;
-        
-        import engine.EngineContext;
-        import engine.games.GameType;
-        import engine.games.quest.medals.Medal;
-        import engine.games.quest.medals.MedalBase;
-        import engine.ui.GameFieldView;
+        import components.ApplicationView
+        import components.common.game.questgameresult.QuestResultObject
+        import components.common.quests.medals.MedalType
+
+        import engine.EngineContext
+        import engine.games.GameType
+        import engine.games.quest.medals.Medal
+        import engine.ui.GameFieldView
 
         private var now:int,then:int;
 
         private var gameView:GameFieldView;
-
+        private var _bg:Sprite;
         //temporary ui elements
 
         public function init():void {
-            if(Context.gameModel.currentLocation)
-                bg.addChild(Context.imageService.asContentDisplay(Context.gameModel.currentLocation.stringId + ".map.background"))
+
         }
 
         public function everyGameTabOpeningInit():void {
-           switch(Context.gameModel.gameType){
+            if (Context.gameModel.currentLocation) {
+                if (_bg != null && bg.contains(_bg))
+                    bg.removeChild(_bg);
+                _bg = Context.imageService.asContentDisplay(Context.gameModel.currentLocation.stringId + ".map.background");
+                bg.addChild(_bg);
+
+            }
+            switch (Context.gameModel.gameType) {
                 case GameType.QUEST:
                     initQuest();
                     break
@@ -44,7 +48,7 @@
             subscribeEnterFrameEvent();
         }
 
-         private function initMultiPlayer():void {
+        private function initMultiPlayer():void {
             //listener'll be removed in gameModel
             Context.gameModel.gameReady.add(function ():void {
                 gameView = new GameFieldView(Context.game);
@@ -59,7 +63,7 @@
             //listener'll be removed in gameModel
             Context.gameModel.gameEnded.add(function ():void {
                 endGame();
-				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW);
+                Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW);
             });
         }
 
@@ -79,7 +83,7 @@
             Context.gameModel.questEnded.add(function (won:Boolean, medals:Array):void {
                 endGame();
                 //Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, won ? MedalType.byValue(medal.value):null))
-				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, medals.map(function(item:Medal,index:int,array:Array){
+                Context.Model.dispatchCustomEvent(ContextEvent.QUEST_END_SHOW, new QuestResultObject(won, medals.map(function(item:Medal, index:int, array:Array) {
                     return MedalType.byValue(item.value)
                 })))
             });
@@ -118,14 +122,11 @@
             if (hasEventListener(Event.ENTER_FRAME))
                 unsubscribeEnterFrameEvent();
         }
-		
-		
-		
         ]]></fx:Script>
-	
+
     <!--<s:BorderContainer id="patternBorderContainer" width="100%" height="100%"-->
-                       <!--backgroundImage="@Embed(source='/assets/pagegame/grassPattern.jpg')"-->
-                       <!--backgroundImageFillMode="repeat"-->
-                       <!--borderVisible="false"/>-->
+    <!--backgroundImage="@Embed(source='/assets/pagegame/grassPattern.jpg')"-->
+    <!--backgroundImageFillMode="repeat"-->
+    <!--borderVisible="false"/>-->
     <s:SpriteVisualElement id="bg"/>
 </s:Group>

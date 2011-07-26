@@ -8,6 +8,7 @@ import engine.EngineContext
 import engine.bombers.interfaces.IBomber
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapObjects.DynObjectType
+import engine.maps.mapObjects.mines.MineType
 import engine.model.managers.interfaces.IMapManager
 import engine.weapons.interfaces.IMineWeapon
 
@@ -31,7 +32,7 @@ public class RegularMineWeapon extends ActivatableWeaponBase implements IMineWea
     }
 
     public function qActivateStatic(x:int, y:int, by:IBomber):void {
-        EngineContext.qAddObject.dispatch(by.slot, x, y, type, null)
+        EngineContext.qAddObject.dispatch(by.slot, x, y, MineType.REGULAR, null)
     }
 
     public function explode():void {
