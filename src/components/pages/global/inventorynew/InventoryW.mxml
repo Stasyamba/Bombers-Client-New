@@ -216,7 +216,9 @@
 	
 	<flexcomponents:CloseButton id="closeButton" skinClass="skins.buttons.CloseButtonOriginS" scale="0.7" x="722" y="10" click="closeWrapper();" />
 	
-	<resources:ResourcesView y="-50" x="617" />
+	<s:HGroup y="-48" x="{617-233}" width="383" horizontalAlign="right">
+		<resources:ResourcesView />	
+	</s:HGroup>
 	
 	<s:Group id="tutorialGroup" />
 	<s:Group id="needResourceToolTipGroup" />
