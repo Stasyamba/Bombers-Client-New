@@ -174,7 +174,7 @@
 			  rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"
 			  />
 	
-	<s:Button id="marketButton" visible="false" alpha="0" y="466" x="131"
+	<s:Button id="marketButton" visible="false" alpha="0" y="460" x="125"
 			  label="Market" click="openMarket();" 
 			  skinClass="skins.buttons.MarketButtonS"
 			  buttonMode="true" useHandCursor="true"

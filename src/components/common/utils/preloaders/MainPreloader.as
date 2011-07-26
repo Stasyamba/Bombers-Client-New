@@ -52,8 +52,8 @@ package components.common.utils.preloaders
 				var startX:Number = Math.round((stageWidth - preloaderDisplay.width) / 2);
 				var startY:Number = Math.round((stageHeight - preloaderDisplay.height) / 2);
 				
-				preloaderDisplay.x = 300;
-				preloaderDisplay.y = 350;
+				preloaderDisplay.x = 330;
+				preloaderDisplay.y = 320;
 				addChild(sp);
 				addChild(preloaderDisplay);
 			}

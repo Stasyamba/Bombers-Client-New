@@ -7,12 +7,29 @@
          xmlns:resources="components.pages.world.toppanel.resources.*"
          xmlns:expirance="components.pages.world.toppanel.expirance.*"
          xmlns:energy="components.pages.world.toppanel.energy.*" xmlns:sound="components.pages.world.toppanel.sound.*"
+		 creationComplete="init();"
         >
 
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
 
+	<fx:Script>
+		<![CDATA[
+			
+			private function init():void
+			{
+				Context.Model.addCustomListener(ContextEvent.RESOURCE_TOP_PANEL_VISIBLE, function (e:ContextEvent)
+				{
+					if(e.data is Boolean)
+					{
+						resourceViewPanel.visible = e.data;
+					}
+				});
+			}
+			
+		]]>
+	</fx:Script>
 
     <s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/common/bg.jpg')"
                    width="808" height="41"
@@ -38,7 +55,7 @@
 		<!--<sound:SoundControlling paddingTop="2" paddingLeft="15" />-->
 		
 		<s:HGroup width="100%" />
-        <resources:ResourcesView paddingRight="20"/>
+        <resources:ResourcesView id="resourceViewPanel" paddingRight="20"/>
 
     </s:HGroup>
 

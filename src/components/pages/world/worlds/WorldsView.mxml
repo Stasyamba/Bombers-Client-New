@@ -42,6 +42,7 @@
 			
 			import loading.SoundManager;
 			
+			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
 			
 			import skins.buttons.OfferButtonS;
@@ -249,6 +250,28 @@
 				
 				/* set background animations */
 				
+				Context.Model.addCustomListener(ContextEvent.WORLD_ANIMATION_VISIBLE, function (e: ContextEvent): void
+				{
+					/* if(e.data)
+					{
+						snowSprite2.addChild(new Snow());
+						snowSprite3.addChild(new Snow());
+					}else
+					{
+						for(var i: int = 0; i<= snowSprite2.numChildren - 1; i++)
+						{
+							snowSprite2.removeChildAt(0);	
+						}
+						
+						for(i = 0; i<= snowSprite3.numChildren - 1; i++)
+						{
+							snowSprite3.removeChildAt(0);	
+						}
+						
+						Alert.show("snowSprite2 ch "+snowSprite2.numChildren.toString() + "\nsnowSprite3 ch " + snowSprite3.numChildren.toString());
+					} */
+				});
+				
 				//snowSprite1.addChild(new Snow());
 				//snowSprite2.addChild(new Snow());
 				//snowSprite3.addChild(new Snow());
@@ -289,8 +312,8 @@
 		<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/worldBg.jpg')"/>
 		
 		<s:SpriteVisualElement id="snowSprite1" x="0" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" alpha="0.6" />
-		<s:SpriteVisualElement id="snowSprite2" x="242" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" alpha="0.7" />
-		<s:SpriteVisualElement id="snowSprite3" x="489" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" alpha="0.7" />
+		<s:SpriteVisualElement id="snowSprite2" x="242" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" alpha="0.8" />
+		<s:SpriteVisualElement id="snowSprite3" x="489" y="96" scaleX="0.8" scaleY="0.8" blendMode="screen" alpha="0.8" />
 		<s:SpriteVisualElement id="snowSprite4" x="716" y="96" scaleX="0.7" scaleY="0.7" blendMode="screen" alpha="0.6" />
 		
 		<s:SpriteVisualElement id="waterSprite" x="0" y="176" scaleX="1" scaleY="1" blendMode="lighten" alpha="0.4" />

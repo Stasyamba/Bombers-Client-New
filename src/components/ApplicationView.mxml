@@ -107,6 +107,22 @@
             Context.Model.addCustomListener(ContextEvent.NEED_TO_CHANGE_MAIN_TAB, function(e:ContextEvent):void {
                 var index:int = getTabIndexByName(e.data);
 
+				/* set animation not worked */
+				/* switch (e.data) {
+					case ApplicationView.TAB_NAME_WORLD:
+						Context.Model.dispatchCustomEvent(ContextEvent.WORLD_ANIMATION_VISIBLE, true);
+						break;
+					case ApplicationView.TAB_NAME_GAME:
+						Context.Model.dispatchCustomEvent(ContextEvent.WORLD_ANIMATION_VISIBLE, false);
+						break;
+					case ApplicationView.TAB_NAME_QUEST:
+						Context.Model.dispatchCustomEvent(ContextEvent.WORLD_ANIMATION_VISIBLE, false);
+						break;
+					
+					default:
+						break;
+				} */
+				
                 if (index != -1) {
                     hiddenControlingMenuGroup.selectedIndex = index;
                 } else {
@@ -227,7 +243,7 @@
 				
 				if(e.data is FriendObject)
 				{
-					parentApplication.setStyle("modalTransparencyBlur", 3);
+					parentApplication.setStyle("modalTransparencyBlur", 4);
 					
 					var iw:InviteFriendW = new InviteFriendW();
 					iw.fo = e.data as FriendObject;
@@ -396,6 +412,7 @@
 
         private function sendToWall(swo:SendWallObject):void {
             if (swo != null && swo.up != null) {
+
                 Context.Model.wallSavePhotoID(swo.up.id, swo.imageId, swo.postId, swo.message);
             }
         }

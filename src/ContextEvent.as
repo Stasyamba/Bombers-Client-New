@@ -4,6 +4,8 @@ import flash.events.Event;
 public class ContextEvent extends Event {
 
 	public static const WORLD_LOCATIONS_FILL_COLORS:String = "WORLDLocationsFillColors";
+	public static const WORLD_ANIMATION_VISIBLE:String = "WORLDAnimationVisible";
+	// pass: Boolean - > snow visible
 	
 	public static const VK_SHOW_VOTE_CONTROL: String = "GLOBALShowVoteControl";
 	public static const GLOBAL_INVENTORY_BUTTON_ENABLED: String = "GLOBALBlockInventoryButton";
@@ -52,6 +54,8 @@ public class ContextEvent extends Event {
     public static const RESOURCE_VALUE_CHANGED:String = "ResourceValueChanged";
     // pass: {resourceType: ResourceType, value: int} -> resource that was changed
 	public static const RESOURCE_MARKET_SHOW:String = "ResourceMarketShow";
+	public static const RESOURCE_TOP_PANEL_VISIBLE:String = "ResourceTopPanelVisible";
+	// pass: Boolean -> visible
 
 	
     /***** game profile profile property change events *****/

@@ -114,20 +114,20 @@
 	</s:BorderContainer>
 	
 	<!--<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
-					   backgroundImageFillMode="repeat"
-					   width="100%" height="216"
-					   cornerRadius="60"
-					   x="3"
-					   borderVisible="false"
-					   />
+	backgroundImageFillMode="repeat"
+	width="100%" height="216"
+	cornerRadius="60"
+	x="3"
+	borderVisible="false"
+	/>
 	
 	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
-					   backgroundImageFillMode="repeat"
-					   width="100%" height="70"
-					   y="156"
-					   cornerRadius="0"
-					   borderVisible="false"
-					   />-->
+	backgroundImageFillMode="repeat"
+	width="100%" height="70"
+	y="156"
+	cornerRadius="0"
+	borderVisible="false"
+	/>-->
 	
 	
 	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
@@ -171,7 +171,7 @@
 	</s:VGroup>
 	
 	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="260" y="-15" scale="0.7"
-								click="closeWrapper();" alpha="0.7"
+								click="closeWrapper();"
 								/>
 	
 	

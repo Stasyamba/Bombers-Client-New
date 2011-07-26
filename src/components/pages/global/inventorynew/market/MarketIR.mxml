@@ -62,18 +62,7 @@
 					priceGroupContent.addElement(lab);
 					
 					
-					if(itemPrice.crystals.value != 0)
-					{	
-						resourceImage.scaleX = 0.6;
-						resourceImage.scaleY = 0.6;
-						
-						lab.setStyle("color", 0xd172e9);
-						lab.text = itemPrice.crystals.value.toString();
-
-						priceGroupContent.addElement(resourceImage);
-						resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.CRYSTALS).smallImage;
-
-					}else
+					if(itemPrice.gold.value != 0)
 					{
 						resourceImage.scaleX = 0.6;
 						resourceImage.scaleY = 0.6;
@@ -83,6 +72,17 @@
 						
 						priceGroupContent.addElement(resourceImage);
 						resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.GOLD).smallImage;
+					}else
+					{	
+						resourceImage.scaleX = 0.6;
+						resourceImage.scaleY = 0.6;
+						
+						lab.setStyle("color", 0xd172e9);
+						lab.text = itemPrice.crystals.value.toString();
+						
+						priceGroupContent.addElement(resourceImage);
+						resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(ResourceType.CRYSTALS).smallImage;
+						
 					}
 					
 					priceGroup.visible = true;

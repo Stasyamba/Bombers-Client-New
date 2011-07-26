@@ -625,7 +625,9 @@ public class GameServer extends SmartFox {
                 try {
 
                     Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
-
+					//Context.Model.currentTutorialPart = TutorialPartType.PART5;
+					
+					
                     var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
 
                     Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
@@ -795,24 +797,6 @@ public class GameServer extends SmartFox {
                     profileLoaded.dispatch(gp);
 
                     Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
-
-                    /* testing */
-                    var appFriendsArr:Array = new Array();
-                    var gp3:GameProfile = new GameProfile();
-                    gp3.id = "1";
-                    gp3.photoURL = "http://cs10598.vkontakte.ru/u1019187/a_fb18c378.jpg";
-                    appFriendsArr.push(new FriendObject(gp3, true, null));
-
-                    var gp1:GameProfile = new GameProfile();
-                    gp1.id = "2";
-                    gp1.photoURL = "http://cs4387.vkontakte.ru/u14522082/a_a5427bb8.jpg";
-                    appFriendsArr.push(new FriendObject(gp1, true, null));
-
-
-                    var gp2:GameProfile = new GameProfile();
-                    gp2.id = "3";
-                    gp2.photoURL = "http://cs10029.vkontakte.ru/u34230304/a_f5649b2f.jpg";
-                    appFriendsArr.push(new FriendObject(gp2, false, null));
 
 					
 //                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);

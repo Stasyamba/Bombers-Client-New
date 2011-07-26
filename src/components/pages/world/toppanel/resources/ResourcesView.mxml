@@ -53,6 +53,7 @@
                 //crystalsResource.setResource(Context.Model.currentSettings.gameProfile.resources.crystals.value, true);
                 //goldResource.setResource(Context.Model.currentSettings.gameProfile.resources.gold.value, true);
             }
+			
         }
 
 
@@ -115,6 +116,8 @@
 				</s:Label>
 				<s:Button skinClass="skins.buttons.toppanel.CrystallsButtonS" useHandCursor="true" buttonMode="true"
 						  click="showResourceMarket()"
+						  rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"
+						  focusEnabled="false"
 						  />
 			</s:HGroup>
 			
@@ -128,6 +131,8 @@
 				</s:Label>
 				<s:Button skinClass="skins.buttons.toppanel.GoldButtonS" useHandCursor="true" buttonMode="true"
 						  click="showResourceMarket()"
+						  rollOver="{SoundManager.playSound(SoundManager.BUTTON_CLICK_46, 0.2);}"
+						  focusEnabled="false"
 						  />
 			</s:HGroup>
 		</s:HGroup>
