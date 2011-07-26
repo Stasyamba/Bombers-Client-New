@@ -43,6 +43,7 @@
     <fx:Script>
 		<![CDATA[
 			import components.common.base.CommonConstans;
+			import components.common.base.expirance.ExperianceObject;
 			import components.common.game.multygameresult.PlaceType;
 			import components.common.game.multygameresult.PrizeObject;
 			import components.common.game.multygameresult.PrizeType;
@@ -94,13 +95,13 @@
 				/* its own profile */
 				if(lobbyProfile.id == Context.Model.currentSettings.gameProfile.id)
 				{
-					if(Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience) != 
-						Context.Model.experianceManager.getLevel(lobbyProfile.experience))
+					var exo: ExperianceObject = Context.Model.experianceManager.getLevel(lobbyProfile.experience);
+					var exoCurrent: ExperianceObject = Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience);
+					if(exoCurrent.level != exo.level)
 					{
-						/* new level server request */
 						Context.Model.dispatchCustomEvent(
 							ContextEvent.NEW_LEVEL_SHOW, 
-							Context.Model.experianceManager.getLevel(lobbyProfile.experience).rewards
+							Context.Model.experianceManager.getLevel(lobbyProfile.experience)
 							);
 					}
 					

@@ -17,6 +17,7 @@
 			import api.vkontakte.VkontakteGlobals;
 			
 			import components.common.base.CommonConstans;
+			import components.common.base.expirance.ExperianceObject;
 			import components.common.friendslent.FriendObject;
 			import components.common.profiles.VkontakteProfile;
 			import components.common.quests.regard.RegardObject;
@@ -328,10 +329,11 @@
             });
 
             Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e:ContextEvent):void {
-                if (e.data is Array) {
+                if (e.data is ExperianceObject) 
+				{
                     var nlw:NewLevelW = new NewLevelW();
-                    nlw.rewards = (e.data as Array).concat();
-
+                    nlw.rewards = (e.data as ExperianceObject).rewards.concat();
+					nlw.newLevel = (e.data as ExperianceObject).level;
 
                     Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
 
