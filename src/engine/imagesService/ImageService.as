@@ -130,7 +130,7 @@ public class ImageService {
 
     public function bomb(type:BombType, color:PlayerColor):BitmapData {
         var b:BitmapData = new BitmapData(Consts.BLOCK_SIZE, Consts.BLOCK_SIZE, true, 0);
-        var bImage:BitmapData =  loadedObject("common.DO." + type.stringId).content.bitmapData;
+        var bImage:BitmapData = loadedObject("common.DO." + type.stringId).content.bitmapData;
         b.copyPixels(bImage, new Rectangle(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE), new Point(0, 0));
         if (type.needGlow) {
             b.copyPixels(color.bombGlow, new Rectangle(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE), new Point(0, 0), null, null, true);
@@ -254,5 +254,9 @@ public class ImageService {
         return m
     }
 
+    public function weaponTip(explType:ExplosionType):BitmapData {
+        var lo:LoadedObject = loadedObject("common.other." + explType.value + "_tip");
+        return lo.content.bitmapData as BitmapData;
+    }
 }
 }

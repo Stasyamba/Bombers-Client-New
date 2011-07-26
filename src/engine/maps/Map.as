@@ -9,9 +9,11 @@ import engine.maps.bigObjects.BigObjectActivator
 import engine.maps.bigObjects.BigObjectBase
 import engine.maps.bigObjects.BigObjectLayer
 import engine.maps.bigObjects.SimpleBigObject
+import engine.maps.bigObjects.SpecialSimpleBigObject
 import engine.maps.builders.MapBlockBuilder
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapBlocks.MapBlockType
+import engine.model.explosionss.ExplosionType
 import engine.shadows.ShadowObject
 import engine.shadows.ShadowShape
 
@@ -62,6 +64,9 @@ public class Map extends MapBase implements IMap {
                     break
                 case "simple":
                     bo = new SimpleBigObject(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder, bObj.@life)
+                    break
+                case "special_simple":
+                    bo = new SpecialSimpleBigObject(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder, bObj.@life,ExplosionType.byValue(bObj.@explType))
                     break
             }
             _bigObjects[bo.id] = bo

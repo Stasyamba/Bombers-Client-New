@@ -9,6 +9,8 @@ import engine.explosionss.destroy.BasicDestroyExplosion
 import engine.interfaces.IDrawable
 import engine.maps.bigObjects.BigObjectBase
 import engine.maps.bigObjects.SimpleBigObject
+import engine.maps.bigObjects.SpecialSimpleBigObject
+import engine.model.explosionss.ExplosionType
 import engine.utils.IStatedView
 import engine.utils.ViewState
 import engine.utils.ViewStateManager
@@ -49,9 +51,20 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
             healthBar = new Sprite();
             healthBar.y = -4;
             addChild(healthBar);
+
+            if(obj is SpecialSimpleBigObject){
+                var sso:SpecialSimpleBigObject = obj as SpecialSimpleBigObject;
+                var tip:Sprite = new Sprite();
+                var tipBitmap:BitmapData = Context.imageService.weaponTip(sso.explType);
+                tip.graphics.beginBitmapFill(tipBitmap);
+                tip.graphics.drawRect(0,0,tipBitmap.width,tipBitmap.height);
+                tip.graphics.endFill()
+                tip.x = object.pixWidth;
+                tip.y = -tipBitmap.height;
+                addChild(tip);
+            }
         }
 
-//      _self = Context.imageService.bigObjectSWF(object.graphicsId)
         _self = new Sprite()
         draw()
 
@@ -72,7 +85,7 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
         stateManager.deleteAllStates();
 
         var tween:TweenMax = BasicDestroyExplosion.getTween();
-        var child:Sprite = BasicDestroyExplosion.getChild(this.width / 2 - BasicDestroyExplosion.WIDTH / 2, this.height / 2 - BasicDestroyExplosion.HEIGHT / 2);
+        var child:Sprite = BasicDestroyExplosion.getChild(object.pixWidth / 2 - BasicDestroyExplosion.WIDTH / 2, object.pixHeight / 2 - BasicDestroyExplosion.HEIGHT / 2);
         var childTween:TweenMax = BasicDestroyExplosion.getChildTween(child);
 
         addState(new ViewState(ViewState.DYING_EXPLOSION, {alpha:1}, tween, child, childTween))

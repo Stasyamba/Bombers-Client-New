@@ -130,6 +130,7 @@
                 <Object id="104" x="13" y="10"/>
 
                 <Object id="101" x="24" y="28"/>
+                <Object id="100" x="26" y="28" wt="03"/>
             </objects>
             <bigObjects>
                 <BigObject t="simple" id="2" x="3" y="1" width="1" height="1" graphicsId="l00.bo.bush_01"
@@ -144,9 +145,10 @@
                                      explodes="true"/>
                     </blocks>
                 </BigObject>
-                <BigObject t="simple" id="3" x="25" y="21" width="1" height="1" graphicsId="l00.bo.bush_01"
+                <BigObject t="special_simple" id="3" x="25" y="21" width="1" height="1" graphicsId="l00.bo.bush_01"
                            layer="higher"
-                           life="15">
+                           life="15"
+                           explType="DYNAMITE">
                     <blocks>
                         <ObjectBlock x="0" y="0"
                                      canGoThrough="false"

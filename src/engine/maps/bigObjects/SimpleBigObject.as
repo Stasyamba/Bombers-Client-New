@@ -22,13 +22,13 @@ import org.osflash.signals.Signal
 
 public class SimpleBigObject extends BigObjectBase {
 
-    private var _life:int
-    private var _startLife:int
+    protected var _life:int
+    protected var _startLife:int
 
-    private var _isExplodingNow:Boolean;
-    private var _explosionStopped:Signal = new Signal();
-    private var _explosionStarted:Signal = new Signal();
-    private var _destroyed:Signal = new Signal();
+    protected var _isExplodingNow:Boolean;
+    protected var _explosionStopped:Signal = new Signal();
+    protected var _explosionStarted:Signal = new Signal();
+    protected var _destroyed:Signal = new Signal();
 
     public function SimpleBigObject(xml:XML, map:IMap, mapBlockStateBuilder:MapBlockStateBuilder, mapObjectBuilder:DynObjectBuilder, life:int) {
         super(xml, map, mapBlockStateBuilder, mapObjectBuilder)
@@ -59,12 +59,12 @@ public class SimpleBigObject extends BigObjectBase {
         }
     }
 
-    private function stopExplosion():void {
+    protected function stopExplosion():void {
         _isExplodingNow = false;
         explosionStopped.dispatch()
     }
 
-    private function startExplosion():void {
+    protected function startExplosion():void {
         _isExplodingNow = true;
         explosionStarted.dispatch()
     }

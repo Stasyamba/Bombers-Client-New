@@ -13,8 +13,8 @@ import engine.utils.Direction
 
 public class RegularExplosion extends ExplosionBase implements IExplosion {
 
-    private var initialPower:int;
-    private var _damage:int = 5
+    protected var initialPower:int;
+    protected var _damage:int = 5
 
     public function RegularExplosion(map:IMap, owner:IBomber, centerX:int = -1, centerY:int = -1, power:int = 0, lifetime:int = 0) {
         super(map, centerX, centerY, owner)
@@ -22,7 +22,7 @@ public class RegularExplosion extends ExplosionBase implements IExplosion {
         this.initialPower = power;
     }
 
-    private function canExpand(dir:Direction, fromX:int, fromY:int):Boolean {
+    protected function canExpand(dir:Direction, fromX:int, fromY:int):Boolean {
 
         var from:IMapBlock = map.getBlock(fromX, fromY);
         if (from.explodesAndStopsExplosion())
@@ -33,7 +33,7 @@ public class RegularExplosion extends ExplosionBase implements IExplosion {
     }
 
 
-    private function expand(toX:int, toY:int, direction:Direction, power:int):void {
+    protected function expand(toX:int, toY:int, direction:Direction, power:int):void {
 
         var willExpand:Boolean = canExpand(direction, toX, toY) && power > 0;
 

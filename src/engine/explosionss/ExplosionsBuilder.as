@@ -5,6 +5,7 @@
 
 package engine.explosionss {
 import engine.bombers.interfaces.IBomber
+import engine.explosionss.DynamiteExplosion
 import engine.explosionss.interfaces.IExplosion
 import engine.model.explosionss.ExplosionType
 import engine.model.managers.interfaces.IMapManager
@@ -25,9 +26,7 @@ public class ExplosionsBuilder {
             case ExplosionType.BOX:
                 return new BoxExplosion(mapManager.map, centerX, centerY)
             case ExplosionType.DYNAMITE:
-                var e:RegularExplosion = new RegularExplosion(mapManager.map, owner, centerX, centerY, power, lifetime)
-                e.damage = 15;
-                return e
+                return new DynamiteExplosion(mapManager.map, owner, centerX, centerY, power, lifetime)
             case ExplosionType.SMOKE:
                 return new SmokeExplosion(mapManager.map, owner, centerX, centerY)
             case ExplosionType.NULL:
