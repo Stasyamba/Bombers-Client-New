@@ -59,8 +59,8 @@ public class BigObjectView extends Sprite implements IDrawable,IStatedView {
                 tip.graphics.beginBitmapFill(tipBitmap);
                 tip.graphics.drawRect(0,0,tipBitmap.width,tipBitmap.height);
                 tip.graphics.endFill()
-                tip.x = object.pixWidth;
-                tip.y = -tipBitmap.height;
+                tip.x = object.pixWidth - 10;
+                tip.y = -tipBitmap.height + 10;
                 addChild(tip);
             }
         }

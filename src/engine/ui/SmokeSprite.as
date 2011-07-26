@@ -7,7 +7,6 @@ package engine.ui {
 import engine.data.Consts
 
 import flash.display.BitmapData
-import flash.display.DisplayObject
 import flash.display.DisplayObjectContainer
 import flash.display.Sprite
 
@@ -18,7 +17,7 @@ public class SmokeSprite extends Sprite {
     private var _baseY:Number
     private var _base:DisplayObjectContainer
 
-    public function SmokeSprite(baseX:Number, baseY:Number,base:DisplayObjectContainer) {
+    public function SmokeSprite(baseX:Number, baseY:Number, base:DisplayObjectContainer) {
         super()
         _baseX = baseX
         _baseY = baseY
@@ -34,19 +33,19 @@ public class SmokeSprite extends Sprite {
         graphics.beginBitmapFill(bm)
         graphics.drawRect(0, 0, Consts.SMOKE_WIDTH, Consts.SMOKE_HEIGHT)
         graphics.endFill()
-        TweenMax.fromTo(this, 5,
-        {alpha:1,scaleX:0.5,scaleY:0.5,x:_baseX + Consts.BLOCK_SIZE_2 - Consts.SMOKE_WIDTH / 4,y:_baseY + Consts.BLOCK_SIZE_2 - Consts.SMOKE_HEIGHT / 4},
-        {alpha:1,scaleX:1,scaleY:1,x:_baseX + Consts.BLOCK_SIZE_2 - Consts.SMOKE_WIDTH / 2,y:_baseY + Consts.BLOCK_SIZE_2 - Consts.SMOKE_HEIGHT / 2,onComplete:defaultState})
+        TweenMax.fromTo(this, 10,
+                {alpha:1,scaleX:0.5,scaleY:0.5,x:_baseX + Consts.BLOCK_SIZE_2 - Consts.SMOKE_WIDTH / 4,y:_baseY + Consts.BLOCK_SIZE_2 - Consts.SMOKE_HEIGHT / 4},
+                {alpha:1,scaleX:4,scaleY:4,x:_baseX + Consts.BLOCK_SIZE_2 - 2 * Consts.SMOKE_WIDTH,y:_baseY + Consts.BLOCK_SIZE_2 - 2 * Consts.SMOKE_HEIGHT,onComplete:defaultState})
         _base.addChild(this);
     }
 
     private function defaultState():void {
-        TweenMax.to(this, 20,
-        {alpha:1,scaleX:1.5,scaleY:1.5,x:_baseX + Consts.BLOCK_SIZE_2 - 1.5 * Consts.SMOKE_WIDTH / 2,y:_baseY + Consts.BLOCK_SIZE_2 - 1.5 * Consts.SMOKE_HEIGHT / 2,onComplete:finish})
+        TweenMax.to(this, 70,
+                {alpha:0.95,scaleX:4 * 1.2,scaleY:4 * 1.2,x:_baseX + Consts.BLOCK_SIZE_2 - 1.2 * 2 * Consts.SMOKE_WIDTH,y:_baseY + Consts.BLOCK_SIZE_2 - 1.2 * 2 * Consts.SMOKE_HEIGHT,onComplete:finish})
     }
 
     private function finish():void {
-        TweenMax.to(this, 1, {alpha:0,onComplete:destroy})
+        TweenMax.to(this, 5, {alpha:0,onComplete:destroy})
     }
 
     private function destroy():void {

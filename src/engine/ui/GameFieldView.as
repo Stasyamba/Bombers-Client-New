@@ -208,8 +208,6 @@ public class GameFieldView extends Group implements IDrawable,IDestroyable {
 
     private function onSmokeAdded(x:int, y:int):void {
         var sp:SmokeSprite = new SmokeSprite(x * Consts.BLOCK_SIZE, y * Consts.BLOCK_SIZE, highestView);
-//        sp.x = x * Consts.BLOCK_SIZE + Consts.BLOCK_SIZE_2 - Consts.SMOKE_WIDTH / 4
-//        sp.y = y * Consts.BLOCK_SIZE + Consts.BLOCK_SIZE_2 - Consts.SMOKE_HEIGHT / 4
         sp.start()
     }
 
