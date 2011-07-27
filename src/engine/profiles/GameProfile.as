@@ -11,6 +11,7 @@ import components.common.resources.ResourcePrice;
 import components.common.worlds.locations.LocationType;
 
 import engine.bombers.skin.BasicSkin;
+import engine.playerColors.PlayerColor;
 
 import mx.controls.Alert;
 import mx.utils.ObjectUtil;
@@ -23,6 +24,8 @@ public class GameProfile {
     public var id:String;
     public var photoURL:String = "";
 
+	public var currentBomberColor: PlayerColor;
+	
     public var currentLocation:LocationType;
 
     private var _selectedWeaponLeftHand:ItemProfileObject;
