@@ -43,7 +43,7 @@ public class GameBuilder {
     public function makeRegular(mapId:int, location:LocationType, playerProfiles:Array, bonuses:Array):IGame {
         var game:RegularGame = new RegularGame(location);
         for each (var prof:PlayerGameProfile in playerProfiles) {
-            game.addPlayer(prof, getColor(prof.slot))
+            game.addPlayer(prof, prof.color)
         }
 
         game.applyMap(String(mapId), playerProfiles, bonuses)
@@ -55,7 +55,7 @@ public class GameBuilder {
         var game:QuestGame = new QuestGame(gameId, quest);
 
         var plSpawn:XML = xml.map.Map.spawns.Spawn[0]
-        game.addPlayer(plSpawn.x, plSpawn.y, getColor(1))
+        game.addPlayer(plSpawn.x, plSpawn.y, getColor(0))
 
         for each (var m:XML in xml.monsters.Monster) {
             game.addMonster(m.@x, m.@y, MonsterType.byId(m.@monsterId), WalkingStrategy.xml(m.ws[0]), m.@slot != null ? m.@slot : -1)

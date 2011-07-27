@@ -42,6 +42,7 @@ import engine.model.signals.InGameMessageReceivedSignal;
 import engine.model.signals.ProfileLoadedSignal;
 import engine.model.signals.manage.GameServerConnectedSignal;
 import engine.model.signals.manage.LoggedInSignal;
+import engine.playerColors.PlayerColor
 import engine.profiles.GameProfile;
 import engine.profiles.LobbyProfile;
 import engine.profiles.PlayerGameProfile;
@@ -1138,7 +1139,7 @@ public class GameServer extends SmartFox {
                 auras.push(a2)
             if (a3 != WeaponType.NULL)
                 auras.push(a3)
-            playerGameData.push(new PlayerGameProfile(lp.slot, bType, x, y, auras))
+            playerGameData.push(new PlayerGameProfile(lp.slot, bType, x, y, auras, PlayerColor.BLUE))
         }
         var mapId:int = responseParams.getInt("game.lobby.3SecondsToStart.fields.MapId");
         var bonuses:Array = new Array();
