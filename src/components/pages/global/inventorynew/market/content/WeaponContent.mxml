@@ -123,17 +123,45 @@
 				buyForCrystallsButton.filters = [cm.filter]; */
 			}
 			
-			private function buyItem(): void
+			private function buyItem(rt: ResourceType): void
 			{
-				if(Context.Model.currentSettings.gameProfile.resources.isBiggerOrEqual(itemPrice))
+				//Alert.show("My Gold: "+Context.Model.currentSettings.gameProfile.resources.gold.toString()+"\n Item pirce Gold: "+ itemPrice.gold.toString());
+				//Alert.show("My Cryst: "+Context.Model.currentSettings.gameProfile.resources.crystals.toString()+"\n Item pirce Cryst: "+ itemPrice.crystals.toString());
+				
+				switch(rt)
 				{
-					//Alert.show("Resource enough");
+					case ResourceType.GOLD:
+						if(Context.Model.currentSettings.gameProfile.resources.gold.value >= itemPrice.gold.value)
+						{
+							Context.gameServer.sendBuyItemRequest(itemType, rt);
+						}else
+						{
+							Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
+						}
+						
+						break;
+					
+					case ResourceType.CRYSTALS:
+						if(Context.Model.currentSettings.gameProfile.resources.crystals.value >= itemPrice.crystals.value)
+						{
+							Context.gameServer.sendBuyItemRequest(itemType, rt);
+						}else
+						{
+							Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
+						}
+						
+						break;
+				}
+				
+				/* if(Context.Model.currentSettings.gameProfile.resources.isBiggerOrEqual(itemPrice))
+				{
+					Alert.show("Resource enough");
 					Context.gameServer.sendBuyItemRequest(itemType);
 				}else
 				{
-					//Alert.show("Not enough resources");
+					Alert.show("Not enough resources");
 					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
-				}
+				} */
 			}
 			
 		]]>
@@ -179,7 +207,7 @@
 											  customLabel="Купить"
 											  fontSize="28" fontSizeOver="28"
 											  fontColor="0xfff19f"
-											  click="buyItem();"
+											  click="buyItem(ResourceType.GOLD);"
 											  />
 			</s:HGroup>
 			
@@ -192,7 +220,7 @@
 											  customLabel="Купить"
 											  fontSize="28" fontSizeOver="28"
 											  fontColor="0xfff19f"
-											  click="buyItem();"
+											  click="buyItem(ResourceType.CRYSTALS);"
 											  />
 			</s:HGroup>
 			

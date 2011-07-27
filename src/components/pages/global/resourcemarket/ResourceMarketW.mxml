@@ -78,24 +78,55 @@
 				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_SET_GAME_FOCUS);
 			}
 			
-			public function buyEnergy(energyAmount: int, energyVotePrice: int): void
+			public function buyResource(resourceType:ResourceType, resourceAmount: int, resourceVotePrice: int): void
 			{
-				if(Context.Model.currentSettings.votes < energyVotePrice)
+				if(Context.Model.currentSettings.votes < resourceVotePrice)
 				{
-					(parentApplication as Bombers).setAFBAction(Bombers.AFB_BUY_ENERGY, null, energyAmount);
+					(parentApplication as Bombers).setAFBAction(Bombers.AFB_BUY_RESOURCE, resourceType, resourceAmount);
 					
 					Context.Model.dispatchCustomEvent(
 						ContextEvent.VK_SHOW_VOTE_CONTROL, 
-						energyVotePrice - Context.Model.currentSettings.votes
+						resourceVotePrice - Context.Model.currentSettings.votes
 					);
 					
 				}else
 				{	
-					Context.gameServer.sendBuyEnergyRequest(energyAmount);
+					var rp: ResourcePrice = new ResourcePrice(0,0,0,0);
+					rp.setResourceValue(resourceType, resourceAmount);
+					
+					Context.gameServer.sendBuyResourcesRequest(rp);	
 				}
 				
 				closeWrapper();
 			}
+			
+			/* public function resourceBuying(e: IndexChangeEvent):void	
+			{
+				var resourceVotePrice: int = (pricesCollection[e.newIndex] as ResourceCostView).votes;
+				var resourceAmount: int = (pricesCollection[e.newIndex] as ResourceCostView).amount;
+				var resourceType: ResourceType = (pricesCollection[e.newIndex] as ResourceCostView).type;
+				
+				if(Context.Model.currentSettings.votes < resourceVotePrice)
+				{
+					(parentApplication as Bombers).setAFBAction(Bombers.AFB_BUY_RESOURCE, resourceType, resourceAmount);
+					
+					Context.Model.dispatchCustomEvent(
+						ContextEvent.VK_SHOW_VOTE_CONTROL, 
+						resourceVotePrice - Context.Model.currentSettings.votes
+					);
+					
+				}else
+				{	
+					var rp: ResourcePrice = new ResourcePrice(0,0,0,0);
+					rp.setResourceValue(resourceType, resourceAmount);
+					
+					Context.gameServer.sendBuyResourcesRequest(rp);
+					
+				}
+				
+				resourcePopUp.displayPopUp = false;
+				resourcePriceList.selectedIndex = -1;
+			} */
 			
 			
 		]]>
@@ -127,8 +158,7 @@
 					   cornerRadius="0"
 					   borderVisible="false"
 					   />
-	
-	
+
 	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" gap="35">
 		
 		<s:VGroup horizontalAlign="center" gap="15">
@@ -137,7 +167,7 @@
 			<s:VGroup>
 				<s:HGroup verticalAlign="middle">
 					<s:HGroup width="75" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="2 шт" />
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="1 шт" />
 					</s:HGroup>
 					
 					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
@@ -149,7 +179,7 @@
 												  scaleX="0.6" scaleY="0.6"
 												  customLabel="Купить" fontColor="0xfff19f"
 												  fontSize="32" fontSizeOver="32"
-												  click="buyEnergy(25, 1);"
+												  click="buyResource(ResourceType.CRYSTALS,1, 1);"
 												  >
 						<flexcomponents:filters>
 							<s:DropShadowFilter alpha="0.1" />
@@ -159,7 +189,28 @@
 				
 				<s:HGroup verticalAlign="middle">
 					<s:HGroup width="75" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="25 шт" />
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="6 шт" />
+					</s:HGroup>
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="5 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyResource(ResourceType.CRYSTALS, 6, 5);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="14 шт" />
 					</s:HGroup>
 					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
 					<s:HGroup width="70" horizontalAlign="right">
@@ -170,7 +221,7 @@
 												  scaleX="0.6" scaleY="0.6"
 												  customLabel="Купить" fontColor="0xfff19f"
 												  fontSize="32" fontSizeOver="32"
-												  click="buyEnergy(25, 1);"
+												  click="buyResource(ResourceType.CRYSTALS, 14, 10);"
 												  >
 						<flexcomponents:filters>
 							<s:DropShadowFilter alpha="0.1" />
@@ -180,39 +231,18 @@
 				
 				<s:HGroup verticalAlign="middle">
 					<s:HGroup width="75" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="130 шт" />
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="22 шт" />
 					</s:HGroup>
 					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
 					<s:HGroup width="70" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="50 голос" />
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="15 голос" />
 					</s:HGroup>
 					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
 												  buttonMode="true" useHandCursor="true"
 												  scaleX="0.6" scaleY="0.6"
 												  customLabel="Купить" fontColor="0xfff19f"
 												  fontSize="32" fontSizeOver="32"
-												  click="buyEnergy(25, 1);"
-												  >
-						<flexcomponents:filters>
-							<s:DropShadowFilter alpha="0.1" />
-						</flexcomponents:filters>
-					</flexcomponents:PatternButton>
-				</s:HGroup>
-				
-				<s:HGroup verticalAlign="middle">
-					<s:HGroup width="75" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="300 шт" />
-					</s:HGroup>
-					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceCrystalsSmallNew.png')" smooth="true" />
-					<s:HGroup width="70" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="100 голос" />
-					</s:HGroup>
-					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
-												  buttonMode="true" useHandCursor="true"
-												  scaleX="0.6" scaleY="0.6"
-												  customLabel="Купить" fontColor="0xfff19f"
-												  fontSize="32" fontSizeOver="32"
-												  click="buyEnergy(25, 1);"
+												  click="buyResource(ResourceType.CRYSTALS, 22, 15);"
 												  >
 						<flexcomponents:filters>
 							<s:DropShadowFilter alpha="0.1" />
@@ -244,7 +274,7 @@
 												  scaleX="0.6" scaleY="0.6"
 												  customLabel="Купить" fontColor="0xfff19f"
 												  fontSize="32" fontSizeOver="32"
-												  click="buyEnergy(25, 1);"
+												  click="buyResource(ResourceType.GOLD, 100, 1);"
 												  >
 						<flexcomponents:filters>
 							<s:DropShadowFilter alpha="0.1" />
@@ -254,7 +284,28 @@
 				
 				<s:HGroup verticalAlign="middle">
 					<s:HGroup width="75" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="1100 шт" />
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="600 шт" />
+					</s:HGroup>
+					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceGoldSmallNew.png')" smooth="true" />
+					<s:HGroup width="70" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="5 голос" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  buttonMode="true" useHandCursor="true"
+												  scaleX="0.6" scaleY="0.6"
+												  customLabel="Купить" fontColor="0xfff19f"
+												  fontSize="32" fontSizeOver="32"
+												  click="buyResource(ResourceType.GOLD, 600, 5);"
+												  >
+						<flexcomponents:filters>
+							<s:DropShadowFilter alpha="0.1" />
+						</flexcomponents:filters>
+					</flexcomponents:PatternButton>
+				</s:HGroup>
+				
+				<s:HGroup verticalAlign="middle">
+					<s:HGroup width="75" horizontalAlign="right">
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="1400 шт" />
 					</s:HGroup>
 					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceGoldSmallNew.png')" smooth="true" />
 					<s:HGroup width="70" horizontalAlign="right">
@@ -265,7 +316,7 @@
 												  scaleX="0.6" scaleY="0.6"
 												  customLabel="Купить" fontColor="0xfff19f"
 												  fontSize="32" fontSizeOver="32"
-												  click="buyEnergy(25, 1);"
+												  click="buyResource(ResourceType.GOLD, 1400, 10);"
 												  >
 						<flexcomponents:filters>
 							<s:DropShadowFilter alpha="0.1" />
@@ -275,39 +326,18 @@
 				
 				<s:HGroup verticalAlign="middle">
 					<s:HGroup width="75" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="5700 шт" />
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="2500 шт" />
 					</s:HGroup>
 					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceGoldSmallNew.png')" smooth="true" />
 					<s:HGroup width="70" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="50 голос" />
+						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="15 голос" />
 					</s:HGroup>
 					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
 												  buttonMode="true" useHandCursor="true"
 												  scaleX="0.6" scaleY="0.6"
 												  customLabel="Купить" fontColor="0xfff19f"
 												  fontSize="32" fontSizeOver="32"
-												  click="buyEnergy(25, 1);"
-												  >
-						<flexcomponents:filters>
-							<s:DropShadowFilter alpha="0.1" />
-						</flexcomponents:filters>
-					</flexcomponents:PatternButton>
-				</s:HGroup>
-				
-				<s:HGroup verticalAlign="middle">
-					<s:HGroup width="75" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="12 000 шт" />
-					</s:HGroup>
-					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/resources/resourceGoldSmallNew.png')" smooth="true" />
-					<s:HGroup width="70" horizontalAlign="right">
-						<s:Label fontFamily="mpbc" color="0xfed600" fontSize="18" text="100 голос" />
-					</s:HGroup>
-					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
-												  buttonMode="true" useHandCursor="true"
-												  scaleX="0.6" scaleY="0.6"
-												  customLabel="Купить" fontColor="0xfff19f"
-												  fontSize="32" fontSizeOver="32"
-												  click="buyEnergy(25, 1);"
+												  click="buyResource(ResourceType.GOLD, 2500, 15);"
 												  >
 						<flexcomponents:filters>
 							<s:DropShadowFilter alpha="0.1" />

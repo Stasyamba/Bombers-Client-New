@@ -31,7 +31,7 @@ public class BombersManager {
 		
 		bombers.push(new BomberObject(
 			BomberType.ZOMBIE,
-			[new AccessLevelRule(5)],
+			[new AccessLevelRule(7)],
 			new BomberViewObject(BomberType.ZOMBIE,
 				"Зомбастер",
 				"Настоящий живой мертвец! Он готов на все, ради аппетитных сочных мозгов своих соперников!",

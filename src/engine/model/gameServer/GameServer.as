@@ -4,43 +4,46 @@
  */
 
 package engine.model.gameServer {
-import com.smartfoxserver.v2.SmartFox
-import com.smartfoxserver.v2.core.SFSEvent
-import com.smartfoxserver.v2.entities.Room
-import com.smartfoxserver.v2.entities.data.ISFSArray
-import com.smartfoxserver.v2.entities.data.ISFSObject
-import com.smartfoxserver.v2.entities.data.SFSObject
-import com.smartfoxserver.v2.requests.ExtensionRequest
-import com.smartfoxserver.v2.requests.JoinRoomRequest
-import com.smartfoxserver.v2.requests.LeaveRoomRequest
-import com.smartfoxserver.v2.requests.LoginRequest
-import com.smartfoxserver.v2.requests.PublicMessageRequest
 
-import components.common.base.access.rules.levelrule.AccessLevelRule
-import components.common.base.expirance.ExperianceObject
-import components.common.base.market.ItemMarketObject
-import components.common.bombers.BomberType
-import components.common.friendslent.FriendObject
-import components.common.items.ItemObject
-import components.common.items.ItemType
-import components.common.profiles.ISocialProfile
-import components.common.quests.QuestObject
-import components.common.quests.medals.MedalType
-import components.common.quests.regard.RegardObject
-import components.common.quests.regard.RegardType
-import components.common.resources.ResourcePrice
-import components.common.tutorial.TutorialPartType
-import components.common.worlds.locations.LocationType
+import com.smartfoxserver.v2.SmartFox;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.requests.ExtensionRequest;
+import com.smartfoxserver.v2.requests.JoinRoomRequest;
+import com.smartfoxserver.v2.requests.LeaveRoomRequest;
+import com.smartfoxserver.v2.requests.LoginRequest;
+import com.smartfoxserver.v2.requests.PublicMessageRequest;
 
-import engine.EngineContext
-import engine.bombers.MoveTickObject
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.mapObjects.DynObjectType
-import engine.model.signals.InGameMessageReceivedSignal
-import engine.model.signals.ProfileLoadedSignal
-import engine.model.signals.manage.GameServerConnectedSignal
-import engine.model.signals.manage.LoggedInSignal
+import components.common.base.access.rules.levelrule.AccessLevelRule;
+import components.common.base.expirance.ExperianceObject;
+import components.common.base.market.ItemMarketObject;
+import components.common.bombers.BomberType;
+import components.common.friendslent.FriendObject;
+import components.common.items.ItemObject;
+import components.common.items.ItemType;
+import components.common.profiles.ISocialProfile;
+import components.common.quests.QuestObject;
+import components.common.quests.medals.MedalType;
+import components.common.quests.regard.RegardObject;
+import components.common.quests.regard.RegardType;
+import components.common.resources.ResourcePrice;
+import components.common.resources.ResourceType;
+import components.common.tutorial.TutorialPartType;
+import components.common.worlds.locations.LocationType;
+
+import engine.EngineContext;
+import engine.bombers.MoveTickObject;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.mapObjects.DynObjectType;
+import engine.model.signals.InGameMessageReceivedSignal;
+import engine.model.signals.ProfileLoadedSignal;
+import engine.model.signals.manage.GameServerConnectedSignal;
+import engine.model.signals.manage.LoggedInSignal;
+
 import engine.playerColors.PlayerColor
 import engine.profiles.GameProfile
 import engine.profiles.LobbyProfile
@@ -329,6 +332,8 @@ public class GameServer extends SmartFox {
         params.putInt("interface.buyResources.fields.resourceType3", rp.antimatter.value)
         params.putInt("interface.buyResources.fields.resourceType4", 0)
 
+		//nterface.buyItem.fields.resourceType - 1-золтот, 2 - крист	
+			
         send(new ExtensionRequest(INT_BUY_RESOURCES, params, null))
     }
 
@@ -343,10 +348,20 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest(INT_BUY_RESOURCES, params, null))
     }
 
-    public function sendBuyItemRequest(it:ItemType):void {
+    public function sendBuyItemRequest(it:ItemType, rt:ResourceType):void {
         var params:ISFSObject = new SFSObject();
         params.putInt("interface.buyItem.fields.itemId", it.value)
-
+			
+		switch(rt)
+		{
+			case ResourceType.GOLD:
+				params.putInt("interface.buyItem.fields.resourceType", 1);
+				break;
+			case ResourceType.CRYSTALS:
+				params.putInt("interface.buyItem.fields.resourceType", 2);
+				break;
+		}
+				
         send(new ExtensionRequest(INT_BUY_ITEM, params, null))
     }
 

@@ -11,6 +11,7 @@
 		<![CDATA[
 			import components.common.resources.ResourceObject;
 			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
 			
 			import spark.components.Label;
 			import spark.layouts.VerticalAlign;
@@ -35,39 +36,42 @@
 				
 				for(var i:int = 0; i<= arr.length - 1; i++)
 				{
-					if(i == 1 && arr[1].value != 0)
+					if(arr[i].value < 100000)
 					{
-						priceGroup.addElement(labOR);
-					}
-					
-					if(arr[i] is ResourceObject)
-					{
-						if(arr[i].value > 0)
+						if(i == 1 && (arr[1].value != 0 && arr[1].value < 100000))
 						{
-							var hg:HGroup = new HGroup();
-							hg.gap = 3;
-							
-							var lab:Label = new Label();
-							var resourceImage:BitmapImage = new BitmapImage();
-							resourceImage.smooth = true;
-							resourceImage.scaleX = 1;
-							resourceImage.scaleY = 1;
-							
-							lab.setStyle("fontFamily", "mpbc");
-							lab.setStyle("fontSize", 16);
-							lab.setStyle("color", 0xfbd98a);
-							
-							lab.text = arr[i].value.toString();
-							
-							hg.addElement(lab);
-							hg.addElement(resourceImage);
-							
-							resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(arr[i].type).smallImage;
-							
-							
-							hg.verticalAlign = VerticalAlign.MIDDLE;
-							
-							priceGroup.addElement(hg);
+							priceGroup.addElement(labOR);
+						}
+						
+						if(arr[i] is ResourceObject)
+						{
+							if(arr[i].value > 0)
+							{
+								var hg:HGroup = new HGroup();
+								hg.gap = 3;
+								
+								var lab:Label = new Label();
+								var resourceImage:BitmapImage = new BitmapImage();
+								resourceImage.smooth = true;
+								resourceImage.scaleX = 1;
+								resourceImage.scaleY = 1;
+								
+								lab.setStyle("fontFamily", "mpbc");
+								lab.setStyle("fontSize", 16);
+								lab.setStyle("color", 0xfbd98a);
+								
+								lab.text = arr[i].value.toString();
+								
+								hg.addElement(lab);
+								hg.addElement(resourceImage);
+								
+								resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(arr[i].type).smallImage;
+								
+								
+								hg.verticalAlign = VerticalAlign.MIDDLE;
+								
+								priceGroup.addElement(hg);
+							}
 						}
 					}
 				}
