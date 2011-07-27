@@ -122,6 +122,6 @@ public interface IBomber {
 
     function get type():ICreatureType
 
-    function addWeaponBonus(_weapon:WeaponType):void
+    function addWeaponBonus(_weapon:WeaponType, count:int):void
 }
 }

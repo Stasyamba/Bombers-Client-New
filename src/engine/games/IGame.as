@@ -4,12 +4,11 @@
  */
 
 package engine.games {
-import components.common.resources.ResourceObject
+import components.common.resources.ResourceType
 import components.common.worlds.locations.LocationType
 
 import engine.bombers.interfaces.IBomber
 import engine.games.quest.GameStats
-
 import engine.model.managers.interfaces.IExplosionsManager
 import engine.model.managers.interfaces.IMapManager
 import engine.model.managers.interfaces.IPlayerManager
@@ -34,7 +33,7 @@ public interface IGame {
 
     function get monstersManager():MonstersManager
 
-    function resourceCollected(_amount:ResourceObject, by:IBomber):void
+    function resourceCollected(rt:ResourceType, count:int, player:IBomber):void
 
     function get gameStats():GameStats;
 }

@@ -4,7 +4,6 @@
  */
 
 package engine.games.regular {
-import components.common.resources.ResourceObject
 import components.common.resources.ResourceType
 import components.common.worlds.locations.LocationType
 
@@ -25,6 +24,7 @@ import engine.maps.interfaces.IDynObject
 import engine.maps.interfaces.IDynObjectType
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapObjects.DynObjectType
+import engine.maps.mapObjects.bonuses.BonusType
 import engine.model.explosionss.ExplosionType
 import engine.model.managers.interfaces.IEnemiesManager
 import engine.model.managers.quest.MonstersManager
@@ -197,7 +197,18 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
                 bomber.putOnMap(mapManager.map, item.x, item.y);
         }
         for each (var bObj:Object in bonuses) {
-            addObject(-1, bObj.x, bObj.y, DynObjectType.byValue(bObj.type))
+            if(int(bObj.type) == 200) //goldBoxes
+                continue;
+            switch(DynObjectType.byValue(int(bObj.type))){
+                case BonusType.WEAPON:
+                    addObject(-1,bObj.x,bObj.y,BonusType.WEAPON,{wt:bObj.p0,count:bObj.p1})
+                    break;
+                case BonusType.RESOURCE:
+                    addObject(-1,bObj.x,bObj.y,BonusType.RESOURCE,{rt:bObj.p0,count:bObj.p1})
+                    break;
+                default:
+                    addObject(-1, bObj.x, bObj.y, DynObjectType.byValue(bObj.type))
+            }
         }
         _ready = true;
     }
@@ -279,9 +290,9 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
         return new MonstersManager(_playerManager)
     }
 
-    public function resourceCollected(_amount:ResourceObject, by:IBomber):void {
-        if (by == playerManager.me && _amount.type == ResourceType.GOLD) {
-            _gameStats.goldCollected += _amount.value;
+    public function resourceCollected(rt:ResourceType, count:int, player:IBomber):void {
+        if (player == playerManager.me && rt == ResourceType.GOLD) {
+            _gameStats.goldCollected += count;
         }
     }
 

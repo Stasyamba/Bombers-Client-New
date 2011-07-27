@@ -9,6 +9,8 @@ import engine.data.Consts
 import engine.interfaces.IDrawable
 import engine.maps.interfaces.IDynObject
 import engine.maps.interfaces.IMapBlock
+import engine.maps.mapBlocks.MapBlock
+import engine.maps.mapBlocks.MapBlockType
 import engine.maps.mapObjects.DynObjectType
 
 import flash.display.BitmapData
@@ -111,9 +113,12 @@ public class MapBlockView extends Sprite implements IDrawable {
             removeChild(blockView)
         }
         if (!block.type.draws) return
-        blockView = Context.imageService.mapBlock(block.type, Context.game.location);
-        blockView.width = blockView.height = 40;
-        blockView.x = blockView.y = 0;
+        if(block.type == MapBlockType.BOX && block.isGold)
+            blockView = Context.imageService.mapBlock(block.type, Context.game.location, true);
+        else
+            blockView = Context.imageService.mapBlock(block.type, Context.game.location);
+//        blockView.width = blockView.height = 40;
+//        blockView.x = blockView.y = 0;
         addChild(blockView)
     }
 }

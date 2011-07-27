@@ -47,5 +47,7 @@ public interface IMapBlock extends IMapBlockState {
     function setState(state:IMapBlockState):void;
 
     function get destroyed():Signal;
+
+    function get isGold():Boolean
 }
 }

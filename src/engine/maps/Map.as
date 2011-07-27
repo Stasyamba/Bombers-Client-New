@@ -10,16 +10,18 @@ import engine.maps.bigObjects.BigObjectBase
 import engine.maps.bigObjects.BigObjectLayer
 import engine.maps.bigObjects.SimpleBigObject
 import engine.maps.bigObjects.SpecialSimpleBigObject
+import engine.maps.bigObjects.SpecialSimpleBigObject
+import engine.maps.builders.DynObjectBuilder
 import engine.maps.builders.MapBlockBuilder
+import engine.maps.builders.MapBlockStateBuilder
 import engine.maps.interfaces.IMapBlock
+import engine.maps.mapBlocks.MapBlock
 import engine.maps.mapBlocks.MapBlockType
 import engine.model.explosionss.ExplosionType
 import engine.shadows.ShadowObject
 import engine.shadows.ShadowShape
 
 import mx.controls.Alert
-
-import org.osflash.signals.Signal
 
 public class Map extends MapBase implements IMap {
 
@@ -52,47 +54,51 @@ public class Map extends MapBase implements IMap {
             y++;
         }
 
+        var bcId:int = 0;
+        for each (var obj:XML in xml.objects.object) {
+            switch (String(obj.@type)) {
+                case "bonusContainer":
+                    var b:MapBlock = getBlock( obj.@x, obj.@y) as MapBlock;
+                    b.setGold();
+//                    var bo:SimpleBigObject = SimpleBigObject.goldBox(bcId, obj.@x, obj.@y, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder);
+//                    bcId++;
+//                    addBO(bo)
+                    break;
+                case "200":
+                    var sbo:SpecialSimpleBigObject = SpecialSimpleBigObject.asBox(bcId, obj.@x, obj.@y, obj.@graphicsId, int(obj.@life), this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder);
+                    bcId++;
+                    addBO(sbo)
+                    break;
+            }
+        }
         //bigObjects
         for each (var bObj:XML in xml.bigObjects.BigObject) {
-            var bo:BigObjectBase;
+            var bbo:BigObjectBase;
             switch (String(bObj.@t)) {
                 case "activator":
-                    bo = new BigObjectActivator(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder)
+                    bbo = new BigObjectActivator(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder)
                     break
                 case "activated":
-                    bo = new ActivatedBigObject(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder)
+                    bbo = new ActivatedBigObject(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder)
                     break
                 case "simple":
-                    bo = new SimpleBigObject(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder, bObj.@life)
+                    bbo = new SimpleBigObject(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder, bObj.@life)
                     break
                 case "special_simple":
-                    bo = new SpecialSimpleBigObject(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder, bObj.@life,ExplosionType.byValue(bObj.@explType))
+                    bbo = new SpecialSimpleBigObject(bObj, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder, bObj.@life, ExplosionType.byValue(bObj.@explType))
                     break
             }
-            _bigObjects[bo.id] = bo
-            switch (bo.layer) {
-                case BigObjectLayer.DECORATION:
-                    decorations.push(bo)
-                    break
-                case BigObjectLayer.HIGHER:
-                    higherBigObjects.push(bo);
-                    break
-                case BigObjectLayer.LOWER:
-                    lowerBigObjects.push(bo);
-                    break
-                default:
-                    throw Context.Exception("Error in file Map.as: impossible case")
-            }
+            addBO(bbo)
         }
         //resolve activators links
         for each (bObj in xml.bigObjects.BigObject) {
-            var bo:BigObjectBase = getBO(bObj.@id)
-            if (bo is BigObjectActivator) {
+            var bbbo:BigObjectBase = getBO(bObj.@id)
+            if (bbbo is BigObjectActivator) {
                 var target:ActivatedBigObject = getBO(bObj.@target) as ActivatedBigObject
                 if (target == null) {
                     throw Context.Exception("Error in file Map.as: couldn't find target with id = " + bObj.@target)
                 }
-                (bo as BigObjectActivator).setTarget(target)
+                (bbbo as BigObjectActivator).setTarget(target)
             }
         }
         for each (var spawn:XML in xml.spawns.Spawn) {
@@ -102,6 +108,23 @@ public class Map extends MapBase implements IMap {
         //shadows
         for each (var s:XML in xml.shadows.Shadow) {
             _shadows.push(new ShadowObject(s.@x, s.@y, s.@width, s.@height, ShadowShape.fromString(s.@shape)))
+        }
+    }
+
+    private function addBO(bo:BigObjectBase):void {
+        _bigObjects[bo.id] = bo
+        switch (bo.layer) {
+            case BigObjectLayer.DECORATION:
+                decorations.push(bo)
+                break
+            case BigObjectLayer.HIGHER:
+                higherBigObjects.push(bo);
+                break
+            case BigObjectLayer.LOWER:
+                lowerBigObjects.push(bo);
+                break
+            default:
+                throw Context.Exception("Error in file Map.as: impossible case")
         }
     }
 
