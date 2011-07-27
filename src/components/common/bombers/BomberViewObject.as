@@ -7,14 +7,16 @@ public class BomberViewObject {
     public var describe:String;
 
     public var bigImageURL:String;
-
-    public function BomberViewObject(typeP:BomberType, nameP:String, describeP:String, bigImageURLP:String) {
+	public var shopImageURL: String;
+	
+    public function BomberViewObject(typeP:BomberType, nameP:String, describeP:String, bigImageURLP:String, shopImageURLP: String) {
         type = typeP;
 
         name = nameP;
         describe = describeP;
 
         bigImageURL = bigImageURLP;
+		shopImageURL = shopImageURLP;
     }
 
 

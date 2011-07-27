@@ -1,4 +1,6 @@
 package components.common.base.access {
+import components.common.bombers.BomberObject;
+import components.common.bombers.BomberType;
 import components.common.items.ItemObject;
 import components.common.items.ItemType;
 import components.common.quests.QuestObject;
@@ -29,6 +31,26 @@ public class AccessManager {
         return res;
     }
 
+	/**
+	 * return Array of AccessRuleObject
+	 * @param item
+	 * @return
+	 *
+	 */
+	public static function checkAccessBomber(bomberType:BomberType):Array {
+		var res:Array = new Array();
+		
+		for each(var i:BomberObject in Context.Model.bomberManager.getBombers()) {
+			if (i.type == bomberType) {
+				res = i.checkAccess();
+				break;
+			}
+		}
+		
+		return res;
+	}
+	
+	
     /**
      * return Array of AccessRuleObject
      * @param item

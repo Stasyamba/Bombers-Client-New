@@ -30,6 +30,7 @@
 			import components.pages.global.energymarket.EnergyMarketW;
 			import components.pages.global.inventorynew.InventoryW;
 			import components.pages.global.newlevel.NewLevelW;
+			import components.pages.global.people.InviteAllFriendsW;
 			import components.pages.global.people.InviteFriendW;
 			import components.pages.global.resourcemarket.ResourceMarketW;
 			import components.pages.world.windows.daybonus.DayBonusW;
@@ -256,6 +257,18 @@
 				}
 			});
 
+			Context.Model.addCustomListener(ContextEvent.INVITE_ALL_FRIENDS_SHOW, function (e:ContextEvent):void {
+				
+				parentApplication.setStyle("modalTransparencyBlur", 4);
+				
+				var iafw:InviteAllFriendsW = new InviteAllFriendsW();
+				
+				PopUpManager.addPopUp(iafw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(iafw);
+				
+				iafw.y -= 95;
+			});
+			
             /* disconnected */
             Context.gameServer.disconnected.add(onDisconnected);
 

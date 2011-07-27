@@ -112,7 +112,21 @@ public class GameProfile {
      * content = [BomberType,...]
      * */
     public var bombersOpened:Array = [];
-    //public var vkProfile:VkontakteProfile;
+    public function haveBomber(bomberType:BomberType): Boolean
+	{
+		var res:Boolean = false;
+		
+		for each(var bt: BomberType in bombersOpened)
+		{
+			if(bt == bomberType)
+			{
+				res = true;
+				break;
+			}
+		}
+		
+		return res;
+	}
 
 
     public function GameProfile() {
@@ -463,8 +477,10 @@ public class GameProfile {
         }
 
         items = obj.getSFSArray("BombersOpen");
-        //res.bombersOpened.push(BomberType.get(0))
-        //res.bombersOpened.push(BomberType.get(1))
+		
+		/* by default two first are opened */
+        res.bombersOpened.push(BomberType.byValue(0));
+        res.bombersOpened.push(BomberType.byValue(1));
 
         for (i = 0; i < items.size(); i++) {
 			var bType: BomberType = BomberType.byValue(items.getInt(i));

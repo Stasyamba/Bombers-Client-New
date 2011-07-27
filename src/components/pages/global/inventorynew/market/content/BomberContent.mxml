@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:market="components.pages.global.inventorynew.market.*"
+		  creationComplete="init();" xmlns:flexcomponents="components.common.flexcomponents.*"
+		  gap="10" height="100%"
+		  verticalAlign="top"
+		  >
+	
+	<fx:Declarations>
+		<s:Animate id="appearingA" target="{bomberImage}">
+			<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1" />
+		</s:Animate>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.bombers.BomberObject;
+			import components.common.bombers.BomberType;
+			import components.common.resources.ResourcePrice;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.pages.global.inventorynew.market.ItemMarket;
+			
+			import spark.primitives.BitmapImage;
+			
+			[Bindable]
+			private var bomberType: BomberType;
+			
+			[Bindable]
+			private var bomberName: String;
+			[Bindable]
+			private var bomberDescribe: String;
+			private var bomberPrice: ResourcePrice;
+			private var bomberImageURL: String;
+			
+			
+			public function initContent(itemMarket: ItemMarket): void
+			{
+				bomberType = itemMarket.type as BomberType;
+				bomberNameLabel.text = itemMarket.bombasterName;
+				
+				var bo:BomberObject = Context.Model.bomberManager.getBomber(bomberType);
+				
+				bomberDescribeLabel.text = bo.viewObject.describe;
+				bomberImageURL = bo.viewObject.bigImageURL;
+				
+				/* price cheking */
+				
+				/* var arrResources:Array = itemPrice.getResourceObjectArr();
+				
+				for each(var ro:ResourceObject in arrResources) 
+				{
+					switch(ro.type)
+					{
+						case ResourceType.GOLD:
+							
+							if(ro.value != 0)
+							{
+								goldBuyGroup.alpha = 1;
+							}
+							
+							break;
+						case ResourceType.CRYSTALS:
+							
+							if(ro.value != 0)
+							{	
+								crystallsBuyGroup.alpha = 1;
+							}
+							
+							break;
+					}
+				} */
+			}
+			
+			private function init(): void
+			{
+				bomberImage.source = bomberImageURL;
+				//price.initContent(itemMarketObject.price);
+				//itemCount.text = itemMarketObject.amount.toString() +" шт.";
+				
+				var cm: ColorMatrix = new ColorMatrix();
+				cm.adjustBrightness(-10,-10,-10);
+				
+				paramsBg.filters = [cm.filter];
+				
+				/* set parameters */
+				
+				speedLabel.text = BomberType.getViewSpeed(bomberType.getEngineType().speed).toString();
+				bombsLabel.text = bomberType.getEngineType().bombCount.toString();
+				waveLabel.text = bomberType.getEngineType().bombPower.toString();
+				healthLabel.text = bomberType.getEngineType().startLife.toString();
+				
+				defenceLabel.text = "0";
+				damageLabel.text = "5";
+			}
+			
+			private function buyItem(): void
+			{
+				/* if(Context.Model.currentSettings.gameProfile.resources.isBiggerOrEqual(itemPrice))
+				{
+					
+					Context.gameServer.sendBuyItemRequest(itemType);
+				}else
+				{
+					
+					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
+				} */
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="291" horizontalAlign="center" verticalAlign="top" height="143">
+		<s:VGroup gap="7" horizontalAlign="left" width="100%" paddingLeft="5">
+			<s:Label id="bomberNameLabel" fontFamily="mpbc" fontSize="24" color="0xfdca00" />
+			<s:Label id="bomberDescribeLabel" maxWidth="145" fontFamily="mpr" fontSize="12" color="0xfdca00" />
+		</s:VGroup>
+		
+		<s:HGroup width="126" horizontalAlign="center">
+			<mx:Image id="bomberImage"
+					  smoothBitmapContent="true"
+					  trustContent="{Context.Model.trustContent}"
+					  complete="{appearingA.play();}"
+					  scaleX="0.8"
+					  scaleY="0.8"
+					  />
+		</s:HGroup>
+	</s:HGroup>
+	
+	<s:Group>
+		<s:BorderContainer id="paramsBg" width="291" height="40" 
+						   backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+						   backgroundImageFillMode="repeat"
+						   borderVisible="false"
+						   />
+		
+		<s:HGroup width="291" height="40" horizontalAlign="center" verticalAlign="middle">
+			<s:HGroup scaleX=".9" scaleY=".9">
+				<s:HGroup id="baseParams">
+					<s:Group>
+						<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/speed.png')" smooth="true"/>
+						<s:HGroup width="17" height="17" x="25" y="8"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:Label id="speedLabel" text="1" fontFamily="mpbc" fontSize="14" color="0xebebeb"/>
+						</s:HGroup>
+					</s:Group>
+					
+					<s:Group>
+						<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/waveSize.png')" smooth="true"/>
+						<s:HGroup width="17" height="17" x="25" y="8"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:Label id="waveLabel" text="1" fontFamily="mpbc" fontSize="14" color="0xebebeb"/>
+						</s:HGroup>
+					</s:Group>
+					
+					<s:Group>
+						<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/bombsCount.png')" smooth="true"/>
+						<s:HGroup width="17" height="17" x="25" y="8"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:Label id="bombsLabel" text="1" fontFamily="mpbc" fontSize="14" color="0xebebeb"/>
+						</s:HGroup>
+					</s:Group>
+					
+					<s:Group>
+						<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/health.png')" smooth="true"/>
+						<s:HGroup width="17" height="17" x="25" y="8"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:Label id="healthLabel" text="1" fontFamily="mpbc" fontSize="14" color="0xebebeb" />
+						</s:HGroup>
+					</s:Group>
+				</s:HGroup>
+				
+				<s:HGroup scaleX="0.8" scaleY="0.8" paddingTop="3" gap="-2">
+					<s:HGroup paddingTop="-5">
+						<s:Group>
+							<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/defenceBg.png')" smooth="true"/>
+							<s:HGroup width="17" height="17" x="30" y="13"
+									  horizontalAlign="center" verticalAlign="middle">
+								<s:Label id="defenceLabel" text="1" fontFamily="mpbc" fontSize="14" color="0xebebeb"/>
+							</s:HGroup>
+						</s:Group>
+					</s:HGroup>
+					
+					<s:Group>
+						<s:BitmapImage source="@Embed(source='assets/windows/inventory/bomber/damageBg.png')" smooth="true"/>
+						<s:HGroup width="11" height="17" x="59" y="11"
+								  horizontalAlign="center" verticalAlign="middle">
+							<s:Label id="damageLabel" text="1" fontFamily="mpbc" fontSize="14" color="0xebebeb"/>
+						</s:HGroup>
+					</s:Group>
+				</s:HGroup>
+			</s:HGroup>
+			
+		</s:HGroup>
+	</s:Group>
+	<!--<s:Group width="100%">
+		<s:HGroup id="accessGroup" width="100%" horizontalAlign="center" alpha="0">
+			<s:Label id="accessLevelRuleFailed" fontFamily="mpr" fontSize="24" color="0xe86a05" />
+		</s:HGroup>
+		
+		<s:VGroup id="buyGroup" width="100%" horizontalAlign="center" alpha="0" gap="10">
+			
+			<s:HGroup id="goldBuyGroup" verticalAlign="middle" alpha="0">
+				<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
+					<s:Label text="Купить за золото" color="0xfec900" fontFamily="mpr" fontSize="14" />
+				</s:HGroup>
+				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+											  scaleX="0.5" scaleY="0.5"
+											  customLabel="Купить"
+											  fontSize="28" fontSizeOver="28"
+											  fontColor="0xfff19f"
+											  click="buyItem();"
+											  />
+			</s:HGroup>
+			
+			<s:HGroup id="crystallsBuyGroup" verticalAlign="middle" alpha="0">
+				<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
+					<s:Label text="Купить за кристаллы" color="0xfec900" fontFamily="mpr" fontSize="14" />
+				</s:HGroup>
+				<flexcomponents:PatternButton id="buyForCrystallsButton" skinClass="skins.buttons.Pattern2ButtonS"
+											  scaleX="0.5" scaleY="0.5"
+											  customLabel="Купить"
+											  fontSize="28" fontSizeOver="28"
+											  fontColor="0xfff19f"
+											  click="buyItem();"
+											  />
+			</s:HGroup>
+			
+		</s:VGroup>
+	</s:Group>-->
+	
+	
+	
+	
+</s:VGroup>
