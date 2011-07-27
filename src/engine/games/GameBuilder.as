@@ -43,7 +43,7 @@ public class GameBuilder {
     public function makeRegular(mapId:int, location:LocationType, playerProfiles:Array, bonuses:Array):IGame {
         var game:RegularGame = new RegularGame(location);
         for each (var prof:PlayerGameProfile in playerProfiles) {
-            game.addPlayer(prof, getColor(prof.slot))
+            game.addPlayer(prof, prof.color)
         }
 
         game.applyMap(String(mapId), playerProfiles, bonuses)
