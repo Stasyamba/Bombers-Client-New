@@ -29,6 +29,7 @@ import components.common.quests.medals.MedalType;
 import components.common.quests.regard.RegardObject;
 import components.common.quests.regard.RegardType;
 import components.common.resources.ResourcePrice;
+import components.common.resources.ResourceType;
 import components.common.tutorial.TutorialPartType;
 import components.common.worlds.locations.LocationType;
 
@@ -328,6 +329,8 @@ public class GameServer extends SmartFox {
         params.putInt("interface.buyResources.fields.resourceType3", rp.antimatter.value)
         params.putInt("interface.buyResources.fields.resourceType4", 0)
 
+		//nterface.buyItem.fields.resourceType - 1-золтот, 2 - крист	
+			
         send(new ExtensionRequest(INT_BUY_RESOURCES, params, null))
     }
 
@@ -342,10 +345,20 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest(INT_BUY_RESOURCES, params, null))
     }
 
-    public function sendBuyItemRequest(it:ItemType):void {
+    public function sendBuyItemRequest(it:ItemType, rt:ResourceType):void {
         var params:ISFSObject = new SFSObject();
         params.putInt("interface.buyItem.fields.itemId", it.value)
-
+			
+		switch(rt)
+		{
+			case ResourceType.GOLD:
+				params.putInt("interface.buyItem.fields.resourceType", 1);
+				break;
+			case ResourceType.CRYSTALS:
+				params.putInt("interface.buyItem.fields.resourceType", 2);
+				break;
+		}
+				
         send(new ExtensionRequest(INT_BUY_ITEM, params, null))
     }
 
