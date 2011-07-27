@@ -42,23 +42,22 @@
 
     <fx:Script>
 		<![CDATA[
-			import components.common.base.CommonConstans;
-			import components.common.game.multygameresult.PlaceType;
-			import components.common.game.multygameresult.PrizeObject;
-			import components.common.game.multygameresult.PrizeType;
-			import components.common.resources.ResourceType;
-			import components.pages.game.windows.results.slots.PrizeCupSlot;
-			import components.pages.game.windows.results.slots.PrizeResourceSlot;
-			import components.wall.SendWallObject;
-			
-			import engine.profiles.LobbyProfile;
-			
-			import loading.SoundManager;
-			
-			import mx.collections.ArrayCollection;
-			import mx.managers.PopUpManager;
-			
-			import spark.components.HGroup;
+        import components.common.base.CommonConstans
+        import components.common.game.multygameresult.PrizeObject
+        import components.common.game.multygameresult.PrizeType
+        import components.common.resources.ResourceType
+        import components.pages.game.windows.results.slots.PrizeCupSlot
+        import components.pages.game.windows.results.slots.PrizeResourceSlot
+        import components.wall.SendWallObject
+
+        import engine.profiles.LobbyProfile
+
+        import loading.SoundManager
+
+        import mx.collections.ArrayCollection
+        import mx.managers.PopUpManager
+
+        import spark.components.HGroup
 
         public function close():void {
             PopUpManager.removePopUp(this);
@@ -76,11 +75,11 @@
         private var closeTimer:Timer = new Timer(1000, CommonConstans.TIME_TO_CLOSE_RESULT_GAME_WINDOW);
 
         private function panelCreationComplete():void {
-			
-			SoundManager.changeMusicVolume(CommonConstans.MUSIC_WEAK_VOLUME);
-			
+
+            SoundManager.changeMusicVolume(CommonConstans.MUSIC_WEAK_VOLUME);
+
             apearingAnimation.play();
-			
+
             closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, openPregame);
             closeTimer.start();
 
@@ -89,28 +88,25 @@
             scoreGroup.removeAllElements();
 
             var lobbies:Array = new Array();
-            for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) 
-			{
-				/* its own profile */
-				if(lobbyProfile.id == Context.Model.currentSettings.gameProfile.id)
-				{
-					if(Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience) != 
-						Context.Model.experianceManager.getLevel(lobbyProfile.experience))
-					{
-						/* new level server request */
-						Context.Model.dispatchCustomEvent(
-							ContextEvent.NEW_LEVEL_SHOW, 
-							Context.Model.experianceManager.getLevel(lobbyProfile.experience).rewards
-							);
-					}
-					
-					Context.Model.currentSettings.gameProfile.experience = lobbyProfile.experience;
-					Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
-				}
-				
+            for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
+                /* its own profile */
+                if (lobbyProfile.id == Context.Model.currentSettings.gameProfile.id) {
+                    if (Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience).level !=
+                            Context.Model.experianceManager.getLevel(lobbyProfile.experience).level) {
+                        /* new level server request */
+                        Context.Model.dispatchCustomEvent(
+                                ContextEvent.NEW_LEVEL_SHOW,
+                                Context.Model.experianceManager.getLevel(lobbyProfile.experience).rewards
+                        );
+                    }
+
+                    Context.Model.currentSettings.gameProfile.experience = lobbyProfile.experience;
+                    Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+                }
+
                 lobbies.push(lobbyProfile);
             }
-           
+
             lobbies.sortOn('place');
 
             for each(var lp:LobbyProfile in lobbies) {
@@ -122,19 +118,18 @@
                 l.text = lp.place.toString() + ". " + lp.nick;
                 lScore.text = "+" + lp.expEarned + " опыта";
 
-				/* wall post */
-				
-				if(lp.place == 1 && lp.id == Context.Model.currentSettings.gameProfile.id)
-				{
-					var swo: SendWallObject = new SendWallObject(
-						Context.Model.currentSettings.socialProfile, 
-						"", 
-						"Моя стена славы: Чистая победа на арене Бомбастерии! +"+lp.expEarned.toString()+"  http://vkontakte.ru/app2206924#win", 
-						"72969483_265497809"
-					);
-					
-					Context.Model.dispatchCustomEvent(ContextEvent.VK_SEND_TO_WALL, swo);
-				} 
+                /* wall post */
+
+                if (lp.place == 1 && lp.id == Context.Model.currentSettings.gameProfile.id) {
+                    var swo:SendWallObject = new SendWallObject(
+                            Context.Model.currentSettings.socialProfile,
+                            "",
+                            "Моя стена славы: Чистая победа на арене Бомбастерии! +" + lp.expEarned.toString() + "  http://vkontakte.ru/app2206924#win",
+                            "72969483_265497809"
+                    );
+
+                    Context.Model.dispatchCustomEvent(ContextEvent.VK_SEND_TO_WALL, swo);
+                }
 
                 l.minWidth = 180;
                 l.setStyle("fontFamily", "mpbc");
@@ -168,33 +163,35 @@
             // prizes = Context.gameModel.lastPrizes.concat();
 
             /* testing */
-             prizes = new Array();
-			 /*prizes.push(new PrizeObject(
-                    PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
-            );
+            prizes = new Array();
+            /*prizes.push(new PrizeObject(
+             PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
+             );
 
-            prizes.push(new PrizeObject(
-                    PrizeType.CUP, ResourceType.CRYSTALS, 1, PlaceType.SECOND)
-            );
-            prizes.push(new PrizeObject(
-                    PrizeType.CUP, ResourceType.ADAMANT, 1, PlaceType.THIRD)
-            );
-            prizes.push(new PrizeObject(
-                    PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
-            );
-            prizes.push(new PrizeObject(
-                    PrizeType.RESOURCE, ResourceType.GOLD, 6)
-            );
-            prizes.push(new PrizeObject(
-                    PrizeType.RESOURCE, ResourceType.CRYSTALS, 4)
-            );
+             prizes.push(new PrizeObject(
+             PrizeType.CUP, ResourceType.CRYSTALS, 1, PlaceType.SECOND)
+             );
+             prizes.push(new PrizeObject(
+             PrizeType.CUP, ResourceType.ADAMANT, 1, PlaceType.THIRD)
+             );
+             prizes.push(new PrizeObject(
+             PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
+             );*/
+            if (Context.game.gameStats.goldCollected > 0)
+                prizes.push(new PrizeObject(
+                        PrizeType.RESOURCE, ResourceType.GOLD, Context.game.gameStats.goldCollected)
+                );
+            /*
+             prizes.push(new PrizeObject(
+             PrizeType.RESOURCE, ResourceType.CRYSTALS, 4)
+             );
 
-            prizes.push(new PrizeObject(
-                    PrizeType.RESOURCE, ResourceType.ADAMANT, 40)
-            );
-            prizes.push(new PrizeObject(
-                    PrizeType.RESOURCE, ResourceType.CRYSTALS, 5)
-            ); */
+             prizes.push(new PrizeObject(
+             PrizeType.RESOURCE, ResourceType.ADAMANT, 40)
+             );
+             prizes.push(new PrizeObject(
+             PrizeType.RESOURCE, ResourceType.CRYSTALS, 5)
+             ); */
 
 
             setPage(0);

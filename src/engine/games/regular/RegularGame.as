@@ -4,6 +4,8 @@
  */
 
 package engine.games.regular {
+import components.common.resources.ResourceObject
+import components.common.resources.ResourceType
 import components.common.worlds.locations.LocationType
 
 import engine.EngineContext
@@ -15,6 +17,7 @@ import engine.bombers.interfaces.IPlayerBomber
 import engine.data.common.maps.Maps
 import engine.explosionss.ExplosionsBuilder
 import engine.games.*
+import engine.games.quest.GameStats
 import engine.maps.builders.DynObjectBuilder
 import engine.maps.builders.MapBlockBuilder
 import engine.maps.builders.MapBlockStateBuilder
@@ -43,6 +46,7 @@ import greensock.TweenMax
 public class RegularGame extends GameBase implements IMultiPlayerGame {
 
     protected var _enemiesManager:IEnemiesManager;
+    private var _gameStats:GameStats = new GameStats();
 
     public function RegularGame(location:LocationType) {
         super(location)
@@ -273,6 +277,16 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
     public function get monstersManager():MonstersManager {
         //todo:shit
         return new MonstersManager(_playerManager)
+    }
+
+    public function resourceCollected(_amount:ResourceObject, by:IBomber):void {
+        if (by == playerManager.me && _amount.type == ResourceType.GOLD) {
+            _gameStats.goldCollected += _amount.value;
+        }
+    }
+
+    public function get gameStats():GameStats {
+        return _gameStats
     }
 }
 }

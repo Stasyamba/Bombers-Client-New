@@ -4,6 +4,8 @@
  */
 
 package engine.games.quest {
+import components.common.resources.ResourceObject
+import components.common.resources.ResourceType
 import components.common.worlds.locations.LocationType
 
 import engine.EngineContext
@@ -206,7 +208,7 @@ public class QuestGame extends GameBase implements IQuestGame {
         EngineContext.frameEntered.remove(monstersManager.checkMonstersHitPlayer);
         EngineContext.frameEntered.remove((playerManager as QuestPlayerManager).checkPlayerMetActiveBlock);
 
-        if (_timeOutTween != null){
+        if (_timeOutTween != null) {
             _timeOutTween.kill()
             _timeOutTween = null
         }
@@ -418,6 +420,12 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     public function get timePassed():int {
         return _time
+    }
+
+    public function resourceCollected(_amount:ResourceObject, by:IBomber):void {
+        if (by == playerManager.me && _amount.type == ResourceType.GOLD) {
+            _gameStats.goldCollected += _amount.value;
+        }
     }
 }
 }

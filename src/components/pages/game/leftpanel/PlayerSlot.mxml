@@ -158,6 +158,7 @@
 			userPhotoGroup.initPhoto("");
             levelStringView = "";
             bgRect.alpha = 0.3;
+            isReady = false;
         }
 
         private function init():void {

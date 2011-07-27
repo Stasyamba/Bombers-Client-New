@@ -93,5 +93,9 @@ public class BlockUnderBigObject implements IMapBlockState {
     public function get blinks():Boolean {
         return true
     }
+
+    public function set objectAfterObjectDestroyed(value:IDynObjectType):void {
+        _objectAfterObjectDestroyed = value
+    }
 }
 }

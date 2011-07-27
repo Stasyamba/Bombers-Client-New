@@ -12,6 +12,8 @@ public class GameStats {
     private var _collectedObjects:ArrayList = new ArrayList();
     private var _defeatedMonsters:ArrayList = new ArrayList();
 
+    public var goldCollected:int = 0;
+
     //array of DestroyedMapBlockObject
     public function get destroyedBlocks():ArrayList {
         return _destroyedBlocks;
@@ -29,5 +31,6 @@ public class GameStats {
 
     public function GameStats() {
     }
+
 }
 }

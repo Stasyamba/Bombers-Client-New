@@ -29,7 +29,6 @@
             /* init once */
             onTabChanged();
 
-
             /* testing  */
 //			addPlayer(new LobbyProfile("1", "Banana", "http://cs9678.vkontakte.ru/u86070/a_26c9fee5.jpg", 10, 0, true),0);
 //			addPlayer(new LobbyProfile("2", "Banana", "http://cs10882.vkontakte.ru/u87322300/a_af56eaae.jpg", 10, 2, true),2);
@@ -114,11 +113,6 @@
         private function onConnectedToGame():void {
             if (Context.gameModel.gameType == GameType.REGULAR) {
                 onSomeoneJoinedToGame(null)
-                if (Context.gameModel.createdByMe) {
-                    //Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_IS_CREATED_WINDOW);
-                } else {
-                    //Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_GAME_READY_WINDOW);
-                }
             }
         }
 

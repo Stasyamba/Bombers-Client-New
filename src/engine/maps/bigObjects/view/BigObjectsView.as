@@ -8,6 +8,8 @@ import engine.interfaces.IDrawable;
 import engine.maps.IMap;
 import engine.maps.bigObjects.BigObjectBase;
 
+import flash.display.DisplayObject
+
 import flash.display.Sprite;
 
 public class BigObjectsView extends Sprite implements IDrawable {
@@ -21,7 +23,7 @@ public class BigObjectsView extends Sprite implements IDrawable {
         this.isHigher = isHigher;
 
         for each (var obj:BigObjectBase in getObjects()) {
-            addChild(new BigObjectView(obj));
+            addChild(BigObjectViewFactory.make(obj));
         }
     }
 

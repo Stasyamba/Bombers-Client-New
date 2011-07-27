@@ -10,8 +10,6 @@ import engine.games.quest.medals.Medal
 
 public interface IQuestGame extends IGame {
 
-    function get gameStats():GameStats;
-
     function addGoal(medal:Medal, goal:IGoal):void;
 
     function get timePassed():int
