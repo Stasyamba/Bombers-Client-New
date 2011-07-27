@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:mx1="http://ns.adobe.com/mxml/mx"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false"
+				useHandCursor="true"
+				buttonMode="true"
+				width="240" height="80" xmlns:market="components.pages.global.inventorynew.market.*"
+				>
+	<s:layout>
+		<s:BasicLayout />
+	</s:layout>
+	
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	
+	<fx:Declarations>
+		
+		<s:Animate id="appearingA" target="{bomberImage}">
+			<s:SimpleMotionPath property="alpha" valueFrom="0" valueTo="1" />
+		</s:Animate>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.bombers.BomberType;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			
+			private var bomberType:BomberType;
+			
+			override public function set data( value:Object ) : void 
+			{
+				if(value != null && value is ItemMarket && (value as ItemMarket).type is BomberType)
+				{
+					bomberType = (value as ItemMarket).type;
+					
+					bomberImage.filters = [];
+					bomberImage.alpha = 1;
+					
+					var cm:ColorMatrix = new ColorMatrix();
+					cm.desaturate();
+					
+					super.data = value;
+					bomberImage.source = data.imageURL;
+					
+					lockBomberImage.visible = false;
+					choosenPanel.visible = false;
+					
+					bomberName.text = (data as ItemMarket).bombasterName;
+					
+					if((data as ItemMarket).isBeta)
+					{
+						bomberLockLabel.text = "Закрыт";
+						bomberImage.filters = [cm.filter];
+						bomberImage.alpha = 0.8;
+					}else
+					{
+						if((data as ItemMarket).isBought)
+						{
+							choosenPanel.visible = true;
+							choosenPanel.setChoosen((data as ItemMarket).isChoosen);
+							bomberLockLabel.text = "Открыт";
+						}else
+						{	
+							lockBomberImage.visible = true;
+							
+							if(Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience).level
+							<  (value as ItemMarket).itemLevelNessesory)
+							{
+								bomberImage.filters = [cm.filter];
+								bomberImage.alpha = 0.8;
+								
+								bomberLockLabel.text = (value as ItemMarket).itemLevelNessesory.toString() + " уровень";
+							}else
+							{
+								bomberLockLabel.text = "Не куплен";
+							}
+							
+						}
+					}
+					
+					
+					
+				}
+			}
+			
+			private function changeBomber(): void
+			{
+				Context.Model.currentSettings.gameProfile.currentBomberType = bomberType;
+				Context.gameServer.sendChangeBomberRequest(bomberType);
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_BOMBER_CHANGED);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="240" height="80"
+			  horizontalAlign="center" verticalAlign="middle"
+			  >
+		<s:Group>
+			<s:HGroup>
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/market/slotBombasterBg.jpg')" />
+			</s:HGroup>
+			
+			<s:HGroup alpha="0" alpha.hovered="1" alpha.selected="1"
+					  blendMode="colordodge">
+				<s:BitmapImage source="@Embed(source='assets/windows/inventory/market/slotBombasterBg.jpg')" />
+			</s:HGroup>
+			
+			<s:HGroup width="100%" height="70"
+					  horizontalAlign="left" verticalAlign="middle"
+					  id="bomberImageGroup"
+					  paddingLeft="5"
+					  >
+				<mx:Image id="bomberImage"
+						  smoothBitmapContent="true"
+						  trustContent="{Context.Model.trustContent}"
+						  complete="{appearingA.play();}"
+						  />
+				
+				<s:Group>
+					<s:HGroup height="100%" width="100%" horizontalAlign="center" verticalAlign="middle">
+						<market:ChooseBomberPanel id="choosenPanel" visible="false" click="changeBomber();" />	
+					</s:HGroup>
+					<s:BitmapImage id="lockBomberImage" source="@Embed(source='assets/windows/inventory/collection/lock.png')" visible="false" />
+				</s:Group>
+				
+				<s:VGroup width="100%" height="100%" horizontalAlign="right" verticalAlign="middle" paddingRight="8" gap="3">
+					<s:Label id="bomberName" color="0xfff200" fontFamily="mpbc" fontSize="16" />
+					<s:Label id="bomberLockLabel" color="0xb4881a" fontFamily="mpbc" fontSize="14" />
+				</s:VGroup>
+			</s:HGroup>
+		</s:Group>
+	</s:HGroup> 
+	
+</s:ItemRenderer>

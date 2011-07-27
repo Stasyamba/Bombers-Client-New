@@ -82,6 +82,11 @@
 					/* dispatch some event */
 				}
 				
+				if(Context.Model.currentTutorialPart == TutorialPartType.PART5)
+				{
+					Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
+				}
+				
 				PopUpManager.removePopUp(this);
 				
 				inventoryView.destroy();

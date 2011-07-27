@@ -625,7 +625,12 @@ public class GameServer extends SmartFox {
                 try {
 
                     Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
-					//Context.Model.currentTutorialPart = TutorialPartType.PART5;
+					
+					/* it must be after dayly boust futher */
+					if(Context.Model.currentTutorialPart == TutorialPartType.DONE)
+					{
+						Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
+					}
 					
 					
                     var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
@@ -1025,7 +1030,7 @@ public class GameServer extends SmartFox {
 					/* get 2 level */
 					Context.Model.dispatchCustomEvent(
 						ContextEvent.NEW_LEVEL_SHOW,
-						Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience).rewards
+						Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience)
 					);
                 }
 

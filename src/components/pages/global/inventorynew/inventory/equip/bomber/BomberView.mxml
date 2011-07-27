@@ -23,12 +23,12 @@
 			
 			public function destory():void
 			{
-				Context.Model.removeCustomEventListener(ContextEvent.BOMBER_CHANGED,refreshBomberView);
+				Context.Model.removeCustomEventListener(ContextEvent.GP_BOMBER_CHANGED,refreshBomberView);
 			}
 			
 			private function init(): void
 			{
-				Context.Model.addCustomListener(ContextEvent.BOMBER_CHANGED,refreshBomberView);
+				Context.Model.addCustomListener(ContextEvent.GP_BOMBER_CHANGED,refreshBomberView);
 				
 				refreshBomberView(null);
 			}

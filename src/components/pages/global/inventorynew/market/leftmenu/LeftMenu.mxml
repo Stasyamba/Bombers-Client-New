@@ -22,7 +22,7 @@
 			
 		</s:Parallel>
 		
-		<s:Parallel id="toPotionsA" target="{selectedGroup}">
+		<s:Parallel id="toBombastersA" target="{selectedGroup}">
 			<s:Sequence>
 				<s:Animate duration="300">
 					<s:SimpleMotionPath property="y" valueFrom="{selectedGroup.y}" valueTo="30" />
@@ -31,7 +31,7 @@
 			
 		</s:Parallel>
 		
-		<s:Parallel id="toBombastersA" target="{selectedGroup}">
+		<s:Parallel id="toPotionsA" target="{selectedGroup}">
 			<s:Sequence>
 				<s:Animate duration="300">
 					<s:SimpleMotionPath property="y" valueFrom="{selectedGroup.y}" valueTo="66" />
@@ -120,9 +120,9 @@
 		<s:HGroup click="{selectedState = CATEGORY_WEAPON;}">
 			<s:Label text="Оружие" color="0xdea300" fontFamily="mpr" fontSize="16" />
 		</s:HGroup>
-		<!--<s:HGroup click="{selectedState = CATEGORY_POTIONS;}">
-			<s:Label text="Зелья" color="0xdea300" fontFamily="mpr" fontSize="16" />
-		</s:HGroup>-->
+		<s:HGroup click="{selectedState = CATEGORY_BOMBERS;}">
+			<s:Label text="Бомбастеры" color="0xdea300" fontFamily="mpr" fontSize="16" />
+		</s:HGroup>
 	<!--	<s:HGroup click="{selectedState = CATEGORY_BOMBERS;}">
 			<s:Label text="Бомбастеры" color="0xdea300" fontFamily="mpr" fontSize="16" />
 		</s:HGroup>-->

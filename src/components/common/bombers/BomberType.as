@@ -6,9 +6,15 @@ package components.common.bombers
 	{
 		public static const FURY_JOE:BomberType = new BomberType(0, "FURY_JOE");
 		public static const R2D3:BomberType = new BomberType(1, "R2D3");
-	
+		public static const ZOMBIE:BomberType = new BomberType(2, "ZOMBIE");
+		
+		
 		private var _value:int;
 		private var _name:String;
+		
+		public static function getViewSpeed(speed:Number):int {
+			return int(Math.round((Math.log(speed) - Math.log(100)) / Math.log(1.1))) + 1
+		}
 		
 		public function BomberType(value:int, name:String) {
 			_value = value;
@@ -40,6 +46,10 @@ package components.common.bombers
 				
 				case R2D3.value:
 					res = R2D3;
+					break;
+				
+				case ZOMBIE.value:
+					res = ZOMBIE;
 					break;
 				
 				default:

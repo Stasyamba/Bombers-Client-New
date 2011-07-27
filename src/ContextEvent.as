@@ -135,7 +135,7 @@ public class ContextEvent extends Event {
     //pass: {it:ItemType, count:int} -> how much bought weapon
 
     /***** common events *****/
-    public static const BOMBER_CHANGED:String = "BomberChanged";
+    public static const GP_BOMBER_CHANGED:String = "BomberChanged";
     public static const GAME_PROFILE_LOADED:String = "GameProfileLoaded";
 
 	/**** tutorial events ****/
@@ -168,6 +168,9 @@ public class ContextEvent extends Event {
 	
 	public static const INVITE_FRIEND_SHOW: String = "INVITEFriendShow";
 	// pass: FriendObject
+	public static const INVITE_ALL_FRIENDS_SHOW: String = "INVITEAllFriendsShow";
+	
+	
 	
     public var data:*;
 

@@ -18,6 +18,7 @@
 		<![CDATA[
 			import components.common.base.access.AccessManager;
 			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.betarule.AccessBetaRule;
 			import components.common.base.access.rules.levelrule.AccessLevelRule;
 			import components.common.bombers.BomberObject;
 			import components.common.bombers.BomberType;
@@ -26,6 +27,7 @@
 			import components.common.items.categories.ItemCategory;
 			import components.common.items.categories.MarketCategory;
 			import components.common.resources.ResourcePrice;
+			import components.pages.global.inventorynew.market.content.BomberContent;
 			import components.pages.global.inventorynew.market.content.WeaponContent;
 			
 			import mx.collections.ArrayCollection;
@@ -43,6 +45,22 @@
 			private function init(): void
 			{	
 				itemsList.scroller.setStyle("skinClass", ScrollerS);
+				
+				Context.Model.addCustomListener(ContextEvent.GP_BOMBER_CHANGED, function (e:ContextEvent): void
+				{
+					for each(var im: ItemMarket in currentItemCollection)
+					{
+						if(Context.Model.currentSettings.gameProfile.currentBomberType == im.type)
+						{
+							im.isChoosen = true;
+						}else
+						{
+							im.isChoosen = false;
+						}
+					}
+					
+					currentItemCollection.refresh();
+				});
 			}
 			
 			public function destroy(): void
@@ -66,30 +84,38 @@
 				var item:ItemMarket = currentItemCollection[index];
 				var content:*;
 				
-				if(item.type is ItemType)
-				{
-					/* weapon */
-					
-					if(!(lastType is ItemType))
+				if(item != null)
+				{	
+					if(item.type is ItemType)
 					{
-						itemContentGroup.removeAllElements();
+						/* weapon */
+						
+						if(!(lastType is ItemType))
+						{
+							itemContentGroup.removeAllElements();
+						}
+						
+						content = new WeaponContent();
+						(content as WeaponContent).initContent(item.type);
+						
+						itemContentGroup.addElement(content);
 					}
 					
-					content = new WeaponContent();
-					(content as WeaponContent).initContent(item.type);
 					
-					itemContentGroup.addElement(content);
-				}
-				
-				
-				
-				if(item.type is BomberType)
-				{
-					/* bombers */
 					
-					if(!(lastType is BomberType))
+					if(item.type is BomberType)
 					{
-						itemContentGroup.removeAllElements();
+						/* bombers */
+						
+						if(!(lastType is BomberType))
+						{
+							itemContentGroup.removeAllElements();
+						}
+						
+						content = new BomberContent();
+						(content as BomberContent).initContent(item);
+						
+						itemContentGroup.addElement(content);
 					}
 				}
 				
@@ -103,46 +129,109 @@
 					itemContentGroup.removeAllElements();
 					currentItemCollection = new ArrayCollection();
 					
-					for each(var itemObject: ItemObject in Context.Model.itemsManager.getItems())
+					if(e.data != MarketCategory.BOMBERS)
 					{
-						var mc: MarketCategory = Context.Model.itemsCategoryManager.getItemMarketCategory(itemObject.type);
-						var ic: ItemCategory = Context.Model.itemsCategoryManager.getItemCategory(itemObject.type);
+						itemsList.itemRenderer = new ClassFactory(components.pages.global.inventorynew.market.MarketIR);
+						itemsListLayout.requestedColumnCount = 3;
+						itemsListLayout.requestedRowCount = 3;
 						
-						if(mc == e.data)
+						for each(var itemObject: ItemObject in Context.Model.itemsManager.getItems())
 						{
+							var mc: MarketCategory = Context.Model.itemsCategoryManager.getItemMarketCategory(itemObject.type);
+							var ic: ItemCategory = Context.Model.itemsCategoryManager.getItemCategory(itemObject.type);
+							
+							if(mc == e.data)
+							{
+								/* put nessesory level and price also */
+								
+								
+								/* check for level rule */
+								var accessRulesObject:Array = AccessManager.checkAccessItem(itemObject.type);
+								var minimumLevel:int = 0;
+								var isLevelRuleSuccess:Boolean = false;
+								
+								for each(var aro:AccessRuleObject in accessRulesObject) {
+									if (aro.accessRule is AccessLevelRule) {
+										isLevelRuleSuccess = aro.isSuccess;
+										
+										if (!isLevelRuleSuccess) {
+											minimumLevel = (aro.accessRule as AccessLevelRule).minimumLevel;
+										}
+										
+										break;
+									}
+								}
+								
+								/* price  */
+								var itemPrice: ResourcePrice = Context.Model.marketManager.getItemPrice(itemObject.type).price;
+								
+								
+								currentItemCollection.addItem(
+									new ItemMarket(
+										itemObject.type, 
+										itemObject.viewObject.smallImageURL, 
+										ic,
+										minimumLevel,
+										itemPrice
+									));
+							}
+						}
+					}else
+					{
+						/* bombasters */
+						
+						itemsList.itemRenderer = new ClassFactory(MarketBombersIR);
+						
+						itemsListLayout.requestedColumnCount = 1;
+						itemsListLayout.requestedRowCount = 3;
+						
+						for each(var bomberObject: BomberObject in Context.Model.bomberManager.getBombers())
+						{
+						
 							/* put nessesory level and price also */
 							
-							
 							/* check for level rule */
-							var accessRulesObject:Array = AccessManager.checkAccessItem(itemObject.type);
+							var accessRulesObject:Array = AccessManager.checkAccessBomber(bomberObject.type);
 							var minimumLevel:int = 0;
 							var isLevelRuleSuccess:Boolean = false;
+							var isBeta:Boolean = false;
 							
-							for each(var aro:AccessRuleObject in accessRulesObject) {
-								if (aro.accessRule is AccessLevelRule) {
+							for each(var aro:AccessRuleObject in accessRulesObject) 
+							{
+								if (aro.accessRule is AccessLevelRule) 
+								{
 									isLevelRuleSuccess = aro.isSuccess;
 									
-									if (!isLevelRuleSuccess) {
+									if (!isLevelRuleSuccess) 
+									{
 										minimumLevel = (aro.accessRule as AccessLevelRule).minimumLevel;
 									}
-									
-									break;
+								}
+								
+								if(aro.accessRule is AccessBetaRule)
+								{
+									isBeta = true;
 								}
 							}
-							
+								
 							/* price  */
-							var itemPrice: ResourcePrice = Context.Model.marketManager.getItemPrice(itemObject.type).price;
+							var bomberPrice: ResourcePrice = Context.Model.marketManager.getBomberPrice(bomberObject.type).price;
+							var haveBomber:Boolean = Context.Model.currentSettings.gameProfile.haveBomber(bomberObject.type);
+							var isChoosen:Boolean = (Context.Model.currentSettings.gameProfile.currentBomberType == bomberObject.type);
 							
 							
-							currentItemCollection.addItem(
-								new ItemMarket(
-									itemObject.type, 
-									itemObject.viewObject.smallImageURL, 
-									ic,
-									minimumLevel,
-									itemPrice
-								));
-						}
+							currentItemCollection.addItem(new ItemMarket(
+								bomberObject.type, 
+								bomberObject.viewObject.shopImageURL, 
+								null,
+								minimumLevel,
+								bomberPrice,
+								haveBomber,
+								isChoosen,
+								bomberObject.viewObject.name,
+								isBeta
+							));
+						} 
 					}
 					
 					showItem(null);
@@ -188,13 +277,13 @@
 													   borderVisible="false"
 													   />
 								</s:VGroup>
-								
-								<s:List id="itemsList" dataProvider="{currentItemCollection}" itemRenderer="components.pages.global.inventorynew.market.MarketIR"
+								<!-- itemRenderer="components.pages.global.inventorynew.market.MarketIR" -->
+								<s:List id="itemsList" dataProvider="{currentItemCollection}"
 										contentBackgroundAlpha="0" borderVisible="false"
 										change="showItem(event);"
 										>
 									<s:layout>
-										<s:TileLayout requestedColumnCount="3" requestedRowCount="3"
+										<s:TileLayout id="itemsListLayout" requestedColumnCount="3" requestedRowCount="3"
 													  verticalGap="0" horizontalGap="0"
 													  />
 									</s:layout>

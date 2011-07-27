@@ -131,7 +131,7 @@
 
             <s:HGroup gap="5" paddingTop="5">
                 <s:Label id="energyLabel"
-                         text="5" color="0xfed43d"
+                         text="3" color="0xfed43d"
                          fontFamily="mpbc" fontSize="30"
                         />
                 <s:HGroup paddingTop="-5">

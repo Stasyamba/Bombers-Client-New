@@ -17,6 +17,7 @@
 			import api.vkontakte.VkontakteGlobals;
 			
 			import components.common.base.CommonConstans;
+			import components.common.base.expirance.ExperianceObject;
 			import components.common.friendslent.FriendObject;
 			import components.common.profiles.VkontakteProfile;
 			import components.common.quests.regard.RegardObject;
@@ -29,6 +30,7 @@
 			import components.pages.global.energymarket.EnergyMarketW;
 			import components.pages.global.inventorynew.InventoryW;
 			import components.pages.global.newlevel.NewLevelW;
+			import components.pages.global.people.InviteAllFriendsW;
 			import components.pages.global.people.InviteFriendW;
 			import components.pages.global.resourcemarket.ResourceMarketW;
 			import components.pages.world.windows.daybonus.DayBonusW;
@@ -255,6 +257,18 @@
 				}
 			});
 
+			Context.Model.addCustomListener(ContextEvent.INVITE_ALL_FRIENDS_SHOW, function (e:ContextEvent):void {
+				
+				parentApplication.setStyle("modalTransparencyBlur", 4);
+				
+				var iafw:InviteAllFriendsW = new InviteAllFriendsW();
+				
+				PopUpManager.addPopUp(iafw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(iafw);
+				
+				iafw.y -= 95;
+			});
+			
             /* disconnected */
             Context.gameServer.disconnected.add(onDisconnected);
 
@@ -328,10 +342,11 @@
             });
 
             Context.Model.addCustomListener(ContextEvent.NEW_LEVEL_SHOW, function (e:ContextEvent):void {
-                if (e.data is Array) {
+                if (e.data is ExperianceObject) 
+				{
                     var nlw:NewLevelW = new NewLevelW();
-                    nlw.rewards = (e.data as Array).concat();
-
+                    nlw.rewards = (e.data as ExperianceObject).rewards.concat();
+					nlw.newLevel = (e.data as ExperianceObject).level;
 
                     Context.Model.dispatchCustomEvent(ContextEvent.MODAL_SET_STYLE_DEFAULT);
 

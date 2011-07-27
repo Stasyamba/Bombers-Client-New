@@ -71,7 +71,9 @@ public class BomberType implements ICreatureType {
                return bt
             }
         }
-        throw Context.Exception("Error in file BomberType.as: no BomberType found with value = " + value);
+		
+		return _all[0];
+        //throw Context.Exception("Error in file BomberType.as: no BomberType found with value = " + value);
     }
 
     public function get bombCount():int {

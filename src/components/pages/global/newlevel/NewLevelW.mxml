@@ -97,8 +97,10 @@
 			import mx.managers.PopUpManager;
 			
 			public var rewards: Array = new Array();
+			public var newLevel: int;
 			private var newResources:ResourcePrice;
 			private var isNewItem:Boolean = false;
+			
 			
 			public function close():void {
 				
@@ -113,6 +115,7 @@
 				apearingAnimation.play();
 				pulseA.play();
 				
+				levelLabel.text = newLevel.toString();
 				/* get level by experiance */
 				/* get pizes by level */
 				
@@ -308,7 +311,7 @@
 		
 		<s:VGroup height="145" width="100%" horizontalAlign="center" verticalAlign="middle">
 			<s:Label text="Новый уровень" fontFamily="mpbc" fontSize="48" color="0xf6da00" />
-			<s:Label text="2" fontFamily="mpbc" fontSize="72" color="0xf6da00" />
+			<s:Label id="levelLabel" text="2" fontFamily="mpbc" fontSize="72" color="0xf6da00" />
 			
 			<s:filters>
 				<s:DropShadowFilter color="0x914500" distance="1" />
