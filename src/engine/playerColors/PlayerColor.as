@@ -67,7 +67,7 @@ public class PlayerColor {
             case BLACK.colorId:
                 return BLACK;
         }
-        throw Context.Exception("Error in PlayerColor: no color with value " + value);
+        throw Context.Exception("Error in PlayerColor (byColorId): no color with value " + value);
     }
 
     public static function byId(value:int):PlayerColor {
@@ -85,7 +85,7 @@ public class PlayerColor {
             case BLACK.id:
                 return BLACK;
         }
-        throw Context.Exception("Error in PlayerColor: no color with value " + value);
+        throw Context.Exception("Error in PlayerColor (byId): no color with value " + value);
     }
 
 	

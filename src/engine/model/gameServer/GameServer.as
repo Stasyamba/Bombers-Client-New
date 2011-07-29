@@ -1127,11 +1127,14 @@ public class GameServer extends SmartFox {
             var slot:int = item.getInt("Slot");
             var params:ISFSArray = item.getSFSArray("CustomParameters");
             var cId:* = customParameter(params,CommonConstans.CUSTOM_PARAMETER_COLOR);
-            var color:PlayerColor
+            var color:PlayerColor;
+			
             if (cId != null)
+			{	
                 color = PlayerColor.byId(int(cId));
-            else
+			} else{
                 color = PlayerColor.RED;
+			}
 
             resultArray[slot] = new LobbyProfile(id, nick, photo, exp, slot, ready, color)
         }
