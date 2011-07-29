@@ -1,20 +1,19 @@
 package engine.profiles {
-import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.ISFSArray
+import com.smartfoxserver.v2.entities.data.ISFSObject
 
-import components.common.bombers.BomberType;
-import components.common.items.ItemProfileObject;
-import components.common.items.ItemType;
-import components.common.quests.medals.MedalObject;
-import components.common.quests.medals.MedalType;
-import components.common.resources.ResourcePrice;
-import components.common.worlds.locations.LocationType;
+import components.common.bombers.BomberType
+import components.common.items.ItemProfileObject
+import components.common.items.ItemType
+import components.common.quests.medals.MedalObject
+import components.common.quests.medals.MedalType
+import components.common.resources.ResourcePrice
+import components.common.worlds.locations.LocationType
 
-import engine.bombers.skin.BasicSkin;
-import engine.playerColors.PlayerColor;
+import engine.bombers.skin.BasicSkin
+import engine.playerColors.PlayerColor
 
-import mx.controls.Alert;
-import mx.utils.ObjectUtil;
+import mx.controls.Alert
 
 public class GameProfile {
 
@@ -24,24 +23,21 @@ public class GameProfile {
     public var id:String;
     public var photoURL:String = "";
 
-	public var currentBomberColor: PlayerColor;
-	public var openedBomberColors: Array;
-	
-	public function haveColor(colorType: PlayerColor): Boolean
-	{
-		var res:Boolean = false;
-		for each(var pc:PlayerColor in openedBomberColors)
-		{
-			if(pc == colorType)
-			{
-				res = true;
-				break;
-			}
-		}
-		
-		return res;
-	}
-	
+    public var currentBomberColor:PlayerColor;
+    public var openedBomberColors:Array;
+
+    public function haveColor(colorType:PlayerColor):Boolean {
+        var res:Boolean = false;
+        for each(var pc:PlayerColor in openedBomberColors) {
+            if (pc == colorType) {
+                res = true;
+                break;
+            }
+        }
+
+        return res;
+    }
+
     public var currentLocation:LocationType;
 
     private var _selectedWeaponLeftHand:ItemProfileObject;
@@ -51,53 +47,42 @@ public class GameProfile {
      * content = [MedalObject, ...]
      */
     public var medals:Array = new Array();
-	
-	public function hasMedal(questId: String, medalType: MedalType): Boolean
-	{
-		var res:Boolean = false;
-		
-		for each(var mo: MedalObject in medals)
-		{
-			if(mo.questId == questId && mo.medalType == medalType)
-			{
-				res = true;
-				break;
-			}
-		}
-		
-		return res;
-	}
-	
-	public function addMedal(questId: String, medalsNew: Array): void
-	{
-		var findMedal: Array = new Array();
-		for each(var cmo: MedalType in medalsNew)
-		{
-			findMedal.push({type: cmo, isFinded: false});
-		}
-		
-		for each(var smo: Object in findMedal)
-		{
-			for each(var mo: MedalObject in medals)
-			{
-				if(mo.questId == questId)
-				{
-					if(mo.medalType == smo.medalType)
-					{
-						smo.isFinded = true;
-					}
-				}
-			}
-		}
-		
-		for each(smo in findMedal)
-		{
-			if(!smo.isFinded)
-			{
-				medals.push(new MedalObject(questId, smo.type));
-			}
-		}
-	}
+
+    public function hasMedal(questId:String, medalType:MedalType):Boolean {
+        var res:Boolean = false;
+
+        for each(var mo:MedalObject in medals) {
+            if (mo.questId == questId && mo.medalType == medalType) {
+                res = true;
+                break;
+            }
+        }
+
+        return res;
+    }
+
+    public function addMedal(questId:String, medalsNew:Array):void {
+        var findMedal:Array = new Array();
+        for each(var cmo:MedalType in medalsNew) {
+            findMedal.push({type: cmo, isFinded: false});
+        }
+
+        for each(var smo:Object in findMedal) {
+            for each(var mo:MedalObject in medals) {
+                if (mo.questId == questId) {
+                    if (mo.medalType == smo.medalType) {
+                        smo.isFinded = true;
+                    }
+                }
+            }
+        }
+
+        for each(smo in findMedal) {
+            if (!smo.isFinded) {
+                medals.push(new MedalObject(questId, smo.type));
+            }
+        }
+    }
 
     /**
      * BomberType
@@ -131,21 +116,19 @@ public class GameProfile {
      * content = [BomberType,...]
      * */
     public var bombersOpened:Array = [];
-    public function haveBomber(bomberType:BomberType): Boolean
-	{
-		var res:Boolean = false;
-		
-		for each(var bt: BomberType in bombersOpened)
-		{
-			if(bt == bomberType)
-			{
-				res = true;
-				break;
-			}
-		}
-		
-		return res;
-	}
+
+    public function haveBomber(bomberType:BomberType):Boolean {
+        var res:Boolean = false;
+
+        for each(var bt:BomberType in bombersOpened) {
+            if (bt == bomberType) {
+                res = true;
+                break;
+            }
+        }
+
+        return res;
+    }
 
 
     public function GameProfile() {
@@ -182,7 +165,7 @@ public class GameProfile {
         return _selectedWeaponLeftHand;
     }
 
-    public function setWeaponLeftHand(itemType:ItemType, putInPackBack: Boolean = true):void {
+    public function setWeaponLeftHand(itemType:ItemType, putInPackBack:Boolean = true):void {
         var finded:Boolean = false;
         var tmpArr:Array = new Array();
         var weapon:ItemProfileObject = null;
@@ -208,11 +191,10 @@ public class GameProfile {
             }
 
         } else {
-			if(putInPackBack)
-			{
-            	packItems.push(_selectedWeaponLeftHand);
-			}
-			
+            if (putInPackBack) {
+                packItems.push(_selectedWeaponLeftHand);
+            }
+
             _selectedWeaponLeftHand = null;
         }
 
@@ -311,76 +293,70 @@ public class GameProfile {
 
     /* quest items */
 
-	public function useQuestLeftWeapon(): void
-	{
-		if(_selectedWeaponLeftHand != null)
-		{
-			_selectedWeaponLeftHand.itemCount--;
-			
-			if(_selectedWeaponLeftHand.itemCount <= 0)
-			{
-				Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
-			}
-		}else
-		{
-			Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
-		}
-	}
-	
-	public function setQuestWeapon(itemProfileObject:ItemProfileObject): void
-	{
-		//Alert.show("Call set weapon");
-		//Alert.show(ObjectUtil.toString({weapon: itemProfileObject}));
-		
-		_selectedWeaponLeftHand = itemProfileObject.clone();
-		Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
-	}
-	
-	public function clearQuestWeapon(): void
-	{
-		_selectedWeaponLeftHand = null;
-	}
-	
-    /* 
-	
-	public function addQuestItemObject(itemProfileObject:ItemProfileObject):void {
-        var isItemFinded:Boolean = false;
+    public function useQuestLeftWeapon():void {
+        if (_selectedWeaponLeftHand != null) {
+            _selectedWeaponLeftHand.itemCount--;
 
-        for each(var ipo:ItemProfileObject in questItems) {
-            if (itemProfileObject.itemType == ipo.itemType) {
-                ipo.itemCount += itemProfileObject.itemCount;
-                isItemFinded = true;
-                break;
+            if (_selectedWeaponLeftHand.itemCount <= 0) {
+                Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
             }
-        }
-
-        if (!isItemFinded) {
-            questItems.push(ipo);
-        }
-    }
-
-    public function refreshQuestWeapons():void {
-    }
-	
-	
-	
-
-    public function setQuestWeaponToLeftHand(itemType:ItemType):void {
-        if (itemType != null) {
-            for each(var ipo:ItemProfileObject in questItems) {
-                if (ipo.itemType == itemType) {
-                    _selectedWeaponLeftHand = ipo;
-                    break;
-                }
-            }
-
         } else {
-            _selectedWeaponLeftHand = null;
+            Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
         }
-
     }
-	
-	*/
+
+    public function setQuestWeapon(itemProfileObject:ItemProfileObject):void {
+        //Alert.show("Call set weapon");
+        //Alert.show(ObjectUtil.toString({weapon: itemProfileObject}));
+
+        _selectedWeaponLeftHand = itemProfileObject.clone();
+        Context.Model.dispatchCustomEvent(ContextEvent.QUEST_LEFT_HAND_WEAPON_UPDATE);
+    }
+
+    public function clearQuestWeapon():void {
+        _selectedWeaponLeftHand = null;
+    }
+
+    /* 
+
+     public function addQuestItemObject(itemProfileObject:ItemProfileObject):void {
+     var isItemFinded:Boolean = false;
+
+     for each(var ipo:ItemProfileObject in questItems) {
+     if (itemProfileObject.itemType == ipo.itemType) {
+     ipo.itemCount += itemProfileObject.itemCount;
+     isItemFinded = true;
+     break;
+     }
+     }
+
+     if (!isItemFinded) {
+     questItems.push(ipo);
+     }
+     }
+
+     public function refreshQuestWeapons():void {
+     }
+
+
+
+
+     public function setQuestWeaponToLeftHand(itemType:ItemType):void {
+     if (itemType != null) {
+     for each(var ipo:ItemProfileObject in questItems) {
+     if (ipo.itemType == itemType) {
+     _selectedWeaponLeftHand = ipo;
+     break;
+     }
+     }
+
+     } else {
+     _selectedWeaponLeftHand = null;
+     }
+
+     }
+
+     */
 
     public function getSkin(slot:int):BasicSkin {
 
@@ -393,138 +369,127 @@ public class GameProfile {
         return null; // ????
     }
 
-    public static function fromISFSObject(obj:ISFSObject):GameProfile 
-	{
+    public static function fromISFSObject(obj:ISFSObject):GameProfile {
         var res:GameProfile = new GameProfile();
         res.id = obj.getUtfString("Id");
         res.nick = obj.getUtfString("Nick");
         res.experience = obj.getInt("Experience");
         res.energy = obj.getInt("Energy");
         res.currentBomberType = BomberType.byValue(obj.getInt("BomberId"));
-        
-		//todo: temporary stub
-		res.openedBomberColors = new Array();
-		
-		/* by default */
-		res.openedBomberColors.push(PlayerColor.BLUE);
-		res.openedBomberColors.push(PlayerColor.RED);
-		
-		res.currentBomberColor = PlayerColor.RED;
-			
+
+        var params:ISFSArray = obj.getSFSArray("CustomParameters");
+        var cId:* = Context.gameServer.customParameter(params, 0);
+        if (cId != null)
+            res.currentBomberColor = PlayerColor.byId(cId);
+        else {
+            res.currentBomberColor = PlayerColor.RED
+        }
+        //todo: temporary stub
+        res.openedBomberColors = new Array();
+
+        /* by default */
+        res.openedBomberColors.push(PlayerColor.BLUE);
+        res.openedBomberColors.push(PlayerColor.RED);
+
+
         var medArr:ISFSArray = obj.getSFSArray("Medals");
         for (var i:int = 0; i < medArr.size(); i++) {
             var q:ISFSArray = medArr.getSFSArray(i);
             var qId:String = q.getUtfString(0)
             var qM:int = q.getInt(1)
-            if((qM & 1) > 0)
-                res.addMedal(qId,[MedalType.BRONZE_MEDAL])
-            if((qM & 2) > 0)
-                res.addMedal(qId,[MedalType.SILVER_MEDAL])
-            if((qM & 4) > 0)
-                res.addMedal(qId,[MedalType.GOLD_MEDAL])
+            if ((qM & 1) > 0)
+                res.addMedal(qId, [MedalType.BRONZE_MEDAL])
+            if ((qM & 2) > 0)
+                res.addMedal(qId, [MedalType.SILVER_MEDAL])
+            if ((qM & 4) > 0)
+                res.addMedal(qId, [MedalType.GOLD_MEDAL])
         }
 
         var items:ISFSArray = obj.getSFSArray("WeaponsOpen");
-		
-        for (var i:int = 0; i < items.size(); i++) 
-		{
+
+        for (var i:int = 0; i < items.size(); i++) {
             var objItem:ISFSObject = items.getSFSObject(i);
             var itemId:int = objItem.getInt("WeaponId");
             var itemCount:int = objItem.getInt("Count");
-			var itemType: ItemType = ItemType.byValue(itemId);
-			
-			if(itemType != null)
-			{
-				if(Context.Model.itemCollectionsManager.getCollection(itemType) == null)
-				{
-					/* not collection part */
-	            	var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
-					res.packItems.push(modelItem);
-		            res.gotItems.push(modelItem);
-				}else
-				{
-					/* if 0 collection part */
-					
-					if(itemCount != 0)
-					{
-						var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
-						res.packItems.push(modelItem);
-						res.gotItems.push(modelItem);
-					}
-				}
-			}else
-			{
-				Alert.show("Error - unknown item type "+itemId.toString()+" | GameProfile.as");
-			}
+            var itemType:ItemType = ItemType.byValue(itemId);
+
+            if (itemType != null) {
+                if (Context.Model.itemCollectionsManager.getCollection(itemType) == null) {
+                    /* not collection part */
+                    var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
+                    res.packItems.push(modelItem);
+                    res.gotItems.push(modelItem);
+                } else {
+                    /* if 0 collection part */
+
+                    if (itemCount != 0) {
+                        var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
+                        res.packItems.push(modelItem);
+                        res.gotItems.push(modelItem);
+                    }
+                }
+            } else {
+                Alert.show("Error - unknown item type " + itemId.toString() + " | GameProfile.as");
+            }
         }
 
-		
+
         var a:int = obj.getInt("AuraOne");
-		var aType:ItemType;
-		
-		if (a != 0) 
-		{
-			aType = ItemType.byValue(a);
-			if(aType != null)
-			{
-            	res.setAura(aType, false);
-			}else
-			{
-				Alert.show("Error - unknown arua type "+a.toString()+" | GameProfile.as");
-			}
+        var aType:ItemType;
+
+        if (a != 0) {
+            aType = ItemType.byValue(a);
+            if (aType != null) {
+                res.setAura(aType, false);
+            } else {
+                Alert.show("Error - unknown arua type " + a.toString() + " | GameProfile.as");
+            }
         }
 
         a = obj.getInt("AuraTwo");
-        if (a != 0) 
-		{
-			aType = ItemType.byValue(a);
-			if(aType != null)
-			{
-				res.setAura(aType, false);
-			}else
-			{
-				Alert.show("Error - unknown arua type "+a.toString()+" | GameProfile.as");
-			}
+        if (a != 0) {
+            aType = ItemType.byValue(a);
+            if (aType != null) {
+                res.setAura(aType, false);
+            } else {
+                Alert.show("Error - unknown arua type " + a.toString() + " | GameProfile.as");
+            }
         }
 
         res.resources = new ResourcePrice(obj.getInt("Gold"), obj.getInt("Crystal"), obj.getInt("Adamantium"), obj.getInt("Antimatter"))
 
         items = obj.getSFSArray("LocationsOpen");
-        for (i = 0; i < items.size(); i++)
-		{
-			var locationType:LocationType = LocationType.byValue(items.getInt(i));
-			if(locationType != null)	
-			{
-            	res.openedLocations.push(locationType);
-			}else
-			{
-				Alert.show("Error - unknown location type | GameProfile.as");
-			}
+        for (i = 0; i < items.size(); i++) {
+            var locationType:LocationType = LocationType.byValue(items.getInt(i));
+            if (locationType != null) {
+                res.openedLocations.push(locationType);
+            } else {
+                Alert.show("Error - unknown location type | GameProfile.as");
+            }
         }
 
         items = obj.getSFSArray("BombersOpen");
-		
-		/* by default two first are opened */
-		res.bombersOpened = new Array();
+
+        /* by default two first are opened */
+        res.bombersOpened = new Array();
         res.bombersOpened.push(BomberType.byValue(0));
         res.bombersOpened.push(BomberType.byValue(1));
 
         for (i = 0; i < items.size(); i++) {
-			var bType: BomberType = BomberType.byValue(items.getInt(i));
-			
-			if(bType != null)
-			{
-            	res.bombersOpened.push(bType);
-			}
+            var bType:BomberType = BomberType.byValue(items.getInt(i));
+
+            if (bType != null) {
+                res.bombersOpened.push(bType);
+            }
         }
 
         return res;
     }
 
     public function addItem(iType:ItemType, count:int):void {
-		
+
         if (selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == iType) {
-			selectedWeaponLeftHand.itemCount += count;
+            selectedWeaponLeftHand.itemCount += count;
             return
         } else {
             for (var i:int = 0; i < gotItems.length; i++) {
@@ -535,95 +500,87 @@ public class GameProfile {
                 }
             }
         }
-		
+
         io = new ItemProfileObject(iType, count);
         gotItems.push(io);
         packItems.push(io);
     }
 
-	public function removeItem(iType: ItemType, count: int): void
-	{
-		if (selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == iType) {
-			
-			//var itemselectedWeaponLeftHand.itemCount -= count
-			// remove from hand
-			
-			return;
-		} else {
-			
-			var fullRemoveItemType: ItemType = null;
-			
-			for (var i:int = 0; i < gotItems.length; i++) 
-			{
-				var io:ItemProfileObject = gotItems[i];
-				if (io.itemType == iType) 
-				{
-					var itemCount: int = io.itemCount;
-					if(itemCount - count > 0)
-					{
-						io.itemCount -= count;
-						break;
-					}else
-					{
-						fullRemoveItemType = io.itemType;
-						break;
-					}
-				}
-			}
-			
-			if(fullRemoveItemType != null)
-			{
-				/* remove from got */
-				
-				var tmpItems: Array = gotItems.concat();
-				gotItems = new Array();
-				
-				for (i = 0; i < tmpItems.length; i++) 
-				{
-					var ipo:ItemProfileObject = tmpItems[i];
-					
-					if (ipo.itemType != fullRemoveItemType) {
-						gotItems.push(ipo);
-					}
-				}
-				
-				/* remove from pack */
-				
-				var tmpPackItems: Array = packItems.concat();
-				packItems = new Array();
-				
-				for (i = 0; i < tmpPackItems.length; i++) 
-				{
-					ipo = tmpPackItems[i];
-					
-					if (ipo.itemType != fullRemoveItemType) {
-						packItems.push(ipo);
-					}
-				}
-			}
-			
-			
-		}
-	}
-	
-    /*public function removeItem(itemType:ItemType):void {
-        removeItemFromArray(itemType, packItems)
-        removeItemFromArray(itemType, gotItems)
-        Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
-        Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+    public function removeItem(iType:ItemType, count:int):void {
+        if (selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == iType) {
+
+            //var itemselectedWeaponLeftHand.itemCount -= count
+            // remove from hand
+
+            return;
+        } else {
+
+            var fullRemoveItemType:ItemType = null;
+
+            for (var i:int = 0; i < gotItems.length; i++) {
+                var io:ItemProfileObject = gotItems[i];
+                if (io.itemType == iType) {
+                    var itemCount:int = io.itemCount;
+                    if (itemCount - count > 0) {
+                        io.itemCount -= count;
+                        break;
+                    } else {
+                        fullRemoveItemType = io.itemType;
+                        break;
+                    }
+                }
+            }
+
+            if (fullRemoveItemType != null) {
+                /* remove from got */
+
+                var tmpItems:Array = gotItems.concat();
+                gotItems = new Array();
+
+                for (i = 0; i < tmpItems.length; i++) {
+                    var ipo:ItemProfileObject = tmpItems[i];
+
+                    if (ipo.itemType != fullRemoveItemType) {
+                        gotItems.push(ipo);
+                    }
+                }
+
+                /* remove from pack */
+
+                var tmpPackItems:Array = packItems.concat();
+                packItems = new Array();
+
+                for (i = 0; i < tmpPackItems.length; i++) {
+                    ipo = tmpPackItems[i];
+
+                    if (ipo.itemType != fullRemoveItemType) {
+                        packItems.push(ipo);
+                    }
+                }
+            }
+
+
+        }
     }
 
-    private function removeItemFromArray(itemType:ItemType, arr:Array):void {
-        for (var i:int = 0; i < arr.length; i++) {
-            var obj:ItemProfileObject = arr[i];
-            if (obj.itemType == itemType) {
-                for (var j:int = i; j < arr.length - 1; j++) {
-                    arr[j] = arr[j + 1]
-                }
-                arr.length--
-            }
-        }
-    }*/
+    /*public function removeItem(itemType:ItemType):void {
+     removeItemFromArray(itemType, packItems)
+     removeItemFromArray(itemType, gotItems)
+     Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
+     Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+     }
+
+     private function removeItemFromArray(itemType:ItemType, arr:Array):void {
+     for (var i:int = 0; i < arr.length; i++) {
+     var obj:ItemProfileObject = arr[i];
+     if (obj.itemType == itemType) {
+     for (var j:int = i; j < arr.length - 1; j++) {
+     arr[j] = arr[j + 1]
+     }
+     arr.length--
+     }
+     }
+     }*/
 
     public function get experience():int {
         return _experience

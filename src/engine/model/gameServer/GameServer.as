@@ -1238,7 +1238,7 @@ public class GameServer extends SmartFox {
         return _averagePing
     }
 
-    private function customParameter(params:ISFSArray, code:int):* {
+    public function customParameter(params:ISFSArray, code:int):* {
         for (var j:int = 0; j < params.size(); j++) {
             var pair:ISFSArray = params.getSFSArray(j);
             var c:int = pair.getInt(0);
