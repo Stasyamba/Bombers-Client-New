@@ -26,6 +26,8 @@ public class BlockUnderBigObject implements IMapBlockState {
     private var objectUnder:BigObjectBase;
     private var _explodes:Boolean;
 
+    private var _hiddenObject:IDynObject;
+
     public function explodesAndStopsExplosion():Boolean {
         return _explodesAndStopsExplosion;
     }
@@ -64,11 +66,11 @@ public class BlockUnderBigObject implements IMapBlockState {
     }
 
     public function get hiddenObject():IDynObject {
-        return NullDynObject.getInstance();
+        return _hiddenObject
     }
 
     public function set hiddenObject(value:IDynObject):void {
-
+        _hiddenObject = value;
     }
 
     public function BlockUnderBigObject(explodesAndStopsExplosion:Boolean, canGoThrough:Boolean, canSetBomb:Boolean, canExplosionGoThrough:Boolean, typeAfterObjectDestroyed:MapBlockType, objectAfterObjectDestroyed:IDynObjectType, explodes:Boolean, objectUnder:BigObjectBase) {

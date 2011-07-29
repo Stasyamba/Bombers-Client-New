@@ -6,7 +6,6 @@
 package engine.maps.mapBlocks {
 import engine.EngineContext
 import engine.bombers.CreatureBase
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.builders.DynObjectBuilder
 import engine.maps.builders.MapBlockStateBuilder
 import engine.maps.interfaces.IDynObject

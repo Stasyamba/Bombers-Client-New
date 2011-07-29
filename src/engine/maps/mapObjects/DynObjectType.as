@@ -17,6 +17,7 @@ public class DynObjectType implements IDynObjectType {
 
     public static const NULL:DynObjectType = new DynObjectType(-1, "NULL");
 
+
     protected var _value:int;
     protected var _key:String;
     protected var _swfClassName:String
@@ -58,7 +59,7 @@ public class DynObjectType implements IDynObjectType {
 
             case MineType.REGULAR.value: return MineType.REGULAR
         }
-        throw Context.Exception("Error in file DynObjectType.as: bad value")
+        throw Context.Exception("Error in file DynObjectType.as: bad value " + value);
     }
 
     public static function byKey(key:String):IDynObjectType {

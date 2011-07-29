@@ -9,6 +9,8 @@ import engine.maps.interfaces.IMapBlockState
 import org.osflash.signals.Signal
 
 public class MapBlockBase {
+    private var _isGold:Boolean = false;
+
     public function MapBlockBase() {
     }
 
@@ -46,6 +48,14 @@ public class MapBlockBase {
 
     public function get y():int {
         return _y;
+    }
+
+    public function setGold():void {
+        _isGold = true;
+    }
+
+    public function get isGold():Boolean {
+        return _isGold
     }
 }
 }

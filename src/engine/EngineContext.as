@@ -41,6 +41,8 @@ import org.osflash.signals.Signal
 
 import org.osflash.signals.Signal
 
+import org.osflash.signals.Signal
+
 public class EngineContext {
 
     private static var _instance:EngineContext;
@@ -101,6 +103,8 @@ public class EngineContext {
     public static var redBaloon:Signal = new Signal(Point,int);
     public static var greenBaloon:Signal = new Signal(Number, Number, Direction)
     public static var pingChanged:Signal = new Signal(Point)
+
+    private static var _specialObjectExploded:Signal = new Signal(int,int,int);
 
     //Monster, damage
 
@@ -302,6 +306,8 @@ public class EngineContext {
         objectAdded.removeAll()
         triedToActivateObject.removeAll()
         objectActivated.removeAll()
+
+        specialObjectExploded.removeAll();
         //---damage
         playerDamaged.removeAll()
         someoneDamaged.removeAll()
@@ -321,6 +327,10 @@ public class EngineContext {
         qNeedToAddMonster.removeAll()
         qPlayerActivateObject.removeAll()
         qTimeOut.removeAll()
+    }
+
+    public static function get specialObjectExploded():Signal {
+        return _specialObjectExploded
     }
 }
 }

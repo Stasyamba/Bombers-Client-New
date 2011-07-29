@@ -104,23 +104,29 @@ public class ImageService {
     }
 
     //todo:add variety support
-    public function mapBlock(blockType:MapBlockType, locationType:LocationType):Sprite {
+    public function mapBlock(blockType:MapBlockType, locationType:LocationType, gold:Boolean = false):Sprite {
         if (!blockType.draws)
             throw Context.Exception("Error in file ImageService.as: no image for not drawn block " + blockType.key)
         var lo:LoadedObject;
         var res:Sprite;
-        if (blockType.graphicsName == MapBlockType.DEFAULT_GRAPHICS_NAME) {
-            var name:String = blockType.nameAs != null ? (locationType.stringId + ".map." + blockType.nameAs + "1") : (locationType.stringId + ".map." + blockType.key.toLowerCase() + "1");
-            lo = loadedObject(name);
-        } else {
-            lo = loadedObject(blockType.graphicsName)
-        }
+		if (gold)
+			lo = loadedObject(locationType.stringId + ".map.goldBox");
+		else{
+	        if (blockType.graphicsName == MapBlockType.DEFAULT_GRAPHICS_NAME) {
+	            var name:String = blockType.nameAs != null ? (locationType.stringId + ".map." + blockType.nameAs + "1") : (locationType.stringId + ".map." + blockType.key.toLowerCase() + "1");
+	            lo = loadedObject(name);
+	        } else {
+	            lo = loadedObject(blockType.graphicsName)
+	        }
+		}
         if (lo.contentType == LoadedContentType.IMAGE) {
             res = new Sprite()
             var bData:BitmapData = lo.content.bitmapData as BitmapData
             res.graphics.beginBitmapFill(bData);
-            res.graphics.drawRect(0, 0, Consts.BLOCK_SIZE, Consts.BLOCK_SIZE);
+            res.graphics.drawRect(0, 0, bData.width, bData.height);
             res.graphics.endFill();
+            res.x = (Consts.BLOCK_SIZE - bData.width)/2;
+            res.y = (Consts.BLOCK_SIZE - bData.height)/2;
         } else {
             var c:Class = lo.swfClass(blockType.swfClassName)
             res = new c()

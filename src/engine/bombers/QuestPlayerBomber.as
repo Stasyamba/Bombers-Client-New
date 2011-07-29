@@ -163,12 +163,11 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
 
     public override function move(elapsedMilliSecs:int):void {
         var moveAmount:Number = elapsedMilliSecs * speed / 1000;
-        while(true){
-            if (moveAmount > 30){
+        while (true) {
+            if (moveAmount > 30) {
                 performMotion(30)
                 moveAmount -= 30
-            }else
-            {
+            } else {
                 performMotion(moveAmount)
                 break
             }
@@ -228,7 +227,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     public function activateWeapon(x:int, y:int, type:WeaponType):void {
         //regular bomb special case
         if (type.value == this.bomberType.baseBomb.value) {
-            EngineContext.qAddObject.dispatch(slot, x, y, DynObjectType.byValue(type.value),null)
+            EngineContext.qAddObject.dispatch(slot, x, y, DynObjectType.byValue(type.value), null)
             takeBomb()
         } else {
             if (currentWeapon.type == type) {
@@ -238,7 +237,7 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
                     EngineContext.weaponUnitSpent.dispatch(type)
                     Context.Model.currentSettings.gameProfile.useQuestLeftWeapon()
                 }
-            }else{
+            } else {
                 Context.Exception("Error in file: QuestPlayerBomber.as: tried to activate weapon that doesn't exist")
             }
         }
@@ -246,8 +245,8 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
 
     public function deactivateWeapon(type:WeaponType):void {
         var w:IDeactivatableWeapon = _weaponBuilder.fromWeaponType(type, 1) as IDeactivatableWeapon
-        if (w == null){
-           throw Context.Exception("Error in file QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
+        if (w == null) {
+            throw Context.Exception("Error in file QuestPlayerBomber.as: tried to deactivate unsupported weapon " + type.key)
         }
         w.qDeactivateStatic(this);
     }
@@ -277,14 +276,14 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     }
 
     public function decWeapon(wt:WeaponType):void {
-        if (currentWeapon.type == wt){
+        if (currentWeapon.type == wt) {
             (currentWeapon as IActivatableWeapon).decCharges()
         }
     }
 
 
-    public override function addWeaponBonus(wt:WeaponType):void {
-        _currentWeapon = _weaponBuilder.fromWeaponType(wt, 1)
+    public override function addWeaponBonus(wt:WeaponType, count:int):void {
+        _currentWeapon = _weaponBuilder.fromWeaponType(wt, count)
         Context.Model.currentSettings.gameProfile.setQuestWeapon(new ItemProfileObject(ItemType.byValue(wt.value), 1))
     }
 

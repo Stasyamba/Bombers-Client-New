@@ -43,5 +43,15 @@ public class PlayerColor {
     public function get value():int {
         return _value
     }
+
+    public static function byValue(value:int):PlayerColor {
+        switch(value){
+            case BLUE.value: return BLUE;
+            case ORANGE.value: return ORANGE;
+            case PINK.value: return PINK;
+            case RED.value: return RED;
+        }
+        throw Context.Exception("Error in PlayerColor: no color with value " + value);
+    }
 }
 }

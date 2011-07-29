@@ -4,7 +4,6 @@
  */
 
 package engine.games.quest {
-import components.common.resources.ResourceObject
 import components.common.resources.ResourceType
 import components.common.worlds.locations.LocationType
 
@@ -422,9 +421,9 @@ public class QuestGame extends GameBase implements IQuestGame {
         return _time
     }
 
-    public function resourceCollected(_amount:ResourceObject, by:IBomber):void {
-        if (by == playerManager.me && _amount.type == ResourceType.GOLD) {
-            _gameStats.goldCollected += _amount.value;
+    public function resourceCollected(rt:ResourceType, count:int, player:IBomber):void {
+        if (player == playerManager.me && rt == ResourceType.GOLD) {
+            _gameStats.goldCollected += count;
         }
     }
 }

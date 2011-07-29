@@ -4,6 +4,7 @@
  */
 
 package engine.model.gameServer {
+
 import com.smartfoxserver.v2.SmartFox;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
@@ -42,24 +43,25 @@ import engine.model.signals.InGameMessageReceivedSignal;
 import engine.model.signals.ProfileLoadedSignal;
 import engine.model.signals.manage.GameServerConnectedSignal;
 import engine.model.signals.manage.LoggedInSignal;
+
 import engine.playerColors.PlayerColor
-import engine.profiles.GameProfile;
-import engine.profiles.LobbyProfile;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponType;
+import engine.profiles.GameProfile
+import engine.profiles.LobbyProfile
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponType
 
-import flash.events.TimerEvent;
-import flash.utils.Timer;
+import flash.events.TimerEvent
+import flash.utils.Timer
 
-import greensock.TweenMax;
+import greensock.TweenMax
 
-import loading.ServerQuestObject;
+import loading.ServerQuestObject
 
-import mx.controls.Alert;
-import mx.utils.ObjectUtil;
+import mx.controls.Alert
+import mx.utils.ObjectUtil
 
-import org.osflash.signals.Signal;
+import org.osflash.signals.Signal
 
 public class GameServer extends SmartFox {
 
@@ -482,7 +484,7 @@ public class GameServer extends SmartFox {
     //----------------------Handlers---------------------------
 
     private function onConnected(event:SFSEvent):void {
-        if (event.params.success) {	
+        if (event.params.success) {
             trace("connected successfully");
             connected.dispatch();
         } else {
@@ -639,14 +641,13 @@ public class GameServer extends SmartFox {
                 try {
 
                     Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
-					
-					/* it must be after dayly boust futher */
-					if(Context.Model.currentTutorialPart == TutorialPartType.DONE)
-					{
-						Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
-					}
-					
-					
+
+                    /* it must be after dayly boust futher */
+                    if (Context.Model.currentTutorialPart == TutorialPartType.DONE) {
+                        Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
+                    }
+
+
                     var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
 
                     Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
@@ -796,7 +797,7 @@ public class GameServer extends SmartFox {
                             }
                             sqoRewards.push(rewardsArray)
                         }
-                        sqoArray.push(new ServerQuestObject(qid,eCost,sqoRewards));
+                        sqoArray.push(new ServerQuestObject(qid, eCost, sqoRewards));
                     }
                     Context.gameModel.serverQuests = sqoArray;
                     Context.gameModel.fillServerQuestData();
@@ -817,7 +818,7 @@ public class GameServer extends SmartFox {
 
                     Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
 
-					
+
 //                    Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
 
                     switch (Context.Model.currentTutorialPart) {
@@ -841,24 +842,23 @@ public class GameServer extends SmartFox {
                     /* locations */
                     Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
 
-					/* immitation */
-					Context.Model.dispatchCustomEvent(ContextEvent.IM_HITS_LOADED, [ItemType.DINAMIT_BOMB, ItemType.HEALTH_PACK_POISON, ItemType.MINA_BOMB]);
-					
-					/* immitation */
-					var friendsLent:Array = new Array();
-					
-					for each(var p: ISocialProfile in Context.Model.currentSettings.apiResult.friends)
-					{
-						var fgp:GameProfile = new GameProfile();
-						fgp.photoURL = p.photoURL;
-						fgp.id = p.id;	
-						
-						var fo:FriendObject = new FriendObject(fgp, false, false, true, p);
-						friendsLent.push(fo);
-					}
-					
-					Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
-					
+                    /* immitation */
+                    Context.Model.dispatchCustomEvent(ContextEvent.IM_HITS_LOADED, [ItemType.DINAMIT_BOMB, ItemType.HEALTH_PACK_POISON, ItemType.MINA_BOMB]);
+
+                    /* immitation */
+                    var friendsLent:Array = new Array();
+
+                    for each(var p:ISocialProfile in Context.Model.currentSettings.apiResult.friends) {
+                        var fgp:GameProfile = new GameProfile();
+                        fgp.photoURL = p.photoURL;
+                        fgp.id = p.id;
+
+                        var fo:FriendObject = new FriendObject(fgp, false, false, true, p);
+                        friendsLent.push(fo);
+                    }
+
+                    Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
+
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);
@@ -1036,16 +1036,15 @@ public class GameServer extends SmartFox {
             case INT_SET_TUTORIAL_PART_RESULT:
 
                 /* не на всех шагах нужно выставлять опыт а только на одном */
-                if (responseParams.containsKey("interface.setTrainingStatus.result.f.youNewExperience")) 
-				{
+                if (responseParams.containsKey("interface.setTrainingStatus.result.f.youNewExperience")) {
                     Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("interface.setTrainingStatus.result.f.youNewExperience");
                     Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
-					
-					/* get 2 level */
-					Context.Model.dispatchCustomEvent(
-						ContextEvent.NEW_LEVEL_SHOW,
-						Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience)
-					);
+
+                    /* get 2 level */
+                    Context.Model.dispatchCustomEvent(
+                            ContextEvent.NEW_LEVEL_SHOW,
+                            Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience)
+                    );
                 }
 
                 break;
@@ -1146,7 +1145,13 @@ public class GameServer extends SmartFox {
         var bonusArr:ISFSArray = responseParams.getSFSArray("game.lobby.3SecondsToStart.fields.mapObjects");
         for (var i:int = 0; i < bonusArr.size(); i++) {
             var obj:ISFSObject = bonusArr.getSFSObject(i);
-            bonuses.push({x:obj.getInt("X"), y:obj.getInt("Y"), type:obj.getInt("T")})
+            bonuses.push({
+                x:obj.getInt("X"),
+                y:obj.getInt("Y"),
+                type:obj.getInt("T"),
+                p0:obj.containsKey("P0") ? obj.getInt("P0") : undefined,
+                p1:obj.containsKey("P!") ? obj.getInt("P1") : undefined
+            })
         }
 
         Context.gameModel.threeSecondsToStart.dispatch(playerGameData, mapId, bonuses);
@@ -1166,8 +1171,14 @@ public class GameServer extends SmartFox {
     }
 
     private function onDYNAMIC_OBJECT_ACTIVATED(responseParams:ISFSObject):void {
+
+        var type:int = responseParams.getInt("game.DOAct.f.type");
+        if (type == 200) {
+            EngineContext.specialObjectExploded.dispatch(responseParams.getInt("game.DOAct.f.x"), responseParams.getInt("game.DOAct.f.y"), responseParams.getInt("game.DOAct.f.lifeLeft"));
+            return;
+        }
         var slot:int = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("game.DOAct.f.userId")).slot
-        var ot:IDynObjectType = DynObjectType.byValue(responseParams.getInt("game.DOAct.f.type"))
+        var ot:IDynObjectType = DynObjectType.byValue(type)
         var destList:Array = []
 
         var sfsArr:ISFSArray = responseParams.getSFSArray("game.DOAct.f.s.destroyList");

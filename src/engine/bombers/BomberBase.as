@@ -138,7 +138,7 @@ public class BomberBase extends CreatureBase implements IBomber {
     }
 
 
-    public function addWeaponBonus(_weapon:WeaponType):void {
+    public function addWeaponBonus(_weapon:WeaponType, count:int):void {
         throw Context.Exception("Error in file BomberBase.as: method BomberBase.addWeaponBonus can't be called ")
     }
 

@@ -5,7 +5,6 @@
 
 package engine.maps.bigObjects {
 import engine.EngineContext
-import engine.explosionss.interfaces.IExplosion
 import engine.maps.IMap
 import engine.maps.builders.DynObjectBuilder
 import engine.maps.builders.MapBlockStateBuilder
@@ -13,8 +12,9 @@ import engine.maps.interfaces.IMapBlock
 import engine.maps.mapBlocks.MapBlockType
 import engine.maps.mapBlocks.mapBlockStates.BlockUnderBigObject
 import engine.maps.mapObjects.DynObjectType
-
 import engine.model.explosionss.ExplosionType
+
+import flash.utils.ByteArray
 
 import greensock.TweenMax
 
@@ -30,6 +30,10 @@ public class SimpleBigObject extends BigObjectBase {
     protected var _explosionStarted:Signal = new Signal();
     protected var _destroyed:Signal = new Signal();
 
+    [Embed(source="../../data/xml/asBox.xml", mimeType="application/octet-stream")]
+    public static const asBoxXmlClass:Class;
+    private static var _asBoxStr:String
+
     public function SimpleBigObject(xml:XML, map:IMap, mapBlockStateBuilder:MapBlockStateBuilder, mapObjectBuilder:DynObjectBuilder, life:int) {
         super(xml, map, mapBlockStateBuilder, mapObjectBuilder)
         _life = life
@@ -44,7 +48,7 @@ public class SimpleBigObject extends BigObjectBase {
         return life <= 0;
     }
 
-    public function explode(expl:ExplosionType,damage:int):void {
+    public function explode(expl:ExplosionType, damage:int):void {
         if (isDestroyed) return;
         if (!_isExplodingNow) {
             if (damage >= life)
@@ -75,9 +79,12 @@ public class SimpleBigObject extends BigObjectBase {
             if (block.type == MapBlockType.UNDER_BIG_OBJECT) {
                 var oldState:BlockUnderBigObject = block.state as BlockUnderBigObject;
                 block.setState(_mapBlockStateBuilder.make(oldState.typeAfterObjectDestroyed));
-
-                if (oldState.objectAfterObjectDestroyed != DynObjectType.NULL)
-                    EngineContext.objectAdded.dispatch(-1, block.x, block.y, oldState.objectAfterObjectDestroyed, null)
+                if (oldState.hiddenObject)
+                    block.setObject(oldState.hiddenObject);
+                else {
+                    if (oldState.objectAfterObjectDestroyed != DynObjectType.NULL)
+                        EngineContext.objectAdded.dispatch(-1, block.x, block.y, oldState.objectAfterObjectDestroyed)
+                }
             }
         }
         destroyed.dispatch();
@@ -97,6 +104,32 @@ public class SimpleBigObject extends BigObjectBase {
 
     public function get startLife():int {
         return _startLife
+    }
+
+    public static function goldBox(id:int, x:int, y:int, map:IMap, mapBlockStateBuilder:MapBlockStateBuilder, dynObjectBuilder:DynObjectBuilder):SimpleBigObject {
+        var xml:XML = getAsBoxXml();
+        xml.@id = id
+        xml.@x = x;
+        xml.@y = y;
+        xml.@graphicsId = "l00.bo.goldBox";
+        return new SimpleBigObject(xml, map, mapBlockStateBuilder, dynObjectBuilder, int(xml.@life))
+    }
+
+    public static function asBox(id:int, x:int, y:int, graphicsId:String, map:IMap, mapBlockStateBuilder:MapBlockStateBuilder, dynObjectBuilder:DynObjectBuilder):SimpleBigObject {
+        var xml:XML = getAsBoxXml();
+        xml.@id = id
+        xml.@x = x;
+        xml.@y = y;
+        xml.@graphicsId = graphicsId
+        return new SimpleBigObject(xml, map, mapBlockStateBuilder, dynObjectBuilder, int(xml.@life))
+    }
+
+    public static function getAsBoxXml():XML {
+        if (!_asBoxStr) {
+            var file:ByteArray = new asBoxXmlClass();
+            _asBoxStr = file.readUTFBytes(file.length);
+        }
+        return new XML(_asBoxStr);
     }
 }
 }
