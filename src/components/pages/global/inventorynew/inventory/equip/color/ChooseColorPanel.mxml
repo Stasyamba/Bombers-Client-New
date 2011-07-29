@@ -9,12 +9,20 @@
 			import skins.buttons.CloseButtonOriginS;
 		]]>
 	</fx:Script>
+	
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:Animate id="reloadA" target="{colorsList}" duration="300">
+			<s:SimpleMotionPath property="alpha"
+								valueFrom="0" valueTo="1"
+								/>
+		</s:Animate>
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.events.CollectionEvent;
+			import greensock.TweenMax;
+			import mx.controls.Alert;
 			import components.common.base.access.AccessManager;
 			import components.common.base.access.rules.AccessRuleObject;
 			import components.common.base.access.rules.AccessRuleType;
@@ -33,6 +41,30 @@
 				colorsList.scroller.setStyle("skinClass", ScrollerS);
 				initColors();
 				
+				Context.Model.addCustomListener(ContextEvent.GP_COLOR_CHANGED, function(e: ContextEvent):void
+				{
+					var index:int = 0;
+					for(var i: int = 0; i<= colorCollection.length - 1; i++)	
+					{
+						if((colorCollection[i] as BomberColorObject).color == Context.Model.currentSettings.gameProfile.currentBomberColor)
+						{
+							(colorCollection[i] as BomberColorObject).isSelected = true;
+							index = i;
+						}else
+						{
+							(colorCollection[i] as BomberColorObject).isSelected = false;
+						}
+					}
+					
+					reloadA.play();
+					colorCollection.refresh();
+					
+					/* scroll to index */
+					
+					TweenMax.delayedCall(0.1, function (): void { colorsList.ensureIndexIsVisible(index); });
+					
+				});
+				
 				/* register update handler */
 			}
 			
@@ -40,6 +72,14 @@
 			{
 				for each(var co:BomberColorObject in Context.Model.bomberColorManager.getColors())
 				{
+					if(co.color == Context.Model.currentSettings.gameProfile.currentBomberColor)
+					{
+						co.isSelected = true;
+					}else
+					{
+						co.isSelected = false;
+					}
+					
 					co.clearFailRules();
 					
 					var failedRules: Array = new Array();

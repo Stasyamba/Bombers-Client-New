@@ -75,6 +75,17 @@
 					if((data as BomberColorObject).gotColor)
 					{
 						gotColorGroup.visible  = true;
+						
+						colorIsSelectedGoup.visible = false;
+						selectButtonGroup.visible = false;
+						
+						if((data as BomberColorObject).isSelected)
+						{
+							colorIsSelectedGoup.visible = true;
+						}else
+						{
+							selectButtonGroup.visible = true;
+						}
 					}else
 					{
 						pricePanelGroup.visible = true;
@@ -147,16 +158,24 @@
 				</flexcomponents:PatternButton>
 			</s:HGroup>
 			
-			<s:Group id="gotColorGroup" visible="false" click="setColor();">
-				<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
-								   backgroundImageFillMode="repeat"
-								   width="56" height="20"
-								   borderVisible="false"
-								   />
+			<s:Group id="gotColorGroup" visible="false" >
+				<s:Group id="selectButtonGroup" click="setColor();">
+					<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+									   backgroundImageFillMode="repeat"
+									   width="56" height="20"
+									   borderVisible="false"
+									   />
+					
+					<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+						<s:Label text="Надеть" fontFamily="mpr" color="0xfdc900" fontSize="14" />
+					</s:HGroup>
+				</s:Group>
 				
-				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-					<s:Label text="Надеть" fontFamily="mpr" color="0xfdc900" fontSize="14" />
+				<s:HGroup id="colorIsSelectedGoup" verticalAlign="middle">
+					<s:BitmapImage source="@Embed(source='assets/pageworld/worlds/locationenter/ruleDone.png')" scaleX="0.6" scaleY="0.6" smooth="true" />
+					<s:Label text="Надето" fontFamily="mpr" color="0xfdc900" fontSize="14" />
 				</s:HGroup>
+				
 			</s:Group>
 			
 			<s:HGroup id="accessDeniedGroup" visible="false" height="100%" verticalAlign="middle">

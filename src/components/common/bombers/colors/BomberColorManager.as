@@ -15,10 +15,10 @@ package components.common.bombers.colors
 			
 			bomberColors.push(
 				new BomberColorObject(PlayerColor.BLUE,
-									  "Синий",
-									  new ResourcePrice(0,0,0,0),
-									  []
-									 ));
+					"Синий",
+					new ResourcePrice(0,0,0,0),
+					[]
+				));
 			
 			bomberColors.push(
 				new BomberColorObject(PlayerColor.RED,

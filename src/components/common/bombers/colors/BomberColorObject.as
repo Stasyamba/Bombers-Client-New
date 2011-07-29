@@ -14,13 +14,15 @@ package components.common.bombers.colors
 		public var accessRules: Array;
 		public var accessRulesFailed: Array;
 		public var gotColor:Boolean;
+		public var isSelected: Boolean;
 		
 		public function BomberColorObject(colorP:PlayerColor,
 										  nameP: String,
 										  priceP: ResourcePrice,
 										  accessRulesP: Array,
 										  failedRulesP: Array = null,
-										  gotColorP: Boolean = false)
+										  gotColorP: Boolean = false,
+										  isSelectedP: Boolean = false)
 		{
 			color = colorP;
 			name = nameP;
@@ -49,6 +51,7 @@ package components.common.bombers.colors
 			}
 			
 			gotColor = gotColorP;
+			isSelected = isSelectedP;
 		}
 		
 		public function clearFailRules(): void
