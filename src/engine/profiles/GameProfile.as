@@ -383,6 +383,7 @@ public class GameProfile {
             res.currentBomberColor = PlayerColor.byId(cId);
         else {
             res.currentBomberColor = PlayerColor.RED
+            Context.gameServer.setKeyValuePair(0,PlayerColor.RED.id)
         }
         //todo: temporary stub
         res.openedBomberColors = new Array();

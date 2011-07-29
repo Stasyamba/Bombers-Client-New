@@ -16,12 +16,12 @@ public class PlayerColor {
     private var _colorId:int;
     private var _id:int;
 
-    public static const BLUE:PlayerColor = new PlayerColor(666, 1, "blue", Bombs.BLUE_GLOW, 0x1145c7);
-    public static const ORANGE:PlayerColor = new PlayerColor(666, 2, "orange", Bombs.ORANGE_GLOW, 0xff6600);
-    public static const PINK:PlayerColor = new PlayerColor(666, 3, "pink", Bombs.PINK_GLOW, 0xFF00FF);
-    public static const RED:PlayerColor = new PlayerColor(666, 4, "red", Bombs.RED_GLOW, 0xFF0000);
-    public static const GREEN:PlayerColor = new PlayerColor(666, 5, "green", Bombs.RED_GLOW, 0x22940d);
-    public static const BLACK:PlayerColor = new PlayerColor(666, 6, "black", Bombs.RED_GLOW, 0x000000);
+    public static const BLUE:PlayerColor = new PlayerColor(1001, 1, "blue", Bombs.BLUE_GLOW, 0x1145c7);
+    public static const ORANGE:PlayerColor = new PlayerColor(1002, 2, "orange", Bombs.ORANGE_GLOW, 0xff6600);
+    public static const PINK:PlayerColor = new PlayerColor(1003, 3, "pink", Bombs.PINK_GLOW, 0xFF00FF);
+    public static const RED:PlayerColor = new PlayerColor(1000, 4, "red", Bombs.RED_GLOW, 0xFF0000);
+    public static const GREEN:PlayerColor = new PlayerColor(1004, 5, "green", Bombs.RED_GLOW, 0x22940d);
+    public static const BLACK:PlayerColor = new PlayerColor(1005, 6, "black", Bombs.RED_GLOW, 0x000000);
 
 
     public function PlayerColor(id:int, colorId:int, key:String, bombGlow:BitmapData, color:uint) {
