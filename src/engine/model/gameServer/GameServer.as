@@ -1138,7 +1138,7 @@ public class GameServer extends SmartFox {
                 auras.push(a2)
             if (a3 != WeaponType.NULL)
                 auras.push(a3)
-            playerGameData.push(new PlayerGameProfile(lp.slot, bType, x, y, auras, PlayerColor.BLUE))
+            playerGameData.push(new PlayerGameProfile(lp.slot, bType, x, y, auras, PlayerColor.RED));
         }
         var mapId:int = responseParams.getInt("game.lobby.3SecondsToStart.fields.MapId");
         var bonuses:Array = new Array();

@@ -86,6 +86,9 @@ public class DynObjectBuilder {
         if(obj.@wt){
             res["wt"] = obj.@wt
         }
+        if(obj.@count){
+            res["count"] = obj.@count
+        }
         return res
     }
 }
