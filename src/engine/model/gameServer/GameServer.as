@@ -859,7 +859,6 @@ public class GameServer extends SmartFox {
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
 					
-					
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);

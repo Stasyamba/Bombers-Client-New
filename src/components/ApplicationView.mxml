@@ -512,6 +512,8 @@
         <s:Button label="ID4" click="setId(4);"/>
         <s:Button label="ID5" click="setId(5);"/>
         <s:Button label="Use VK_ID" click="setId(6);"/>
+		<s:Button label="ReloadMaps" click="{Context.gameServer.adminReloadMaps();}" />
+		<s:Button label="ReloadPrices" click="{Context.gameServer.adminReloadPrice();}" />
     </s:HGroup>
 
     <!--<s:Button x="300" label="testing" click="testing();"/>-->
