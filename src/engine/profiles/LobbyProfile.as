@@ -4,6 +4,8 @@
  */
 
 package engine.profiles {
+import engine.playerColors.PlayerColor
+
 public class LobbyProfile {
     public var id:String
     public var nick:String
@@ -11,20 +13,23 @@ public class LobbyProfile {
     public var experience:int
     public var slot:int
     public var isReady:Boolean
+    public var color:PlayerColor;
 
     public var place:int
     public var expEarned:int
 
-    public function LobbyProfile(id:String, nick:String, photo:String, experience:int, slot:int, isReady:Boolean,place:int = 0, expEarned: int = 0) {
+
+    public function LobbyProfile(id:String, nick:String, photo:String, experience:int, slot:int, isReady:Boolean, color:PlayerColor, place:int = 0, expEarned:int = 0) {
         this.id = id
         this.nick = nick
         this.photoURL = photo
         this.experience = experience
         this.slot = slot
         this.isReady = isReady
-		
-		this.place = place;
-		this.expEarned = expEarned;
+        this.color = color;
+
+        this.place = place;
+        this.expEarned = expEarned;
     }
 }
 }

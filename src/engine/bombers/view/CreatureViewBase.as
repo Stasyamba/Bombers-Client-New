@@ -45,7 +45,7 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
         addChild(_self)
 
         if (_creature is IBomber) {
-            _self.setColor((_creature as IBomber).color.value)
+            _self.setColor((_creature as IBomber).color.colorId)
         }
 
         this.x = creature.coords.getRealX();

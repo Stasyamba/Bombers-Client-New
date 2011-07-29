@@ -5,62 +5,64 @@
 
 package engine.model.gameServer {
 
-import com.smartfoxserver.v2.SmartFox;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.requests.ExtensionRequest;
-import com.smartfoxserver.v2.requests.JoinRoomRequest;
-import com.smartfoxserver.v2.requests.LeaveRoomRequest;
-import com.smartfoxserver.v2.requests.LoginRequest;
-import com.smartfoxserver.v2.requests.PublicMessageRequest;
+import com.smartfoxserver.v2.SmartFox
+import com.smartfoxserver.v2.core.SFSEvent
+import com.smartfoxserver.v2.entities.Room
+import com.smartfoxserver.v2.entities.data.ISFSArray
+import com.smartfoxserver.v2.entities.data.ISFSObject
+import com.smartfoxserver.v2.entities.data.SFSObject
+import com.smartfoxserver.v2.requests.ExtensionRequest
+import com.smartfoxserver.v2.requests.JoinRoomRequest
+import com.smartfoxserver.v2.requests.LeaveRoomRequest
+import com.smartfoxserver.v2.requests.LoginRequest
+import com.smartfoxserver.v2.requests.PublicMessageRequest
 
-import components.common.base.access.rules.levelrule.AccessLevelRule;
-import components.common.base.expirance.ExperianceObject;
-import components.common.base.market.ItemMarketObject;
-import components.common.bombers.BomberType;
-import components.common.friendslent.FriendObject;
-import components.common.items.ItemObject;
-import components.common.items.ItemType;
-import components.common.profiles.ISocialProfile;
-import components.common.quests.QuestObject;
-import components.common.quests.medals.MedalType;
-import components.common.quests.regard.RegardObject;
-import components.common.quests.regard.RegardType;
-import components.common.resources.ResourcePrice;
-import components.common.resources.ResourceType;
-import components.common.tutorial.TutorialPartType;
-import components.common.worlds.locations.LocationType;
+import components.common.base.CommonConstans
 
-import engine.EngineContext;
-import engine.bombers.MoveTickObject;
-import engine.maps.interfaces.IDynObject;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.mapObjects.DynObjectType;
-import engine.model.signals.InGameMessageReceivedSignal;
-import engine.model.signals.ProfileLoadedSignal;
-import engine.model.signals.manage.GameServerConnectedSignal;
-import engine.model.signals.manage.LoggedInSignal;
-import engine.playerColors.PlayerColor;
-import engine.profiles.GameProfile;
-import engine.profiles.LobbyProfile;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponType;
+import components.common.base.access.rules.levelrule.AccessLevelRule
+import components.common.base.expirance.ExperianceObject
+import components.common.base.market.ItemMarketObject
+import components.common.bombers.BomberType
+import components.common.friendslent.FriendObject
+import components.common.items.ItemObject
+import components.common.items.ItemType
+import components.common.profiles.ISocialProfile
+import components.common.quests.QuestObject
+import components.common.quests.medals.MedalType
+import components.common.quests.regard.RegardObject
+import components.common.quests.regard.RegardType
+import components.common.resources.ResourcePrice
+import components.common.resources.ResourceType
+import components.common.tutorial.TutorialPartType
+import components.common.worlds.locations.LocationType
 
-import flash.events.TimerEvent;
-import flash.utils.Timer;
+import engine.EngineContext
+import engine.bombers.MoveTickObject
+import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.mapObjects.DynObjectType
+import engine.model.signals.InGameMessageReceivedSignal
+import engine.model.signals.ProfileLoadedSignal
+import engine.model.signals.manage.GameServerConnectedSignal
+import engine.model.signals.manage.LoggedInSignal
+import engine.playerColors.PlayerColor
+import engine.profiles.GameProfile
+import engine.profiles.LobbyProfile
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponType
 
-import greensock.TweenMax;
+import flash.events.TimerEvent
+import flash.utils.Timer
 
-import loading.ServerQuestObject;
+import greensock.TweenMax
 
-import mx.controls.Alert;
-import mx.utils.ObjectUtil;
+import loading.ServerQuestObject
 
-import org.osflash.signals.Signal;
+import mx.controls.Alert
+import mx.utils.ObjectUtil
+
+import org.osflash.signals.Signal
 
 public class GameServer extends SmartFox {
 
@@ -335,8 +337,8 @@ public class GameServer extends SmartFox {
         params.putInt("interface.buyResources.fields.resourceType3", rp.antimatter.value)
         params.putInt("interface.buyResources.fields.resourceType4", 0)
 
-		//nterface.buyItem.fields.resourceType - 1-золтот, 2 - крист	
-			
+        //nterface.buyItem.fields.resourceType - 1-золтот, 2 - крист
+
         send(new ExtensionRequest(INT_BUY_RESOURCES, params, null))
     }
 
@@ -354,17 +356,16 @@ public class GameServer extends SmartFox {
     public function sendBuyItemRequest(it:ItemType, rt:ResourceType):void {
         var params:ISFSObject = new SFSObject();
         params.putInt("interface.buyItem.fields.itemId", it.value)
-			
-		switch(rt)
-		{
-			case ResourceType.GOLD:
-				params.putInt("interface.buyItem.fields.resourceType", 1);
-				break;
-			case ResourceType.CRYSTALS:
-				params.putInt("interface.buyItem.fields.resourceType", 2);
-				break;
-		}
-				
+
+        switch (rt) {
+            case ResourceType.GOLD:
+                params.putInt("interface.buyItem.fields.resourceType", 1);
+                break;
+            case ResourceType.CRYSTALS:
+                params.putInt("interface.buyItem.fields.resourceType", 2);
+                break;
+        }
+
         send(new ExtensionRequest(INT_BUY_ITEM, params, null))
     }
 
@@ -871,7 +872,7 @@ public class GameServer extends SmartFox {
                             break;
                     }
 
-					
+
                     /* locations */
                     Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
 
@@ -891,7 +892,7 @@ public class GameServer extends SmartFox {
                     }
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
-					
+
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);
@@ -1111,7 +1112,11 @@ public class GameServer extends SmartFox {
             var photo:String = item.getUtfString("Photo");
             var ready:Boolean = item.getBool("IsReady");
             var slot:int = item.getInt("Slot");
-            resultArray[slot] = new LobbyProfile(id, nick, photo, exp, slot, ready)
+            var params:ISFSArray = item.getSFSArray("CustomParameters");
+            var color:PlayerColor = PlayerColor.byId(customParameter(params,CommonConstans.CUSTOM_PARAMETER_COLOR));
+
+
+            resultArray[slot] = new LobbyProfile(id, nick, photo, exp, slot, ready, color)
         }
         return resultArray
     }
@@ -1171,7 +1176,7 @@ public class GameServer extends SmartFox {
                 auras.push(a2)
             if (a3 != WeaponType.NULL)
                 auras.push(a3)
-            playerGameData.push(new PlayerGameProfile(lp.slot, bType, x, y, auras, PlayerColor.BLUE))
+            playerGameData.push(new PlayerGameProfile(lp.slot, bType, x, y, auras, lp.color));
         }
         var mapId:int = responseParams.getInt("game.lobby.3SecondsToStart.fields.MapId");
         var bonuses:Array = new Array();
@@ -1260,6 +1265,17 @@ public class GameServer extends SmartFox {
 
     public function get averagePing():int {
         return _averagePing
+    }
+
+    private function customParameter(params:ISFSArray, code:int):* {
+        for (var j:int = 0; j < params.size(); j++) {
+            var pair:ISFSArray = params.getSFSArray(j);
+            var c:int = pair.getInt(0);
+            if (c == code) {
+                return pair.getElementAt(j);
+            }
+
+        }
     }
 }
 }
