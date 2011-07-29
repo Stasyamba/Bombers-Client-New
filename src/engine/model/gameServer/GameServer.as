@@ -43,25 +43,24 @@ import engine.model.signals.InGameMessageReceivedSignal;
 import engine.model.signals.ProfileLoadedSignal;
 import engine.model.signals.manage.GameServerConnectedSignal;
 import engine.model.signals.manage.LoggedInSignal;
+import engine.playerColors.PlayerColor;
+import engine.profiles.GameProfile;
+import engine.profiles.LobbyProfile;
+import engine.profiles.PlayerGameProfile;
+import engine.utils.Direction;
+import engine.weapons.WeaponType;
 
-import engine.playerColors.PlayerColor
-import engine.profiles.GameProfile
-import engine.profiles.LobbyProfile
-import engine.profiles.PlayerGameProfile
-import engine.utils.Direction
-import engine.weapons.WeaponType
+import flash.events.TimerEvent;
+import flash.utils.Timer;
 
-import flash.events.TimerEvent
-import flash.utils.Timer
+import greensock.TweenMax;
 
-import greensock.TweenMax
+import loading.ServerQuestObject;
 
-import loading.ServerQuestObject
+import mx.controls.Alert;
+import mx.utils.ObjectUtil;
 
-import mx.controls.Alert
-import mx.utils.ObjectUtil
-
-import org.osflash.signals.Signal
+import org.osflash.signals.Signal;
 
 public class GameServer extends SmartFox {
 
@@ -839,6 +838,7 @@ public class GameServer extends SmartFox {
                             break;
                     }
 
+					
                     /* locations */
                     Context.Model.dispatchCustomEvent(ContextEvent.WORLD_LOCATIONS_FILL_COLORS);
 
@@ -858,7 +858,8 @@ public class GameServer extends SmartFox {
                     }
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
-
+					
+					
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);

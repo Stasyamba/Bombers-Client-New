@@ -19,7 +19,8 @@ public class PlayerColor {
     public static const ORANGE:PlayerColor = new PlayerColor(2,"orange", Bombs.ORANGE_GLOW, 0xff6600);
     public static const PINK:PlayerColor = new PlayerColor(3,"pink", Bombs.PINK_GLOW, 0xFF00FF);
     public static const RED:PlayerColor = new PlayerColor(4,"red", Bombs.RED_GLOW, 0xFF0000);
-
+	public static const GREEN:PlayerColor = new PlayerColor(5,"green", Bombs.RED_GLOW, 0x22940d);
+	public static const BLACK:PlayerColor = new PlayerColor(6,"black", Bombs.RED_GLOW, 0x000000);
 
     public function PlayerColor(value:int, key:String, bombGlow:BitmapData, color:uint) {
         _key = key

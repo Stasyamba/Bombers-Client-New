@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.resources.ResourceObject;
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
+			
+			import spark.components.Label;
+			import spark.layouts.HorizontalAlign;
+			import spark.layouts.VerticalAlign;
+			import spark.primitives.BitmapImage;
+			
+			private var price:ResourcePrice;
+			
+			public function initContent(priceP:ResourcePrice):void {
+				price = new ResourcePrice(0, 0, 0, 0);
+				price.cloneFrom(priceP);
+				priceGroup.removeAllElements();
+				
+				var arr:Array = price.getResourceObjectArr();
+				
+				var index: int = 0;
+				
+				for(var i:int = 0; i<= arr.length - 1; i++)
+				{
+					if(arr[i].value < 100000)
+					{	
+						if(arr[i] is ResourceObject)
+						{
+							if(arr[i].value > 0)
+							{
+								var hg:HGroup = new HGroup();
+								hg.verticalAlign = VerticalAlign.MIDDLE;
+								hg.gap = 3;
+								
+								var hgResource:HGroup = new HGroup();
+								hgResource.horizontalAlign = HorizontalAlign.CENTER;
+								hgResource.width = 26;
+								
+								var lab:Label = new Label();
+								var resourceImage:BitmapImage = new BitmapImage();
+								resourceImage.smooth = true;
+								resourceImage.scaleX = 1;
+								resourceImage.scaleY = 1;
+								
+								lab.setStyle("fontFamily", "mpbc");
+								lab.setStyle("fontSize", 16);
+								
+								switch((arr[i] as ResourceObject).type)
+								{
+									case ResourceType.GOLD:
+										lab.setStyle("color", 0xfdc900);
+										break;
+									case ResourceType.CRYSTALS:
+										lab.setStyle("color", 0xd826e9);
+										break;
+								}
+								
+								
+								lab.text = arr[i].value.toString();
+								
+								hg.addElement(lab);
+								hgResource.addElement(resourceImage);
+								hg.addElement(hgResource);
+								
+								resourceImage.source = Context.Model.resourceViewManager.getResourceViewObject(arr[i].type).smallImage;
+								
+								
+								hg.verticalAlign = VerticalAlign.MIDDLE;
+								
+								priceGroup.addElement(hg);
+							}
+						}
+					}
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup id="priceGroup" gap="12" width="58" horizontalAlign="right" verticalAlign="middle" />
+	
+</s:HGroup>
