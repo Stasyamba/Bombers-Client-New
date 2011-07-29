@@ -33,7 +33,7 @@ public class Medal {
     private static function prizes(xml:XML):Array {
         var res:Array = new Array()
         for each (var r:XML in xml.prize.Resource) {
-            res.push(new ResourceObject(ResourceType.byId(r.@id), r.@val))
+            res.push(new ResourceObject(ResourceType.byValue(r.@id), r.@val))
         }
         for each (var e:XML in xml.prize.Experience) {
             res.push(new ExperianceObject(0, r.@val))

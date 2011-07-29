@@ -68,7 +68,7 @@ public class DynObjectBuilder {
             case BonusType.WEAPON:
                 return new BonusItem(block,ItemType.byValue(int(params["wt"])),int(params["count"]));
             case BonusType.RESOURCE:
-                return new BonusResource(block,ResourceType.byId(int(params["rt"])),int(params["count"]));
+                return new BonusResource(block,ResourceType.byServerValue(int(params["rt"])),int(params["count"]));
             //mines
             case MineType.REGULAR:
                 return new RegularMine(block, owner);

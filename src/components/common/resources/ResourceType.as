@@ -24,7 +24,7 @@ public class ResourceType {
         return _name;
     }
 
-    public static function byId(id:int):ResourceType {
+    public static function byValue(id:int):ResourceType {
         switch (id) {
             case GOLD._value:
                 return GOLD
@@ -38,6 +38,22 @@ public class ResourceType {
                 return ENERGY
         }
         throw new Error("no resource with id = " + id)
+    }
+
+    public static function byServerValue(value:int):ResourceType {
+        switch (value) {
+            case 1:
+                return GOLD
+            case 2:
+                return CRYSTALS
+            case 4:
+                return ADAMANT
+            case 8:
+                return ANTIMATTER
+            case 16:
+                return ENERGY
+        }
+        throw new Error("no resource with server value = " + value)
     }
 }
 }
