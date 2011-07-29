@@ -72,6 +72,9 @@ public class ContextEvent extends Event {
 	public static const GP_PREGAME_CLOSE:String = "GPPregameClose";
 	public static const GP_COLOR_CHANGED:String = "GPColorChanged";
 	
+	public static const COLOR_PANEL_SHOW: String = "COLORPANELShow";
+	// pass: Boolean
+	
 	
 	/**** quest window ****/
 	public static const QUEST_START_SHOW: String = "QUESTStartShow";

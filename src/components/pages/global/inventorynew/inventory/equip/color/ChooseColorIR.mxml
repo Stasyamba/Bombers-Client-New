@@ -1,8 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-</s:Group>
+<s:ItemRenderer xmlns:mx1="http://ns.adobe.com/mxml/mx"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				autoDrawBackground="false"
+				useHandCursor="true"
+				buttonMode="true"
+				width="317" height="28" xmlns:color="components.pages.global.inventorynew.inventory.equip.color.*" xmlns:flexcomponents="components.common.flexcomponents.*"
+				>
+	<s:layout>
+		<s:BasicLayout />
+	</s:layout>
+	
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.base.access.rules.AccessRuleObject;
+			import components.common.base.access.rules.AccessRuleType;
+			import components.common.base.access.rules.IAccessRule;
+			import components.common.base.access.rules.levelrule.AccessLevelRule;
+			import components.common.bombers.colors.BomberColorObject;
+			import components.common.items.ItemObject;
+			import components.common.items.ItemProfileObject;
+			import components.common.items.categories.ItemCategory;
+			import components.pages.global.inventorynew.inventory.pack.aura.AuraSlot;
+			import components.pages.global.inventorynew.inventory.pack.collection.CollectionSlot;
+			import components.pages.global.inventorynew.inventory.pack.weapon.WeaponSlot;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			
+			
+			override public function set data( value:Object ) : void {
+				super.data = value;
+				
+				pricePanelGroup.visible = false;
+				gotColorGroup.visible = false;
+				accessDeniedGroup.visible = false;
+				
+				colorName.text = (data as BomberColorObject).name;
+				bomberColor.setStyle("backgroundColor",  (data as BomberColorObject).color.color);
+				
+				for each(var ar: IAccessRule in (data as BomberColorObject).accessRulesFailed)
+				{
+					switch(ar.getAccessRuleType())
+					{
+						case AccessRuleType.LEVEL_RULE:
+							
+							deniedLabel.text = (ar as AccessLevelRule).minimumLevel.toString() + " уровень";
+							accessDeniedGroup.visible = true;
+							
+							break;
+						
+						case AccessRuleType.BETA_RULE:
+							
+							deniedLabel.text = "В разработке";
+							accessDeniedGroup.visible = true;
+							
+							break;
+					}
+				}
+				
+				if((data as BomberColorObject).accessRulesFailed.length == 0)
+				{
+					/* access accepted */
+					
+					if((data as BomberColorObject).gotColor)
+					{
+						gotColorGroup.visible  = true;
+					}else
+					{
+						pricePanelGroup.visible = true;
+						
+						/* init price */
+						pricePanel.initContent((data as BomberColorObject).price);
+					}
+				}
+			}
+			
+			private function setColor(): void
+			{
+				Context.Model.currentSettings.gameProfile.currentBomberColor = (data as BomberColorObject).color;
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_COLOR_CHANGED);
+			}
+			
+			
+			private function buyColor(): void
+			{
+				if((data as BomberColorObject).price.gold.value != 0)
+				{
+					if(Context.Model.currentSettings.gameProfile.resources.gold.value >= (data as BomberColorObject).price.gold.value)
+					{
+						Alert.show("Send server request");
+						//Context.gameServer.sendBuyItemRequest(itemType, rt);
+					}else
+					{
+						Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
+					}
+				}else
+				{
+					if(Context.Model.currentSettings.gameProfile.resources.crystals.value >= (data as BomberColorObject).price.crystals.value)
+					{
+						Alert.show("Send server request");
+						//Context.gameServer.sendBuyItemRequest(itemType, rt);
+					}else
+					{
+						Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
+					}
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="100%" horizontalAlign="left" verticalAlign="middle">
+		<s:Label width="83" textAlign="right" id="colorName" fontFamily="mpr" color="0xfdc900" fontSize="14" />
+		
+		<s:BorderContainer id="bomberColor" 
+						   width="25" height="25" 
+						   borderColor="0x312716" 
+						   borderWeight="3" borderVisible="true" 
+						   alpha="0.5" 
+						   />
+		
+		<s:Group>
+			<s:HGroup id="pricePanelGroup" visible="false" verticalAlign="middle">
+				<s:Label text="Цена:" fontFamily="mpr" color="0xfdc900" fontSize="14" />
+				<color:PricePanel id="pricePanel" />
+				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+											  buttonMode="true" useHandCursor="true"
+											  scaleX="0.6" scaleY="0.6"
+											  customLabel="Купить" fontColor="0xfff19f"
+											  fontSize="32" fontSizeOver="32"
+											  click="buyColor();"
+											  >
+					<flexcomponents:filters>
+						<s:DropShadowFilter alpha="0.1" />
+					</flexcomponents:filters>
+				</flexcomponents:PatternButton>
+			</s:HGroup>
+			
+			<s:Group id="gotColorGroup" visible="false" click="setColor();">
+				<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+								   backgroundImageFillMode="repeat"
+								   width="56" height="20"
+								   borderVisible="false"
+								   />
+				
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:Label text="Надеть" fontFamily="mpr" color="0xfdc900" fontSize="14" />
+				</s:HGroup>
+			</s:Group>
+			
+			<s:HGroup id="accessDeniedGroup" visible="false" height="100%" verticalAlign="middle">
+				<s:Label id="deniedLabel" fontFamily="mpr" color="0xfd5900" fontSize="14" />
+			</s:HGroup>
+		</s:Group>
+	</s:HGroup>
+	
+	
+</s:ItemRenderer>

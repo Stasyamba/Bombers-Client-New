@@ -12,8 +12,6 @@
 			
 			private function init(): void
 			{
-				bomberColor.setStyle("backgroundColor", 0x000000);
-				
 				Context.Model.addCustomListener(ContextEvent.GP_COLOR_CHANGED, function (e: ContextEvent): void
 				{
 					if(Context.Model.currentSettings.gameProfile.currentBomberColor != null)
@@ -21,6 +19,11 @@
 						bomberColor.setStyle("backgroundColor", Context.Model.currentSettings.gameProfile.currentBomberColor.color);
 					}
 				});
+				
+				if(Context.Model.currentSettings.gameProfile.currentBomberColor != null)
+				{
+					bomberColor.setStyle("backgroundColor", Context.Model.currentSettings.gameProfile.currentBomberColor.color);
+				}
 			}
 			
 		]]>

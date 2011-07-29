@@ -4,54 +4,57 @@
  */
 
 package engine.model {
-import components.common.base.expirance.ExperianceObject
-import components.common.items.ItemProfileObject
-import components.common.items.categories.ItemCategory
-import components.common.quests.QuestObject
-import components.common.quests.medals.MedalType
-import components.common.quests.regard.RegardObject
-import components.common.quests.regard.RegardType
-import components.common.quests.tasks.TaskObject
-import components.common.resources.ResourceObject
-import components.common.resources.ResourceType
-import components.common.worlds.locations.LocationType
+import components.common.base.expirance.ExperianceObject;
+import components.common.items.ItemProfileObject;
+import components.common.items.categories.ItemCategory;
+import components.common.quests.QuestObject;
+import components.common.quests.medals.MedalType;
+import components.common.quests.regard.RegardObject;
+import components.common.quests.regard.RegardType;
+import components.common.quests.tasks.TaskObject;
+import components.common.resources.ResourceObject;
+import components.common.resources.ResourceType;
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.data.quests.Quests
-import engine.games.GameBuilder
-import engine.games.GameType
-import engine.games.quest.EngineQuestObject
-import engine.games.quest.QuestFailReason
-import engine.games.quest.medals.MedalBase
-import engine.model.signals.GameEndedSignal
-import engine.model.signals.GameReadySignal
-import engine.model.signals.MapLoadedSignal
-import engine.model.signals.ReadyToPlayAgainSignal
-import engine.model.signals.manage.GameStartedSignal
-import engine.model.signals.manage.JoinedToGameSignal
-import engine.model.signals.manage.JoinedToRoomSignal
-import engine.model.signals.manage.LeftGameSignal
-import engine.model.signals.manage.PlayerReadyChangedSignal
-import engine.model.signals.manage.ReadyToCreateGameSignal
-import engine.model.signals.manage.SomeoneJoinedToGameSignal
-import engine.model.signals.manage.SomeoneLeftGameSignal
-import engine.model.signals.manage.ThreeSecondsToStartSignal
-import engine.profiles.GameProfile
-import engine.profiles.LobbyProfile
-import engine.profiles.PlayerGameProfile
+import engine.EngineContext;
+import engine.data.quests.Quests;
+import engine.games.GameBuilder;
+import engine.games.GameType;
+import engine.games.quest.EngineQuestObject;
+import engine.games.quest.QuestFailReason;
+import engine.games.quest.medals.MedalBase;
+import engine.model.signals.GameEndedSignal;
+import engine.model.signals.GameReadySignal;
+import engine.model.signals.MapLoadedSignal;
+import engine.model.signals.ReadyToPlayAgainSignal;
+import engine.model.signals.manage.GameStartedSignal;
+import engine.model.signals.manage.JoinedToGameSignal;
+import engine.model.signals.manage.JoinedToRoomSignal;
+import engine.model.signals.manage.LeftGameSignal;
+import engine.model.signals.manage.PlayerReadyChangedSignal;
+import engine.model.signals.manage.ReadyToCreateGameSignal;
+import engine.model.signals.manage.SomeoneJoinedToGameSignal;
+import engine.model.signals.manage.SomeoneLeftGameSignal;
+import engine.model.signals.manage.ThreeSecondsToStartSignal;
+import engine.profiles.GameProfile;
+import engine.profiles.LobbyProfile;
+import engine.profiles.PlayerGameProfile;
 
-import flash.system.Security
+import flash.system.Security;
 
-import greensock.TweenMax
-import greensock.loading.ImageLoader
-import greensock.loading.LoaderMax
-import greensock.loading.SWFLoader
-import greensock.loading.XMLLoader
+import greensock.TweenMax;
+import greensock.loading.ImageLoader;
+import greensock.loading.LoaderMax;
+import greensock.loading.SWFLoader;
+import greensock.loading.XMLLoader;
 
-import loading.BombersContentLoader
-import loading.ServerQuestObject
+import loading.BombersContentLoader;
+import loading.ServerQuestObject;
 
-import org.osflash.signals.Signal
+import mx.controls.Alert;
+import mx.utils.ObjectUtil;
+
+import org.osflash.signals.Signal;
 
 public class GameModel {
 
@@ -398,7 +401,9 @@ public class GameModel {
         Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED)
 
         Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_MAIN_PREALODER, false);
-
+		
+		/* init current color */
+		Context.Model.dispatchCustomEvent(ContextEvent.GP_COLOR_CHANGED);
     }
 
     private function onLoggedIn(name:String):void {

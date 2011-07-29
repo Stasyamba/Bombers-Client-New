@@ -12,11 +12,15 @@ package components.common.bombers.colors
 		public var name: String;
 		public var price: ResourcePrice;
 		public var accessRules: Array;
+		public var accessRulesFailed: Array;
+		public var gotColor:Boolean;
 		
 		public function BomberColorObject(colorP:PlayerColor,
 										  nameP: String,
 										  priceP: ResourcePrice,
-										  accessRulesP: Array)
+										  accessRulesP: Array,
+										  failedRulesP: Array = null,
+										  gotColorP: Boolean = false)
 		{
 			color = colorP;
 			name = nameP;
@@ -31,7 +35,32 @@ package components.common.bombers.colors
 					accessRules.push(r);
 				}
 			}
+			
+			accessRulesFailed = new Array();
+			if(failedRulesP != null)
+			{
+				for(var i: int = 0; i<= failedRulesP.length - 1; i++)
+				{
+					if(failedRulesP[i] is IAccessRule)
+					{
+						accessRulesFailed.push(failedRulesP[i]);
+					}
+				}
+			}
+			
+			gotColor = gotColorP;
 		}
+		
+		public function clearFailRules(): void
+		{
+			accessRulesFailed = new Array();
+		}
+		
+		public function addFailRule(aro:IAccessRule): void
+		{
+			accessRulesFailed.push(aro);
+		}
+		
 		
 		public function checkAccess():Array {
 			var res:Array = new Array();

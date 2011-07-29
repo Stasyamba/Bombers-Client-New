@@ -1,5 +1,6 @@
 package components.common.bombers.colors
 {
+	import components.common.base.access.rules.levelrule.AccessLevelRule;
 	import components.common.resources.ResourcePrice;
 	
 	import engine.playerColors.PlayerColor;
@@ -38,6 +39,20 @@ package components.common.bombers.colors
 					"Оранжевый",
 					new ResourcePrice(150,0,0,0),
 					[]
+				));
+			
+			bomberColors.push(
+				new BomberColorObject(PlayerColor.GREEN,
+					"Зеленый",
+					new ResourcePrice(0,10,0,0),
+					[]
+				));
+			
+			bomberColors.push(
+				new BomberColorObject(PlayerColor.BLACK,
+					"Черный",
+					new ResourcePrice(0,15,0,0),
+					[new AccessLevelRule(7)]
 				));
 			
 		}

@@ -27,6 +27,21 @@ public class GameProfile {
 	public var currentBomberColor: PlayerColor;
 	public var openedBomberColors: Array;
 	
+	public function haveColor(colorType: PlayerColor): Boolean
+	{
+		var res:Boolean = false;
+		for each(var pc:PlayerColor in openedBomberColors)
+		{
+			if(pc == colorType)
+			{
+				res = true;
+				break;
+			}
+		}
+		
+		return res;
+	}
+	
     public var currentLocation:LocationType;
 
     private var _selectedWeaponLeftHand:ItemProfileObject;
@@ -386,10 +401,16 @@ public class GameProfile {
         res.experience = obj.getInt("Experience");
         res.energy = obj.getInt("Energy");
         res.currentBomberType = BomberType.byValue(obj.getInt("BomberId"));
-        //res.selectedWeaponRightHand = new ItemProfileObject(res.currentBomberType.baseBomb, -1);
-        //todo: temporary stub
-		res.currentBomberColor = PlayerColor.byValue(int(1 + Math.random()*4))
-
+        
+		//todo: temporary stub
+		res.openedBomberColors = new Array();
+		
+		/* by default */
+		res.openedBomberColors.push(PlayerColor.BLUE);
+		res.openedBomberColors.push(PlayerColor.RED);
+		
+		res.currentBomberColor = PlayerColor.RED;
+			
         var medArr:ISFSArray = obj.getSFSArray("Medals");
         for (var i:int = 0; i < medArr.size(); i++) {
             var q:ISFSArray = medArr.getSFSArray(i);
@@ -484,6 +505,7 @@ public class GameProfile {
         items = obj.getSFSArray("BombersOpen");
 		
 		/* by default two first are opened */
+		res.bombersOpened = new Array();
         res.bombersOpened.push(BomberType.byValue(0));
         res.bombersOpened.push(BomberType.byValue(1));
 
