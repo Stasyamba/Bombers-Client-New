@@ -6,6 +6,7 @@ import components.common.base.expirance.ExperienceManager;
 import components.common.base.market.MarketManager;
 import components.common.base.window.WindowsManager;
 import components.common.bombers.BombersManager;
+import components.common.bombers.colors.BomberColorManager;
 import components.common.items.ItemsManager;
 import components.common.items.categories.ItemsCategoriesManager;
 import components.common.items.collections.ItemCollectionManager;
@@ -96,6 +97,7 @@ public class ApplicationModel extends VkontakteApplicationModel {
     public var bomberManager:BombersManager = new BombersManager();
     public var marketManager:MarketManager = new MarketManager();
 	public var questManager: QuestManager = new QuestManager();
+	public var bomberColorManager:BomberColorManager = new BomberColorManager();
 	
 	/* tutorial */
 	public var currentTutorialPart: TutorialPartType = TutorialPartType.PART3;

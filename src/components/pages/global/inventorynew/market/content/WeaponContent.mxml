@@ -92,7 +92,7 @@
 					{
 						case ResourceType.GOLD:
 							
-							if(ro.value != 0)
+							if(ro.value != 0 && ro.value <= 10000)
 							{
 								goldBuyGroup.alpha = 1;
 							}
@@ -100,7 +100,7 @@
 							break;
 						case ResourceType.CRYSTALS:
 							
-							if(ro.value != 0)
+							if(ro.value != 0 && ro.value <= 10000)
 							{	
 								crystallsBuyGroup.alpha = 1;
 							}

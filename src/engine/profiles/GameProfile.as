@@ -25,6 +25,7 @@ public class GameProfile {
     public var photoURL:String = "";
 
 	public var currentBomberColor: PlayerColor;
+	public var openedBomberColors: Array;
 	
     public var currentLocation:LocationType;
 

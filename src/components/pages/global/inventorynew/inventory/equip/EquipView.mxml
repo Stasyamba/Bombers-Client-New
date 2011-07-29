@@ -7,7 +7,7 @@
 		 borderVisible="false" 
 		 xmlns:equip="components.pages.global.inventorynew.inventory.equip.*"
 		 width="471" height="300"
-		 creationComplete="init();" xmlns:bomber="components.pages.global.inventorynew.inventory.equip.bomber.*"
+		 creationComplete="init();" xmlns:bomber="components.pages.global.inventorynew.inventory.equip.bomber.*" xmlns:color="components.pages.global.inventorynew.inventory.equip.color.*"
 		 >
 	
 	<fx:Declarations>
@@ -111,5 +111,8 @@
 		<bomber:BomberView id="bomberView" paddingLeft="20" />
 		
 	</s:VGroup>
+	
+	<!-- own color -->
+	<color:ChooseColorButton x="56" y="270" />
 	
 </s:BorderContainer>
