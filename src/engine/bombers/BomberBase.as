@@ -4,8 +4,9 @@
  */
 
 package engine.bombers {
+import components.common.items.ItemType
+
 import engine.bombers.interfaces.IBomber
-import engine.bombers.skin.BasicSkin
 import engine.explosionss.interfaces.IExplosion
 import engine.games.IGame
 import engine.playerColors.PlayerColor
@@ -138,8 +139,8 @@ public class BomberBase extends CreatureBase implements IBomber {
     }
 
 
-    public function addWeaponBonus(_weapon:WeaponType, count:int):void {
-        throw Context.Exception("Error in file BomberBase.as: method BomberBase.addWeaponBonus can't be called ")
+    public function addItemBonus(_weapon:ItemType, count:int):void {
+        throw Context.Exception("Error in file BomberBase.as: method BomberBase.addItemBonus can't be called ")
     }
 
     public function get lifeAuraBonus():int {

@@ -2,10 +2,10 @@ package engine.maps.mapBlocks.view {
 import engine.data.Consts
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapObjects.DynObjectType
+import engine.maps.mapObjects.bonuses.BonusResource
+import engine.maps.mapObjects.bonuses.BonusType
 
 import flash.display.Sprite
-
-import loading.LoadedObject
 
 public class DynObjectView extends DestroyableSprite {
 
@@ -19,9 +19,14 @@ public class DynObjectView extends DestroyableSprite {
             removeChild(_self);
         if (block.object.type == DynObjectType.NULL)
             return;
-        _self = Context.imageService.dynObject(block.object.type);
-        _self.x = -(_self.width - Consts.BLOCK_SIZE)/2
-        _self.y = -(_self.height - Consts.BLOCK_SIZE)/2
+        //todo: add abstraction
+        var postfix:String;
+        if (block.object.type == BonusType.RESOURCE) {
+            postfix = String((block.object as BonusResource).count);
+        }
+        _self = Context.imageService.dynObject(block.object.type, postfix);
+        _self.x = -(_self.width - Consts.BLOCK_SIZE) / 2
+        _self.y = -(_self.height - Consts.BLOCK_SIZE) / 2
         addChild(_self)
 
     }

@@ -24,6 +24,7 @@ public class BonusResource extends BonusBase implements ICollectableDynObject {
     }
 
     public override function activateOn(player:IBomber, params:Object = null):void {
+        super.activateOn(player)
         Context.game.resourceCollected(_rtype, _count ,player)
     }
 

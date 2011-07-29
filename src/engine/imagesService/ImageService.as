@@ -155,9 +155,10 @@ public class ImageService {
         return null;
     }
 
-    public function dynObject(type:IDynObjectType):Sprite {
+    public function dynObject(type:IDynObjectType,_postfix:String = null):Sprite {
         var res:Sprite;
-        var lo:LoadedObject = loadedObject("common.DO." + type.stringId)
+        var postfix:String = _postfix ? ("." + _postfix) : "";
+        var lo:LoadedObject = loadedObject("common.DO." + type.stringId + postfix);
         if (lo.contentType == LoadedContentType.IMAGE) {
             res = new Sprite()
             res.graphics.beginBitmapFill(lo.content.bitmapData as BitmapData);

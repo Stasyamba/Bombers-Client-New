@@ -1150,7 +1150,7 @@ public class GameServer extends SmartFox {
                 y:obj.getInt("Y"),
                 type:obj.getInt("T"),
                 p0:obj.containsKey("P0") ? obj.getInt("P0") : undefined,
-                p1:obj.containsKey("P!") ? obj.getInt("P1") : undefined
+                p1:obj.containsKey("P1") ? obj.getInt("P1") : undefined
             })
         }
 
@@ -1177,6 +1177,7 @@ public class GameServer extends SmartFox {
             EngineContext.specialObjectExploded.dispatch(responseParams.getInt("game.DOAct.f.x"), responseParams.getInt("game.DOAct.f.y"), responseParams.getInt("game.DOAct.f.lifeLeft"));
             return;
         }
+
         var slot:int = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("game.DOAct.f.userId")).slot
         var ot:IDynObjectType = DynObjectType.byValue(type)
         var destList:Array = []

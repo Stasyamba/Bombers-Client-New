@@ -4,6 +4,8 @@
  */
 
 package engine.bombers.interfaces {
+import components.common.items.ItemType
+
 import engine.bombers.BomberType
 import engine.explosionss.interfaces.IExplosion
 import engine.games.quest.monsters.ICreatureType
@@ -122,6 +124,6 @@ public interface IBomber {
 
     function get type():ICreatureType
 
-    function addWeaponBonus(_weapon:WeaponType, count:int):void
+    function addItemBonus(_weapon:ItemType, count:int):void
 }
 }

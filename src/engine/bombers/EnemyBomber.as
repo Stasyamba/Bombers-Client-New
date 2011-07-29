@@ -4,6 +4,8 @@
  */
 
 package engine.bombers {
+import components.common.items.ItemType
+
 import engine.EngineContext
 import engine.bombers.interfaces.IEnemyBomber
 import engine.explosionss.interfaces.IExplosion
@@ -103,6 +105,10 @@ public class EnemyBomber extends BomberBase implements IEnemyBomber {
                 break
             }
         }
+    }
+
+    override public function addItemBonus(_weapon:ItemType, count:int):void {
+
     }
 
     public override function kill():void {

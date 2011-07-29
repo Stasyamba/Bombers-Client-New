@@ -52,32 +52,18 @@ public class WeaponType {
         return _decreaseOnActivate
     }
 
+    private static var all:Array = [REGULAR_BOMB_WEAPON,ATOM_BOMB_WEAPON,HAMELEON,BOX_BOMB_WEAPON,REGULAR_MINE,DYNAMITE_WEAPON,SMOKE_BOMB_WEAPON,LITTLE_HEALTH_PACK_WEAPON,MEDIUM_HEALTH_PACK_WEAPON];
+
     public static function byValue(value:int):WeaponType {
-        switch (value) {
-            case REGULAR_BOMB_WEAPON.value:
-                return REGULAR_BOMB_WEAPON
-            case ATOM_BOMB_WEAPON.value:
-                return ATOM_BOMB_WEAPON
-            case HAMELEON.value:
-                return HAMELEON
-            case BOX_BOMB_WEAPON.value:
-                return BOX_BOMB_WEAPON
-            case REGULAR_MINE.value:
-                return REGULAR_MINE
-            case SPEED_AURA.value:
-                return SPEED_AURA
-            case FIRE_AURA.value:
-                return FIRE_AURA
-            case DYNAMITE_WEAPON.value:
-                return DYNAMITE_WEAPON
-            case SMOKE_BOMB_WEAPON.value:
-                return SMOKE_BOMB_WEAPON
-            case LITTLE_HEALTH_PACK_WEAPON.value:
-                return LITTLE_HEALTH_PACK_WEAPON
-            case MEDIUM_HEALTH_PACK_WEAPON.value:
-                return MEDIUM_HEALTH_PACK_WEAPON
-        }
+        var wt:WeaponType = all.filter(function (bt:WeaponType,a:*,b:*):Boolean {
+            return bt.value == value
+        })[0]
+        if (wt) return wt;
         return NULL
+    }
+
+    public static function hasWeapon(value:int):Boolean {
+        return byValue(value) != NULL;
     }
 }
 }
