@@ -425,7 +425,7 @@ public class GameServer extends SmartFox {
 	public function setKeyValuePair(key: int, value: *): void
 	{
 		var params:ISFSObject = new SFSObject();
-		params.putInt("nterface.setCustomParameter.f.key", key);
+		params.putInt("interface.setCustomParameter.f.key", key);
 		
 		var isAcceptableValue: Boolean = true;
 		
@@ -709,13 +709,26 @@ public class GameServer extends SmartFox {
                         var stack:int = obj.getInt("Stack")
                         var so:Boolean = obj.getBool("SpecialOffer")
                         var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
-                        prices[id] = imo
-                        var lev:int = obj.getInt("Level")
-                        var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
-
-                        if (io != null) {
-                            io.addRule(new AccessLevelRule(lev));
-                        }
+                        prices[id] = imo;
+						
+                        var lev:int = obj.getInt("Level");
+							
+						/* checking for color */
+							
+						if(PlayerColor.haveId(id))
+						{
+							Context.Model.bomberColorManager.setColorParameters(PlayerColor.byId(id), rp);
+						}else
+						{
+							var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
+							
+							if (io != null) 
+							{
+								io.addRule(new AccessLevelRule(lev));
+							}
+						}
+							
+                        
                     }
                     Context.Model.marketManager.setItemPrices(prices)
 
@@ -892,7 +905,7 @@ public class GameServer extends SmartFox {
                     }
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
-
+					
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);

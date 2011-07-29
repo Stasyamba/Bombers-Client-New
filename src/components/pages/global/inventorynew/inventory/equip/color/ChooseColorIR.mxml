@@ -99,6 +99,7 @@
 			private function setColor(): void
 			{
 				Context.Model.currentSettings.gameProfile.currentBomberColor = (data as BomberColorObject).color;
+				Context.gameServer.setKeyValuePair(0,(data as BomberColorObject).color.id);
 				Context.Model.dispatchCustomEvent(ContextEvent.GP_COLOR_CHANGED);
 			}
 			

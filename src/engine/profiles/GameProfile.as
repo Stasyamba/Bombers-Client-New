@@ -1,19 +1,19 @@
 package engine.profiles {
-import com.smartfoxserver.v2.entities.data.ISFSArray
-import com.smartfoxserver.v2.entities.data.ISFSObject
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 
-import components.common.bombers.BomberType
-import components.common.items.ItemProfileObject
-import components.common.items.ItemType
-import components.common.quests.medals.MedalObject
-import components.common.quests.medals.MedalType
-import components.common.resources.ResourcePrice
-import components.common.worlds.locations.LocationType
+import components.common.bombers.BomberType;
+import components.common.items.ItemProfileObject;
+import components.common.items.ItemType;
+import components.common.quests.medals.MedalObject;
+import components.common.quests.medals.MedalType;
+import components.common.resources.ResourcePrice;
+import components.common.worlds.locations.LocationType;
 
-import engine.bombers.skin.BasicSkin
-import engine.playerColors.PlayerColor
+import engine.bombers.skin.BasicSkin;
+import engine.playerColors.PlayerColor;
 
-import mx.controls.Alert
+import mx.controls.Alert;
 
 public class GameProfile {
 
@@ -377,20 +377,24 @@ public class GameProfile {
         res.energy = obj.getInt("Energy");
         res.currentBomberType = BomberType.byValue(obj.getInt("BomberId"));
 
+		//todo: temporary stub
+		res.openedBomberColors = new Array();
+		
+		/* by default */
+		res.openedBomberColors.push(PlayerColor.BLUE);
+		res.openedBomberColors.push(PlayerColor.RED);
+		
+		
         var params:ISFSArray = obj.getSFSArray("CustomParameters");
         var cId:* = Context.gameServer.customParameter(params, 0);
         if (cId != null)
+		{
             res.currentBomberColor = PlayerColor.byId(cId);
-        else {
-            res.currentBomberColor = PlayerColor.RED
-            Context.gameServer.setKeyValuePair(0,PlayerColor.RED.id)
+		} else {
+            res.currentBomberColor = PlayerColor.RED;
+            Context.gameServer.setKeyValuePair(0,PlayerColor.RED.id);
         }
-        //todo: temporary stub
-        res.openedBomberColors = new Array();
-
-        /* by default */
-        res.openedBomberColors.push(PlayerColor.BLUE);
-        res.openedBomberColors.push(PlayerColor.RED);
+        
 
 
         var medArr:ISFSArray = obj.getSFSArray("Medals");
@@ -413,25 +417,34 @@ public class GameProfile {
             var itemId:int = objItem.getInt("WeaponId");
             var itemCount:int = objItem.getInt("Count");
             var itemType:ItemType = ItemType.byValue(itemId);
-
-            if (itemType != null) {
-                if (Context.Model.itemCollectionsManager.getCollection(itemType) == null) {
-                    /* not collection part */
-                    var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
-                    res.packItems.push(modelItem);
-                    res.gotItems.push(modelItem);
-                } else {
-                    /* if 0 collection part */
-
-                    if (itemCount != 0) {
-                        var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
-                        res.packItems.push(modelItem);
-                        res.gotItems.push(modelItem);
-                    }
-                }
-            } else {
-                Alert.show("Error - unknown item type " + itemId.toString() + " | GameProfile.as");
-            }
+			
+			if(PlayerColor.haveId(itemId))
+			{
+				/* is color */
+				res.openedBomberColors.push(PlayerColor.byId(itemId));
+				
+			}else
+			{
+			
+	            if (itemType != null) {
+	                if (Context.Model.itemCollectionsManager.getCollection(itemType) == null) {
+	                    /* not collection part */
+	                    var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
+	                    res.packItems.push(modelItem);
+	                    res.gotItems.push(modelItem);
+	                } else {
+	                    /* if 0 collection part */
+	
+	                    if (itemCount != 0) {
+	                        var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
+	                        res.packItems.push(modelItem);
+	                        res.gotItems.push(modelItem);
+	                    }
+	                }
+	            } else {
+	                Alert.show("Error - unknown item type " + itemId.toString() + " | GameProfile.as");
+	            }
+			}
         }
 
 

@@ -57,6 +57,17 @@ package components.common.bombers.colors
 			
 		}
 		
+		public function setColorParameters(pc: PlayerColor, rp:ResourcePrice): void
+		{
+			for each(var bco:BomberColorObject in bomberColors)
+			{
+				if(bco.color == pc)
+				{
+					bco.price = rp.clone();
+				}
+			}
+		}
+		
 		public function getColors(): Array
 		{
 			return bomberColors;

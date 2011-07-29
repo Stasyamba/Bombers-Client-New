@@ -4,9 +4,9 @@
  */
 
 package engine.playerColors {
-import engine.data.common.bombs.Bombs
+import engine.data.common.bombs.Bombs;
 
-import flash.display.BitmapData
+import flash.display.BitmapData;
 
 public class PlayerColor {
 
@@ -88,5 +88,24 @@ public class PlayerColor {
         throw Context.Exception("Error in PlayerColor: no color with value " + value);
     }
 
+	
+	public static function haveId(id: int): Boolean
+	{
+		var res: Boolean = false;
+		
+		switch(id)
+		{
+			case BLUE.id:
+			case ORANGE.id:
+			case PINK.id:
+			case RED.id:
+			case GREEN.id:
+			case BLACK.id:
+				res = true;
+				break;
+		}
+		
+		return res;
+	}
 }
 }
