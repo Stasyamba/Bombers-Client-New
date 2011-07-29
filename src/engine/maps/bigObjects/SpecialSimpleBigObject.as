@@ -4,11 +4,13 @@
  */
 
 package engine.maps.bigObjects {
-import engine.EngineContext
-import engine.maps.IMap
-import engine.maps.builders.DynObjectBuilder
-import engine.maps.builders.MapBlockStateBuilder
-import engine.model.explosionss.ExplosionType
+import engine.EngineContext;
+import engine.maps.IMap;
+import engine.maps.builders.DynObjectBuilder;
+import engine.maps.builders.MapBlockStateBuilder;
+import engine.model.explosionss.ExplosionType;
+
+import mx.controls.Alert;
 
 public class SpecialSimpleBigObject extends SimpleBigObject {
 
@@ -21,7 +23,9 @@ public class SpecialSimpleBigObject extends SimpleBigObject {
     }
 
     private function onExploded(x:int,y:int, lifeLeft:int):void {
-        explode(_explType,life - lifeLeft);
+        if(x == this.x && y == this.y){
+            explode(_explType,life - lifeLeft * ExplosionType.DYNAMITE.damage);
+		}
     }
 
     public override function explode(expl:ExplosionType, damage:int):void {

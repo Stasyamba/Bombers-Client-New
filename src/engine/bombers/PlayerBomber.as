@@ -5,6 +5,7 @@
 
 package engine.bombers {
 import components.common.items.ItemProfileObject
+import components.common.items.ItemType
 import components.common.items.categories.ItemCategory
 
 import engine.EngineContext
@@ -114,9 +115,9 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
 
 
     private function onWeaponUnitSpent(type:WeaponType):void {
-         if(type.value == Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand.itemType.value) {
-             Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand.itemCount--;
-         }
+        if (type.value == Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand.itemType.value) {
+            Context.Model.currentSettings.gameProfile.selectedWeaponLeftHand.itemCount--;
+        }
 
         for (var i:int = 0; i < Context.Model.currentSettings.gameProfile.gotItems.length; i++) {
             var obj:ItemProfileObject = Context.Model.currentSettings.gameProfile.gotItems[i];
@@ -236,12 +237,11 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
 
     public override function move(elapsedMilliSecs:int):void {
         var moveAmount:Number = elapsedMilliSecs * speed / 1000;
-        while(true){
-            if (moveAmount > 30){
+        while (true) {
+            if (moveAmount > 30) {
                 performMotion(30)
                 moveAmount -= 30
-            }else
-            {
+            } else {
                 performMotion(moveAmount)
                 break
             }
@@ -344,6 +344,10 @@ public class PlayerBomber extends BomberBase implements IPlayerBomber {
 
     override public function get direction():Direction {
         return _serverDir
+    }
+
+    override public function addItemBonus(item:ItemType, count:int):void {
+        Context.game.gameStats.collectItem(item, count);
     }
 }
 }

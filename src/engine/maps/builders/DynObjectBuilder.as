@@ -4,6 +4,7 @@
  */
 
 package engine.maps.builders {
+import components.common.items.ItemType
 import components.common.resources.ResourceType
 
 import engine.bombers.interfaces.IBomber
@@ -25,7 +26,7 @@ import engine.maps.mapObjects.bonuses.BonusAddSpeed
 import engine.maps.mapObjects.bonuses.BonusHeal
 import engine.maps.mapObjects.bonuses.BonusResource
 import engine.maps.mapObjects.bonuses.BonusType
-import engine.maps.mapObjects.bonuses.BonusWeapon
+import engine.maps.mapObjects.bonuses.BonusItem
 import engine.maps.mapObjects.mines.MineType
 import engine.maps.mapObjects.mines.RegularMine
 import engine.maps.mapObjects.special.SpecialObject
@@ -65,7 +66,7 @@ public class DynObjectBuilder {
             case BonusType.HEAL:
                 return new BonusHeal(block);
             case BonusType.WEAPON:
-                return new BonusWeapon(block,WeaponType.byValue(int(params["wt"])),int(params["count"]));
+                return new BonusItem(block,ItemType.byValue(int(params["wt"])),int(params["count"]));
             case BonusType.RESOURCE:
                 return new BonusResource(block,ResourceType.byId(int(params["rt"])),int(params["count"]));
             //mines

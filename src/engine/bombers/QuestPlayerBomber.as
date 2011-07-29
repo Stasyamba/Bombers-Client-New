@@ -13,6 +13,7 @@ import engine.bombers.mapInfo.InputDirection
 import engine.bombss.BombType
 import engine.explosionss.interfaces.IExplosion
 import engine.games.IGame
+import engine.games.quest.GameStats
 import engine.maps.mapObjects.DynObjectType
 import engine.playerColors.PlayerColor
 import engine.profiles.GameProfile
@@ -282,9 +283,14 @@ public class QuestPlayerBomber extends BomberBase implements IPlayerBomber {
     }
 
 
-    public override function addWeaponBonus(wt:WeaponType, count:int):void {
-        _currentWeapon = _weaponBuilder.fromWeaponType(wt, count)
-        Context.Model.currentSettings.gameProfile.setQuestWeapon(new ItemProfileObject(ItemType.byValue(wt.value), 1))
+    public override function addItemBonus(item:ItemType, count:int):void {
+        if (WeaponType.hasWeapon(item.value)) {
+            _currentWeapon = _weaponBuilder.fromItemType(item, count)
+            Context.Model.currentSettings.gameProfile.setQuestWeapon(new ItemProfileObject(ItemType.byValue(item.value), 1))
+        }else{
+            Context.game.gameStats.collectItem(item, count);
+        }
+
     }
 
     override public function get direction():Direction {
