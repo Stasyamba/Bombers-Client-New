@@ -1289,7 +1289,7 @@ public class GameServer extends SmartFox {
             var pair:ISFSArray = params.getSFSArray(j);
             var c:int = pair.getInt(0);
             if (c == code) {
-                return pair.getElementAt(j);
+                return pair.getElementAt(1);
             }
         }
         return null

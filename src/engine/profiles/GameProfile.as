@@ -389,7 +389,7 @@ public class GameProfile {
         var cId:* = Context.gameServer.customParameter(params, 0);
         if (cId != null)
 		{
-            res.currentBomberColor = PlayerColor.byId(cId);
+            res.currentBomberColor = PlayerColor.byId(int(cId));
 		} else {
             res.currentBomberColor = PlayerColor.RED;
             Context.gameServer.setKeyValuePair(0,PlayerColor.RED.id);

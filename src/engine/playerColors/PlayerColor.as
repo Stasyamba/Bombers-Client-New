@@ -85,7 +85,7 @@ public class PlayerColor {
             case BLACK.id:
                 return BLACK;
         }
-        throw Context.Exception("Error in PlayerColor: no color with value " + value);
+        return RED;
     }
 
 	
