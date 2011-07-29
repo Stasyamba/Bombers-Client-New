@@ -1080,8 +1080,12 @@ public class GameServer extends SmartFox {
             var ready:Boolean = item.getBool("IsReady");
             var slot:int = item.getInt("Slot");
             var params:ISFSArray = item.getSFSArray("CustomParameters");
-            var color:PlayerColor = PlayerColor.byId(customParameter(params,CommonConstans.CUSTOM_PARAMETER_COLOR));
-
+            var cId:* = customParameter(params,CommonConstans.CUSTOM_PARAMETER_COLOR);
+            var color:PlayerColor
+            if (cId != null)
+                color = PlayerColor.byId(int(cId));
+            else
+                color = PlayerColor.RED;
 
             resultArray[slot] = new LobbyProfile(id, nick, photo, exp, slot, ready, color)
         }
@@ -1241,8 +1245,8 @@ public class GameServer extends SmartFox {
             if (c == code) {
                 return pair.getElementAt(j);
             }
-
         }
+        return null
     }
 }
 }
