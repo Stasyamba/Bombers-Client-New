@@ -33,6 +33,14 @@ public class ItemType {
 	public static const PART_GENERATOR:ItemType = new ItemType(106, "PART_GENERATOR");
 	
 	
+	/* абстрактные предметы - цвета - нету ни в каких менеджерах, все парсится в другие места при логине */
+	
+	public static const COLOR_RED:ItemType = new ItemType(1000, "COLOR_RED");
+	public static const COLOR_BLUE:ItemType = new ItemType(1001, "COLOR_BLUE");
+	public static const COLOR_ORANGE:ItemType = new ItemType(1002, "COLOR_ORANGE");
+	public static const COLOR_PINK:ItemType = new ItemType(1003, "COLOR_PINK");
+	public static const COLOR_GREEN:ItemType = new ItemType(1004, "COLOR_GREEN");
+	public static const COLOR_BLACK:ItemType = new ItemType(1005, "COLOR_BLACK");
 	
 	
 	
@@ -92,7 +100,19 @@ public class ItemType {
 				return PART_MAGIC_SNOW;
 			case AURA_FIRE.value:
 				return AURA_FIRE;
-				
+			
+			case COLOR_BLACK.value:
+				return COLOR_BLACK;
+			case COLOR_BLUE.value:
+				return COLOR_BLUE;
+			case COLOR_GREEN.value:
+				return COLOR_GREEN;
+			case COLOR_ORANGE.value:
+				return COLOR_ORANGE;
+			case COLOR_PINK.value:
+				return COLOR_PINK;
+			case COLOR_RED.value:
+				return COLOR_RED;
 				
 			default:
 				return null;

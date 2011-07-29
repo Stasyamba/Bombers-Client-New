@@ -132,7 +132,11 @@ public class GameServer extends SmartFox {
 
 
     private static const LOBBY_LOCATION:String = "game.lobby.location"
+	
+	private static const SET_KEY_VALUE_PAIR:String = "interface.setCustomParameter";
+	
 
+		
     public var ip:String;
     public var port:int;
     public var zone:String;
@@ -418,6 +422,34 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest(INT_SET_NICK, params, null));
     }
 
+	public function setKeyValuePair(key: int, value: *): void
+	{
+		var params:ISFSObject = new SFSObject();
+		params.putInt("nterface.setCustomParameter.f.key", key);
+		
+		var isAcceptableValue: Boolean = true;
+		
+		if(value is int)
+		{
+			params.putInt("interface.setCustomParameter.f.intValue", value);
+			
+		}else if(value is String)
+		{
+			params.putInt("interface.setCustomParameter.f.stringValue", value);
+		}else
+		{
+			isAcceptableValue = false;
+		}
+		
+		if(isAcceptableValue)
+		{
+			send(new ExtensionRequest(SET_KEY_VALUE_PAIR, params, null));
+		}else
+		{
+			Alert.show("Error: Bad value | GameServer.as");
+		}
+	}
+	
 
     public function wall_sendSubmitPrice(posterId:String):void {
         var params:ISFSObject = new SFSObject();
@@ -669,7 +701,8 @@ public class GameServer extends SmartFox {
                     var itemsArr:ISFSArray = plist.getSFSArray("Items");
                     var prices:Array = new Array();
 
-                    for (var i:int = 0; i < itemsArr.size(); i++) {
+                    for (var i:int = 0; i < itemsArr.size(); i++) 
+					{
                         var obj:ISFSObject = itemsArr.getSFSObject(i);
                         var id:int = obj.getInt("Id")
                         var rp:ResourcePrice = new ResourcePrice(obj.getInt("Gold"), obj.getInt("Crystal"), obj.getInt("Adamantium"), obj.getInt("Antimatter"))
