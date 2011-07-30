@@ -7,6 +7,7 @@ package engine.model {
 import components.common.base.expirance.ExperianceObject;
 import components.common.items.ItemProfileObject;
 import components.common.items.categories.ItemCategory;
+import components.common.quests.QuestBestPlayer;
 import components.common.quests.QuestObject;
 import components.common.quests.medals.MedalType;
 import components.common.quests.regard.RegardObject;
@@ -207,6 +208,7 @@ public class GameModel {
                     return new QuestObject(item.id, item.locationId, item.imageURL, item.name, item.energyCost, item.accessRules, tasks, item.description, item.previewImageURL, item.timeLimit)
 
                 })
+			
         Context.Model.questManager.addQuests(_commonQuests)
     }
 

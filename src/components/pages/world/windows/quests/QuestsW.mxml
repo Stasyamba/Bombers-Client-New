@@ -66,6 +66,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.utils.ObjectUtil;
 			import components.common.base.access.rules.betarule.AccessBetaRule;
 			import components.pages.world.windows.locationenter.BetaContent;
 			import components.common.tutorial.TutorialPartType;
@@ -114,6 +115,8 @@
 			private function panelCreationComplete():void {
 				//Context.Model.windowsManager.closeAll(true);
 				//Context.Model.windowsManager.addWindow(this);
+				
+				//Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllQuests()}));
 				
 				if(locationType != null)
 				{

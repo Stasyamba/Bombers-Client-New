@@ -26,6 +26,8 @@ import components.common.friendslent.FriendObject;
 import components.common.items.ItemObject;
 import components.common.items.ItemType;
 import components.common.profiles.ISocialProfile;
+import components.common.quests.QuestBestPlayer;
+import components.common.quests.QuestManager;
 import components.common.quests.QuestObject;
 import components.common.quests.medals.MedalType;
 import components.common.quests.regard.RegardObject;
@@ -800,6 +802,38 @@ public class GameServer extends SmartFox {
                         var sqo:ISFSObject = questsArr.getSFSObject(i);
 
                         var qid:String = sqo.getUtfString("Id")
+							
+						/* parse medalists */
+							
+						if(sqo.containsKey("Champion"))
+						{
+							var champ:ISFSObject = sqo.getSFSObject("Champion");
+							var mt: MedalType = MedalType.BRONZE_MEDAL;
+							
+							switch(champ.getInt("MedalType"))
+							{
+								case 4:
+									mt = MedalType.GOLD_MEDAL;
+									break;
+								case 2:
+									mt = MedalType.SILVER_MEDAL;
+									break;
+								case 1:
+									mt = MedalType.BRONZE_MEDAL;
+									break;
+							}
+							
+							var ch: QuestBestPlayer = new QuestBestPlayer(
+								qid, 
+								champ.getUtfString("Login"),
+								champ.getUtfString("PhotoUrl"),
+								mt,
+								champ.getInt("Time"));
+							
+							Context.Model.questManager.addMedalist(ch.clone());
+						}
+							
+							
                         var eCost:int = sqo.getInt("E");
                         var rewards:Array = ["Gold","Silver","Bronze"];
                         var sqoRewards:Array = new Array();
@@ -851,6 +885,28 @@ public class GameServer extends SmartFox {
                     Context.gameModel.fillServerQuestData();
 
 
+					/* fill with best players */
+					var medlists:Array = Context.Model.questManager.getAllMedalists();
+					
+					for each(var qo:QuestObject in Context.Model.questManager.getAllQuests())
+					{
+						for each(var bp:QuestBestPlayer in medlists)
+						{
+							if(qo.id == bp.questId)
+							{
+								qo.setBestPlayer(bp.clone());
+								break;
+							}
+						}
+					}	
+
+					//Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllQuests()}));
+					
+					
+					//Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllMedalists()}));
+					
+					//Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllMedalists()}));
+					
                     /*for each(var eo: ExperianceObject in Context.Model.experianceManager.levelExperiencePair)
                      {
                      debugRewards += "Level: "+eo.level.toString()+"\n\n";

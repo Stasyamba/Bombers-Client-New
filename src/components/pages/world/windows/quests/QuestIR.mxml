@@ -25,6 +25,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.pages.quest.leftpanel.questprogress.Time;
 			import components.common.base.access.rules.IAccessRule;
 			import components.common.base.access.rules.betarule.AccessBetaRule;
 			import components.common.tutorial.TutorialPartType;
@@ -47,6 +48,28 @@
             super.data = value;
             qo = data as QuestObject;
 
+			
+			/* set medalist */
+			if(qo.bestPlayer != null)
+			{
+				medalistPhoto.initPhoto(qo.bestPlayer.gameProfile.photoURL);
+				
+				switch(qo.bestPlayer.medalType)
+				{
+					case MedalType.GOLD_MEDAL:
+						bestMedal1.visible = true;
+						break;
+					case MedalType.SILVER_MEDAL:
+						bestMedal2.visible = true;
+						break;
+					case MedalType.BRONZE_MEDAL:
+						bestMedal3.visible = true;
+						break;
+				}
+				
+				bestTime.text = Time.getTimeStringView(qo.bestPlayer.time);
+			}
+			
 			this.filters = [];
 			
             costLabel.text = qo.energyCost.toString();
@@ -62,7 +85,7 @@
             deniedGroup.filters = [cm.filter.clone()];
 
             /* data type = QuestObject */
-
+			
 
             nameLabel.text = (data as QuestObject).view.name;
             previewImage.source = (data as QuestObject).view.imageURL;
@@ -264,6 +287,23 @@
 			</s:Group>
 			
 		</s:VGroup>
+		
+		<!-- best player group -->
+		<s:Group width="100%" height="100%">
+			<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<flexcomponents:UserPhotoGroup id="medalistPhoto" basePhotoSizeH="73" basePhotoSizeW="73" />
+			</s:HGroup>
+			
+			<s:Group id="bestMedalGroup" x="65" y="5" scaleX="0.85" scaleY="0.85">
+				<s:BitmapImage id="bestMedal3" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/3medal.png')" smooth="true" />
+				<s:BitmapImage id="bestMedal2" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/2medal.png')" smooth="true" />
+				<s:BitmapImage id="bestMedal1" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/1medal.png')" smooth="true" />
+			</s:Group>
+			
+			<s:Label id="bestTime" x="13" y="67" fontFamily="mpbc" fontSize="18" color="0xffe400" />
+			
+		</s:Group>
+		
 		
 	</s:HGroup>
 	

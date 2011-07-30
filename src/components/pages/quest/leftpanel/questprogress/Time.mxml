@@ -85,7 +85,7 @@
 				timer.stop();
 			}
 			
-			public function getTimeStringView(timeSeconds: int): String
+			public static function getTimeStringView(timeSeconds: int): String
 			{
 				var res: String = " сек";
 				

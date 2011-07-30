@@ -11,7 +11,8 @@ package components.common.quests
 	public class QuestManager
 	{
 		private var quests: Array; /* type = [ QuestObject, ... ] */
-
+		private var medalists: Array;
+		
 		public function QuestManager()
 		{
 			/* testing, next laod from server */
@@ -19,6 +20,7 @@ package components.common.quests
 			/* порядок имеет огромное значение,проверяются все квесты ДО определенного */
 			
 			quests = new Array();
+			medalists = new Array();
 			
 //			quests.push(new QuestObject(QuestType.GRASS_Q1,
 //				ImagesPrefixes.QUESTS_PREVIEW_PREFIX+"1.jpg",
@@ -66,6 +68,11 @@ package components.common.quests
 			
 		}
 
+		public function addMedalist(bpo:QuestBestPlayer): void
+		{
+			medalists.push(bpo);
+		}
+		
         //добавляет квесты когда они загрузились
 		public function addQuests(_quests:Array):void{
             for (var i:int = 0; i < _quests.length; i++) {
@@ -97,8 +104,12 @@ package components.common.quests
 		
 		public function getAllQuests(): Array
 		{
-			var res: Array = quests.concat();
-			return res;
+			return quests;
+		}
+		
+		public function getAllMedalists():Array
+		{
+			return medalists;
 		}
 		
 		public function getQuests(locationType: LocationType): Array

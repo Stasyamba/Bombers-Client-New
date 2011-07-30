@@ -27,15 +27,11 @@ package components.common.quests
 		public var timeLimit: int;
 		
 		/* quest best player */
-		public var bestPlayer:GameProfile;
-		public var bestTakingMedalTime: int;
-		public var bestMedalType:MedalType;
+		public var bestPlayer:QuestBestPlayer;
 		
-		public function setBestPlayer(p:GameProfile, time: int, medal: MedalType):void
+		public function setBestPlayer(qbp: QuestBestPlayer):void
 		{
-			bestPlayer = p;
-			bestTakingMedalTime = time;
-			bestMedalType = medal;
+			bestPlayer = qbp.clone();
 		}
 		
 		public function QuestObject(idP: String,
@@ -48,9 +44,7 @@ package components.common.quests
 									describe: String = "",
 									additionalImageURL: String = "",
 									timeLimitP: int = 0,
-									bestPlayerP:GameProfile = null,
-									bestTakingMedalTimeP:int = 0,
-									bestMedalTypeP:MedalType = null
+									bestPlayerP:QuestBestPlayer = null
 		)
 		{
 			id = idP;
@@ -78,6 +72,14 @@ package components.common.quests
 			}
 			
 			timeLimit = timeLimitP;
+			
+			if(bestPlayerP != null)
+			{
+				bestPlayer = bestPlayerP.clone();
+			}else
+			{
+				bestPlayer = null;
+			}
 		}
 		
 		public function getTask(mt: MedalType): TaskObject
