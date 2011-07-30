@@ -59,7 +59,10 @@
 		<![CDATA[
 			import components.wall.SendWallObject;
 			import components.common.base.CommonConstans;
-			import loading.SoundManager;
+
+            import engine.games.quest.QuestGame
+
+            import loading.SoundManager;
 			import mx.utils.ObjectUtil;
 		import components.pages.world.windows.tutorial.part2.TutorialQuestEndToolTip;
 		import components.common.tutorial.TutorialPartType;
@@ -233,7 +236,7 @@
 					Context.Model.questIdLastOpened, 
 					Context.Model.questToken, 
 					gotBronze, gotSilver, gotGold,
-					0);
+					(Context.game as QuestGame).bestMedalTime);
 
             } else {
                 Alert.show("Error with passing data | QuestResultW.mxml");
