@@ -388,7 +388,7 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest(INT_QUEST_START, params, null));
     }
 
-    public function sendStartQuestSubmit(missionId:String, token:int, isBronze:Boolean, isSilver:Boolean, isGold:Boolean):void {
+    public function sendStartQuestSubmit(missionId:String, token:int, isBronze:Boolean, isSilver:Boolean, isGold:Boolean, bestTime: int):void {
         var params:ISFSObject = new SFSObject();
         params.putUtfString("interface.missions.submitResult.f.missionId", missionId);
         params.putInt("interface.missions.submitResult.f.token", token);
@@ -397,6 +397,8 @@ public class GameServer extends SmartFox {
         params.putBool("interface.missions.submitResult.f.isSilver", isSilver);
         params.putBool("interface.missions.submitResult.f.isGold", isGold);
 
+		params.putInt("interface.missions.submitResult.f.result", bestTime);
+		
         send(new ExtensionRequest(INT_QUEST_SUBMIT, params, null));
     }
 

@@ -232,7 +232,8 @@
 				Context.gameServer.sendStartQuestSubmit(
 					Context.Model.questIdLastOpened, 
 					Context.Model.questToken, 
-					gotBronze, gotSilver, gotGold);
+					gotBronze, gotSilver, gotGold,
+					0);
 
             } else {
                 Alert.show("Error with passing data | QuestResultW.mxml");
