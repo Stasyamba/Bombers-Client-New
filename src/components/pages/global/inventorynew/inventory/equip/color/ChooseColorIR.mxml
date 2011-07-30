@@ -29,7 +29,9 @@
 			import components.common.bombers.colors.BomberColorObject;
 			import components.common.items.ItemObject;
 			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
 			import components.common.items.categories.ItemCategory;
+			import components.common.resources.ResourceType;
 			import components.pages.global.inventorynew.inventory.pack.aura.AuraSlot;
 			import components.pages.global.inventorynew.inventory.pack.collection.CollectionSlot;
 			import components.pages.global.inventorynew.inventory.pack.weapon.WeaponSlot;
@@ -110,8 +112,9 @@
 				{
 					if(Context.Model.currentSettings.gameProfile.resources.gold.value >= (data as BomberColorObject).price.gold.value)
 					{
-						Alert.show("Send server request");
+						//Alert.show("Send server request");
 						//Context.gameServer.sendBuyItemRequest(itemType, rt);
+						Context.gameServer.sendBuyItemRequest(ItemType.byValue((data as BomberColorObject).color.id), ResourceType.GOLD);
 					}else
 					{
 						Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
@@ -120,8 +123,9 @@
 				{
 					if(Context.Model.currentSettings.gameProfile.resources.crystals.value >= (data as BomberColorObject).price.crystals.value)
 					{
-						Alert.show("Send server request");
+						//Alert.show("Send server request");
 						//Context.gameServer.sendBuyItemRequest(itemType, rt);
+						Context.gameServer.sendBuyItemRequest(ItemType.byValue((data as BomberColorObject).color.id), ResourceType.CRYSTALS);
 					}else
 					{
 						Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);

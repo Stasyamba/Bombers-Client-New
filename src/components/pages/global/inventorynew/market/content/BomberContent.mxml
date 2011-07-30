@@ -18,8 +18,11 @@
 			import components.common.bombers.BomberObject;
 			import components.common.bombers.BomberType;
 			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
 			import components.common.utils.adjustcolor.ColorMatrix;
 			import components.pages.global.inventorynew.market.ItemMarket;
+			
+			import mx.controls.Alert;
 			
 			import spark.primitives.BitmapImage;
 			
@@ -33,6 +36,8 @@
 			private var bomberPrice: ResourcePrice;
 			private var bomberImageURL: String;
 			
+			private var nLevel:int;
+			private var isBeta:Boolean;
 			
 			public function initContent(itemMarket: ItemMarket): void
 			{
@@ -44,32 +49,21 @@
 				bomberDescribeLabel.text = bo.viewObject.describe;
 				bomberImageURL = bo.viewObject.bigImageURL;
 				
-				/* price cheking */
+				nLevel = itemMarket.itemLevelNessesory;
+				isBeta = itemMarket.isBeta;
 				
-				/* var arrResources:Array = itemPrice.getResourceObjectArr();
+				//Alert.show("LEvel: "+nLevel.toString()+" isBeta: "+isBeta.toString());
 				
-				for each(var ro:ResourceObject in arrResources) 
+				if(!Context.Model.currentSettings.gameProfile.haveBomber(bomberType))
 				{
-					switch(ro.type)
+					if(nLevel == 0 && !isBeta)
 					{
-						case ResourceType.GOLD:
-							
-							if(ro.value != 0)
-							{
-								goldBuyGroup.alpha = 1;
-							}
-							
-							break;
-						case ResourceType.CRYSTALS:
-							
-							if(ro.value != 0)
-							{	
-								crystallsBuyGroup.alpha = 1;
-							}
-							
-							break;
+						buyGroup.visible = true;
+					}else
+					{
+						buyGroup.visible = false;
 					}
-				} */
+				}
 			}
 			
 			private function init(): void
@@ -92,9 +86,12 @@
 				
 				defenceLabel.text = "0";
 				damageLabel.text = "5";
+				
+				
+				
 			}
 			
-			private function buyItem(): void
+			private function buyItem(rt:ResourceType): void
 			{
 				/* if(Context.Model.currentSettings.gameProfile.resources.isBiggerOrEqual(itemPrice))
 				{
@@ -126,6 +123,35 @@
 					  />
 		</s:HGroup>
 	</s:HGroup>
+	
+	<s:VGroup id="buyGroup" width="100%" horizontalAlign="center" gap="10" paddingTop="-10" visible="false">
+		
+		<s:HGroup id="goldBuyGroup" verticalAlign="middle">
+			<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
+				<s:Label text="Купить за золото" color="0xfec900" fontFamily="mpr" fontSize="14" />
+			</s:HGroup>
+			<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+										  scaleX="0.5" scaleY="0.5"
+										  customLabel="Купить"
+										  fontSize="28" fontSizeOver="28"
+										  fontColor="0xfff19f"
+										  click="buyItem(ResourceType.GOLD);"
+										  />
+		</s:HGroup>
+		
+		<s:HGroup id="crystallsBuyGroup" verticalAlign="middle">
+			<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
+				<s:Label text="Купить за кристаллы" color="0xfec900" fontFamily="mpr" fontSize="14" />
+			</s:HGroup>
+			<flexcomponents:PatternButton id="buyForCrystallsButton" skinClass="skins.buttons.Pattern2ButtonS"
+										  scaleX="0.5" scaleY="0.5"
+										  customLabel="Купить"
+										  fontSize="28" fontSizeOver="28"
+										  fontColor="0xfff19f"
+										  click="buyItem(ResourceType.CRYSTALS);"
+										  />
+		</s:HGroup>
+	</s:VGroup>
 	
 	<s:Group>
 		<s:BorderContainer id="paramsBg" width="291" height="40" 
@@ -193,41 +219,6 @@
 			
 		</s:HGroup>
 	</s:Group>
-	<!--<s:Group width="100%">
-		<s:HGroup id="accessGroup" width="100%" horizontalAlign="center" alpha="0">
-			<s:Label id="accessLevelRuleFailed" fontFamily="mpr" fontSize="24" color="0xe86a05" />
-		</s:HGroup>
-		
-		<s:VGroup id="buyGroup" width="100%" horizontalAlign="center" alpha="0" gap="10">
-			
-			<s:HGroup id="goldBuyGroup" verticalAlign="middle" alpha="0">
-				<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
-					<s:Label text="Купить за золото" color="0xfec900" fontFamily="mpr" fontSize="14" />
-				</s:HGroup>
-				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
-											  scaleX="0.5" scaleY="0.5"
-											  customLabel="Купить"
-											  fontSize="28" fontSizeOver="28"
-											  fontColor="0xfff19f"
-											  click="buyItem();"
-											  />
-			</s:HGroup>
-			
-			<s:HGroup id="crystallsBuyGroup" verticalAlign="middle" alpha="0">
-				<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
-					<s:Label text="Купить за кристаллы" color="0xfec900" fontFamily="mpr" fontSize="14" />
-				</s:HGroup>
-				<flexcomponents:PatternButton id="buyForCrystallsButton" skinClass="skins.buttons.Pattern2ButtonS"
-											  scaleX="0.5" scaleY="0.5"
-											  customLabel="Купить"
-											  fontSize="28" fontSizeOver="28"
-											  fontColor="0xfff19f"
-											  click="buyItem();"
-											  />
-			</s:HGroup>
-			
-		</s:VGroup>
-	</s:Group>-->
 	
 	
 	

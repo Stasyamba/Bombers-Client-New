@@ -6,6 +6,9 @@ package components.common.quests
 	import components.common.quests.medals.MedalType;
 	import components.common.quests.tasks.TaskObject;
 	import components.common.worlds.locations.LocationType;
+	import components.pages.game.GamePage;
+	
+	import engine.profiles.GameProfile;
 
 	public class QuestObject
 	{
@@ -23,6 +26,18 @@ package components.common.quests
 		
 		public var timeLimit: int;
 		
+		/* quest best player */
+		public var bestPlayer:GameProfile;
+		public var bestTakingMedalTime: int;
+		public var bestMedalType:MedalType;
+		
+		public function setBestPlayer(p:GameProfile, time: int, medal: MedalType):void
+		{
+			bestPlayer = p;
+			bestTakingMedalTime = time;
+			bestMedalType = medal;
+		}
+		
 		public function QuestObject(idP: String,
                                     locationIdP:int,
 									imageURLP: String, 
@@ -32,7 +47,10 @@ package components.common.quests
 									tasksP: Array = null,
 									describe: String = "",
 									additionalImageURL: String = "",
-									timeLimitP: int = 0
+									timeLimitP: int = 0,
+									bestPlayerP:GameProfile = null,
+									bestTakingMedalTimeP:int = 0,
+									bestMedalTypeP:MedalType = null
 		)
 		{
 			id = idP;

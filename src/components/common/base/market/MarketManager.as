@@ -34,7 +34,7 @@ public class MarketManager {
 			return _bomberPrices[bomberType.value];
 		}
 		
-		return new ItemMarketObject(new ResourcePrice(0,0,0,0),1,false);
+		return new ItemMarketObject(new ResourcePrice(5000,20,0,0),1,false);
 	}
 }
 }

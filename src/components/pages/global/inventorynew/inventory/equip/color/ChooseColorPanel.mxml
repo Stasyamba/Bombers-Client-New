@@ -65,6 +65,11 @@
 					
 				});
 				
+				Context.Model.addCustomListener(ContextEvent.COLOR_SET_REFRESH, function (e:ContextEvent): void
+				{
+					initColors();
+				});
+				
 				/* register update handler */
 			}
 			

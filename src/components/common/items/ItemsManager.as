@@ -58,7 +58,7 @@ public class ItemsManager {
 				ItemType.HAMELEON_POISON,
 				ImagesPrefixes.WEAPON_PREFIX + "hamelionPoison.png",
 				"Зелье хамелеона",
-				"На 30 секунд ваш бомбастер сольется с картой и станет практически незаметным для ваших врагов!"
+				"На 2 минуты ваш бомбастер сольется с картой и станет практически незаметным для врагов!"
 			)
 		));
 		
@@ -70,7 +70,7 @@ public class ItemsManager {
 				ItemType.HEALTH_PACK_POISON,
 				ImagesPrefixes.WEAPON_PREFIX + "healthPackPoison.png",
 				"Зелье здоровья",
-				"Приятное на вкус, бодрящее зелье. Хороший бой и 1 единица здоровья вам гарантированы."
+				"Восстанавливает 5 едениц здоровья в бою, когда в важном бою силы на исходе, используй его!"
 			)
 		));
 		
@@ -82,7 +82,7 @@ public class ItemsManager {
 				ItemType.MINA_BOMB,
 				ImagesPrefixes.WEAPON_PREFIX + "minaBomb.png",
 				"Мина",
-				"Вызрывается только после касания! Почувствуй себя стратегом, ставь ловушки и блокируй ходы соперников!"
+				"Взрывается при касании нанося 15 урона. Для вас хорошо видима, для врагов почти незаметная. Блокируй ходы соперника и побеждай."
 			)
 		));
 
@@ -94,7 +94,7 @@ public class ItemsManager {
 				ItemType.DINAMIT_BOMB,
 				ImagesPrefixes.WEAPON_PREFIX + "dinamitBomb.png",
 				"Динамит",
-				"Мощная бомба, которая снимает сразу 2 жизни. Подорви салаг."
+				"Мощнейшая бомба, взрывает несколько видов больших объектов. Наносит 15 урона."
 			)
 		));
 		
@@ -106,7 +106,7 @@ public class ItemsManager {
 				ItemType.HEALTH_PACK_ADVANCED_POISON,
 				ImagesPrefixes.WEAPON_PREFIX + "healthPackAdvancedPoison.png",
 				"Зелье здоровья (увеличенное)",
-				"Редчайшая выжимка из ночного опоссума, восстанавливает целых 2 единицы здоровья."
+				"Редчайшая выжимка из ночного опоссума, восстанавливает 10 едениц здоровья."
 			)
 		));
 		

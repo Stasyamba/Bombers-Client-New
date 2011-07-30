@@ -1,4 +1,5 @@
 package components.common.bombers {
+	import components.common.base.access.rules.betarule.AccessBetaRule;
 	import components.common.base.access.rules.levelrule.AccessLevelRule;
 	import components.common.base.server.ImagesPrefixes;
 
@@ -31,7 +32,7 @@ public class BombersManager {
 		
 		bombers.push(new BomberObject(
 			BomberType.ZOMBIE,
-			[new AccessLevelRule(7)],
+			[],
 			new BomberViewObject(BomberType.ZOMBIE,
 				"Зомбастер",
 				"Настоящий живой мертвец! Он готов на все, ради аппетитных сочных мозгов своих соперников!",

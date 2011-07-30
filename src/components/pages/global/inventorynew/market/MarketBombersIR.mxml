@@ -6,7 +6,7 @@
 				autoDrawBackground="false"
 				useHandCursor="true"
 				buttonMode="true"
-				width="240" height="80" xmlns:market="components.pages.global.inventorynew.market.*"
+				width="240" height="80" xmlns:market="components.pages.global.inventorynew.market.*" xmlns:content="components.pages.global.inventorynew.market.content.*"
 				>
 	<s:layout>
 		<s:BasicLayout />
@@ -55,6 +55,10 @@
 					
 					lockBomberImage.visible = false;
 					choosenPanel.visible = false;
+					priceGroup.visible = false;
+					centerGroup.visible = true;
+					centerGroup.width = 40;
+					
 					
 					bomberName.text = (data as ItemMarket).bombasterName;
 					
@@ -83,6 +87,14 @@
 								bomberLockLabel.text = (value as ItemMarket).itemLevelNessesory.toString() + " уровень";
 							}else
 							{
+								/* set price */
+								centerGroup.visible = false;
+								centerGroup.width = 0;
+								
+								priceGroup.initContent((data as ItemMarket).itemPrice);
+								priceGroup.visible = true;
+								
+								bomberLockLabel.visible = false;
 								bomberLockLabel.text = "Не куплен";
 							}
 							
@@ -128,16 +140,20 @@
 						  complete="{appearingA.play();}"
 						  />
 				
-				<s:Group>
+				<s:Group id="centerGroup">
 					<s:HGroup height="100%" width="100%" horizontalAlign="center" verticalAlign="middle">
-						<market:ChooseBomberPanel id="choosenPanel" visible="false" click="changeBomber();" />	
+						<market:ChooseBomberCheckBox id="choosenPanel" visible="false" click="changeBomber();" />	
 					</s:HGroup>
 					<s:BitmapImage id="lockBomberImage" source="@Embed(source='assets/windows/inventory/collection/lock.png')" visible="false" />
 				</s:Group>
 				
 				<s:VGroup width="100%" height="100%" horizontalAlign="right" verticalAlign="middle" paddingRight="8" gap="3">
 					<s:Label id="bomberName" color="0xfff200" fontFamily="mpbc" fontSize="16" />
-					<s:Label id="bomberLockLabel" color="0xb4881a" fontFamily="mpbc" fontSize="14" />
+					<s:Group>
+						<s:Label id="bomberLockLabel" color="0xb4881a" fontFamily="mpbc" fontSize="14" />
+						<content:PricePanelBomberContent id="priceGroup" scaleX="0.9" scaleY="0.9" />
+					</s:Group>
+					
 				</s:VGroup>
 			</s:HGroup>
 		</s:Group>
