@@ -72,6 +72,7 @@ public class QuestGame extends GameBase implements IQuestGame {
     private var _timeTimer:Timer
 
     private var _timeOutTween:TweenMax;
+    private var _medalTimes:Object = new Object();
 
     public function QuestGame(gameId:String, quest:EngineQuestObject) {
         super(LocationType.byValue(quest.locationId))
@@ -270,7 +271,14 @@ public class QuestGame extends GameBase implements IQuestGame {
         if (_hasCommonGoal) {
             if (_commonGoal.check(this)) {
                 Context.gameModel.isPlayingNow = false
-                Context.gameModel.questCompleted.dispatch(checkMedalGoals())
+                var arr:Array = checkMedalGoals();
+                for each (var m:Medal in arr) {
+                    if (m != null) {
+                        if (!hasMedal(m))
+                            _medalTimes[m.value] = _time;
+                    }
+                }
+                Context.gameModel.questCompleted.dispatch(arr)
                 return true;
             }
         } else {
@@ -278,12 +286,14 @@ public class QuestGame extends GameBase implements IQuestGame {
             for each (var m:Medal in arr) {
                 if (m != null) {
                     if (_questObject.finishOnGoal) {
+                        _medalTimes[m.value] = _time;
                         Context.gameModel.isPlayingNow = false
                         Context.gameModel.questCompleted.dispatch([m])
                         return true;
                     } else {
                         if (!hasMedal(m)) {
                             _currentMedals.push(m)
+                            _medalTimes[m.value] = _time;
                         }
                     }
                 }
@@ -419,6 +429,16 @@ public class QuestGame extends GameBase implements IQuestGame {
 
     public function get timePassed():int {
         return _time
+    }
+
+    public function get bestMedalTime():int {
+        if(_medalTimes[Medal.GOLD.value])
+            return _medalTimes[Medal.GOLD.value]
+        if(_medalTimes[Medal.SILVER.value])
+            return _medalTimes[Medal.SILVER.value]
+        if(_medalTimes[Medal.BRONZE.value])
+            return _medalTimes[Medal.BRONZE.value]
+        return int.MAX_VALUE;
     }
 
     public function resourceCollected(rt:ResourceType, count:int, player:IBomber):void {
