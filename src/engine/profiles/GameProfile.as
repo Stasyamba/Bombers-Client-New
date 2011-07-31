@@ -410,6 +410,10 @@ public class GameProfile {
                 res.addMedal(qId, [MedalType.GOLD_MEDAL])
         }
 
+		res.bombersOpened = new Array();
+		res.bombersOpened.push(BomberType.FURY_JOE);
+		res.bombersOpened.push(BomberType.R2D3);
+		
         var items:ISFSArray = obj.getSFSArray("WeaponsOpen");
 
         for (var i:int = 0; i < items.size(); i++) {
@@ -422,6 +426,11 @@ public class GameProfile {
 			{
 				/* is color */
 				res.openedBomberColors.push(PlayerColor.byId(itemId));
+				
+			}else if(BomberType.haveId(itemId))
+			{
+				/* is bomber */
+				res.bombersOpened.push(BomberType.byValue(itemId));
 				
 			}else
 			{
@@ -482,21 +491,6 @@ public class GameProfile {
             }
         }
 
-        items = obj.getSFSArray("BombersOpen");
-
-        /* by default two first are opened */
-        res.bombersOpened = new Array();
-        res.bombersOpened.push(BomberType.byValue(0));
-        res.bombersOpened.push(BomberType.byValue(1));
-		res.bombersOpened.push(BomberType.ZOMBIE);
-
-        for (i = 0; i < items.size(); i++) {
-            var bType:BomberType = BomberType.byValue(items.getInt(i));
-
-            if (bType != null) {
-                res.bombersOpened.push(bType);
-            }
-        }
 
         return res;
     }

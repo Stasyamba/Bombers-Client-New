@@ -703,7 +703,8 @@ public class GameServer extends SmartFox {
                     //itemCost
                     var itemsArr:ISFSArray = plist.getSFSArray("Items");
                     var prices:Array = new Array();
-
+					var bomberPrices: Array = new Array();
+					
                     for (var i:int = 0; i < itemsArr.size(); i++) 
 					{
                         var obj:ISFSObject = itemsArr.getSFSObject(i);
@@ -712,30 +713,38 @@ public class GameServer extends SmartFox {
                         var stack:int = obj.getInt("Stack")
                         var so:Boolean = obj.getBool("SpecialOffer")
                         var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
-                        prices[id] = imo;
+                        
 						
                         var lev:int = obj.getInt("Level");
 							
-						/* checking for color */
+						
 							
 						if(PlayerColor.haveId(id))
 						{
+							/* is color */
 							Context.Model.bomberColorManager.setColorParameters(PlayerColor.byId(id), rp);
+						}else if(BomberType.haveId(id))
+						{
+							/* is bomber */
+							bomberPrices[id] = imo;
 						}else
 						{
+							/* is item */
+							
+							prices[id] = imo;
+							
 							/* parse level rule */
 							
-							/*var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
+							var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
 							if (io != null) 
 							{
 								io.addRule(new AccessLevelRule(lev));
-							}*/
+							}
 						}
-							
-                        
                     }
-                    Context.Model.marketManager.setItemPrices(prices)
-
+					
+                    Context.Model.marketManager.setItemPrices(prices);
+					Context.Model.marketManager.setBomberPrices(bomberPrices);
                     //levels
 
                     var debugRewards:String = "";
