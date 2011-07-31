@@ -49,10 +49,10 @@ package components.common.bombers.colors
 				));
 			
 			bomberColors.push(
-				new BomberColorObject(PlayerColor.BLACK,
-					"Черный",
-					new ResourcePrice(0,15,0,0),
-					[new AccessLevelRule(7)]
+				new BomberColorObject(PlayerColor.YELLOW,
+					"Желтый",
+					new ResourcePrice(0,10,0,0),
+					[]
 				));
 			
 		}

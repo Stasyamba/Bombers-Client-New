@@ -294,13 +294,13 @@
 				<flexcomponents:UserPhotoGroup id="medalistPhoto" basePhotoSizeH="73" basePhotoSizeW="73" />
 			</s:HGroup>
 			
-			<s:Group id="bestMedalGroup" x="65" y="5" scaleX="0.85" scaleY="0.85">
+			<s:Group id="bestMedalGroup" x="5" y="65" scaleX="0.65" scaleY="0.65">
 				<s:BitmapImage id="bestMedal3" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/3medal.png')" smooth="true" />
 				<s:BitmapImage id="bestMedal2" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/2medal.png')" smooth="true" />
 				<s:BitmapImage id="bestMedal1" visible="false" source="@Embed(source='assets/pageworld/worlds/quests/1medal.png')" smooth="true" />
 			</s:Group>
 			
-			<s:Label id="bestTime" x="13" y="67" fontFamily="mpbc" fontSize="18" color="0xffe400" />
+			<s:Label id="bestTime" x="29" y="67" fontFamily="mpbc" fontSize="16" color="0xffe400" />
 			
 		</s:Group>
 		

@@ -21,7 +21,7 @@ public class PlayerColor {
     public static const PINK:PlayerColor = new PlayerColor(1003, 3, "pink", Bombs.PINK_GLOW, 0xFF00FF);
     public static const RED:PlayerColor = new PlayerColor(1000, 4, "red", Bombs.RED_GLOW, 0xFF0000);
     public static const GREEN:PlayerColor = new PlayerColor(1004, 5, "green", Bombs.RED_GLOW, 0x22940d);
-    public static const BLACK:PlayerColor = new PlayerColor(1005, 6, "black", Bombs.RED_GLOW, 0x000000);
+    public static const YELLOW:PlayerColor = new PlayerColor(1005, 6, "yellow", Bombs.RED_GLOW, 0xfcff00);
 
 
     public function PlayerColor(id:int, colorId:int, key:String, bombGlow:BitmapData, color:uint) {
@@ -64,8 +64,8 @@ public class PlayerColor {
                 return RED;
             case GREEN.colorId:
                 return GREEN;
-            case BLACK.colorId:
-                return BLACK;
+            case YELLOW.colorId:
+                return YELLOW;
         }
         throw Context.Exception("Error in PlayerColor (byColorId): no color with value " + value);
     }
@@ -82,8 +82,8 @@ public class PlayerColor {
                 return RED;
             case GREEN.id:
                 return GREEN;
-            case BLACK.id:
-                return BLACK;
+            case YELLOW.id:
+                return YELLOW;
         }
 		
         return RED;
@@ -101,7 +101,7 @@ public class PlayerColor {
 			case PINK.id:
 			case RED.id:
 			case GREEN.id:
-			case BLACK.id:
+			case YELLOW.id:
 				res = true;
 				break;
 		}
