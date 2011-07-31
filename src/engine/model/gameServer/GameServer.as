@@ -5,65 +5,64 @@
 
 package engine.model.gameServer {
 
-import com.smartfoxserver.v2.SmartFox;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.requests.ExtensionRequest;
-import com.smartfoxserver.v2.requests.JoinRoomRequest;
-import com.smartfoxserver.v2.requests.LeaveRoomRequest;
-import com.smartfoxserver.v2.requests.LoginRequest;
-import com.smartfoxserver.v2.requests.PublicMessageRequest;
+import com.smartfoxserver.v2.SmartFox
+import com.smartfoxserver.v2.core.SFSEvent
+import com.smartfoxserver.v2.entities.Room
+import com.smartfoxserver.v2.entities.data.ISFSArray
+import com.smartfoxserver.v2.entities.data.ISFSObject
+import com.smartfoxserver.v2.entities.data.SFSObject
+import com.smartfoxserver.v2.requests.ExtensionRequest
+import com.smartfoxserver.v2.requests.JoinRoomRequest
+import com.smartfoxserver.v2.requests.LeaveRoomRequest
+import com.smartfoxserver.v2.requests.LoginRequest
+import com.smartfoxserver.v2.requests.PublicMessageRequest
 
-import components.common.base.CommonConstans;
-import components.common.base.access.rules.levelrule.AccessLevelRule;
-import components.common.base.expirance.ExperianceObject;
-import components.common.base.market.ItemMarketObject;
-import components.common.bombers.BomberType;
-import components.common.friendslent.FriendObject;
-import components.common.items.ItemObject;
-import components.common.items.ItemType;
-import components.common.profiles.ISocialProfile;
-import components.common.quests.QuestBestPlayer;
-import components.common.quests.QuestManager;
-import components.common.quests.QuestObject;
-import components.common.quests.medals.MedalType;
-import components.common.quests.regard.RegardObject;
-import components.common.quests.regard.RegardType;
-import components.common.resources.ResourcePrice;
-import components.common.resources.ResourceType;
-import components.common.tutorial.TutorialPartType;
-import components.common.worlds.locations.LocationType;
+import components.common.base.CommonConstans
+import components.common.base.access.rules.levelrule.AccessLevelRule
+import components.common.base.expirance.ExperianceObject
+import components.common.base.market.ItemMarketObject
+import components.common.bombers.BomberType
+import components.common.friendslent.FriendObject
+import components.common.items.ItemObject
+import components.common.items.ItemType
+import components.common.profiles.ISocialProfile
+import components.common.quests.QuestBestPlayer
+import components.common.quests.QuestObject
+import components.common.quests.medals.MedalType
+import components.common.quests.regard.RegardObject
+import components.common.quests.regard.RegardType
+import components.common.resources.ResourcePrice
+import components.common.resources.ResourceType
+import components.common.tutorial.TutorialPartType
+import components.common.worlds.locations.LocationType
 
-import engine.EngineContext;
-import engine.bombers.MoveTickObject;
-import engine.maps.interfaces.IDynObject;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.mapObjects.DynObjectType;
-import engine.model.signals.InGameMessageReceivedSignal;
-import engine.model.signals.ProfileLoadedSignal;
-import engine.model.signals.manage.GameServerConnectedSignal;
-import engine.model.signals.manage.LoggedInSignal;
-import engine.playerColors.PlayerColor;
-import engine.profiles.GameProfile;
-import engine.profiles.LobbyProfile;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponType;
+import engine.EngineContext
+import engine.bombers.MoveTickObject
+import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.mapObjects.DynObjectType
+import engine.model.signals.InGameMessageReceivedSignal
+import engine.model.signals.ProfileLoadedSignal
+import engine.model.signals.manage.GameServerConnectedSignal
+import engine.model.signals.manage.LoggedInSignal
+import engine.playerColors.PlayerColor
+import engine.profiles.GameProfile
+import engine.profiles.LobbyProfile
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponType
 
-import flash.events.TimerEvent;
-import flash.utils.Timer;
+import flash.events.TimerEvent
+import flash.utils.Timer
 
-import greensock.TweenMax;
+import greensock.TweenMax
 
-import loading.ServerQuestObject;
+import loading.ServerQuestObject
 
-import mx.controls.Alert;
-import mx.utils.ObjectUtil;
+import mx.controls.Alert
+import mx.utils.ObjectUtil
 
-import org.osflash.signals.Signal;
+import org.osflash.signals.Signal
 
 public class GameServer extends SmartFox {
 
@@ -133,11 +132,10 @@ public class GameServer extends SmartFox {
 
 
     private static const LOBBY_LOCATION:String = "game.lobby.location"
-	
-	private static const SET_KEY_VALUE_PAIR:String = "interface.setCustomParameter";
-	
 
-		
+    private static const SET_KEY_VALUE_PAIR:String = "interface.setCustomParameter";
+
+
     public var ip:String;
     public var port:int;
     public var zone:String;
@@ -390,7 +388,7 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest(INT_QUEST_START, params, null));
     }
 
-    public function sendStartQuestSubmit(missionId:String, token:int, isBronze:Boolean, isSilver:Boolean, isGold:Boolean, bestTime: int):void {
+    public function sendStartQuestSubmit(missionId:String, token:int, isBronze:Boolean, isSilver:Boolean, isGold:Boolean, bestTime:int):void {
         var params:ISFSObject = new SFSObject();
         params.putUtfString("interface.missions.submitResult.f.missionId", missionId);
         params.putInt("interface.missions.submitResult.f.token", token);
@@ -399,8 +397,8 @@ public class GameServer extends SmartFox {
         params.putBool("interface.missions.submitResult.f.isSilver", isSilver);
         params.putBool("interface.missions.submitResult.f.isGold", isGold);
 
-		params.putInt("interface.missions.submitResult.f.result", bestTime);
-		
+        params.putInt("interface.missions.submitResult.f.result", bestTime);
+
         send(new ExtensionRequest(INT_QUEST_SUBMIT, params, null));
     }
 
@@ -425,34 +423,28 @@ public class GameServer extends SmartFox {
         send(new ExtensionRequest(INT_SET_NICK, params, null));
     }
 
-	public function setKeyValuePair(key: int, value: *): void
-	{
-		var params:ISFSObject = new SFSObject();
-		params.putInt("interface.setCustomParameter.f.key", key);
-		
-		var isAcceptableValue: Boolean = true;
-		
-		if(value is int)
-		{
-			params.putInt("interface.setCustomParameter.f.intValue", value);
-			
-		}else if(value is String)
-		{
-			params.putInt("interface.setCustomParameter.f.stringValue", value);
-		}else
-		{
-			isAcceptableValue = false;
-		}
-		
-		if(isAcceptableValue)
-		{
-			send(new ExtensionRequest(SET_KEY_VALUE_PAIR, params, null));
-		}else
-		{
-			Alert.show("Error: Bad value | GameServer.as");
-		}
-	}
-	
+    public function setKeyValuePair(key:int, value:*):void {
+        var params:ISFSObject = new SFSObject();
+        params.putInt("interface.setCustomParameter.f.key", key);
+
+        var isAcceptableValue:Boolean = true;
+
+        if (value is int) {
+            params.putInt("interface.setCustomParameter.f.intValue", value);
+
+        } else if (value is String) {
+            params.putInt("interface.setCustomParameter.f.stringValue", value);
+        } else {
+            isAcceptableValue = false;
+        }
+
+        if (isAcceptableValue) {
+            send(new ExtensionRequest(SET_KEY_VALUE_PAIR, params, null));
+        } else {
+            Alert.show("Error: Bad value | GameServer.as");
+        }
+    }
+
 
     public function wall_sendSubmitPrice(posterId:String):void {
         var params:ISFSObject = new SFSObject();
@@ -658,6 +650,9 @@ public class GameServer extends SmartFox {
             case GAME_ENDED:
 
                 var arr:ISFSArray = responseParams.getSFSArray("expProfiles");
+                if (arr.size() == 0)
+                    Alert.show("No Results!");
+
                 for (var i:int = 0; i < arr.size(); i++) {
                     var objP:ISFSObject = arr.getSFSObject(i);
                     var slot:int = Context.gameModel.getLastLobbyProfileById(objP.getUtfString("Id")).slot
@@ -703,20 +698,18 @@ public class GameServer extends SmartFox {
                     //itemCost
                     var itemsArr:ISFSArray = plist.getSFSArray("Items");
                     var prices:Array = new Array();
-					var bomberPrices: Array = new Array();
-					
-                    for (var i:int = 0; i < itemsArr.size(); i++) 
-					{
+                    var bomberPrices:Array = new Array();
+
+                    for (var i:int = 0; i < itemsArr.size(); i++) {
                         var obj:ISFSObject = itemsArr.getSFSObject(i);
                         var id:int = obj.getInt("Id")
                         var rp:ResourcePrice = new ResourcePrice(obj.getInt("Gold"), obj.getInt("Crystal"), obj.getInt("Adamantium"), obj.getInt("Antimatter"))
                         var stack:int = obj.getInt("Stack")
                         var so:Boolean = obj.getBool("SpecialOffer")
                         var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
-                        
-						
-                        var lev:int = obj.getInt("Level");
-							
+
+
+                        var lev:int = obj.getInt("Level");		
 						
 							
 						if(PlayerColor.haveId(id))
@@ -747,10 +740,11 @@ public class GameServer extends SmartFox {
 								io.addRule(new AccessLevelRule(lev));
 							}
 						}
+
                     }
-					
+
                     Context.Model.marketManager.setItemPrices(prices);
-					Context.Model.marketManager.setBomberPrices(bomberPrices);
+                    Context.Model.marketManager.setBomberPrices(bomberPrices);
                     //levels
 
                     var debugRewards:String = "";
@@ -817,38 +811,36 @@ public class GameServer extends SmartFox {
                         var sqo:ISFSObject = questsArr.getSFSObject(i);
 
                         var qid:String = sqo.getUtfString("Id")
-							
-						/* parse medalists */
-							
-						if(sqo.containsKey("Champion"))
-						{
-							var champ:ISFSObject = sqo.getSFSObject("Champion");
-							var mt: MedalType = MedalType.BRONZE_MEDAL;
-							
-							switch(champ.getInt("MedalType"))
-							{
-								case 4:
-									mt = MedalType.GOLD_MEDAL;
-									break;
-								case 2:
-									mt = MedalType.SILVER_MEDAL;
-									break;
-								case 1:
-									mt = MedalType.BRONZE_MEDAL;
-									break;
-							}
-							
-							var ch: QuestBestPlayer = new QuestBestPlayer(
-								qid, 
-								champ.getUtfString("Login"),
-								champ.getUtfString("PhotoUrl"),
-								mt,
-								champ.getInt("Time"));
-							
-							Context.Model.questManager.addMedalist(ch.clone());
-						}
-							
-							
+
+                        /* parse medalists */
+
+                        if (sqo.containsKey("Champion")) {
+                            var champ:ISFSObject = sqo.getSFSObject("Champion");
+                            var mt:MedalType = MedalType.BRONZE_MEDAL;
+
+                            switch (champ.getInt("MedalType")) {
+                                case 4:
+                                    mt = MedalType.GOLD_MEDAL;
+                                    break;
+                                case 2:
+                                    mt = MedalType.SILVER_MEDAL;
+                                    break;
+                                case 1:
+                                    mt = MedalType.BRONZE_MEDAL;
+                                    break;
+                            }
+
+                            var ch:QuestBestPlayer = new QuestBestPlayer(
+                                    qid,
+                                    champ.getUtfString("Login"),
+                                    champ.getUtfString("PhotoUrl"),
+                                    mt,
+                                    champ.getInt("Time"));
+
+                            Context.Model.questManager.addMedalist(ch.clone());
+                        }
+
+
                         var eCost:int = sqo.getInt("E");
                         var rewards:Array = ["Gold","Silver","Bronze"];
                         var sqoRewards:Array = new Array();
@@ -900,28 +892,25 @@ public class GameServer extends SmartFox {
                     Context.gameModel.fillServerQuestData();
 
 
-					/* fill with best players */
-					var medlists:Array = Context.Model.questManager.getAllMedalists();
-					
-					for each(var qo:QuestObject in Context.Model.questManager.getAllQuests())
-					{
-						for each(var bp:QuestBestPlayer in medlists)
-						{
-							if(qo.id == bp.questId)
-							{
-								qo.setBestPlayer(bp.clone());
-								break;
-							}
-						}
-					}	
+                    /* fill with best players */
+                    var medlists:Array = Context.Model.questManager.getAllMedalists();
 
-					//Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllQuests()}));
-					
-					
-					//Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllMedalists()}));
-					
-					//Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllMedalists()}));
-					
+                    for each(var qo:QuestObject in Context.Model.questManager.getAllQuests()) {
+                        for each(var bp:QuestBestPlayer in medlists) {
+                            if (qo.id == bp.questId) {
+                                qo.setBestPlayer(bp.clone());
+                                break;
+                            }
+                        }
+                    }
+
+                    //Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllQuests()}));
+
+
+                    //Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllMedalists()}));
+
+                    //Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString({champs: Context.Model.questManager.getAllMedalists()}));
+
                     /*for each(var eo: ExperianceObject in Context.Model.experianceManager.levelExperiencePair)
                      {
                      debugRewards += "Level: "+eo.level.toString()+"\n\n";
@@ -978,7 +967,7 @@ public class GameServer extends SmartFox {
                     }
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
-					
+
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);
@@ -1055,8 +1044,8 @@ public class GameServer extends SmartFox {
 					Context.Model.currentSettings.gameProfile.addItem(iType, count);
 				}
 				
-				
 				Context.Model.currentSettings.gameProfile.resources.setFrom(rp);
+
 
                 Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
                 Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
@@ -1221,15 +1210,14 @@ public class GameServer extends SmartFox {
             var ready:Boolean = item.getBool("IsReady");
             var slot:int = item.getInt("Slot");
             var params:ISFSArray = item.getSFSArray("CustomParameters");
-            var cId:* = customParameter(params,CommonConstans.CUSTOM_PARAMETER_COLOR);
+            var cId:* = customParameter(params, CommonConstans.CUSTOM_PARAMETER_COLOR);
             var color:PlayerColor;
-			
-            if (cId != null)
-			{	
+
+            if (cId != null) {
                 color = PlayerColor.byId(int(cId));
-			} else{
+            } else {
                 color = PlayerColor.RED;
-			}
+            }
 
             resultArray[slot] = new LobbyProfile(id, nick, photo, exp, slot, ready, color)
         }
