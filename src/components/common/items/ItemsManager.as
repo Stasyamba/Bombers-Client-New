@@ -88,7 +88,7 @@ public class ItemsManager {
 
 		items.push(new ItemObject(
 			ItemType.DINAMIT_BOMB,
-			[new AccessLevelRule(5)],
+			[],
 			
 			new ItemViewObject(
 				ItemType.DINAMIT_BOMB,
@@ -100,7 +100,7 @@ public class ItemsManager {
 		
 		items.push(new ItemObject(
 			ItemType.HEALTH_PACK_ADVANCED_POISON,
-			[new AccessLevelRule(5)],
+			[],
 			
 			new ItemViewObject(
 				ItemType.HEALTH_PACK_ADVANCED_POISON,
@@ -112,7 +112,7 @@ public class ItemsManager {
 		
 		items.push(new ItemObject(
 			ItemType.NUCLEAR_BOMB,
-			[new AccessLevelRule(10)],
+			[],
 			
 			new ItemViewObject(
 				ItemType.NUCLEAR_BOMB,
