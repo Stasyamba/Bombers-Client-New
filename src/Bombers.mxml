@@ -63,6 +63,13 @@
 				;
 		}
 		
+		@font-face {
+			src: url("/assets/fonts/rublik.ttf")
+				;
+			fontFamily: rub
+				;
+		}
+		
 		global 
 		{
 			modal-transparency: 0.5;

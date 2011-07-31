@@ -126,6 +126,13 @@ public class ItemType {
 			case COLOR_RED.value:
 				return COLOR_RED;
 				
+			case BOMBER_FURYJOE.value:
+				return BOMBER_FURYJOE;
+			case BOMBER_R2D3.value:
+				return BOMBER_R2D3;
+			case BOMBER_ZOMBIE.value:
+				return BOMBER_ZOMBIE;
+				
 			default:
 				return null;
         }

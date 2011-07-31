@@ -105,7 +105,7 @@
 		
 		<s:HGroup gap="0">
 			<s:HGroup  width="76" horizontalAlign="right">
-				<s:Label text="5" color="0xfed400" fontFamily="mpbc" fontSize="30" />
+				<s:Label text="3" color="0xfed400" fontFamily="mpbc" fontSize="30" />
 				<s:HGroup paddingTop="-5" scaleX="0.7" scaleY="0.7">
 					<s:BitmapImage source="@Embed(source='assets/pageworld/toppanel/energy/energySign.png')"
 								   smooth="true"

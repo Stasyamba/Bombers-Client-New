@@ -17,10 +17,13 @@
 		<![CDATA[
 			import components.common.bombers.BomberObject;
 			import components.common.bombers.BomberType;
+			import components.common.items.ItemType;
 			import components.common.resources.ResourcePrice;
 			import components.common.resources.ResourceType;
 			import components.common.utils.adjustcolor.ColorMatrix;
 			import components.pages.global.inventorynew.market.ItemMarket;
+			
+			import flash.profiler.showRedrawRegions;
 			
 			import mx.controls.Alert;
 			
@@ -88,20 +91,55 @@
 				damageLabel.text = "5";
 				
 				
-				
+				Context.Model.addCustomListener(ContextEvent.GP_BOMBER_CHANGED, refreshBomberContent);
+			}
+			
+			private function refreshBomberContent(e: ContextEvent): void
+			{
+				if(e.data is BomberType)
+				{
+					if(bomberType == e.data)
+					{
+						buyGroup.visible = false;
+					}
+				}
 			}
 			
 			private function buyItem(rt:ResourceType): void
 			{
-				/* if(Context.Model.currentSettings.gameProfile.resources.isBiggerOrEqual(itemPrice))
+				var itemType:ItemType = ItemType.byValue(bomberType.value);
+				var itemPrice:ResourcePrice = Context.Model.marketManager.getBomberPrice(bomberType).price;
+				
+				if(itemType != null)
 				{
-					
-					Context.gameServer.sendBuyItemRequest(itemType);
+					switch(rt)
+					{
+						case ResourceType.GOLD:
+							if(Context.Model.currentSettings.gameProfile.resources.gold.value >= itemPrice.gold.value)
+							{
+								Context.gameServer.sendBuyItemRequest(itemType, rt);
+							}else
+							{
+								Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
+							}
+							
+							break;
+						
+						case ResourceType.CRYSTALS:
+							if(Context.Model.currentSettings.gameProfile.resources.crystals.value >= itemPrice.crystals.value)
+							{
+								Context.gameServer.sendBuyItemRequest(itemType, rt);
+							}else
+							{
+								Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
+							}
+							
+							break;
+					}
 				}else
 				{
-					
-					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
-				} */
+					Alert.show("Error no itemType | BomberContent.mxml");
+				}
 			}
 			
 		]]>

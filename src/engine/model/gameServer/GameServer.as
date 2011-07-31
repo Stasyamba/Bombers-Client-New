@@ -722,6 +722,12 @@ public class GameServer extends SmartFox {
 						if(PlayerColor.haveId(id))
 						{
 							/* is color */
+							
+							if(rp.gold.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.GOLD, 0);
+							if(rp.crystals.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.CRYSTALS, 0);
+							if(rp.adamant.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.ADAMANT, 0);
+							if(rp.antimatter.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.ANTIMATTER, 0);
+							
 							Context.Model.bomberColorManager.setColorParameters(PlayerColor.byId(id), rp);
 						}else if(BomberType.haveId(id))
 						{
@@ -1037,12 +1043,20 @@ public class GameServer extends SmartFox {
 						Context.Model.currentSettings.gameProfile.openedBomberColors.push(pc);
 						Context.Model.dispatchCustomEvent(ContextEvent.COLOR_SET_REFRESH);
 					}
+				}else if(BomberType.haveId(iType.value))
+				{
+					/* is bomber */
+					
+					Context.Model.currentSettings.gameProfile.bombersOpened.push(BomberType.byValue(iType.value));
+					Context.Model.dispatchCustomEvent(ContextEvent.GP_OPEN_BOBMERS_REFRESH, BomberType.byValue(iType.value));
+					
 				}else
 				{
 					Context.Model.currentSettings.gameProfile.addItem(iType, count);
-					Context.Model.currentSettings.gameProfile.resources.setFrom(rp);
 				}
-               
+				
+				
+				Context.Model.currentSettings.gameProfile.resources.setFrom(rp);
 
                 Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
                 Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);

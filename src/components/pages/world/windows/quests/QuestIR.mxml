@@ -49,6 +49,8 @@
             qo = data as QuestObject;
 
 			
+			noneBestPlayer.visible = false;
+			
 			/* set medalist */
 			if(qo.bestPlayer != null)
 			{
@@ -68,6 +70,9 @@
 				}
 				
 				bestTime.text = Time.getTimeStringView(qo.bestPlayer.time);
+			}else
+			{
+				noneBestPlayer.visible = true;
 			}
 			
 			this.filters = [];
@@ -301,6 +306,10 @@
 			</s:Group>
 			
 			<s:Label id="bestTime" x="29" y="67" fontFamily="mpbc" fontSize="16" color="0xffe400" />
+			
+			<s:HGroup id="noneBestPlayer" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" visible="false">
+				<s:Label text="?" fontFamily="rub" fontSize="48" color="0xb6a300" />
+			</s:HGroup>
 			
 		</s:Group>
 		

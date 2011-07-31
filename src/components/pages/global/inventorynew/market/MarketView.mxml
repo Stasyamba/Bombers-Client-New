@@ -61,6 +61,11 @@
 					
 					currentItemCollection.refresh();
 				});
+				
+				Context.Model.addCustomListener(ContextEvent.GP_OPEN_BOBMERS_REFRESH, function (e:ContextEvent):void
+				{
+					setCategory(new ContextEvent("stateChanged", false, false, MarketCategory.BOMBERS));
+				});
 			}
 			
 			public function destroy(): void
