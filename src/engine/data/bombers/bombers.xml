@@ -4,7 +4,7 @@
   -->
 
 <Bombers>
-    <B id="00"
+    <B id="10000"
        name="Злобный Джо"
        bombId="00"
        bombCount="1"
@@ -28,7 +28,7 @@
             <L id="00" val="0.15"/>
         </crits>
     </B>
-    <B id="01"
+    <B id="10001"
        name="Робот R2-D3"
        bombId="00"
        bombCount="1"
@@ -49,7 +49,7 @@
             <B id="01" val="0.25"/>
         </crits>
     </B>
-    <B id="02"
+    <B id="10002"
        name="Зомби"
        bombId="00"
        bombCount="1"
