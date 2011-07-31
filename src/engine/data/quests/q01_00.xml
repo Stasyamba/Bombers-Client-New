@@ -129,8 +129,8 @@
                 <Object id="104" x="12" y="10"/>
                 <Object id="104" x="13" y="10"/>
 
-                <Object id="100" x="24" y="28" wt="41"/>
-                <Object id="100" x="26" y="28" wt="03"/>
+                <Object id="100" x="24" y="28" wt="41" count="1"/>
+                <Object id="100" x="26" y="28" wt="03" count="1"/>
             </objects>
             <bigObjects>
                 <BigObject t="simple" id="2" x="3" y="1" width="1" height="1" graphicsId="l00.bo.bush_01"

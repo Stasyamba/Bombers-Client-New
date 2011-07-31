@@ -54,7 +54,7 @@
        bombId="00"
        bombCount="1"
        bombPower="1"
-       speed="121"
+       speed="100"
        life="20"
        crit="0.01"
        block="0.01"
