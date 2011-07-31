@@ -4,52 +4,53 @@
  */
 
 package engine.games.quest {
-import components.common.resources.ResourceType
-import components.common.worlds.locations.LocationType
+import components.common.resources.ResourcePrice;
+import components.common.resources.ResourceType;
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.bombers.CreatureBase
-import engine.bombers.PlayersBuilder
-import engine.bombers.QuestPlayerBomber
-import engine.bombers.interfaces.IBomber
-import engine.explosionss.ExplosionPoint
-import engine.explosionss.ExplosionsBuilder
-import engine.explosionss.interfaces.IExplosion
-import engine.games.*
-import engine.games.quest.goals.CollectedDOObject
-import engine.games.quest.goals.DefeatedMonsterObject
-import engine.games.quest.goals.DestroyedMapBlockObject
-import engine.games.quest.goals.IGoal
-import engine.games.quest.medals.Medal
-import engine.games.quest.monsters.Monster
-import engine.games.quest.monsters.MonsterType
-import engine.games.quest.monsters.walking.IWalkingStrategy
-import engine.maps.builders.DynObjectBuilder
-import engine.maps.builders.MapBlockBuilder
-import engine.maps.builders.MapBlockStateBuilder
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.interfaces.IMapBlock
-import engine.maps.mapBlocks.MapBlockType
-import engine.model.managers.quest.MonstersManager
-import engine.model.managers.quest.QuestDOManager
-import engine.model.managers.quest.QuestExplosionsManager
-import engine.model.managers.quest.QuestMapManager
-import engine.model.managers.quest.QuestPlayerManager
-import engine.playerColors.PlayerColor
-import engine.profiles.GameProfile
-import engine.profiles.PlayerGameProfile
-import engine.weapons.WeaponBuilder
-import engine.weapons.WeaponType
-import engine.weapons.interfaces.IActivatableWeapon
+import engine.EngineContext;
+import engine.bombers.CreatureBase;
+import engine.bombers.PlayersBuilder;
+import engine.bombers.QuestPlayerBomber;
+import engine.bombers.interfaces.IBomber;
+import engine.explosionss.ExplosionPoint;
+import engine.explosionss.ExplosionsBuilder;
+import engine.explosionss.interfaces.IExplosion;
+import engine.games.*;
+import engine.games.quest.goals.CollectedDOObject;
+import engine.games.quest.goals.DefeatedMonsterObject;
+import engine.games.quest.goals.DestroyedMapBlockObject;
+import engine.games.quest.goals.IGoal;
+import engine.games.quest.medals.Medal;
+import engine.games.quest.monsters.Monster;
+import engine.games.quest.monsters.MonsterType;
+import engine.games.quest.monsters.walking.IWalkingStrategy;
+import engine.maps.builders.DynObjectBuilder;
+import engine.maps.builders.MapBlockBuilder;
+import engine.maps.builders.MapBlockStateBuilder;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.interfaces.IMapBlock;
+import engine.maps.mapBlocks.MapBlockType;
+import engine.model.managers.quest.MonstersManager;
+import engine.model.managers.quest.QuestDOManager;
+import engine.model.managers.quest.QuestExplosionsManager;
+import engine.model.managers.quest.QuestMapManager;
+import engine.model.managers.quest.QuestPlayerManager;
+import engine.playerColors.PlayerColor;
+import engine.profiles.GameProfile;
+import engine.profiles.PlayerGameProfile;
+import engine.weapons.WeaponBuilder;
+import engine.weapons.WeaponType;
+import engine.weapons.interfaces.IActivatableWeapon;
 
-import flash.events.Event
-import flash.events.TimerEvent
-import flash.utils.Timer
+import flash.events.Event;
+import flash.events.TimerEvent;
+import flash.utils.Timer;
 
-import greensock.TweenMax
+import greensock.TweenMax;
 
-import mx.collections.ArrayList
+import mx.collections.ArrayList;
 
 public class QuestGame extends GameBase implements IQuestGame {
 

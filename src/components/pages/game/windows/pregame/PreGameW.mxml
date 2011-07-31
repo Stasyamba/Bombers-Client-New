@@ -125,9 +125,6 @@
 			{
 				if(currentContentState != contentState)
 				{
-				
-				//Alert.show("Switch content to "+contentState.toString());
-				
 					needEnergyContent.visible = false;
 					readyContent.visible = false;
 					

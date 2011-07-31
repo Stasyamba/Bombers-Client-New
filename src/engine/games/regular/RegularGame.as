@@ -4,44 +4,45 @@
  */
 
 package engine.games.regular {
-import components.common.resources.ResourceType
-import components.common.worlds.locations.LocationType
+import components.common.resources.ResourcePrice;
+import components.common.resources.ResourceType;
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.bombers.PlayerBomber
-import engine.bombers.PlayersBuilder
-import engine.bombers.interfaces.IBomber
-import engine.bombers.interfaces.IEnemyBomber
-import engine.bombers.interfaces.IPlayerBomber
-import engine.data.common.maps.Maps
-import engine.explosionss.ExplosionsBuilder
-import engine.games.*
-import engine.games.quest.GameStats
-import engine.maps.builders.DynObjectBuilder
-import engine.maps.builders.MapBlockBuilder
-import engine.maps.builders.MapBlockStateBuilder
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.interfaces.IMapBlock
-import engine.maps.mapObjects.DynObjectType
-import engine.maps.mapObjects.bonuses.BonusType
-import engine.model.explosionss.ExplosionType
-import engine.model.managers.interfaces.IEnemiesManager
-import engine.model.managers.quest.MonstersManager
-import engine.model.managers.regular.DynObjectManager
-import engine.model.managers.regular.EnemiesManager
-import engine.model.managers.regular.ExplosionsManager
-import engine.model.managers.regular.MapManager
-import engine.model.managers.regular.PlayerManager
-import engine.playerColors.PlayerColor
-import engine.profiles.PlayerGameProfile
-import engine.utils.Direction
-import engine.weapons.WeaponBuilder
-import engine.weapons.WeaponType
-import engine.weapons.interfaces.IActivatableWeapon
-import engine.weapons.interfaces.IDeactivatableWeapon
+import engine.EngineContext;
+import engine.bombers.PlayerBomber;
+import engine.bombers.PlayersBuilder;
+import engine.bombers.interfaces.IBomber;
+import engine.bombers.interfaces.IEnemyBomber;
+import engine.bombers.interfaces.IPlayerBomber;
+import engine.data.common.maps.Maps;
+import engine.explosionss.ExplosionsBuilder;
+import engine.games.*;
+import engine.games.quest.GameStats;
+import engine.maps.builders.DynObjectBuilder;
+import engine.maps.builders.MapBlockBuilder;
+import engine.maps.builders.MapBlockStateBuilder;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.interfaces.IMapBlock;
+import engine.maps.mapObjects.DynObjectType;
+import engine.maps.mapObjects.bonuses.BonusType;
+import engine.model.explosionss.ExplosionType;
+import engine.model.managers.interfaces.IEnemiesManager;
+import engine.model.managers.quest.MonstersManager;
+import engine.model.managers.regular.DynObjectManager;
+import engine.model.managers.regular.EnemiesManager;
+import engine.model.managers.regular.ExplosionsManager;
+import engine.model.managers.regular.MapManager;
+import engine.model.managers.regular.PlayerManager;
+import engine.playerColors.PlayerColor;
+import engine.profiles.PlayerGameProfile;
+import engine.utils.Direction;
+import engine.weapons.WeaponBuilder;
+import engine.weapons.WeaponType;
+import engine.weapons.interfaces.IActivatableWeapon;
+import engine.weapons.interfaces.IDeactivatableWeapon;
 
-import greensock.TweenMax
+import greensock.TweenMax;
 
 public class RegularGame extends GameBase implements IMultiPlayerGame {
 
@@ -293,6 +294,10 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
     public function resourceCollected(rt:ResourceType, count:int, player:IBomber):void {
         if (player == playerManager.me && rt == ResourceType.GOLD) {
             _gameStats.goldCollected += count;
+			
+			/* add gold to profile and change value in top panel */
+			Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(count, 0,0,0));
+			Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
         }
     }
 

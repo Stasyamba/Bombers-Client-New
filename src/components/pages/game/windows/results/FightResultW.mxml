@@ -42,23 +42,24 @@
 
     <fx:Script>
 		<![CDATA[
-        import components.common.base.CommonConstans
-        import components.common.base.expirance.ExperianceObject
-        import components.common.game.multygameresult.PrizeObject
-        import components.common.game.multygameresult.PrizeType
-        import components.common.resources.ResourceType
-        import components.pages.game.windows.results.slots.PrizeCupSlot
-        import components.pages.game.windows.results.slots.PrizeResourceSlot
-        import components.wall.SendWallObject
-
-        import engine.profiles.LobbyProfile
-
-        import loading.SoundManager
-
-        import mx.collections.ArrayCollection
-        import mx.managers.PopUpManager
-
-        import spark.components.HGroup
+			import components.common.base.CommonConstans;
+			import components.common.base.expirance.ExperianceObject;
+			import components.common.game.multygameresult.PrizeObject;
+			import components.common.game.multygameresult.PrizeType;
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
+			import components.pages.game.windows.results.slots.PrizeCupSlot;
+			import components.pages.game.windows.results.slots.PrizeResourceSlot;
+			import components.wall.SendWallObject;
+			
+			import engine.profiles.LobbyProfile;
+			
+			import loading.SoundManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.HGroup;
 
         public function close():void {
             PopUpManager.removePopUp(this);
@@ -179,23 +180,37 @@
              prizes.push(new PrizeObject(
              PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
              );*/
+			
             if (Context.game.gameStats.goldCollected > 0)
                 prizes.push(new PrizeObject(
                         PrizeType.RESOURCE, ResourceType.GOLD, Context.game.gameStats.goldCollected)
                 );
-            /*
-             prizes.push(new PrizeObject(
-             PrizeType.RESOURCE, ResourceType.CRYSTALS, 4)
-             );
 
-             prizes.push(new PrizeObject(
-             PrizeType.RESOURCE, ResourceType.ADAMANT, 40)
-             );
-             prizes.push(new PrizeObject(
-             PrizeType.RESOURCE, ResourceType.CRYSTALS, 5)
-             ); */
-
-
+			
+			
+			/* for each(var p:PrizeObject in prizes)
+			{
+				switch(p.prizeType)
+				{
+					case PrizeType.RESOURCE:
+						
+						switch(p.resourceType)
+						{
+							case ResourceType.GOLD:
+								Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(p.amount, 0,0,0));
+								break;
+							case ResourceType.CRYSTALS:
+								Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,p.amount,0,0));
+								break;
+						}
+						
+						break;
+				}
+			}
+			Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED); */
+			
+			
+			
             setPage(0);
         }
 
