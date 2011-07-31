@@ -488,6 +488,7 @@ public class GameProfile {
         res.bombersOpened = new Array();
         res.bombersOpened.push(BomberType.byValue(0));
         res.bombersOpened.push(BomberType.byValue(1));
+		res.bombersOpened.push(BomberType.ZOMBIE);
 
         for (i = 0; i < items.size(); i++) {
             var bType:BomberType = BomberType.byValue(items.getInt(i));

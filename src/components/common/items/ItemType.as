@@ -32,6 +32,13 @@ public class ItemType {
 	public static const PART_ULTRA_RAY:ItemType = new ItemType(105, "PART_ULTRA_RAY");
 	public static const PART_GENERATOR:ItemType = new ItemType(106, "PART_GENERATOR");
 	
+	/* 
+		важно чтобы id абстрактных предметов совпадали с id типов того что они представляют
+		BomberType, PlayerColor
+		
+		а здесь нужно дублировать, только для покупки в магазине этих предметов 
+		тк в функцию покупки передается ItemType
+	*/
 	
 	/* абстрактные предметы - цвета - нету ни в каких менеджерах, все парсится в другие места при логине */
 	
@@ -41,6 +48,11 @@ public class ItemType {
 	public static const COLOR_PINK:ItemType = new ItemType(1003, "COLOR_PINK");
 	public static const COLOR_GREEN:ItemType = new ItemType(1004, "COLOR_GREEN");
 	public static const COLOR_BLACK:ItemType = new ItemType(1005, "COLOR_BLACK");
+	
+	/* абстрактные предметы бомбастеры */
+	public static const BOMBER_FURYJOE:ItemType = new ItemType(10000, "BOMBER_FURYJOE");
+	public static const BOMBER_R2D3:ItemType = new ItemType(10001, "BOMBER_R2D3");
+	public static const BOMBER_ZOMBIE:ItemType = new ItemType(10002, "BOMBER_ZOMBIE");
 	
 	
 	

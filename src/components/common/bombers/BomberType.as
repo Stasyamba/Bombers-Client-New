@@ -4,9 +4,9 @@ package components.common.bombers
 	
 	public class BomberType
 	{
-		public static const FURY_JOE:BomberType = new BomberType(0, "FURY_JOE");
-		public static const R2D3:BomberType = new BomberType(1, "R2D3");
-		public static const ZOMBIE:BomberType = new BomberType(2, "ZOMBIE");
+		public static const FURY_JOE:BomberType = new BomberType(10000, "FURY_JOE");
+		public static const R2D3:BomberType = new BomberType(10001, "R2D3");
+		public static const ZOMBIE:BomberType = new BomberType(10002, "ZOMBIE");
 		
 		
 		private var _value:int;
@@ -54,6 +54,22 @@ package components.common.bombers
 				
 				default:
 					res = null;
+					break;
+			}
+			
+			return res;
+		}
+		
+		public static function haveId(id: int): Boolean
+		{
+			var res: Boolean = false;
+			
+			switch(id)
+			{
+				case FURY_JOE.value:
+				case R2D3.value:
+				case ZOMBIE.value:
+					res = true;
 					break;
 			}
 			
