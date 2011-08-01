@@ -57,6 +57,7 @@
 			import loading.SoundManager;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
 			
 			import spark.components.HGroup;
@@ -77,141 +78,146 @@
         private var closeTimer:Timer = new Timer(1000, CommonConstans.TIME_TO_CLOSE_RESULT_GAME_WINDOW);
 
         private function panelCreationComplete():void {
-
-            SoundManager.changeMusicVolume(CommonConstans.MUSIC_WEAK_VOLUME);
-
-            apearingAnimation.play();
-
-            closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, openPregame);
-            closeTimer.start();
-
-            /* set score */
-
-            scoreGroup.removeAllElements();
-
-            var lobbies:Array = new Array();
-
-            for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
-                /* its own profile */
-                if (lobbyProfile.id == Context.Model.currentSettings.gameProfile.id) {
-                    var exo:ExperianceObject = Context.Model.experianceManager.getLevel(lobbyProfile.experience);
-                    var exoCurrent:ExperianceObject = Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience);
-                    if (exoCurrent.level != exo.level) {
-                        Context.Model.dispatchCustomEvent(
-                                ContextEvent.NEW_LEVEL_SHOW,
-                                Context.Model.experianceManager.getLevel(lobbyProfile.experience)
-                        );
-                    }
-
-                    Context.Model.currentSettings.gameProfile.experience = lobbyProfile.experience;
-                    Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
-                }
-
-                lobbies.push(lobbyProfile);
-            }
-
-            lobbies.sortOn('place');
-
-            for each(var lp:LobbyProfile in lobbies) {
-
-                var baseScoreGroup:HGroup = new HGroup();
-
-                var lScore:Label = new Label();
-                var l:Label = new Label();
-                l.text = lp.place.toString() + ". " + lp.nick;
-                lScore.text = "+" + lp.expEarned + " опыта";
-
-                /* wall post */
-
-                if (lp.place == 1 && lp.id == Context.Model.currentSettings.gameProfile.id) {
-                    var swo:SendWallObject = new SendWallObject(
-                            Context.Model.currentSettings.socialProfile,
-                            "",
-                            "Моя стена славы: Чистая победа в Бомбастерах! +" + lp.expEarned.toString() + "опыта.  http://vkontakte.ru/app2206924#win",
-                            "72969483_265497809"
-                    );
-
-                    Context.Model.dispatchCustomEvent(ContextEvent.VK_SEND_TO_WALL, swo);
-                }
-
-                l.minWidth = 180;
-                l.setStyle("fontFamily", "mpbc");
-
-                lScore.setStyle("fontFamily", "mpbc");
-
-                if (Context.Model.currentSettings.gameProfile.id == lp.id) {
-                    l.setStyle("fontSize", 18);
-                    l.setStyle("color", 0xfcd150);
-
-                    lScore.setStyle("fontSize", 18);
-                    lScore.setStyle("color", 0xfcd150);
-                } else {
-                    l.setStyle("fontSize", 18);
-                    l.setStyle("color", 0x958968);
-
-                    lScore.setStyle("fontSize", 18);
-                    lScore.setStyle("color", 0x958968);
-                }
-
-                baseScoreGroup.addElement(l);
-                baseScoreGroup.addElement(lScore);
-
-                scoreGroup.addElement(baseScoreGroup);
-            }
-
-
-            /* set prizes */
-
-
-            // prizes = Context.gameModel.lastPrizes.concat();
-
-            /* testing */
-            prizes = new Array();
-            /*prizes.push(new PrizeObject(
-             PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
-             );
-
-             prizes.push(new PrizeObject(
-             PrizeType.CUP, ResourceType.CRYSTALS, 1, PlaceType.SECOND)
-             );
-             prizes.push(new PrizeObject(
-             PrizeType.CUP, ResourceType.ADAMANT, 1, PlaceType.THIRD)
-             );
-             prizes.push(new PrizeObject(
-             PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
-             );*/
-			
-            if (Context.game.gameStats.goldCollected > 0)
-                prizes.push(new PrizeObject(
-                        PrizeType.RESOURCE, ResourceType.GOLD, Context.game.gameStats.goldCollected)
-                );
-
-			
-			
-			/* for each(var p:PrizeObject in prizes)
-			{
-				switch(p.prizeType)
+			try {
+	            SoundManager.changeMusicVolume(CommonConstans.MUSIC_WEAK_VOLUME);
+	
+	            apearingAnimation.play();
+	
+	            closeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, openPregame);
+	            closeTimer.start();
+	
+	            /* set score */
+	
+	            scoreGroup.removeAllElements();
+	
+	            var lobbies:Array = new Array();
+	
+	            for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
+	                /* its own profile */
+	                if (lobbyProfile.id == Context.Model.currentSettings.gameProfile.id) {
+	                    var exo:ExperianceObject = Context.Model.experianceManager.getLevel(lobbyProfile.experience);
+	                    var exoCurrent:ExperianceObject = Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience);
+	                    if (exoCurrent.level != exo.level) {
+	                        Context.Model.dispatchCustomEvent(
+	                                ContextEvent.NEW_LEVEL_SHOW,
+	                                Context.Model.experianceManager.getLevel(lobbyProfile.experience)
+	                        );
+	                    }
+	
+	                    Context.Model.currentSettings.gameProfile.experience = lobbyProfile.experience;
+	                    Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+	                }
+	
+	                lobbies.push(lobbyProfile);
+	            }
+	
+	            lobbies.sortOn('place');
+	
+	            for each(var lp:LobbyProfile in lobbies) {
+	
+	                var baseScoreGroup:HGroup = new HGroup();
+	
+	                var lScore:Label = new Label();
+	                var l:Label = new Label();
+	                l.text = lp.place.toString() + ". " + lp.nick;
+	                lScore.text = "+" + lp.expEarned + " опыта";
+	
+	                /* wall post */
+	
+	                if (lp.place == 1 && lp.id == Context.Model.currentSettings.gameProfile.id) {
+	                    var swo:SendWallObject = new SendWallObject(
+	                            Context.Model.currentSettings.socialProfile,
+	                            "",
+	                            "Моя стена славы: Чистая победа в Бомбастерах! +" + lp.expEarned.toString() + "опыта.  http://vkontakte.ru/app2206924#win",
+	                            "72969483_265497809"
+	                    );
+	
+	                    Context.Model.dispatchCustomEvent(ContextEvent.VK_SEND_TO_WALL, swo);
+	                }
+	
+	                l.minWidth = 180;
+	                l.setStyle("fontFamily", "mpbc");
+	
+	                lScore.setStyle("fontFamily", "mpbc");
+	
+	                if (Context.Model.currentSettings.gameProfile.id == lp.id) {
+	                    l.setStyle("fontSize", 18);
+	                    l.setStyle("color", 0xfcd150);
+	
+	                    lScore.setStyle("fontSize", 18);
+	                    lScore.setStyle("color", 0xfcd150);
+	                } else {
+	                    l.setStyle("fontSize", 18);
+	                    l.setStyle("color", 0x958968);
+	
+	                    lScore.setStyle("fontSize", 18);
+	                    lScore.setStyle("color", 0x958968);
+	                }
+	
+	                baseScoreGroup.addElement(l);
+	                baseScoreGroup.addElement(lScore);
+	
+	                scoreGroup.addElement(baseScoreGroup);
+	            }
+	
+	
+	            /* set prizes */
+	
+	
+	            // prizes = Context.gameModel.lastPrizes.concat();
+	
+	            /* testing */
+	            prizes = new Array();
+	            /*prizes.push(new PrizeObject(
+	             PrizeType.CUP, ResourceType.CRYSTALS, 10, PlaceType.THIRD)
+	             );
+	
+	             prizes.push(new PrizeObject(
+	             PrizeType.CUP, ResourceType.CRYSTALS, 1, PlaceType.SECOND)
+	             );
+	             prizes.push(new PrizeObject(
+	             PrizeType.CUP, ResourceType.ADAMANT, 1, PlaceType.THIRD)
+	             );
+	             prizes.push(new PrizeObject(
+	             PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
+	             );*/
+				
+	            if (Context.game.gameStats.goldCollected > 0)
+	                prizes.push(new PrizeObject(
+	                        PrizeType.RESOURCE, ResourceType.GOLD, Context.game.gameStats.goldCollected)
+	                );
+	
+				
+				
+				/* for each(var p:PrizeObject in prizes)
 				{
-					case PrizeType.RESOURCE:
-						
-						switch(p.resourceType)
-						{
-							case ResourceType.GOLD:
-								Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(p.amount, 0,0,0));
-								break;
-							case ResourceType.CRYSTALS:
-								Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,p.amount,0,0));
-								break;
-						}
-						
-						break;
+					switch(p.prizeType)
+					{
+						case PrizeType.RESOURCE:
+							
+							switch(p.resourceType)
+							{
+								case ResourceType.GOLD:
+									Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(p.amount, 0,0,0));
+									break;
+								case ResourceType.CRYSTALS:
+									Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(0,p.amount,0,0));
+									break;
+							}
+							
+							break;
+					}
 				}
-			}
-			Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED); */
-			
-			
+				Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED); */
+				
+				
 			
             setPage(0);
+			
+			}
+			catch(errObject:Error) {
+				Alert.show(errObject.message);
+			}
         }
 
         private function setPage(page:int):void {
