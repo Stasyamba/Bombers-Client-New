@@ -57,7 +57,8 @@
 			import loading.SoundManager;
 			
 			import mx.collections.ArrayCollection;
-			import mx.managers.PopUpManager;
+            import mx.controls.Alert
+            import mx.managers.PopUpManager;
 			
 			import spark.components.HGroup;
 
@@ -90,6 +91,10 @@
             scoreGroup.removeAllElements();
 
             var lobbies:Array = new Array();
+
+            if(Context.gameModel.lastGameLobbyProfiles.length <= 0){
+                Alert.show("Empty lastGameLobbyProfiles, client bug");
+            }
 
             for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
                 /* its own profile */

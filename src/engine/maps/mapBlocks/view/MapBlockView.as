@@ -9,15 +9,10 @@ import engine.data.Consts
 import engine.interfaces.IDrawable
 import engine.maps.interfaces.IDynObject
 import engine.maps.interfaces.IMapBlock
-import engine.maps.mapBlocks.MapBlock
 import engine.maps.mapBlocks.MapBlockType
 import engine.maps.mapObjects.DynObjectType
 
-import flash.display.BitmapData
 import flash.display.Sprite
-
-import loading.LoadedContentType
-import loading.LoadedObject
 
 public class MapBlockView extends Sprite implements IDrawable {
 
@@ -57,7 +52,10 @@ public class MapBlockView extends Sprite implements IDrawable {
     }
 
     private function onObjectCollected(byMe:Boolean):void {
-        //this.objectView = null
+        if (objectView != null && contains(objectView))
+            objectView.destroy();
+        objectView = null;
+        draw();
     }
 
     private function onObjectSet(object:IDynObject):void {
@@ -104,7 +102,7 @@ public class MapBlockView extends Sprite implements IDrawable {
         if (objectView != null && contains(objectView)) {
             objectView.draw();
             objectView.visible = block.canShowObjects;
-            setChildIndex(objectView,numChildren - 1);
+            setChildIndex(objectView, numChildren - 1);
         }
     }
 
@@ -113,12 +111,12 @@ public class MapBlockView extends Sprite implements IDrawable {
             removeChild(blockView)
         }
         if (!block.type.draws) return
-        if(block.type == MapBlockType.BOX && block.isGold)
+        alpha = 1;
+
+        if (block.type == MapBlockType.BOX && block.isGold)
             blockView = Context.imageService.mapBlock(block.type, Context.game.location, true);
         else
             blockView = Context.imageService.mapBlock(block.type, Context.game.location);
-//        blockView.width = blockView.height = 40;
-//        blockView.x = blockView.y = 0;
         addChild(blockView)
     }
 }
