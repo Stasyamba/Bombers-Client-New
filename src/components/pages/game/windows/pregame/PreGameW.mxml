@@ -66,6 +66,7 @@
 			import mx.managers.PopUpManager;
 			
 			public function close():void {
+				readyContent.destroy();
 				Context.Model.removeCustomEventListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
 				PopUpManager.removePopUp(this);
 			}
@@ -102,7 +103,7 @@
 			}
 			
 			private function closeWrapper1(e:ContextEvent): void
-			{
+			{	
 				closeWrapper();
 			}
 			
@@ -133,6 +134,7 @@
 					switch(contentState)
 					{
 						case CONTENT_NOT_ENOUGH_ENERGY:
+							readyContent.destroy();
 							needEnergyContent.visible = true;
 							break;
 						

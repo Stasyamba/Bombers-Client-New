@@ -25,7 +25,7 @@
 			[Bindable] private var timeToReady: int = CommonConstans.AUTO_READY_TIME_SECONDS;
 			
 			private function init(): void
-			{
+			{	
 				var bo: BomberObject = Context.Model.bomberManager.getBomber(Context.Model.currentSettings.gameProfile.currentBomberType);
 				bombasterImage.source = bo.viewObject.bigImageURL;
 				
@@ -76,6 +76,12 @@
 				Context.gameModel.setMeReady(!amIReady)
 			}
 			
+			public function destroy(): void
+			{
+				readyTimer.stop();
+				readyTimer.reset();
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -84,17 +90,20 @@
 			<s:Label text="Ваш бомбастер" fontFamily="mpbc" fontSize="18" color="0xbbb17a" />
 			<mx:Image id="bombasterImage" trustContent="{Context.Model.trustContent}" />
 		</s:VGroup>
-		<s:VGroup width="100%" horizontalAlign="center" gap="20">
+		<s:VGroup width="100%" horizontalAlign="center" gap="20" paddingTop="-5">
 			<s:BitmapImage source="@Embed(source='assets/pagegame/windows/gameready/arrowControl.png')" />
 			<s:VGroup horizontalAlign="center">
 				<s:Label text="Поставить бомбу:" fontFamily="mpr" fontSize="14" color="0xffe760" />
 				<s:BitmapImage source="@Embed(source='assets/pagegame/windows/gameready/bombControl.png')" />
 			</s:VGroup>
 			
-			<s:HGroup verticalAlign="middle">
-				<s:Label text="{'Использовать супер\n оружие'}" textAlign="right" fontFamily="mpr" fontSize="14" color="0xffe760" />
-				<s:BitmapImage source="@Embed(source='assets/pagegame/windows/gameready/superBombControl.png')" />
-			</s:HGroup>
+			<s:VGroup verticalAlign="middle">
+				<s:Label text="{'Использовать и сменить\nсупер оружие'}" textAlign="center" fontFamily="mpr" fontSize="14" color="0xffe760" />
+				<s:HGroup width="100%" horizontalAlign="center">
+					<s:BitmapImage source="@Embed(source='assets/pagegame/windows/gameready/superBombControl.png')" />
+					<s:BitmapImage source="@Embed(source='assets/pagegame/windows/gameready/superBombControl1.png')" />
+				</s:HGroup>
+			</s:VGroup>
 		</s:VGroup>
 	</s:HGroup>
 	
