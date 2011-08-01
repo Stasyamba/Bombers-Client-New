@@ -123,7 +123,7 @@
 			private function openMarket(): void
 			{
 				Context.gameServer.sendSetTutorialPart(TutorialPartType.DONE);
-				Context.Model.currentTutorialPart = TutorialPartType.DONE;
+				//Context.Model.currentTutorialPart = TutorialPartType.DONE;
 				
 				closeWrapper();
 				Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW, true);

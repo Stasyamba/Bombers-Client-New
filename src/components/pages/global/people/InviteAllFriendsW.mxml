@@ -77,7 +77,7 @@
 			
 			private function wallPost(): void
 			{
-				var messageText: String = "Сыграем в Бомбастеров вместе? Мохнатый Джо одобряет: ";
+				var messageText: String = "Бомбастеры - офигенная игра в реальном времени! Сыграем вместе на одной карте? ";
 				//messageText = "Кто из вас сможет победить меня в Бомбастерах? *id36018"
 				
 				for each(var fo: ISocialProfile in Context.Model.currentSettings.apiResult.friends)

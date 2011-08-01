@@ -85,7 +85,7 @@
 		</s:Group>
 		
 		<s:Label id="questDescribe" fontFamily="mpr" color="0xffe760" fontSize="14"
-				 maxWidth="280"
+				 maxWidth="280" textAlign="left"
 				 />
 	</s:HGroup>
 	

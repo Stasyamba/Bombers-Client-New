@@ -51,6 +51,10 @@
 			
 			noneBestPlayer.visible = false;
 			
+			bestMedal3.visible = false;
+			bestMedal2.visible = false;
+			bestMedal1.visible = false;
+			
 			/* set medalist */
 			if(qo.bestPlayer != null)
 			{

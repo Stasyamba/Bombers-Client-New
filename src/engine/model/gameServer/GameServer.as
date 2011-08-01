@@ -5,64 +5,64 @@
 
 package engine.model.gameServer {
 
-import com.smartfoxserver.v2.SmartFox
-import com.smartfoxserver.v2.core.SFSEvent
-import com.smartfoxserver.v2.entities.Room
-import com.smartfoxserver.v2.entities.data.ISFSArray
-import com.smartfoxserver.v2.entities.data.ISFSObject
-import com.smartfoxserver.v2.entities.data.SFSObject
-import com.smartfoxserver.v2.requests.ExtensionRequest
-import com.smartfoxserver.v2.requests.JoinRoomRequest
-import com.smartfoxserver.v2.requests.LeaveRoomRequest
-import com.smartfoxserver.v2.requests.LoginRequest
-import com.smartfoxserver.v2.requests.PublicMessageRequest
+import com.smartfoxserver.v2.SmartFox;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.requests.ExtensionRequest;
+import com.smartfoxserver.v2.requests.JoinRoomRequest;
+import com.smartfoxserver.v2.requests.LeaveRoomRequest;
+import com.smartfoxserver.v2.requests.LoginRequest;
+import com.smartfoxserver.v2.requests.PublicMessageRequest;
 
-import components.common.base.CommonConstans
-import components.common.base.access.rules.levelrule.AccessLevelRule
-import components.common.base.expirance.ExperianceObject
-import components.common.base.market.ItemMarketObject
-import components.common.bombers.BomberType
-import components.common.friendslent.FriendObject
-import components.common.items.ItemObject
-import components.common.items.ItemType
-import components.common.profiles.ISocialProfile
-import components.common.quests.QuestBestPlayer
-import components.common.quests.QuestObject
-import components.common.quests.medals.MedalType
-import components.common.quests.regard.RegardObject
-import components.common.quests.regard.RegardType
-import components.common.resources.ResourcePrice
-import components.common.resources.ResourceType
-import components.common.tutorial.TutorialPartType
-import components.common.worlds.locations.LocationType
+import components.common.base.CommonConstans;
+import components.common.base.access.rules.levelrule.AccessLevelRule;
+import components.common.base.expirance.ExperianceObject;
+import components.common.base.market.ItemMarketObject;
+import components.common.bombers.BomberType;
+import components.common.friendslent.FriendObject;
+import components.common.items.ItemObject;
+import components.common.items.ItemType;
+import components.common.profiles.ISocialProfile;
+import components.common.quests.QuestBestPlayer;
+import components.common.quests.QuestObject;
+import components.common.quests.medals.MedalType;
+import components.common.quests.regard.RegardObject;
+import components.common.quests.regard.RegardType;
+import components.common.resources.ResourcePrice;
+import components.common.resources.ResourceType;
+import components.common.tutorial.TutorialPartType;
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.bombers.MoveTickObject
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.mapObjects.DynObjectType
-import engine.model.signals.InGameMessageReceivedSignal
-import engine.model.signals.ProfileLoadedSignal
-import engine.model.signals.manage.GameServerConnectedSignal
-import engine.model.signals.manage.LoggedInSignal
-import engine.playerColors.PlayerColor
-import engine.profiles.GameProfile
-import engine.profiles.LobbyProfile
-import engine.profiles.PlayerGameProfile
-import engine.utils.Direction
-import engine.weapons.WeaponType
+import engine.EngineContext;
+import engine.bombers.MoveTickObject;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.mapObjects.DynObjectType;
+import engine.model.signals.InGameMessageReceivedSignal;
+import engine.model.signals.ProfileLoadedSignal;
+import engine.model.signals.manage.GameServerConnectedSignal;
+import engine.model.signals.manage.LoggedInSignal;
+import engine.playerColors.PlayerColor;
+import engine.profiles.GameProfile;
+import engine.profiles.LobbyProfile;
+import engine.profiles.PlayerGameProfile;
+import engine.utils.Direction;
+import engine.weapons.WeaponType;
 
-import flash.events.TimerEvent
-import flash.utils.Timer
+import flash.events.TimerEvent;
+import flash.utils.Timer;
 
-import greensock.TweenMax
+import greensock.TweenMax;
 
-import loading.ServerQuestObject
+import loading.ServerQuestObject;
 
-import mx.controls.Alert
-import mx.utils.ObjectUtil
+import mx.controls.Alert;
+import mx.utils.ObjectUtil;
 
-import org.osflash.signals.Signal
+import org.osflash.signals.Signal;
 
 public class GameServer extends SmartFox {
 
@@ -677,7 +677,41 @@ public class GameServer extends SmartFox {
                         Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
                     }
 
-
+					
+					var missionsRecords: ISFSArray = responseParams.getSFSArray("MissionRecords");
+					
+					for (var i:int = 0; i < missionsRecords.size(); i++) 
+					{
+						var champ:ISFSObject = missionsRecords.getSFSObject(i);
+						
+						/* parse medalists */
+						
+						var mt:MedalType = MedalType.BRONZE_MEDAL;
+						
+						switch (champ.getInt("MedalType")) {
+							case 4:
+								mt = MedalType.GOLD_MEDAL;
+								break;
+							case 2:
+								mt = MedalType.SILVER_MEDAL;
+								break;
+							case 1:
+								mt = MedalType.BRONZE_MEDAL;
+								break;
+						}
+						
+						var ch:QuestBestPlayer = new QuestBestPlayer(
+							champ.getUtfString("Id"),
+							champ.getUtfString("Login"),
+							champ.getUtfString("PhotoUrl"),
+							mt,
+							champ.getInt("Time"));
+						
+						Context.Model.questManager.addMedalist(ch.clone());
+					}
+					
+					
+						
                     var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
 
                     Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
@@ -810,36 +844,7 @@ public class GameServer extends SmartFox {
                     for (var i:int = 0; i < questsArr.size(); i++) {
                         var sqo:ISFSObject = questsArr.getSFSObject(i);
 
-                        var qid:String = sqo.getUtfString("Id")
-
-                        /* parse medalists */
-
-                        if (sqo.containsKey("Champion")) {
-                            var champ:ISFSObject = sqo.getSFSObject("Champion");
-                            var mt:MedalType = MedalType.BRONZE_MEDAL;
-
-                            switch (champ.getInt("MedalType")) {
-                                case 4:
-                                    mt = MedalType.GOLD_MEDAL;
-                                    break;
-                                case 2:
-                                    mt = MedalType.SILVER_MEDAL;
-                                    break;
-                                case 1:
-                                    mt = MedalType.BRONZE_MEDAL;
-                                    break;
-                            }
-
-                            var ch:QuestBestPlayer = new QuestBestPlayer(
-                                    qid,
-                                    champ.getUtfString("Login"),
-                                    champ.getUtfString("PhotoUrl"),
-                                    mt,
-                                    champ.getInt("Time"));
-
-                            Context.Model.questManager.addMedalist(ch.clone());
-                        }
-
+                        var qid:String = sqo.getUtfString("Id");
 
                         var eCost:int = sqo.getInt("E");
                         var rewards:Array = ["Gold","Silver","Bronze"];
