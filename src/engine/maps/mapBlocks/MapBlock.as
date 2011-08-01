@@ -86,6 +86,8 @@ public class MapBlock extends MapBlockBase implements IMapBlock {
         if (isExplodingNow) return;
         if (_state.stateAfterExplosion(expl) != _state.type) {
             explosionStopped.addOnce(function():void {
+                if (_state.type == MapBlockType.DEATH_WALL)
+                    return;
                 if (_state.stateAfterExplosion(expl) == MapBlockType.FREE) {
                     if (_state.hiddenObject.type != DynObjectType.NULL) {
                         _object = _state.hiddenObject;
@@ -97,7 +99,7 @@ public class MapBlock extends MapBlockBase implements IMapBlock {
             });
         }
         else
-            state.explode(expl,damage);
+            state.explode(expl, damage);
 
         _isExplodingNow = true;
         explosionStarted.dispatch();
@@ -150,8 +152,7 @@ public class MapBlock extends MapBlockBase implements IMapBlock {
     }
 
     public function setDieWall():void {
-        _state = _mapBlockStateBuilder.make(MapBlockType.DEATH_WALL)
-        viewUpdated.dispatch();
+        setState(_mapBlockStateBuilder.make(MapBlockType.DEATH_WALL));
     }
 
     //getters
