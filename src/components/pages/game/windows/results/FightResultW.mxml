@@ -42,25 +42,25 @@
 
     <fx:Script>
 		<![CDATA[
-			import components.common.base.CommonConstans;
-			import components.common.base.expirance.ExperianceObject;
-			import components.common.game.multygameresult.PrizeObject;
-			import components.common.game.multygameresult.PrizeType;
-			import components.common.resources.ResourcePrice;
-			import components.common.resources.ResourceType;
-			import components.pages.game.windows.results.slots.PrizeCupSlot;
-			import components.pages.game.windows.results.slots.PrizeResourceSlot;
-			import components.wall.SendWallObject;
-			
-			import engine.profiles.LobbyProfile;
-			
-			import loading.SoundManager;
-			
-			import mx.collections.ArrayCollection;
-			import mx.controls.Alert;
-			import mx.managers.PopUpManager;
-			
-			import spark.components.HGroup;
+		import components.common.base.CommonConstans;
+		import components.common.base.expirance.ExperianceObject;
+		import components.common.game.multygameresult.PrizeObject;
+		import components.common.game.multygameresult.PrizeType;
+		import components.common.resources.ResourcePrice;
+		import components.common.resources.ResourceType;
+		import components.pages.game.windows.results.slots.PrizeCupSlot;
+		import components.pages.game.windows.results.slots.PrizeResourceSlot;
+		import components.wall.SendWallObject;
+		
+		import engine.profiles.LobbyProfile;
+		
+		import loading.SoundManager;
+		
+		import mx.collections.ArrayCollection;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		
+		import spark.components.HGroup;
 
         public function close():void {
             PopUpManager.removePopUp(this);
@@ -78,7 +78,7 @@
         private var closeTimer:Timer = new Timer(1000, CommonConstans.TIME_TO_CLOSE_RESULT_GAME_WINDOW);
 
         private function panelCreationComplete():void {
-			try {
+			//try {
 	            SoundManager.changeMusicVolume(CommonConstans.MUSIC_WEAK_VOLUME);
 	
 	            apearingAnimation.play();
@@ -92,23 +92,37 @@
 	
 	            var lobbies:Array = new Array();
 	
+				if(Context.gameModel.lastGameLobbyProfiles == null)
+				{
+					Alert.show("Error Context.gameModel.lastGameLobbyProfiles is NULL | FightResultW");
+				}
+				
 	            for each (var lobbyProfile:LobbyProfile in Context.gameModel.lastGameLobbyProfiles) {
 	                /* its own profile */
-	                if (lobbyProfile.id == Context.Model.currentSettings.gameProfile.id) {
-	                    var exo:ExperianceObject = Context.Model.experianceManager.getLevel(lobbyProfile.experience);
-	                    var exoCurrent:ExperianceObject = Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience);
-	                    if (exoCurrent.level != exo.level) {
-	                        Context.Model.dispatchCustomEvent(
-	                                ContextEvent.NEW_LEVEL_SHOW,
-	                                Context.Model.experianceManager.getLevel(lobbyProfile.experience)
-	                        );
-	                    }
-	
-	                    Context.Model.currentSettings.gameProfile.experience = lobbyProfile.experience;
-	                    Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
-	                }
-	
-	                lobbies.push(lobbyProfile);
+					
+					if(lobbyProfile == null)
+					{
+						Alert.show("NULL");
+					}else
+					{
+						Alert.show("Lobby id: "+lobbyProfile.id.toString());
+						
+						if (lobbyProfile.id == Context.Model.currentSettings.gameProfile.id) {
+							var exo:ExperianceObject = Context.Model.experianceManager.getLevel(lobbyProfile.experience);
+							var exoCurrent:ExperianceObject = Context.Model.experianceManager.getLevel(Context.Model.currentSettings.gameProfile.experience);
+							if (exoCurrent.level != exo.level) {
+								Context.Model.dispatchCustomEvent(
+									ContextEvent.NEW_LEVEL_SHOW,
+									Context.Model.experianceManager.getLevel(lobbyProfile.experience)
+								);
+							}
+							
+							Context.Model.currentSettings.gameProfile.experience = lobbyProfile.experience;
+							Context.Model.dispatchCustomEvent(ContextEvent.GP_EXPERIENCE_CHANGED);
+						}
+						
+						lobbies.push(lobbyProfile);
+					}
 	            }
 	
 	            lobbies.sortOn('place');
@@ -182,6 +196,11 @@
 	             PrizeType.CUP, ResourceType.ANTIMATTER, 1, PlaceType.FIRST)
 	             );*/
 				
+				if(isNaN(Context.game.gameStats.goldCollected))
+				{
+					Alert.show("Error Context.game.gameStats.goldCollected is NaN | FightResultW");
+				}
+				
 	            if (Context.game.gameStats.goldCollected > 0)
 	                prizes.push(new PrizeObject(
 	                        PrizeType.RESOURCE, ResourceType.GOLD, Context.game.gameStats.goldCollected)
@@ -214,10 +233,10 @@
 			
             setPage(0);
 			
-			}
-			catch(errObject:Error) {
-				Alert.show(errObject.message);
-			}
+			//}
+			//catch(errObject:Error) {
+			//	Alert.show(errObject.message);
+			//}
         }
 
         private function setPage(page:int):void {
