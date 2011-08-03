@@ -18,7 +18,7 @@ package components.common.items.collections
 				"Теплая ночь",
 				"Собрав ее вы получите древнюю ауру защиты ото льда. С помощью которой вы сможете без замедления перемещаться сквозь любые формы льда.",
 				[ItemType.PART_BOOTS, ItemType.PART_CAP, ItemType.PART_GLOVES, ItemType.PART_MAGIC_SNOW],
-				ImagesPrefixes.ITEM_COLLECTIONS +"warmNight.png",
+				ImagesPrefixes.PARTS_PREFIX +"warmNight.png",
 				ItemType.AURA_FIRE
 			));
 		}
