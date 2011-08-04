@@ -40,6 +40,8 @@
 			import components.common.worlds.locations.LocationViewObject;
 			import components.pages.world.windows.locationenter.LocationEnterW;
 			
+			import flashx.textLayout.debug.assert;
+			
 			import loading.SoundManager;
 			
 			import mx.controls.Alert;

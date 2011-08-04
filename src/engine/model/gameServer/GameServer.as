@@ -1073,6 +1073,13 @@ public class GameServer extends SmartFox {
                 var arr:ISFSArray = responseParams.getSFSArray("profiles");
                 var newLPs:Array = getLobbyProfilesFromSFSArray(arr)
                 var lp:LobbyProfile = getNewLobbyProfile(newLPs)
+				
+				/*Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString(
+					{
+						profiles: arr.getDump()
+					}
+				));*/
+				
                 Context.gameModel.lobbyProfiles = newLPs
                 Context.gameModel.someoneJoinedToGame.dispatch(lp);
                 break;
@@ -1223,7 +1230,7 @@ public class GameServer extends SmartFox {
             } else {
                 color = PlayerColor.RED;
             }
-
+			
             resultArray[slot] = new LobbyProfile(id, nick, photo, exp, slot, ready, color)
         }
         return resultArray

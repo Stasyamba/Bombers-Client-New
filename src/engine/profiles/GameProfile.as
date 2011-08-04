@@ -495,24 +495,50 @@ public class GameProfile {
         return res;
     }
 
-    public function addItem(iType:ItemType, count:int):void {
-
-        if (selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == iType) {
-            selectedWeaponLeftHand.itemCount += count;
-            return
-        } else {
-            for (var i:int = 0; i < gotItems.length; i++) {
-                var io:ItemProfileObject = gotItems[i];
-                if (io.itemType == iType) {
-                    io.itemCount += count;
-                    return;
-                }
-            }
-        }
-
-        io = new ItemProfileObject(iType, count);
-        gotItems.push(io);
-        packItems.push(io);
+    public function addItem(iType:ItemType, count:int):void 
+	{
+		/* add in got item also*/
+		var isItemExist: Boolean = false;
+		
+		for (var i:int = 0; i < gotItems.length; i++) 
+		{
+			var io:ItemProfileObject = gotItems[i];
+			if (io.itemType == iType) 
+			{
+				io.itemCount += count;
+				isItemExist = true;
+				break;
+			}
+		}
+		
+		if(isItemExist)
+		{
+	        if (selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == iType) 
+			{
+				/* add in hand */
+	            selectedWeaponLeftHand.itemCount += count;
+	            return;
+	        } else 
+			{
+	            /* add in pack */
+				for (i = 0; i < packItems.length; i++) 
+				{
+					var ipo:ItemProfileObject = packItems[i];
+					if (ipo.itemType == iType) 
+					{
+						ipo.itemCount += count;
+						isItemExist = true;
+						return;
+					}
+				}
+	        }
+		}else
+		{
+			io = new ItemProfileObject(iType, count);
+			gotItems.push(io);
+			packItems.push(io);
+		}
+       
     }
 
     public function removeItem(iType:ItemType, count:int):void {
@@ -665,5 +691,4 @@ public class GameProfile {
 
 }
 }
-
 
