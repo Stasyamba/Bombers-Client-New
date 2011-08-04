@@ -4,30 +4,38 @@
  */
 
 package loading {
-import components.common.items.ItemType
-import components.common.worlds.locations.LocationType
+import components.common.items.ItemType;
+import components.common.worlds.locations.LocationType;
 
-import engine.bombers.BomberType
-import engine.games.quest.monsters.MonsterType
+import engine.bombers.BomberType;
+import engine.content.CommonContent;
+import engine.content.SWFDescriptor;
+import engine.games.quest.monsters.MonsterType;
 
-import flash.display.MovieClip
-import flash.system.ApplicationDomain
-import flash.system.LoaderContext
-import flash.utils.Dictionary
+import flash.display.Loader;
+import flash.display.MovieClip;
+import flash.events.Event;
+import flash.system.ApplicationDomain;
+import flash.system.LoaderContext;
+import flash.system.Security;
+import flash.system.SecurityDomain;
+import flash.utils.ByteArray;
+import flash.utils.Dictionary;
+import flash.utils.getDefinitionByName;
 
-import greensock.events.LoaderEvent
-import greensock.loading.LoaderMax
-import greensock.loading.LoaderStatus
-import greensock.loading.MP3Loader
-import greensock.loading.SWFLoader
-import greensock.loading.XMLLoader
-import greensock.loading.core.LoaderCore
-import greensock.loading.data.LoaderMaxVars
-import greensock.loading.data.MP3LoaderVars
-import greensock.loading.data.SWFLoaderVars
-import greensock.loading.data.XMLLoaderVars
+import greensock.events.LoaderEvent;
+import greensock.loading.LoaderMax;
+import greensock.loading.LoaderStatus;
+import greensock.loading.MP3Loader;
+import greensock.loading.SWFLoader;
+import greensock.loading.XMLLoader;
+import greensock.loading.core.LoaderCore;
+import greensock.loading.data.LoaderMaxVars;
+import greensock.loading.data.MP3LoaderVars;
+import greensock.loading.data.SWFLoaderVars;
+import greensock.loading.data.XMLLoaderVars;
 
-import org.osflash.signals.Signal
+import org.osflash.signals.Signal;
 
 public class BombersContentLoader {
 
@@ -177,7 +185,23 @@ public class BombersContentLoader {
     }
 
     // graphics
+
+    private static function loadEmbeddedSwfArray(arr:Array):void {
+		Security.allowDomain("*");
+        for each (var desc:SWFDescriptor in arr) {
+            var assetLoader:Loader = new Loader();
+            assetLoader.addEventListener(Event.COMPLETE,function(e:Event){
+                trace("EMBEDDED SWF " + desc.className + " loaded");
+                var c:Class = getDefinitionByName(desc.className) as Class;
+                new c();
+            })
+            assetLoader.loadBytes(new desc.swfClass as ByteArray, new LoaderContext(false, ApplicationDomain.currentDomain));
+        }
+    }
+
     public static function loadGraphics():void {
+        loadEmbeddedSwfArray(CommonContent.swfs)
+
         var xmlLoader:XMLLoader = new XMLLoader(IMAGES_ADDRESS + "engine/files.xml",
                 new XMLLoaderVars()
                         .onComplete(onGraphicsXmlComplete)
@@ -240,12 +264,12 @@ public class BombersContentLoader {
                 })
                 .name("common")
         )
-        commonHelper("DO", comQueue)
-        commonHelper("map", comQueue)
-        commonHelper("explosions", comQueue)
-        commonHelper("healthBar", comQueue)
-        commonHelper("other", comQueue)
-        commonHelper("bombers", comQueue)
+//        commonHelper("DO", comQueue)
+//        commonHelper("map", comQueue)
+//        commonHelper("explosions", comQueue)
+//        commonHelper("healthBar", comQueue)
+//        commonHelper("other", comQueue)
+//        commonHelper("bombers", comQueue)
 
         //locations
         var locationsQueue:LoaderMax = new LoaderMax(new LoaderMaxVars()
@@ -338,9 +362,9 @@ public class BombersContentLoader {
         return _loadedGraphics
     }
 
-    //creatures swf
+//creatures swf
 
-    //BO swf
+//BO swf
     public static const BO_SWF_ADDRESS:String = "http://www.vensella.ru/eg/gate.swf"
     public static var boSwf:MovieClip
 
@@ -362,7 +386,7 @@ public class BombersContentLoader {
         l.load()
     }
 
-    //tasks
+//tasks
     public static function addTask(taskSignal:Signal, array:Array):void {
         var taskObj:Object = new Object()
         for (var i:int = 0; i < array.length; i++) {
@@ -392,7 +416,7 @@ public class BombersContentLoader {
         taskSignal.dispatch()
     }
 
-    //sounds
+//sounds
     private static const SOUNDS_ADDRESS:String = "http://www.vensella.ru/vp/sounds/"
     private static const _soundsNames:Array = [
         "03",
@@ -446,7 +470,7 @@ public class BombersContentLoader {
         return _sounds[file]
     }
 
-    //management
+//management
 
     public static function stopAll():void {
         (LoaderMax.getLoader("engine") as LoaderCore).dispose();

@@ -11,6 +11,7 @@
         import components.ApplicationView
         import components.common.game.questgameresult.QuestResultObject
         import components.common.quests.medals.MedalType
+        import components.common.worlds.locations.LocationType
 
         import engine.EngineContext
         import engine.games.GameType
@@ -31,7 +32,7 @@
             if (Context.gameModel.currentLocation) {
                 if (_bg != null && bg.contains(_bg))
                     bg.removeChild(_bg);
-                _bg = Context.imageService.asContentDisplay(Context.gameModel.currentLocation.stringId + ".map.background");
+                _bg = Context.imageService.backgroundSprite(Context.gameModel.currentLocation);
                 bg.addChild(_bg);
 
             }

@@ -4,6 +4,8 @@
  */
 
 package engine.maps.mapBlocks {
+import engine.content.CommonContent
+
 public class MapBlockType {
 
     public static const DEFAULT_GRAPHICS_NAME:String = "_"
@@ -15,7 +17,7 @@ public class MapBlockType {
     public static const DEATH_WALL:MapBlockType = new MapBlockType("DEATH_WALL", true, DEFAULT_GRAPHICS_NAME, false, "wall");
     public static const FRAGILE_WALL:MapBlockType = new MapBlockType("FRAGILE_WALL", true, DEFAULT_GRAPHICS_NAME);
     public static const UNDER_BIG_OBJECT:MapBlockType = new MapBlockType("UNDER_BIG_OBJECT", false, null);
-    public static const FIRE:MapBlockType = new MapBlockType("FIRE", true, "common.map.fire1", true, null, "Lava")
+    public static const FIRE:MapBlockType = new MapBlockType("FIRE", true, "MAP_FIRE1", true, null, "Lava")
     public static const MAGNET:MapBlockType = new MapBlockType("MAGNET", true, "common.map.magnet1",true)
     public static const ICE:MapBlockType = new MapBlockType("ICE", true, "common.map.ice1",true)
     public static const GLUE:MapBlockType = new MapBlockType("GLUE", true, "common.map.glue1",true)
@@ -37,15 +39,15 @@ public class MapBlockType {
 
     private var _key:String;
     private var _draws:Boolean
-    private var _graphicsName:String
+    private var _graphics:String
     private var _nameAs:String
     private var _swfClassName:String
     private var _isGround:Boolean
 
-    public function MapBlockType(value:String, draws:Boolean, graphicsName:String, isGround:Boolean = false, drawAs:String = null, swfClassName:String = null) {
+    public function MapBlockType(value:String, draws:Boolean, graphics:*, isGround:Boolean = false, drawAs:String = null, swfClassName:String = null) {
         _key = value;
         _draws = draws
-        _graphicsName = graphicsName
+        _graphics = graphics
         _nameAs = drawAs
         _swfClassName = swfClassName
         _isGround = isGround
@@ -95,8 +97,8 @@ public class MapBlockType {
         return _draws
     }
 
-    public function get graphicsName():String {
-        return _graphicsName
+    public function get graphics():String {
+        return _graphics
     }
 
     public function get nameAs():String {
