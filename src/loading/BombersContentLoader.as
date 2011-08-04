@@ -446,7 +446,6 @@ public class BombersContentLoader {
         for each (var name:String in _soundsNames) {
             queue.append(new MP3Loader(name + ".mp3", new MP3LoaderVars()
                     .name(name + ".mp3")
-                    .noCache(true)
                     .autoPlay(false)
                     .onError(
                     function(e:LoaderEvent) {

@@ -52,9 +52,6 @@ public class MapBlockView extends Sprite implements IDrawable {
     }
 
     private function onObjectCollected(byMe:Boolean):void {
-        if (objectView != null && contains(objectView))
-            objectView.destroy();
-        objectView = null;
         draw();
     }
 
