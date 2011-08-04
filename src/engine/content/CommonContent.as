@@ -1,6 +1,7 @@
 package engine.content {
 import flash.display.Bitmap;
 import flash.system.ApplicationDomain;
+import flash.utils.ByteArray;
 import flash.utils.getDefinitionByName;
 
 public class CommonContent {
@@ -125,6 +126,11 @@ public class CommonContent {
 
     [Embed(source="common/other/playerPointer.png")]
     public static const OTHER_PLAYER_POINTER:Class;
+	
+	//Quest 00_00
+	
+	[Embed(source="common/q00_00.xml", mimeType="application/octet-stream")]
+	public static const FIRST_QUEST:Class;
 
 
 //  Location00
@@ -199,5 +205,18 @@ public class CommonContent {
         }
         return new c();
     }
+	
+	
+	private static var _firstQuest:XML = null;
+	public static function getFirstQuest():XML {
+		if (_firstQuest == null) {
+			var file:ByteArray = new CommonContent.FIRST_QUEST;
+			var str:String = file.readUTFBytes(file.length);
+			var xml:XML = new XML(str);
+			_firstQuest = xml;
+		}
+		return _firstQuest;
+	}
+	
 }
 }
