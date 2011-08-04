@@ -369,7 +369,7 @@ public class BombersContentLoader {
     public static var boSwf:MovieClip
 
     public static function loadBO():void {
-        var l:SWFLoader = new SWFLoader(BO_SWF_ADDRESS, new SWFLoaderVars()
+       /* var l:SWFLoader = new SWFLoader(BO_SWF_ADDRESS, new SWFLoaderVars()
                 .name("bo_swf")
                 .context(new LoaderContext(false, ApplicationDomain.currentDomain))
                 .noCache(true)
@@ -383,7 +383,7 @@ public class BombersContentLoader {
                 function(e:LoaderEvent):void {
                     throw Context.Exception("Error in file BombersContentLoader.as: error loading bo swf: " + e.text)
                 }))
-        l.load()
+        l.load()*/
     }
 
 //tasks
