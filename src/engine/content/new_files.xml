@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2011.
+  ~ Pavkin Vladimir
+  -->
+
+<Files>
+    <locations addr="engine/locations/">
+        <Location id="l00">
+            <Folder name="bo">
+                <File name="tut_space" ext=".png"/>
+                <File name="tut_move" ext=".png"/>
+                <File name="tut_weapon" ext=".png"/>
+                <File name="tut_bonus" ext=".png"/>
+                <File name="tut_monster" ext=".png"/>
+
+                <File name="bush_01" ext=".png"/>
+            </Folder>
+        </Location>
+    </locations>
+
+</Files>
