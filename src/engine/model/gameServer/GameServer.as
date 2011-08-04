@@ -1246,6 +1246,8 @@ public class GameServer extends SmartFox {
     // EXTENSION
     // RESPONSES
     private function onMOVE_TICK(responseParams:ISFSObject):void {
+        if(!Context.gameModel.isPlayingNow)
+            return;
         var dirArr:ISFSArray = responseParams.getSFSArray("ID")
         var cxArr:ISFSArray = responseParams.getSFSArray("CX")
         var cyArr:ISFSArray = responseParams.getSFSArray("CY")

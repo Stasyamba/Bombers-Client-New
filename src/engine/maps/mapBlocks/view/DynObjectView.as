@@ -12,7 +12,7 @@ public class DynObjectView extends DestroyableSprite {
     protected var block:IMapBlock;
     protected var _baseView:Sprite;
 
-    private var _self:Sprite;
+    protected var _self:Sprite;
 
     public override function draw():void {
         if (_self != null && contains(_self))
