@@ -102,10 +102,10 @@
 					
 					if(lobbyProfile == null)
 					{
-						Alert.show("NULL");
+						//Alert.show("NULL");
 					}else
 					{
-						Alert.show("Lobby id: "+lobbyProfile.id.toString());
+						//Alert.show("Lobby id: "+lobbyProfile.id.toString());
 						
 						if (lobbyProfile.id == Context.Model.currentSettings.gameProfile.id) {
 							var exo:ExperianceObject = Context.Model.experianceManager.getLevel(lobbyProfile.experience);
