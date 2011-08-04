@@ -1,0 +1,111 @@
+<!--
+  ~ Copyright (c) 2011.
+  ~ Pavkin Vladimir
+  -->
+<Game>
+    <id>q00_00</id>
+    <location>0</location>
+    <name>Первые шаги</name>
+    <description>Добро пожаловать в бомбатсерию! Давай научимся ходить и ставить бомбы, а затем убьем нашего первого
+        врага, коварного черного тарантула!
+    </description>
+    <questImage>0.jpg</questImage>
+    <previewImage>tarantul.png</previewImage>
+    <energyCost>5</energyCost>
+    <timeLimit>1200</timeLimit>
+    <finishOnGoal/>
+    <!--убрать, если надо чтобы время точно завершилось-->
+    <map>
+        <Map>
+            <size width="34" height="11"/>
+            <spawns>
+                <Spawn x="0" y="9"/>
+                <!--frequency=[Hz], start=[sec]-->
+                <!--<MonsterSpawn x="5" y="2"-->
+                <!--monsterId="00.monsters.rat_02" freq="0.5" start="0" maxCount="3" object="2">-->
+                <!--<ws type="random" maxSec="4"/>-->
+                <!--</MonsterSpawn>-->
+            </spawns>
+            <rows>
+                <Row val="fffffffffffffffffffffffffffwffwfwf"/>
+                <Row val="fffffffffffffffffffffffffffwffffff"/>
+                <Row val="fffffffffffffffffffffffffffwfwfwfw"/>
+                <Row val="ffffffffwwwwwwwwfffffffffffwffffff"/>
+                <Row val="ffffffffwbbbfffwfwwwwwwwwfwfffwfwf"/>
+                <Row val="ffffffffwfwwwffwfwffbfbfwwfbwwwwww"/>
+                <Row val="ffffffffwffwffwwwwfbwbwbfffwwwffff"/>
+                <Row val="ffffffffwfwwffffffffbfbffwwwffffff"/>
+                <Row val="wwwwwwwwwfwwwwwwwwwwwwwwwwffffffff"/>
+                <Row val="ffwfffwfffwfffffffffffffffffffffff"/>
+                <Row val="ffffwfffwfwfffffffffffffffffffffff"/>
+            </rows>
+            <objects>
+                <!--bonuses-->
+                <Object id="100" x="13" y="7" wt="03" count="1"/>
+                <Object id="103" x="20" y="5"/>
+                <Object id="103" x="20" y="7"/>
+                <Object id="102" x="21" y="6"/>
+                <Object id="101" x="22" y="5"/>
+                <Object id="101" x="22" y="7"/>
+
+                <Object id="103" x="26" y="5"/>
+                <Object id="103" x="26" y="6"/>
+            </objects>
+            <bigObjects>
+                <BigObject t="simple" id="2" x="4" y="1" width="9" height="1" graphicsId="l00.bo.tut_space"
+                           layer="decoration"/>
+                <BigObject t="simple" id="3" x="1" y="3" width="6" height="5" graphicsId="l00.bo.tut_move"
+                           layer="decoration"/>
+                <BigObject t="simple" id="4" x="12" y="9" width="5" height="2" graphicsId="l00.bo.tut_weapon"
+                           layer="decoration"/>
+                <BigObject t="simple" id="5" x="18" y="1" width="8" height="3" graphicsId="l00.bo.tut_bonus"
+                           layer="decoration"/>
+                <BigObject t="simple" id="6" x="27" y="8" width="7" height="3" graphicsId="l00.bo.tut_monster"
+                           layer="decoration"/>
+                <BigObject t="simple" id="7" x="14" y="7" width="1" height="1" graphicsId="l00.bo.bush_01"
+                           layer="higher"
+                           life="15">
+                    <blocks>
+                        <ObjectBlock x="0" y="0"
+                                     canGoThrough="false"
+                                     canSetBomb="false"
+                                     canExplosionGoThrough="true"
+                                     explodesAndStopsExplosion="true"
+                                     explodes="true"/>
+                    </blocks>
+                </BigObject>
+            </bigObjects>
+        </Map>
+    </map>
+    <monsters>
+        <Monster monsterId="00.monsters.SpiderRed_01" slot="2" x="30" y="2">
+            <ws type="stand"/>
+        </Monster>
+    </monsters>
+    <medals>
+        <!-- если задание одно, а медали отличаются по времени, то оно указывается здесь, а
+        в медалях просто <goal t="TimeGoal" time="45"/> -->
+        <goal t="DefeatMonsterGoal" id="all"/>
+        <Bronze text="Убить за 20 мин.">
+            <goal t="TimeGoal" time="1200"/>
+            <prize>
+                <Resource id="00" val="100"/>
+            </prize>
+        </Bronze>
+        <Silver text="Убить за 2 мин.">
+            <goal t="TimeGoal" time="120"/>
+            <prize>
+                <Resource id="00" val="300"/>
+                <Experience val="20"/>
+            </prize>
+        </Silver>
+        <Gold text="Убить за 1 мин.">
+            <goal t="TimeGoal" time="60"/>
+            <prize>
+                <Resource id="00" val="500"/>
+                <Experience val="30"/>
+                <Object id="03" val="1"/>
+            </prize>
+        </Gold>
+    </medals>
+</Game>

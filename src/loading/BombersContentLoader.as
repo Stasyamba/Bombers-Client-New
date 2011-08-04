@@ -160,6 +160,9 @@ public class BombersContentLoader {
     }
 
     public static function questXML(questId:String):XML {
+		if (questId == "q00_00") {
+			return CommonContent.getFirstQuest();
+		}
         return _questXmls[questId]
     }
 
