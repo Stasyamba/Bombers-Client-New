@@ -82,9 +82,9 @@
 					/* dispatch some event */
 				}
 				
-				if(Context.Model.currentTutorialPart == TutorialPartType.PART5)
+				if(Context.Model.justFinishedTutorial)
 				{
-					Context.Model.currentTutorialPart = TutorialPartType.DONE;
+					//Context.Model.currentTutorialPart = TutorialPartType.DONE;
 					Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
 				}
 				

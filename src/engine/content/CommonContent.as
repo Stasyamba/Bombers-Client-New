@@ -175,7 +175,6 @@ public class CommonContent {
     [Embed(source="locations/l01/map/wall1.png")]
     public static const l01_MAP_WALL1:Class;
 
-
     public static const swfs:Array = [
         new SWFDescriptor(DO_1012, "GreenMarshrum"),
         new SWFDescriptor(DO_1013, "RedMarshrum"),

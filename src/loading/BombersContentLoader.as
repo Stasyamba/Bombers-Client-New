@@ -427,11 +427,13 @@ public class BombersContentLoader {
         "bg",
         "button_30",
         "button_46",
-        "battle1",
         "bonus1",
-        "expl1"
+		"expl1",
+        "fight1"
     ]
 
+	/* "battle1", */
+		
     public static function loadSounds():void {
 
         var queue:LoaderMax = new LoaderMax(new LoaderMaxVars()

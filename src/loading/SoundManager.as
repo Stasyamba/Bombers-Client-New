@@ -16,6 +16,7 @@ public class SoundManager {
     public static const WORLD_BACKGROUND:String = "bg.mp3"
     public static const BONUS_1:String = "bonus1.mp3"
     public static const EXPLOSION_1:String = "expl1.mp3"
+	public static const FIGHT1:String = "fight1.mp3";
 
 
     private static var _isPlayingSounds:Boolean = true;
@@ -23,7 +24,7 @@ public class SoundManager {
 
     private static var playingForever:MP3Loader
 
-    private static const FADE_TIME:Number = 2.0;
+    private static const FADE_TIME:Number = 0.5;
 
     private static var musicStopped:Signal = new Signal()
 

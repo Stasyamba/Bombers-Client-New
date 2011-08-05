@@ -13,6 +13,7 @@ package components.common.base
 		public static const MUSIC_WEAK_VOLUME: Number = 0.05;
 		public static const MUSIC_HALF_NORMAL_VOLUME: Number = 0.1;
 		public static const MUSIC_NORMAL_VOLUME: Number = 0.2;
+		public static const MUSIC_WORLD_VOLUME: Number = 0.05;
 
 		public static const BIG_PRICE_VALUE: int = 100000;
 

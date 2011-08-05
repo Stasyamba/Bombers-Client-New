@@ -47,7 +47,7 @@
                     gameView.everyGameTabOpeningInit();
 					
 					/* sounds */
-					//SoundManager.playMusic(SoundManager.BATTLE_1, CommonConstans.MUSIC_WEAK_VOLUME);
+					SoundManager.playMusic(SoundManager.FIGHT1, CommonConstans.MUSIC_WEAK_VOLUME);
                 }
             });
 

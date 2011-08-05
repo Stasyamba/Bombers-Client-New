@@ -393,6 +393,7 @@
 
 			
             //SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, CommonConstans.MUSIC_HALF_NORMAL_VOLUME);
+			SoundManager.playMusic(SoundManager.WORLD_BACKGROUND, CommonConstans.MUSIC_WORLD_VOLUME);
 
         }
 

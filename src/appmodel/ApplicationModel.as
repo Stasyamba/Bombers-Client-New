@@ -108,7 +108,7 @@ public class ApplicationModel extends VkontakteApplicationModel {
 	
 	
 	public var musicState: int = -1;
-	
+	public var justFinishedTutorial:Boolean = false;
 	
     public var disp:EventDispatcher;
 
