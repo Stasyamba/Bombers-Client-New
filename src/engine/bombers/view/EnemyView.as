@@ -42,7 +42,6 @@ public class EnemyView extends CreatureViewBase implements IDestroyable {
     public function destroy():void {
         EngineContext.enemyInputDirectionChanged.remove(inputDirectionChanged);
         EngineContext.enemySmoothMovePerformed.remove(updateCoords)
-        EngineContext.someoneDied.remove(onEnemyDied);
     }
 
     protected function onEnemyDied(slot:int):void {

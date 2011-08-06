@@ -20,24 +20,25 @@ import engine.maps.interfaces.IDynObjectType
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapObjects.DynObjectType
 import engine.maps.mapObjects.NullDynObject
+import engine.maps.mapObjects.action.GatePass
+import engine.maps.mapObjects.action.GatePassType
 import engine.maps.mapObjects.bonuses.BonusAddBomb
 import engine.maps.mapObjects.bonuses.BonusAddBombPower
 import engine.maps.mapObjects.bonuses.BonusAddSpeed
 import engine.maps.mapObjects.bonuses.BonusHeal
+import engine.maps.mapObjects.bonuses.BonusItem
 import engine.maps.mapObjects.bonuses.BonusResource
 import engine.maps.mapObjects.bonuses.BonusType
-import engine.maps.mapObjects.bonuses.BonusItem
 import engine.maps.mapObjects.mines.MineType
 import engine.maps.mapObjects.mines.RegularMine
 import engine.maps.mapObjects.special.SpecialObject
 import engine.maps.mapObjects.special.SpecialObjectType
-import engine.weapons.WeaponType
 
 public class DynObjectBuilder {
 
     private var explosionsBuilder:ExplosionsBuilder
 
-    public function make(objType:IDynObjectType, block:IMapBlock, owner:IBomber = null,params:Object = null):IDynObject {
+    public function make(objType:IDynObjectType, block:IMapBlock, owner:IBomber = null, params:Object = null):IDynObject {
 
         if (objType is SpecialObjectType) {
             return new SpecialObject(block, objType as SpecialObjectType)
@@ -66,12 +67,15 @@ public class DynObjectBuilder {
             case BonusType.HEAL:
                 return new BonusHeal(block);
             case BonusType.ITEM:
-                return new BonusItem(block,ItemType.byValue(int(params["wt"])),int(params["count"]));
+                return new BonusItem(block, ItemType.byValue(int(params["wt"])), int(params["count"]));
             case BonusType.RESOURCE:
-                return new BonusResource(block,ResourceType.byServerValue(int(params["rt"])),int(params["count"]));
+                return new BonusResource(block, ResourceType.byServerValue(int(params["rt"])), int(params["count"]));
             //mines
             case MineType.REGULAR:
                 return new RegularMine(block, owner);
+            //gates
+            case GatePassType.GATE_PASS:
+                return new GatePass(block, params["orientation"] != "horizontal", params["active"] == "true", int(params["period"]) / 1000);
         }
         throw Context.Exception("Error in file DynObjectBuilder.as: NotImplemented: " + objType.key);
     }
@@ -83,10 +87,10 @@ public class DynObjectBuilder {
     public static function params(obj:XML):Object {
         var res:Object = new Object()
 
-        if(obj.@wt){
+        if (obj.@wt) {
             res["wt"] = obj.@wt
         }
-        if(obj.@count){
+        if (obj.@count) {
             res["count"] = obj.@count
         }
         return res

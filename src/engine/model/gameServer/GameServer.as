@@ -5,64 +5,64 @@
 
 package engine.model.gameServer {
 
-import com.smartfoxserver.v2.SmartFox;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.requests.ExtensionRequest;
-import com.smartfoxserver.v2.requests.JoinRoomRequest;
-import com.smartfoxserver.v2.requests.LeaveRoomRequest;
-import com.smartfoxserver.v2.requests.LoginRequest;
-import com.smartfoxserver.v2.requests.PublicMessageRequest;
+import com.smartfoxserver.v2.SmartFox
+import com.smartfoxserver.v2.core.SFSEvent
+import com.smartfoxserver.v2.entities.Room
+import com.smartfoxserver.v2.entities.data.ISFSArray
+import com.smartfoxserver.v2.entities.data.ISFSObject
+import com.smartfoxserver.v2.entities.data.SFSObject
+import com.smartfoxserver.v2.requests.ExtensionRequest
+import com.smartfoxserver.v2.requests.JoinRoomRequest
+import com.smartfoxserver.v2.requests.LeaveRoomRequest
+import com.smartfoxserver.v2.requests.LoginRequest
+import com.smartfoxserver.v2.requests.PublicMessageRequest
 
-import components.common.base.CommonConstans;
-import components.common.base.access.rules.levelrule.AccessLevelRule;
-import components.common.base.expirance.ExperianceObject;
-import components.common.base.market.ItemMarketObject;
-import components.common.bombers.BomberType;
-import components.common.friendslent.FriendObject;
-import components.common.items.ItemObject;
-import components.common.items.ItemType;
-import components.common.profiles.ISocialProfile;
-import components.common.quests.QuestBestPlayer;
-import components.common.quests.QuestObject;
-import components.common.quests.medals.MedalType;
-import components.common.quests.regard.RegardObject;
-import components.common.quests.regard.RegardType;
-import components.common.resources.ResourcePrice;
-import components.common.resources.ResourceType;
-import components.common.tutorial.TutorialPartType;
-import components.common.worlds.locations.LocationType;
+import components.common.base.CommonConstans
+import components.common.base.access.rules.levelrule.AccessLevelRule
+import components.common.base.expirance.ExperianceObject
+import components.common.base.market.ItemMarketObject
+import components.common.bombers.BomberType
+import components.common.friendslent.FriendObject
+import components.common.items.ItemObject
+import components.common.items.ItemType
+import components.common.profiles.ISocialProfile
+import components.common.quests.QuestBestPlayer
+import components.common.quests.QuestObject
+import components.common.quests.medals.MedalType
+import components.common.quests.regard.RegardObject
+import components.common.quests.regard.RegardType
+import components.common.resources.ResourcePrice
+import components.common.resources.ResourceType
+import components.common.tutorial.TutorialPartType
+import components.common.worlds.locations.LocationType
 
-import engine.EngineContext;
-import engine.bombers.MoveTickObject;
-import engine.maps.interfaces.IDynObject;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.mapObjects.DynObjectType;
-import engine.model.signals.InGameMessageReceivedSignal;
-import engine.model.signals.ProfileLoadedSignal;
-import engine.model.signals.manage.GameServerConnectedSignal;
-import engine.model.signals.manage.LoggedInSignal;
-import engine.playerColors.PlayerColor;
-import engine.profiles.GameProfile;
-import engine.profiles.LobbyProfile;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponType;
+import engine.EngineContext
+import engine.bombers.MoveTickObject
+import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.mapObjects.DynObjectType
+import engine.model.signals.InGameMessageReceivedSignal
+import engine.model.signals.ProfileLoadedSignal
+import engine.model.signals.manage.GameServerConnectedSignal
+import engine.model.signals.manage.LoggedInSignal
+import engine.playerColors.PlayerColor
+import engine.profiles.GameProfile
+import engine.profiles.LobbyProfile
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponType
 
-import flash.events.TimerEvent;
-import flash.utils.Timer;
+import flash.events.TimerEvent
+import flash.utils.Timer
 
-import greensock.TweenMax;
+import greensock.TweenMax
 
-import loading.ServerQuestObject;
+import loading.ServerQuestObject
 
-import mx.controls.Alert;
-import mx.utils.ObjectUtil;
+import mx.controls.Alert
+import mx.utils.ObjectUtil
 
-import org.osflash.signals.Signal;
+import org.osflash.signals.Signal
 
 public class GameServer extends SmartFox {
 
@@ -192,7 +192,7 @@ public class GameServer extends SmartFox {
     }
 
     public function useDefaultLocalServerConfig():void {
-        if(Context.Model.isDevelopment)
+        if (Context.Model.isDevelopment)
             ip = "46.182.31.151"
         else
             ip = 'cs1.vensella.ru';
@@ -633,16 +633,12 @@ public class GameServer extends SmartFox {
             case PLAYER_DIED:
                 var slot:int;
                 var lp:LobbyProfile = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("UserId"));
+                if (lp == null) {
+                    lp = Context.gameModel.getLastLobbyProfileById(responseParams.getUtfString("UserId"));
+                }
                 if (lp != null) {
                     slot = lp.slot
                     EngineContext.someoneDied.dispatch(slot);
-					
-//                    if (Context.gameModel.isMySlot(slot)) {
-//                        updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
-//                        Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("Experience")
-//                        return
-//                    }
-					
                 }
                 break;
 
@@ -677,48 +673,47 @@ public class GameServer extends SmartFox {
 
                     Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
 
-					//Context.Model.currentTutorialPart = TutorialPartType.PART5;
-					
+
+//					Context.Model.currentTutorialPart = TutorialPartType.PART5;
+
                     /* it must be after dayly boust futher */
                     if (Context.Model.currentTutorialPart == TutorialPartType.DONE) {
                         Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
                     }
 
-					
-					var missionsRecords: ISFSArray = responseParams.getSFSArray("MissionRecords");
-					
-					for (var i:int = 0; i < missionsRecords.size(); i++) 
-					{
-						var champ:ISFSObject = missionsRecords.getSFSObject(i);
-						
-						/* parse medalists */
-						
-						var mt:MedalType = MedalType.BRONZE_MEDAL;
-						
-						switch (champ.getInt("MedalType")) {
-							case 4:
-								mt = MedalType.GOLD_MEDAL;
-								break;
-							case 2:
-								mt = MedalType.SILVER_MEDAL;
-								break;
-							case 1:
-								mt = MedalType.BRONZE_MEDAL;
-								break;
-						}
-						
-						var ch:QuestBestPlayer = new QuestBestPlayer(
-							champ.getUtfString("Id"),
-							champ.getUtfString("Login"),
-							champ.getUtfString("PhotoUrl"),
-							mt,
-							champ.getInt("Time"));
-						
-						Context.Model.questManager.addMedalist(ch.clone());
-					}
-					
-					
-						
+
+                    var missionsRecords:ISFSArray = responseParams.getSFSArray("MissionRecords");
+
+                    for (var i:int = 0; i < missionsRecords.size(); i++) {
+                        var champ:ISFSObject = missionsRecords.getSFSObject(i);
+
+                        /* parse medalists */
+
+                        var mt:MedalType = MedalType.BRONZE_MEDAL;
+
+                        switch (champ.getInt("MedalType")) {
+                            case 4:
+                                mt = MedalType.GOLD_MEDAL;
+                                break;
+                            case 2:
+                                mt = MedalType.SILVER_MEDAL;
+                                break;
+                            case 1:
+                                mt = MedalType.BRONZE_MEDAL;
+                                break;
+                        }
+
+                        var ch:QuestBestPlayer = new QuestBestPlayer(
+                                champ.getUtfString("Id"),
+                                champ.getUtfString("Login"),
+                                champ.getUtfString("PhotoUrl"),
+                                mt,
+                                champ.getInt("Time"));
+
+                        Context.Model.questManager.addMedalist(ch.clone());
+                    }
+
+
                     var plist:ISFSObject = responseParams.getSFSObject("Pricelist")
 
                     Context.resourceMarket.GOLD_VOICES = plist.getInt("GoldCost")
@@ -750,37 +745,33 @@ public class GameServer extends SmartFox {
                         var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
 
 
-                        var lev:int = obj.getInt("Level");		
-						
-							
-						if(PlayerColor.haveId(id))
-						{
-							/* is color */
-							
-							if(rp.gold.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.GOLD, 0);
-							if(rp.crystals.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.CRYSTALS, 0);
-							if(rp.adamant.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.ADAMANT, 0);
-							if(rp.antimatter.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.ANTIMATTER, 0);
-							
-							Context.Model.bomberColorManager.setColorParameters(PlayerColor.byId(id), rp);
-						}else if(BomberType.haveId(id))
-						{
-							/* is bomber */
-							bomberPrices[id] = imo;
-						}else
-						{
-							/* is item */
-							
-							prices[id] = imo;
-							
-							/* parse level rule */
-							
-							var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
-							if (io != null) 
-							{
-								io.addRule(new AccessLevelRule(lev));
-							}
-						}
+                        var lev:int = obj.getInt("Level");
+
+
+                        if (PlayerColor.haveId(id)) {
+                            /* is color */
+
+                            if (rp.gold.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.GOLD, 0);
+                            if (rp.crystals.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.CRYSTALS, 0);
+                            if (rp.adamant.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.ADAMANT, 0);
+                            if (rp.antimatter.value > CommonConstans.BIG_PRICE_VALUE) rp.setResourceValue(ResourceType.ANTIMATTER, 0);
+
+                            Context.Model.bomberColorManager.setColorParameters(PlayerColor.byId(id), rp);
+                        } else if (BomberType.haveId(id)) {
+                            /* is bomber */
+                            bomberPrices[id] = imo;
+                        } else {
+                            /* is item */
+
+                            prices[id] = imo;
+
+                            /* parse level rule */
+
+                            var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
+                            if (io != null) {
+                                io.addRule(new AccessLevelRule(lev));
+                            }
+                        }
 
                     }
 
@@ -1034,29 +1025,25 @@ public class GameServer extends SmartFox {
                         responseParams.getInt("interface.buyItem.result.fields.resourceType3")
                 );
 
-				if(PlayerColor.haveId(iType.value))
-				{
-					/* is color */
-					var pc: PlayerColor = PlayerColor.byId(iType.value);
-					
-					if(!Context.Model.currentSettings.gameProfile.haveColor(pc))
-					{
-						Context.Model.currentSettings.gameProfile.openedBomberColors.push(pc);
-						Context.Model.dispatchCustomEvent(ContextEvent.COLOR_SET_REFRESH);
-					}
-				}else if(BomberType.haveId(iType.value))
-				{
-					/* is bomber */
-					
-					Context.Model.currentSettings.gameProfile.bombersOpened.push(BomberType.byValue(iType.value));
-					Context.Model.dispatchCustomEvent(ContextEvent.GP_OPEN_BOBMERS_REFRESH, BomberType.byValue(iType.value));
-					
-				}else
-				{
-					Context.Model.currentSettings.gameProfile.addItem(iType, count);
-				}
-				
-				Context.Model.currentSettings.gameProfile.resources.setFrom(rp);
+                if (PlayerColor.haveId(iType.value)) {
+                    /* is color */
+                    var pc:PlayerColor = PlayerColor.byId(iType.value);
+
+                    if (!Context.Model.currentSettings.gameProfile.haveColor(pc)) {
+                        Context.Model.currentSettings.gameProfile.openedBomberColors.push(pc);
+                        Context.Model.dispatchCustomEvent(ContextEvent.COLOR_SET_REFRESH);
+                    }
+                } else if (BomberType.haveId(iType.value)) {
+                    /* is bomber */
+
+                    Context.Model.currentSettings.gameProfile.bombersOpened.push(BomberType.byValue(iType.value));
+                    Context.Model.dispatchCustomEvent(ContextEvent.GP_OPEN_BOBMERS_REFRESH, BomberType.byValue(iType.value));
+
+                } else {
+                    Context.Model.currentSettings.gameProfile.addItem(iType, count);
+                }
+
+                Context.Model.currentSettings.gameProfile.resources.setFrom(rp);
 
 
                 Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
@@ -1080,13 +1067,13 @@ public class GameServer extends SmartFox {
                 var arr:ISFSArray = responseParams.getSFSArray("profiles");
                 var newLPs:Array = getLobbyProfilesFromSFSArray(arr)
                 var lp:LobbyProfile = getNewLobbyProfile(newLPs)
-				
-				/*Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString(
-					{
-						profiles: arr.getDump()
-					}
-				));*/
-				
+
+                /*Context.Model.dispatchCustomEvent(ContextEvent.DEVELOP_DEBUG_STRING_SHOW, ObjectUtil.toString(
+                 {
+                 profiles: arr.getDump()
+                 }
+                 ));*/
+
                 Context.gameModel.lobbyProfiles = newLPs
                 Context.gameModel.someoneJoinedToGame.dispatch(lp);
                 break;
@@ -1237,7 +1224,7 @@ public class GameServer extends SmartFox {
             } else {
                 color = PlayerColor.RED;
             }
-			
+
             resultArray[slot] = new LobbyProfile(id, nick, photo, exp, slot, ready, color)
         }
         return resultArray
@@ -1253,7 +1240,7 @@ public class GameServer extends SmartFox {
     // EXTENSION
     // RESPONSES
     private function onMOVE_TICK(responseParams:ISFSObject):void {
-        if(!Context.gameModel.isPlayingNow)
+        if (!Context.gameModel.isPlayingNow)
             return;
         var dirArr:ISFSArray = responseParams.getSFSArray("ID")
         var cxArr:ISFSArray = responseParams.getSFSArray("CX")
@@ -1339,8 +1326,10 @@ public class GameServer extends SmartFox {
             EngineContext.specialObjectExploded.dispatch(responseParams.getInt("game.DOAct.f.x"), responseParams.getInt("game.DOAct.f.y"), responseParams.getInt("game.DOAct.f.lifeLeft"));
             return;
         }
-
-        var slot:int = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("game.DOAct.f.userId")).slot
+        var slot:int = -1
+        if (responseParams.containsKey("game.DOAct.f.userId")) {
+            slot = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("game.DOAct.f.userId")).slot
+        }
         var ot:IDynObjectType = DynObjectType.byValue(type)
         var destList:Array = []
 
@@ -1354,6 +1343,7 @@ public class GameServer extends SmartFox {
         var params:Object = {};
         params["power"] = responseParams.getInt("game.DOAct.f.s.power");
         params["lifetime"] = responseParams.getInt("game.DOAct.f.s.lifetime");
+        params["active"] = responseParams.getBool("game.DOAct.f.isActive");
 
         EngineContext.objectActivated.dispatch(
                 slot,
