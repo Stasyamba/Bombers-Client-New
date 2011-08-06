@@ -65,7 +65,7 @@ public class DynObjectBuilder {
                 return new BonusAddSpeed(block);
             case BonusType.HEAL:
                 return new BonusHeal(block);
-            case BonusType.WEAPON:
+            case BonusType.ITEM:
                 return new BonusItem(block,ItemType.byValue(int(params["wt"])),int(params["count"]));
             case BonusType.RESOURCE:
                 return new BonusResource(block,ResourceType.byServerValue(int(params["rt"])),int(params["count"]));

@@ -24,7 +24,7 @@ public class BonusItem extends BonusBase implements ICollectableDynObject {
     }
 
     public function get type():IDynObjectType {
-        return BonusType.WEAPON;
+        return BonusType.ITEM;
     }
 
     public function get weapon():ItemType {

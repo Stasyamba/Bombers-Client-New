@@ -201,8 +201,8 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
             if(int(bObj.type) == 200) //goldBoxes
                 continue;
             switch(DynObjectType.byValue(int(bObj.type))){
-                case BonusType.WEAPON:
-                    addObject(-1,bObj.x,bObj.y,BonusType.WEAPON,{wt:bObj.p0,count:bObj.p1})
+                case BonusType.ITEM:
+                    addObject(-1,bObj.x,bObj.y,BonusType.ITEM,{wt:bObj.p0,count:bObj.p1})
                     break;
                 case BonusType.RESOURCE:
                     addObject(-1,bObj.x,bObj.y,BonusType.RESOURCE,{rt:bObj.p0,count:bObj.p1})

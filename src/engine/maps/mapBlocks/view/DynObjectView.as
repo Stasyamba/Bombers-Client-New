@@ -2,6 +2,7 @@ package engine.maps.mapBlocks.view {
 import engine.data.Consts
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapObjects.DynObjectType
+import engine.maps.mapObjects.bonuses.BonusItem
 import engine.maps.mapObjects.bonuses.BonusResource
 import engine.maps.mapObjects.bonuses.BonusType
 
@@ -23,6 +24,8 @@ public class DynObjectView extends DestroyableSprite {
         var postfix:String;
         if (block.object.type == BonusType.RESOURCE) {
             postfix = String((block.object as BonusResource).count);
+        }else if (block.object.type == BonusType.ITEM) {
+            postfix = String((block.object as BonusItem).weapon.value)
         }
         _self = Context.imageService.dynObject(block.object.type, postfix);
         _self.x = -(_self.width - Consts.BLOCK_SIZE) / 2

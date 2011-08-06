@@ -60,7 +60,7 @@ public class CreatureBase {
     }
 
     public function incSpeed():void {
-        _speed *= Consts.SPEED_BONUS_MULTIPLIER;
+        _speed += Consts.SPEED_MODIFIER;
     }
 
     public function setSpeed(val:int):void {
