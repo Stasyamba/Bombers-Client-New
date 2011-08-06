@@ -7,6 +7,7 @@ package engine.maps.mapBlocks.view {
 import engine.bombss.BombType;
 import engine.bombss.view.BombView;
 import engine.maps.interfaces.IDynObject;
+import engine.maps.mapObjects.action.GatePassType
 import engine.maps.mapObjects.bonuses.BonusType;
 import engine.maps.mapObjects.mines.MineType;
 import engine.maps.mapObjects.special.SpecialObject;
@@ -27,6 +28,8 @@ public class ObjectViewFactory {
             return new BombView(object.block, baseView)
         else if (object.type is SpecialObjectType)
             return new SpecialObjectView(object.block, baseView)
+         else if (object.type is GatePassType)
+            return new GatePassView(object.block, baseView)
         throw Context.Exception("Error in file ObjectViewFactory.as: Unknown object type " + object.type.key);
     }
 }

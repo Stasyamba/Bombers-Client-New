@@ -673,9 +673,9 @@ public class GameServer extends SmartFox {
 
                 try {
 
-                    //Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
+                    Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
 
-					Context.Model.currentTutorialPart = TutorialPartType.PART5;
+//					Context.Model.currentTutorialPart = TutorialPartType.PART5;
 					
                     /* it must be after dayly boust futher */
                     if (Context.Model.currentTutorialPart == TutorialPartType.DONE) {
@@ -1337,8 +1337,10 @@ public class GameServer extends SmartFox {
             EngineContext.specialObjectExploded.dispatch(responseParams.getInt("game.DOAct.f.x"), responseParams.getInt("game.DOAct.f.y"), responseParams.getInt("game.DOAct.f.lifeLeft"));
             return;
         }
-
-        var slot:int = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("game.DOAct.f.userId")).slot
+        var slot:int = -1
+        if(responseParams.containsKey("game.DOAct.f.userId")){
+            slot = Context.gameModel.getLobbyProfileById(responseParams.getUtfString("game.DOAct.f.userId")).slot
+        }
         var ot:IDynObjectType = DynObjectType.byValue(type)
         var destList:Array = []
 
@@ -1352,6 +1354,7 @@ public class GameServer extends SmartFox {
         var params:Object = {};
         params["power"] = responseParams.getInt("game.DOAct.f.s.power");
         params["lifetime"] = responseParams.getInt("game.DOAct.f.s.lifetime");
+        params["active"] = responseParams.getBool("game.DOAct.f.isActive");
 
         EngineContext.objectActivated.dispatch(
                 slot,

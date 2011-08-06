@@ -25,6 +25,7 @@ import engine.maps.interfaces.IDynObject;
 import engine.maps.interfaces.IDynObjectType;
 import engine.maps.interfaces.IMapBlock;
 import engine.maps.mapObjects.DynObjectType;
+import engine.maps.mapObjects.action.GatePassType;
 import engine.maps.mapObjects.bonuses.BonusType;
 import engine.model.explosionss.ExplosionType;
 import engine.model.managers.interfaces.IEnemiesManager;
@@ -198,17 +199,25 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
                 bomber.putOnMap(mapManager.map, item.x, item.y);
         }
         for each (var bObj:Object in bonuses) {
-            if(int(bObj.type) == 200) //goldBoxes
+            if (int(bObj.type) == 200) //goldBoxes
                 continue;
-            switch(DynObjectType.byValue(int(bObj.type))){
+            switch (DynObjectType.byValue(int(bObj.type))) {
                 case BonusType.ITEM:
-                    addObject(-1,bObj.x,bObj.y,BonusType.ITEM,{wt:bObj.p0,count:bObj.p1})
+                    addObject(-1, bObj.x, bObj.y, BonusType.ITEM, {wt:bObj.p0,count:bObj.p1})
                     break;
                 case BonusType.RESOURCE:
-                    addObject(-1,bObj.x,bObj.y,BonusType.RESOURCE,{rt:bObj.p0,count:bObj.p1})
+                    addObject(-1, bObj.x, bObj.y, BonusType.RESOURCE, {rt:bObj.p0,count:bObj.p1})
                     break;
+				case GatePassType.GATE_PASS:
+					break;
                 default:
                     addObject(-1, bObj.x, bObj.y, DynObjectType.byValue(bObj.type))
+            }
+        }
+        for each (var obj:XML in xml.objects.object) {
+            switch (String(obj.@type)) {
+                case "210":
+                    addObject(-1, obj.@x, obj.@y, GatePassType.GATE_PASS, {active:String(obj.@active), orientation:String(obj.@orientation),period:0})
             }
         }
         _ready = true;
@@ -294,10 +303,10 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
     public function resourceCollected(rt:ResourceType, count:int, player:IBomber):void {
         if (player == playerManager.me && rt == ResourceType.GOLD) {
             _gameStats.goldCollected += count;
-			
-			/* add gold to profile and change value in top panel */
-			Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(count, 0,0,0));
-			Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
+
+            /* add gold to profile and change value in top panel */
+            Context.Model.currentSettings.gameProfile.resources.add(new ResourcePrice(count, 0, 0, 0));
+            Context.Model.dispatchCustomEvent(ContextEvent.GP_RESOURCE_CHANGED);
         }
     }
 

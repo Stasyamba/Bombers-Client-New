@@ -6,6 +6,7 @@
 package engine.maps.mapObjects {
 import engine.bombss.BombType
 import engine.maps.interfaces.IDynObjectType
+import engine.maps.mapObjects.action.GatePassType
 import engine.maps.mapObjects.bonuses.BonusType
 import engine.maps.mapObjects.mines.MineType
 import engine.maps.mapObjects.special.SpecialObjectType
@@ -58,6 +59,8 @@ public class DynObjectType implements IDynObjectType {
             case BombType.SMOKE.value:return BombType.SMOKE
 
             case MineType.REGULAR.value: return MineType.REGULAR
+
+            case GatePassType.GATE_PASS.value: return GatePassType.GATE_PASS
         }
         throw Context.Exception("Error in file DynObjectType.as: bad value " + value);
     }

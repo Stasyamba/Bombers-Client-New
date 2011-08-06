@@ -11,6 +11,9 @@ public class CommonContent {
     public static const BOMBERS_ZOMBIE:Class = Zombie;
 
     // DO
+
+    public static const DO_210:Class = Spikes;
+
     [Embed(source="common/DO/00.png")]
     public static const DO_00:Class;
 
