@@ -23,8 +23,8 @@ public class CommonContent {
     [Embed(source="common/DO/41.png")]
     public static const DO_41:Class;
 
-    [Embed(source="common/DO/100.png")]
-    public static const DO_100:Class;
+    [Embed(source="common/DO/100.3.png")]
+    public static const DO_100_3:Class;
 
     [Embed(source="common/DO/101.png")]
     public static const DO_101:Class;

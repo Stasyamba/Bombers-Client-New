@@ -34,7 +34,7 @@ public class Consts {
     public static const LOCATIONS_COUNT:int = 9
 
 
-    public static const SPEED_BONUS_MULTIPLIER:Number = 1.1
+    public static const SPEED_MODIFIER:Number = 5
     public static const MONSTER_ALLOWED_DELTA:Number = 7;
 }
 }

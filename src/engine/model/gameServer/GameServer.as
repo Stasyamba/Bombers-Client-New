@@ -192,7 +192,10 @@ public class GameServer extends SmartFox {
     }
 
     public function useDefaultLocalServerConfig():void {
-        ip = 'cs1.vensella.ru';
+        if(Context.Model.isDevelopment)
+            ip = "46.182.31.151"
+        else
+            ip = 'cs1.vensella.ru';
         port = 9933;
         zone = 'bombers';
         defaultRoom = 'defRoom';

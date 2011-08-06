@@ -48,7 +48,7 @@ public class MonsterType implements ICreatureType {
     }
 
     public function getViewSpeed(speed:Number):int {
-        return  int(Math.round((Math.log(speed) - Math.log(_speed)) / Math.log(Consts.SPEED_BONUS_MULTIPLIER))) + 1
+        return  int(Math.round((Math.log(speed) - Math.log(_speed)) / Math.log(Consts.SPEED_MODIFIER))) + 1
     }
 
     public function get graphicsId():String {

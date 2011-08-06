@@ -34,7 +34,7 @@ public class SmokeSprite extends Sprite {
         graphics.drawRect(0, 0, Consts.SMOKE_WIDTH, Consts.SMOKE_HEIGHT)
         graphics.endFill()
         TweenMax.fromTo(this, 10,
-                {alpha:1,scaleX:0.5,scaleY:0.5,x:_baseX + Consts.BLOCK_SIZE_2 - Consts.SMOKE_WIDTH / 4,y:_baseY + Consts.BLOCK_SIZE_2 - Consts.SMOKE_HEIGHT / 4},
+                {alpha:1,scaleX:1,scaleY:1,x:_baseX + Consts.BLOCK_SIZE_2 - Consts.SMOKE_WIDTH / 2,y:_baseY + Consts.BLOCK_SIZE_2 - Consts.SMOKE_HEIGHT / 2},
                 {alpha:1,scaleX:2,scaleY:2,x:_baseX + Consts.BLOCK_SIZE_2 - Consts.SMOKE_WIDTH,y:_baseY + Consts.BLOCK_SIZE_2 - Consts.SMOKE_HEIGHT,onComplete:defaultState})
         _base.addChild(this);
     }
