@@ -134,7 +134,7 @@ public class CreatureViewBase extends Sprite implements IDrawable,IStatedView {
         stateManager.deleteAllStates();
 
         var tween:TweenMax = BasicDestroyExplosion.getTween();
-        var child:Sprite = BasicDestroyExplosion.getChild(19 - BasicDestroyExplosion.WIDTH / 2, 19 - BasicDestroyExplosion.HEIGHT / 2);
+        var child:Sprite = BasicDestroyExplosion.getChild(this.width / 2 - BasicDestroyExplosion.WIDTH / 2, this.height / 2 - BasicDestroyExplosion.HEIGHT / 2);
         var childTween:TweenMax = BasicDestroyExplosion.getChildTween(child);
 
         addState(new ViewState(ViewState.DYING_EXPLOSION, {alpha:1}, tween, child, childTween))

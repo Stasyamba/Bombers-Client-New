@@ -199,7 +199,7 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
                 bomber.putOnMap(mapManager.map, item.x, item.y);
         }
         for each (var bObj:Object in bonuses) {
-            if (int(bObj.type) == 200) //goldBoxes
+            if (int(bObj.type) == 200 || int(bObj.type) == 300) //goldBoxes
                 continue;
             switch (DynObjectType.byValue(int(bObj.type))) {
                 case BonusType.ITEM:

@@ -30,7 +30,7 @@ public class MapBlockType {
     private static const d:uint = 0x64;
     private static const u:uint = 0x75;
 
-    private static const F:uint = 0x46;
+    private static const L:uint = 0x4C;
     private static const M:uint = 0x4D;
     private static const I:uint = 0x49;
     private static const G:uint = 0x47;
@@ -78,7 +78,7 @@ public class MapBlockType {
 
     public static function fromChar(ch:uint):MapBlockType {
         switch (ch) {
-            case F: return FIRE;
+            case L: return FIRE;
             case M: return MAGNET;
             case I: return ICE;
             case G: return GLUE;
