@@ -121,6 +121,7 @@ public class ContextEvent extends Event {
     public static const GPAGE_NEED_TO_SHOW_PREGAME_WINDOW:String = "GPAGENeedToShowPregameWindow";
     public static const GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW:String = "GPAGENeedToShowResultsWindow";
     // pass: GameResults
+	public static const GPAGE_NEED_TO_SHOW_THREE_SEC_WINDOW: String = "GPAGENeedToShowThreeSecWindow";
 
     public static const GPAGE_MY_PARAMETERS_IS_CHANGED:String = "GPAGEMyParametersIsChanged";
     public static const GPAGE_UPDATE_GAME_WEAPONS:String = "GPAGEUpdateGameWeapons";
