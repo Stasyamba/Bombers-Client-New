@@ -633,11 +633,13 @@ public class GameServer extends SmartFox {
                 if (lp != null) {
                     slot = lp.slot
                     EngineContext.someoneDied.dispatch(slot);
+					
 //                    if (Context.gameModel.isMySlot(slot)) {
 //                        updLobbyExperience(slot, responseParams.getInt("Rank"), responseParams.getInt("Experience"))
 //                        Context.Model.currentSettings.gameProfile.experience = responseParams.getInt("Experience")
 //                        return
 //                    }
+					
                 }
                 break;
 

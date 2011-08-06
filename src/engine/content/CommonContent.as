@@ -87,7 +87,7 @@ public class CommonContent {
     [Embed(source="common/explosions/right.png")]
     public static const EXPLOSIONS_RIGHT:Class;
 
-    [Embed(source="common/explosions/smoke.png")]
+    [Embed(source="common/explosions/smoke1.png")]
     public static const EXPLOSIONS_SMOKE:Class;
 
     [Embed(source="common/explosions/up.png")]
