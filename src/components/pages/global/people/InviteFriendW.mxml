@@ -53,6 +53,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import engine.model.gameServer.GameServer;
 			import components.wall.SendWallObject;
 			import components.common.friendslent.FriendObject;
 			import components.common.resources.ResourcePrice;
@@ -91,6 +92,7 @@
 				);
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.VK_SEND_TO_WALL, swo);
+				Context.gameServer.statPostAdded(GameServer.STATS_POSTS_ADDED_TYPE_ENERGY);
 				closeWrapper();
 			}
 			

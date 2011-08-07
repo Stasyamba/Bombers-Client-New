@@ -16,6 +16,8 @@ import components.common.tutorial.TutorialPartType;
 import components.common.worlds.locations.LocationManager;
 import components.common.worlds.locations.LocationViewManager;
 
+import engine.model.gameServer.GameServer;
+
 import flash.events.EventDispatcher;
 
 import org.vyana.control.VyanaEvent;
@@ -109,8 +111,10 @@ public class ApplicationModel extends VkontakteApplicationModel {
 	
 	public var musicState: int = -1;
 	public var justFinishedTutorial:Boolean = false;
+	public var statsSourceLocation: int = GameServer.STATS_LOGIN_SOURCE_TYPE_DEFAULT; 
+
 	
-    public var disp:EventDispatcher;
+	public var disp:EventDispatcher;
 
     public function hasCustomListener(event:String):Boolean {
         if (disp == null) return false;

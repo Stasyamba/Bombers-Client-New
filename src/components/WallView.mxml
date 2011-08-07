@@ -59,7 +59,7 @@
 		private function goToApplication():void	
 		{
 			var link: String = Context.Model.applicationLink;
-			VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(link));
+			VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(link+"#ow"));
 		}
 			
         ]]>

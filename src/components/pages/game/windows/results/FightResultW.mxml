@@ -42,25 +42,26 @@
 
     <fx:Script>
 		<![CDATA[
-		import components.common.base.CommonConstans;
-		import components.common.base.expirance.ExperianceObject;
-		import components.common.game.multygameresult.PrizeObject;
-		import components.common.game.multygameresult.PrizeType;
-		import components.common.resources.ResourcePrice;
-		import components.common.resources.ResourceType;
-		import components.pages.game.windows.results.slots.PrizeCupSlot;
-		import components.pages.game.windows.results.slots.PrizeResourceSlot;
-		import components.wall.SendWallObject;
-		
-		import engine.profiles.LobbyProfile;
-		
-		import loading.SoundManager;
-		
-		import mx.collections.ArrayCollection;
-		import mx.controls.Alert;
-		import mx.managers.PopUpManager;
-		
-		import spark.components.HGroup;
+			import components.common.base.CommonConstans;
+			import components.common.base.expirance.ExperianceObject;
+			import components.common.game.multygameresult.PrizeObject;
+			import components.common.game.multygameresult.PrizeType;
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
+			import components.pages.game.windows.results.slots.PrizeCupSlot;
+			import components.pages.game.windows.results.slots.PrizeResourceSlot;
+			import components.wall.SendWallObject;
+			
+			import engine.model.gameServer.GameServer;
+			import engine.profiles.LobbyProfile;
+			
+			import loading.SoundManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.HGroup;
 
         public function close():void {
             PopUpManager.removePopUp(this);
@@ -147,6 +148,7 @@
 	                    );
 	
 	                    Context.Model.dispatchCustomEvent(ContextEvent.VK_SEND_TO_WALL, swo);
+						Context.gameServer.statPostAdded(GameServer.STATS_POSTS_ADDED_TYPE_VICTORY);
 	                }
 	
 	                l.minWidth = 180;

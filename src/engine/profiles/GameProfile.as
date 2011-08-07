@@ -323,20 +323,35 @@ public class GameProfile {
 				if(ipoGot.itemType == ipo.itemType)
 				{
 					ipoGot.itemCount = ipo.itemCount;
+					break;
 				}
 			}
+			
+			var inPack:Boolean = false;
 			
 			for each(var ipoPack:ItemProfileObject in packItems)
 			{
 				if(ipoPack.itemType == ipo.itemType)
 				{
 					ipoPack.itemCount = ipo.itemCount;
+					inPack = true;
+					break;
+				}
+			}
+			
+			if(!inPack)
+			{
+				/* add in hand */
+				if(selectedWeaponLeftHand != null && selectedWeaponLeftHand.itemType == ipo.itemType) 
+				{
+					selectedWeaponLeftHand.itemCount = ipo.itemCount;
 				}
 			}
 		}
 		
 		Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
 		Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+		Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_UPDATE_GAME_WEAPONS);
 	}
 	
     /* quest items */

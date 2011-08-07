@@ -53,6 +53,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import engine.model.gameServer.GameServer;
 			import components.common.profiles.ISocialProfile;
 			import components.wall.SendWallObject;
 			import components.common.friendslent.FriendObject;
@@ -77,7 +78,7 @@
 			
 			private function wallPost(): void
 			{
-				var messageText: String = "Бомбастеры - офигенная игра в реальном времени! Сыграем вместе на одной карте? ";
+				var messageText: String = "Бомбастеры - офигенная игра в реальном времени! Сыграем вместе на одной карте? http://vkontakte.ru/app2206924#invite";
 				//messageText = "Кто из вас сможет победить меня в Бомбастерах? *id36018"
 				
 				for each(var fo: ISocialProfile in Context.Model.currentSettings.apiResult.friends)
@@ -94,6 +95,9 @@
 				);
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.VK_SEND_TO_WALL, swo);
+				
+				Context.gameServer.statPostAdded(GameServer.STATS_POSTS_ADDED_TYPE_INVITE);
+				
 				closeWrapper();
 			}
 			

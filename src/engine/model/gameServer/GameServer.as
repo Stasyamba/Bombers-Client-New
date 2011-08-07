@@ -135,7 +135,26 @@ public class GameServer extends SmartFox {
 
     private static const SET_KEY_VALUE_PAIR:String = "interface.setCustomParameter";
 
+	/* statistics */
+	public static const STATS_LOGIN_SOURCE:String = "stat.setLoginSource"; // stat.setLoginSource.f.source\
+	public static const STATS_LOGIN_SOURCE_TYPE_DEFAULT:int = 0;
+	public static const STATS_LOGIN_SOURCE_TYPE_ENERGY:int = 1;
+	public static const STATS_LOGIN_SOURCE_TYPE_VICTORY:int = 2;
+	public static const STATS_LOGIN_SOURCE_TYPE_INVITE:int = 3;
+	public static const STATS_LOGIN_SOURCE_TYPE_WALL:int = 4;
+	public static const STATS_LOGIN_SOURCE_TYPE_AD1:int = 5;
+	public static const STATS_LOGIN_SOURCE_TYPE_AD2:int = 6;
+	public static const STATS_LOGIN_SOURCE_TYPE_AD3:int = 7;
+	public static const STATS_LOGIN_SOURCE_TYPE_AD4:int = 8;
+	
+	
+	public static const STATS_SHOP_OPENED:String = "stat.addShopOpened";
+	public static const STATS_POSTS_ADDED:String = "stat.addPostsPosted"; //stat.addPostsPosted.f.postType = 0-2
+	public static const STATS_POSTS_ADDED_TYPE_ENERGY: int = 0;
+	public static const STATS_POSTS_ADDED_TYPE_VICTORY: int = 1;
+	public static const STATS_POSTS_ADDED_TYPE_INVITE: int = 2;
 
+	
     public var ip:String;
     public var port:int;
     public var zone:String;
@@ -455,6 +474,33 @@ public class GameServer extends SmartFox {
 
         send(new ExtensionRequest("bombersWall.submitPrize", params, null));
     }
+	
+	
+	/* statistics */
+	
+	public function statLoginSource(source:int = STATS_LOGIN_SOURCE_TYPE_DEFAULT):void {
+		var params:ISFSObject = new SFSObject();
+		params.putInt("stat.setLoginSource.f.source", source);
+		
+		send(new ExtensionRequest(STATS_LOGIN_SOURCE, params, null));
+	}
+	
+	public function statPostAdded(source:int):void {
+		var params:ISFSObject = new SFSObject();
+		params.putInt("stat.addPostsPosted.f.postType", source);
+		
+		send(new ExtensionRequest(STATS_POSTS_ADDED, params, null));
+	}
+	
+	public function statShopOpened():void {
+		var params:ISFSObject = new SFSObject();
+		
+		send(new ExtensionRequest(STATS_SHOP_OPENED, params, null));
+	}
+	
+	
+	
+	
 
     public function measurePing():void {
         tenSecondsTimer.stop()
@@ -992,6 +1038,7 @@ public class GameServer extends SmartFox {
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
 
+					statLoginSource(Context.Model.statsSourceLocation);
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);
