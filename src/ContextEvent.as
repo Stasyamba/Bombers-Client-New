@@ -114,6 +114,8 @@ public class ContextEvent extends Event {
 	public static const IM_HITS_LOADED:String = "IMHitsLoaded";
 	// pass: Array -> [itemType, itemType, ...] hits now
 	
+	public static const IM_WEAPON_CONTENT_REFRESH: String = "IMWeaponContentRefresh";
+	
     /***** enegry market events *****/
     public static const NEED_TO_OPEN_ENERGY_MARKET:String = "IMNeedToOpenEnergyMarket";
 

@@ -12,6 +12,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.common.base.access.AccessManager;
 			import components.common.base.access.rules.AccessRuleObject;
 			import components.common.base.access.rules.levelrule.AccessLevelRule;
@@ -35,7 +36,7 @@
 			import spark.primitives.BitmapImage;
 			
 			[Bindable]
-			private var itemType: ItemType;
+			private var itemType: ItemType = null;
 			
 			[Bindable]
 			private var itemName: String;
@@ -45,71 +46,93 @@
 			private var itemImageURL: String;
 			private var itemMarketObject: ItemMarketObject;
 			
+			private var itemMaxCount: int;
+			private var itemCurrentCount: int;
+			
+			public function reinitContent(): void
+			{
+				initContent(itemType);
+				init();
+			}
+			
 			public function initContent(itemTypeP: ItemType): void
 			{
-				itemType = itemTypeP;
-				var itemObject: ItemObject = Context.Model.itemsManager.getItem(itemType)
-				var itemViewObject: ItemViewObject = itemObject.viewObject;
-				itemName = itemViewObject.name;
-				itemDescribe = itemViewObject.description;
-				itemImageURL = itemViewObject.smallImageURL;
-				itemMarketObject = Context.Model.marketManager.getItemPrice(itemType);
-				itemPrice = Context.Model.marketManager.getItemPrice(itemType).price;
-				
-				
-				
-				var accessRulesObject:Array = AccessManager.checkAccessItem(itemType);
-				var isLevelRuleSuccess:Boolean = false;
-				var haveAccessLevelRule: Boolean = false;
-				
-				for each(var aro:AccessRuleObject in accessRulesObject) {
-					if (aro.accessRule is AccessLevelRule) {
-						
-						haveAccessLevelRule = true;
-						
-						isLevelRuleSuccess = aro.isSuccess;
-						
-						if (!isLevelRuleSuccess) {
-							accessLevelRuleFailed.text = "Необходим " + (aro.accessRule as AccessLevelRule).minimumLevel.toString() + " уровень";
-						}
-						
-						break;
-					}
-				}
-				
-				if (isLevelRuleSuccess || !haveAccessLevelRule) {
-					accessGroup.alpha = 0;
-					buyGroup.visible = true;
-				}else
+				if(itemTypeP != null)
 				{
-					accessGroup.alpha = 1;
-					buyGroup.visible = false;
-				}
-				
-				/* price cheking */
-				
-				var arrResources:Array = itemPrice.getResourceObjectArr();
-				
-				for each(var ro:ResourceObject in arrResources) 
-				{
-					switch(ro.type)
+					itemType = itemTypeP;
+					var itemObject: ItemObject = Context.Model.itemsManager.getItem(itemType)
+					var itemViewObject: ItemViewObject = itemObject.viewObject;
+					itemName = itemViewObject.name;
+					itemDescribe = itemViewObject.description;
+					itemImageURL = itemViewObject.smallImageURL;
+					itemPrice = Context.Model.marketManager.getItemPrice(itemType).price.clone();
+					
+					/* проверить текущее, макс значение и от этого выставть цену и отрендерить значение */
+					var itemCount: int = 0;
+					if(Context.Model.currentSettings.gameProfile.getGameItemProfileObject(itemType) != null)
 					{
-						case ResourceType.GOLD:
+						itemCount = Context.Model.currentSettings.gameProfile.getGameItemProfileObject(itemType).itemCount
+					}
+					
+					itemPrice.gold.value += Context.Model.marketManager.getGoldDelta(itemType) * itemCount;
+					itemPrice.crystals.value += Math.floor((Context.Model.marketManager.getCrystallsDelta(itemType) * itemCount) / 100);
+					
+					itemMaxCount = Context.Model.marketManager.getMaximum(itemType);
+					itemCurrentCount = itemCount;
+					
+					var accessRulesObject:Array = AccessManager.checkAccessItem(itemType);
+					var isLevelRuleSuccess:Boolean = false;
+					var haveAccessLevelRule: Boolean = false;
+					
+					for each(var aro:AccessRuleObject in accessRulesObject) {
+						if (aro.accessRule is AccessLevelRule) {
 							
-							if(ro.value != 0 && ro.value <= 10000)
-							{
-								goldBuyGroup.visible = true;
+							haveAccessLevelRule = true;
+							
+							isLevelRuleSuccess = aro.isSuccess;
+							
+							if (!isLevelRuleSuccess) {
+								accessLevelRuleFailed.text = "Необходим " + (aro.accessRule as AccessLevelRule).minimumLevel.toString() + " уровень";
 							}
 							
 							break;
-						case ResourceType.CRYSTALS:
-							
-							if(ro.value != 0 && ro.value <= 10000)
-							{	
-								crystallsBuyGroup.visible = true;
-							}
-							
-							break;
+						}
+					}
+					
+					if (isLevelRuleSuccess || !haveAccessLevelRule) {
+						accessGroup.alpha = 0;
+						buyGroup.visible = true;
+					}else
+					{
+						accessGroup.alpha = 1;
+						buyGroup.visible = false;
+					}
+					
+					/* price cheking */
+					
+					var arrResources:Array = itemPrice.getResourceObjectArr();
+					
+					for each(var ro:ResourceObject in arrResources) 
+					{
+						switch(ro.type)
+						{
+							case ResourceType.GOLD:
+								
+								if(ro.value != 0 && ro.value <= CommonConstans.BIG_PRICE_VALUE)
+								{
+									goldBuyGroup.visible = true;
+								}
+								
+								break;
+							case ResourceType.CRYSTALS:
+								
+								if(ro.value != 0 && ro.value <= CommonConstans.BIG_PRICE_VALUE)
+								{	
+									crystallsBuyGroup.visible = true;
+								}
+								
+								break;
+						}
 					}
 				}
 			}
@@ -117,14 +140,20 @@
 			private function init(): void
 			{
 				itemImage.source = itemImageURL;
-				price.initContent(itemMarketObject.price);
-				itemCount.text = itemMarketObject.amount.toString() +" шт.";
+				price.initContent(itemPrice);
+				weaponProgress.initContent(itemCurrentCount, itemMaxCount);
 				
-				/* var cm:ColorMatrix = new ColorMatrix();
-				var cmo:ColorMatrixObject = new ColorMatrixObject(140, 1);
-				cm.applyColorMatrixObject(cmo);
+				if(itemMaxCount == itemCurrentCount)
+				{
+					buyButtonGroup.removeAllElements();
+					priceGroup.removeAllElements();
+					
+					itemCount.text = "Макс."
+					
+					weaponProgress.setAllDone();
+				}
 				
-				buyForCrystallsButton.filters = [cm.filter]; */
+				
 			}
 			
 			private function buyItem(rt: ResourceType): void
@@ -156,16 +185,6 @@
 						
 						break;
 				}
-				
-				/* if(Context.Model.currentSettings.gameProfile.resources.isBiggerOrEqual(itemPrice))
-				{
-					Alert.show("Resource enough");
-					Context.gameServer.sendBuyItemRequest(itemType);
-				}else
-				{
-					Alert.show("Not enough resources");
-					Context.Model.dispatchCustomEvent(ContextEvent.IM_NEED_RESOURCES);
-				} */
 			}
 			
 		]]>
@@ -177,14 +196,14 @@
 				<mx:Image id="itemImage" smoothBitmapContent="true" trustContent="{Context.Model.trustContent}" />
 			</s:HGroup>
 			
-			<s:Label id="itemCount" fontFamily="mpr" fontSize="12" color="0xc29b2f" text="10 шт." />
+			<s:Label id="itemCount" fontFamily="mpbc" fontSize="16" color="0xfecb00" text="{'+1 шт.\nна игру'}" textAlign="center" />
 			
 		</s:VGroup>
 		
-		<s:VGroup gap="10">
+		<s:VGroup gap="10" id="itemTopViewGroup">
 			<s:Label text="{itemName}" fontFamily="mpbc" fontSize="18" color="0xfec935" maxWidth="194" />
 			
-			<s:HGroup verticalAlign="middle">
+			<s:HGroup id="priceGroup" verticalAlign="middle">
 				<s:Label fontFamily="mpr" fontSize="14" color="0xc29b2f" text="Цена: " />
 				<content:PricePanelWeaponContent id="price" />
 			</s:HGroup>
@@ -200,33 +219,38 @@
 			<s:Label id="accessLevelRuleFailed" fontFamily="mpr" fontSize="24" color="0xe86a05" />
 		</s:HGroup>
 		
-		<s:VGroup id="buyGroup" width="100%" horizontalAlign="center" visible="false" gap="10">
+		<s:VGroup id="buyGroup" width="100%" horizontalAlign="center" visible="false" gap="25">
 			
-			<s:HGroup id="goldBuyGroup" verticalAlign="middle" visible="false">
-				<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
-					<s:Label text="Купить за золото" color="0xfec900" fontFamily="mpr" fontSize="14" />
+			<s:VGroup id="buyButtonGroup" width="100%" horizontalAlign="center" gap="10">
+				<s:HGroup id="goldBuyGroup" verticalAlign="middle" visible="false">
+					<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
+						<s:Label text="Купить за золото" color="0xfec900" fontFamily="mpr" fontSize="14" />
+					</s:HGroup>
+					<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
+												  scaleX="0.5" scaleY="0.5"
+												  customLabel="Купить"
+												  fontSize="28" fontSizeOver="28"
+												  fontColor="0xfff19f"
+												  click="buyItem(ResourceType.GOLD);"
+												  />
 				</s:HGroup>
-				<flexcomponents:PatternButton skinClass="skins.buttons.Pattern2ButtonS"
-											  scaleX="0.5" scaleY="0.5"
-											  customLabel="Купить"
-											  fontSize="28" fontSizeOver="28"
-											  fontColor="0xfff19f"
-											  click="buyItem(ResourceType.GOLD);"
-											  />
-			</s:HGroup>
+				
+				<s:HGroup id="crystallsBuyGroup" verticalAlign="middle" visible="false">
+					<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
+						<s:Label text="Купить за кристаллы" color="0xfec900" fontFamily="mpr" fontSize="14" />
+					</s:HGroup>
+					<flexcomponents:PatternButton id="buyForCrystallsButton" skinClass="skins.buttons.Pattern2ButtonS"
+												  scaleX="0.5" scaleY="0.5"
+												  customLabel="Купить"
+												  fontSize="28" fontSizeOver="28"
+												  fontColor="0xfff19f"
+												  click="buyItem(ResourceType.CRYSTALS);"
+												  />
+				</s:HGroup>
+			</s:VGroup>
 			
-			<s:HGroup id="crystallsBuyGroup" verticalAlign="middle" visible="false">
-				<s:HGroup width="130" horizontalAlign="right" verticalAlign="middle">
-					<s:Label text="Купить за кристаллы" color="0xfec900" fontFamily="mpr" fontSize="14" />
-				</s:HGroup>
-				<flexcomponents:PatternButton id="buyForCrystallsButton" skinClass="skins.buttons.Pattern2ButtonS"
-											  scaleX="0.5" scaleY="0.5"
-											  customLabel="Купить"
-											  fontSize="28" fontSizeOver="28"
-											  fontColor="0xfff19f"
-											  click="buyItem(ResourceType.CRYSTALS);"
-											  />
-			</s:HGroup>
+			
+			<content:WeaponBuyProgressPanel id="weaponProgress" />
 			
 		</s:VGroup>
 	</s:Group>

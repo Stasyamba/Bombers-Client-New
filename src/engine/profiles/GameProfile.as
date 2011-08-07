@@ -14,6 +14,7 @@ import engine.bombers.skin.BasicSkin;
 import engine.playerColors.PlayerColor;
 
 import mx.controls.Alert;
+import mx.utils.ObjectUtil;
 
 public class GameProfile {
 
@@ -97,6 +98,8 @@ public class GameProfile {
     /**
      * content = [ItemProfileObject, ...]
      */
+	
+	
     public var packItems:Array = new Array();
     /**
      * content = [ItemProfileObject, ...]
@@ -105,6 +108,13 @@ public class GameProfile {
     /**
      * content = [ItemProfileObject, ...]
      */
+	public var gameRegeneratedItems:Array = new Array();
+	/**
+	 * content = [ItemProfileObject, ...]
+	 */
+	
+	
+	
     public var questItems:Array = new Array();
     /**
      * content = [ItemProfileObject, ...]
@@ -279,6 +289,19 @@ public class GameProfile {
         }
     }
 
+	public function getGameItemProfileObject(itemType: ItemType): ItemProfileObject
+	{
+		var res:ItemProfileObject = null;
+		
+		for each(var i:ItemProfileObject in gameRegeneratedItems) {
+			if (i.itemType == itemType) {
+				res = i.clone();
+			}
+		}
+		
+		return res;
+	}
+	
     public function getItemProfileObject(itemType:ItemType):ItemProfileObject {
         var res:ItemProfileObject = null;
 
@@ -291,6 +314,31 @@ public class GameProfile {
         return res;
     }
 
+	public function regenerateWeapons(): void
+	{
+		for each(var ipo:ItemProfileObject in gameRegeneratedItems)
+		{
+			for each(var ipoGot:ItemProfileObject in gotItems)
+			{
+				if(ipoGot.itemType == ipo.itemType)
+				{
+					ipoGot.itemCount = ipo.itemCount;
+				}
+			}
+			
+			for each(var ipoPack:ItemProfileObject in packItems)
+			{
+				if(ipoPack.itemType == ipo.itemType)
+				{
+					ipoPack.itemCount = ipo.itemCount;
+				}
+			}
+		}
+		
+		Context.Model.dispatchCustomEvent(ContextEvent.GP_GOTITEMS_IS_CHANGED);
+		Context.Model.dispatchCustomEvent(ContextEvent.GP_PACKITEMS_IS_CHANGED);
+	}
+	
     /* quest items */
 
     public function useQuestLeftWeapon():void {
@@ -316,47 +364,6 @@ public class GameProfile {
     public function clearQuestWeapon():void {
         _selectedWeaponLeftHand = null;
     }
-
-    /* 
-
-     public function addQuestItemObject(itemProfileObject:ItemProfileObject):void {
-     var isItemFinded:Boolean = false;
-
-     for each(var ipo:ItemProfileObject in questItems) {
-     if (itemProfileObject.itemType == ipo.itemType) {
-     ipo.itemCount += itemProfileObject.itemCount;
-     isItemFinded = true;
-     break;
-     }
-     }
-
-     if (!isItemFinded) {
-     questItems.push(ipo);
-     }
-     }
-
-     public function refreshQuestWeapons():void {
-     }
-
-
-
-
-     public function setQuestWeaponToLeftHand(itemType:ItemType):void {
-     if (itemType != null) {
-     for each(var ipo:ItemProfileObject in questItems) {
-     if (ipo.itemType == itemType) {
-     _selectedWeaponLeftHand = ipo;
-     break;
-     }
-     }
-
-     } else {
-     _selectedWeaponLeftHand = null;
-     }
-
-     }
-
-     */
 
     public function getSkin(slot:int):BasicSkin {
 
@@ -437,25 +444,35 @@ public class GameProfile {
 			
 	            if (itemType != null) {
 	                if (Context.Model.itemCollectionsManager.getCollection(itemType) == null) {
-	                    /* not collection part */
-	                    var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
-	                    res.packItems.push(modelItem);
-	                    res.gotItems.push(modelItem);
+	                    
+						/* not collection part */
+	                    
+						var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
+	                    res.packItems.push(modelItem.clone());
+	                    res.gotItems.push(modelItem.clone());
+						
+						/* only for aurs and weapons/posions */
+						
+						res.gameRegeneratedItems.push(modelItem.clone());
+						
 	                } else {
 	                    /* if 0 collection part */
 	
 	                    if (itemCount != 0) {
 	                        var modelItem:ItemProfileObject = new ItemProfileObject(itemType, itemCount);
-	                        res.packItems.push(modelItem);
-	                        res.gotItems.push(modelItem);
+	                        res.packItems.push(modelItem.clone());
+	                        res.gotItems.push(modelItem.clone());
 	                    }
 	                }
+					
 	            } else {
 	                Alert.show("Error - unknown item type " + itemId.toString() + " | GameProfile.as");
 	            }
 			}
         }
 
+		
+		//Alert.show(ObjectUtil.toString({gameItems: res.gameRegeneratedItems}));
 
         var a:int = obj.getInt("AuraOne");
         var aType:ItemType;
@@ -495,6 +512,28 @@ public class GameProfile {
         return res;
     }
 
+	public function addItemGameRenegerated(iType:ItemType, count:int):void
+	{
+		var isItemExist: Boolean = false;
+		
+		for (var i:int = 0; i <  gameRegeneratedItems.length; i++) 
+		{
+			var io:ItemProfileObject = gameRegeneratedItems[i];
+			if (io.itemType == iType) 
+			{
+				io.itemCount += count;
+				isItemExist = true;
+				break;
+			}
+		}
+		
+		if(!isItemExist)
+		{
+			io = new ItemProfileObject(iType, count);
+			gameRegeneratedItems.push(io);
+		}
+	}
+	
     public function addItem(iType:ItemType, count:int):void 
 	{
 		/* add in got item also*/

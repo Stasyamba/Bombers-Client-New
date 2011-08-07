@@ -46,31 +46,50 @@
 			{	
 				itemsList.scroller.setStyle("skinClass", ScrollerS);
 				
-				Context.Model.addCustomListener(ContextEvent.GP_BOMBER_CHANGED, function (e:ContextEvent): void
+				Context.Model.addCustomListener(ContextEvent.GP_BOMBER_CHANGED, bomberChanged);
+				Context.Model.addCustomListener(ContextEvent.GP_OPEN_BOBMERS_REFRESH, bombersRefresh);
+				Context.Model.addCustomListener(ContextEvent.IM_WEAPON_CONTENT_REFRESH, refreshWeaponContent); 
+			}
+			
+			private function bomberChanged(e: ContextEvent): void
+			{
+				for each(var im: ItemMarket in currentItemCollection)
 				{
-					for each(var im: ItemMarket in currentItemCollection)
+					if(Context.Model.currentSettings.gameProfile.currentBomberType == im.type)
 					{
-						if(Context.Model.currentSettings.gameProfile.currentBomberType == im.type)
-						{
-							im.isChoosen = true;
-						}else
-						{
-							im.isChoosen = false;
-						}
+						im.isChoosen = true;
+					}else
+					{
+						im.isChoosen = false;
 					}
-					
-					currentItemCollection.refresh();
-				});
+				}
 				
-				Context.Model.addCustomListener(ContextEvent.GP_OPEN_BOBMERS_REFRESH, function (e:ContextEvent):void
+				currentItemCollection.refresh();
+			}
+			
+			private function bombersRefresh(e: ContextEvent): void
+			{
+				setCategory(new ContextEvent("stateChanged", false, false, MarketCategory.BOMBERS));
+			}
+			
+			private function refreshWeaponContent(e: ContextEvent): void
+			{
+				//Alert.show("testing");
+				for(var i: int =0; i<= itemContentGroup.numElements - 1; i++)
 				{
-					setCategory(new ContextEvent("stateChanged", false, false, MarketCategory.BOMBERS));
-				});
+					if(itemContentGroup.getElementAt(i) is WeaponContent)
+					{
+						(itemContentGroup.getElementAt(i) as WeaponContent).reinitContent();
+					}
+				}
+				//initContent(e.data);
 			}
 			
 			public function destroy(): void
-			{
-				
+			{	
+				Context.Model.removeCustomEventListener(ContextEvent.GP_BOMBER_CHANGED, bomberChanged);
+				Context.Model.removeCustomEventListener(ContextEvent.GP_OPEN_BOBMERS_REFRESH, bombersRefresh);
+				Context.Model.removeCustomEventListener(ContextEvent.IM_WEAPON_CONTENT_REFRESH, refreshWeaponContent); 
 			}
 			
 			private function showItem(e: IndexChangeEvent):void
@@ -168,7 +187,18 @@
 								}
 								
 								/* price  */
-								var itemPrice: ResourcePrice = Context.Model.marketManager.getItemPrice(itemObject.type).price;
+								var itemPrice: ResourcePrice = Context.Model.marketManager.getItemPrice(itemObject.type).price.clone();
+								
+								/* correcting price  */
+								
+								var itemCount: int = 0;
+								if(Context.Model.currentSettings.gameProfile.getGameItemProfileObject(itemObject.type) != null)
+								{
+									itemCount = Context.Model.currentSettings.gameProfile.getGameItemProfileObject(itemObject.type).itemCount
+								}
+								
+								itemPrice.gold.value += Context.Model.marketManager.getGoldDelta(itemObject.type) * itemCount;
+								itemPrice.crystals.value += Math.floor((Context.Model.marketManager.getCrystallsDelta(itemObject.type) * itemCount) / 100);
 								
 								
 								currentItemCollection.addItem(
@@ -225,17 +255,18 @@
 							var isChoosen:Boolean = (Context.Model.currentSettings.gameProfile.currentBomberType == bomberObject.type);
 							
 							
-							currentItemCollection.addItem(new ItemMarket(
-								bomberObject.type, 
-								bomberObject.viewObject.shopImageURL, 
-								null,
-								minimumLevel,
-								bomberPrice,
-								haveBomber,
-								isChoosen,
-								bomberObject.viewObject.name,
-								isBeta
-							));
+							currentItemCollection.addItem(
+								new ItemMarket(
+									bomberObject.type, 
+									bomberObject.viewObject.shopImageURL, 
+									null,
+									minimumLevel,
+									bomberPrice,
+									haveBomber,
+									isChoosen,
+									bomberObject.viewObject.name,
+									isBeta
+								));
 						} 
 					}
 					

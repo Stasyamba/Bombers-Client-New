@@ -29,7 +29,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import components.common.base.CommonConstans;
 			import components.common.items.ItemProfileObject;
+			import components.common.items.ItemType;
 			import components.common.resources.ResourcePrice;
 			import components.common.resources.ResourceType;
 			
@@ -52,6 +54,8 @@
 					}else
 					{
 						var itemPrice: ResourcePrice = (data as ItemMarket).itemPrice;
+						
+						
 						priceGroupContent.removeAllElements();
 						
 						var lab:Label = new Label();
@@ -64,7 +68,7 @@
 						priceGroupContent.addElement(lab);
 						
 						
-						if(itemPrice.gold.value != 0)
+						if(itemPrice.gold.value != 0 && itemPrice.gold.value < CommonConstans.BIG_PRICE_VALUE)
 						{
 							resourceImage.scaleX = 0.6;
 							resourceImage.scaleY = 0.6;
