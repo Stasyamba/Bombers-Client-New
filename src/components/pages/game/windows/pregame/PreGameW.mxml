@@ -99,6 +99,7 @@
                 //all listeners will be removed in model
 				Context.gameModel.threeSecondsToStart.add( function (p0:*,p1:*,p2:*){
 					Context.Model.dispatchCustomEvent(ContextEvent.GP_PREGAME_CLOSE);
+					Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_THREE_SEC_WINDOW);
 				})
 			}
 			

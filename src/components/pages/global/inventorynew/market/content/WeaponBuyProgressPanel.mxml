@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.utils.adjustcolor.Color;
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.common.utils.adjustcolor.ColorMatrixObject;
+			
+			import mx.controls.Alert;
+			import mx.core.BitmapAsset;
+			
+			import spark.primitives.BitmapImage;
+			
+			[Embed(source="assets/windows/inventory/market/content/gotOneWeaponBg1.png")]
+			public static const bgSlot:Class;
+			
+			private var _isInited:Boolean = false;
+			
+			private var cValue: int = 0;
+			private var mValue: int = 0;
+			
+			public function initContent(currentValue: int, maximumValue: int): void
+			{
+				if(_isInited)
+				{
+					if(maximumValue >= currentValue)
+					{
+						slots.removeAllElements();
+						
+						var bgCm:ColorMatrix = new ColorMatrix();
+						bgCm.adjustBrightness(-20,-20,-20);
+						bg.filters = [bgCm.filter];
+						
+						for(var i:int = 0; i <= maximumValue - 1; i++)
+						{
+							var bi:BitmapImage = new BitmapImage();
+							bi.source = new bgSlot() as BitmapAsset;
+							
+							slots.addElement(bi);
+							
+							if(i >= currentValue)
+							{
+								var cm:ColorMatrix = new ColorMatrix();
+								cm.desaturate();
+								
+								bi.filters = [cm.filter];
+								bi.alpha = 0.58;
+							}
+						}
+						
+						countLabel.text = currentValue.toString()+" шт. на игру";
+					}else
+					{
+						Alert.show("Error CurrentValue = "+currentValue.toString()+" and MaximumValue="+maximumValue.toString()+" | WeaponBuyProgress.mxml");
+					}
+				}
+			}
+			
+			private function init(): void
+			{
+				_isInited = true;
+			}
+			
+			public function setAllDone(): void
+			{
+				var cm:ColorMatrix = new ColorMatrix();
+				var cmo:ColorMatrixObject = new ColorMatrixObject(-30, 1);
+				cm.applyColorMatrixObject(cmo);
+				
+				slots.filters = [cm.filter];
+				
+				glowFilter.alpha = 1;
+				shadowFilter.alpha = 0;
+				
+				countLabel.setStyle("color", 0xc29b2f);
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer id="bg" height="{slots.height + 2*2}" width="{slots.width - 16*2}" 
+					   x="16" y="-2"
+					   backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   borderWeight="3" borderColor="0x3d3113"
+					   />
+	
+	<s:HGroup id="slots" gap="-10" mask="{bgMask}" />
+	
+	<s:BorderContainer id="bgMask" height="{slots.height + 2*2}" width="{slots.width - 16*2 - 4}" 
+					   x="18" y="-2"
+					   backgroundColor="0xffffff" borderVisible="false"
+					   />
+	
+	<s:HGroup width="100%" height="{bgMask.height}" horizontalAlign="center" verticalAlign="middle">
+		<s:Label id="countLabel" fontFamily="mpbc" fontSize="16" color="0x86cd0d" />
+	</s:HGroup>
+	
+	<s:filters>
+		<s:DropShadowFilter id="shadowFilter" alpha="0.28" distance="1" strength="1" />
+		<s:GlowFilter id="glowFilter" alpha="0" color="0xcffe400" blurX="10" blurY="10" strength="1.5" />
+	</s:filters>
+	
+</s:Group>

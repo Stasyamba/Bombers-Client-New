@@ -5,64 +5,64 @@
 
 package engine.model.gameServer {
 
-import com.smartfoxserver.v2.SmartFox
-import com.smartfoxserver.v2.core.SFSEvent
-import com.smartfoxserver.v2.entities.Room
-import com.smartfoxserver.v2.entities.data.ISFSArray
-import com.smartfoxserver.v2.entities.data.ISFSObject
-import com.smartfoxserver.v2.entities.data.SFSObject
-import com.smartfoxserver.v2.requests.ExtensionRequest
-import com.smartfoxserver.v2.requests.JoinRoomRequest
-import com.smartfoxserver.v2.requests.LeaveRoomRequest
-import com.smartfoxserver.v2.requests.LoginRequest
-import com.smartfoxserver.v2.requests.PublicMessageRequest
+import com.smartfoxserver.v2.SmartFox;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.requests.ExtensionRequest;
+import com.smartfoxserver.v2.requests.JoinRoomRequest;
+import com.smartfoxserver.v2.requests.LeaveRoomRequest;
+import com.smartfoxserver.v2.requests.LoginRequest;
+import com.smartfoxserver.v2.requests.PublicMessageRequest;
 
-import components.common.base.CommonConstans
-import components.common.base.access.rules.levelrule.AccessLevelRule
-import components.common.base.expirance.ExperianceObject
-import components.common.base.market.ItemMarketObject
-import components.common.bombers.BomberType
-import components.common.friendslent.FriendObject
-import components.common.items.ItemObject
-import components.common.items.ItemType
-import components.common.profiles.ISocialProfile
-import components.common.quests.QuestBestPlayer
-import components.common.quests.QuestObject
-import components.common.quests.medals.MedalType
-import components.common.quests.regard.RegardObject
-import components.common.quests.regard.RegardType
-import components.common.resources.ResourcePrice
-import components.common.resources.ResourceType
-import components.common.tutorial.TutorialPartType
-import components.common.worlds.locations.LocationType
+import components.common.base.CommonConstans;
+import components.common.base.access.rules.levelrule.AccessLevelRule;
+import components.common.base.expirance.ExperianceObject;
+import components.common.base.market.ItemMarketObject;
+import components.common.bombers.BomberType;
+import components.common.friendslent.FriendObject;
+import components.common.items.ItemObject;
+import components.common.items.ItemType;
+import components.common.profiles.ISocialProfile;
+import components.common.quests.QuestBestPlayer;
+import components.common.quests.QuestObject;
+import components.common.quests.medals.MedalType;
+import components.common.quests.regard.RegardObject;
+import components.common.quests.regard.RegardType;
+import components.common.resources.ResourcePrice;
+import components.common.resources.ResourceType;
+import components.common.tutorial.TutorialPartType;
+import components.common.worlds.locations.LocationType;
 
-import engine.EngineContext
-import engine.bombers.MoveTickObject
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.mapObjects.DynObjectType
-import engine.model.signals.InGameMessageReceivedSignal
-import engine.model.signals.ProfileLoadedSignal
-import engine.model.signals.manage.GameServerConnectedSignal
-import engine.model.signals.manage.LoggedInSignal
-import engine.playerColors.PlayerColor
-import engine.profiles.GameProfile
-import engine.profiles.LobbyProfile
-import engine.profiles.PlayerGameProfile
-import engine.utils.Direction
-import engine.weapons.WeaponType
+import engine.EngineContext;
+import engine.bombers.MoveTickObject;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.mapObjects.DynObjectType;
+import engine.model.signals.InGameMessageReceivedSignal;
+import engine.model.signals.ProfileLoadedSignal;
+import engine.model.signals.manage.GameServerConnectedSignal;
+import engine.model.signals.manage.LoggedInSignal;
+import engine.playerColors.PlayerColor;
+import engine.profiles.GameProfile;
+import engine.profiles.LobbyProfile;
+import engine.profiles.PlayerGameProfile;
+import engine.utils.Direction;
+import engine.weapons.WeaponType;
 
-import flash.events.TimerEvent
-import flash.utils.Timer
+import flash.events.TimerEvent;
+import flash.utils.Timer;
 
-import greensock.TweenMax
+import greensock.TweenMax;
 
-import loading.ServerQuestObject
+import loading.ServerQuestObject;
 
-import mx.controls.Alert
-import mx.utils.ObjectUtil
+import mx.controls.Alert;
+import mx.utils.ObjectUtil;
 
-import org.osflash.signals.Signal
+import org.osflash.signals.Signal;
 
 public class GameServer extends SmartFox {
 
@@ -135,7 +135,26 @@ public class GameServer extends SmartFox {
 
     private static const SET_KEY_VALUE_PAIR:String = "interface.setCustomParameter";
 
+	/* statistics */
+	public static const STATS_LOGIN_SOURCE:String = "stat.setLoginSource"; // stat.setLoginSource.f.source\
+	public static const STATS_LOGIN_SOURCE_TYPE_DEFAULT:int = 0;
+	public static const STATS_LOGIN_SOURCE_TYPE_ENERGY:int = 1;
+	public static const STATS_LOGIN_SOURCE_TYPE_VICTORY:int = 2;
+	public static const STATS_LOGIN_SOURCE_TYPE_INVITE:int = 3;
+	public static const STATS_LOGIN_SOURCE_TYPE_WALL:int = 4;
+	public static const STATS_LOGIN_SOURCE_TYPE_AD1:int = 5;
+	public static const STATS_LOGIN_SOURCE_TYPE_AD2:int = 6;
+	public static const STATS_LOGIN_SOURCE_TYPE_AD3:int = 7;
+	public static const STATS_LOGIN_SOURCE_TYPE_AD4:int = 8;
+	
+	
+	public static const STATS_SHOP_OPENED:String = "stat.addShopOpened";
+	public static const STATS_POSTS_ADDED:String = "stat.addPostsPosted"; //stat.addPostsPosted.f.postType = 0-2
+	public static const STATS_POSTS_ADDED_TYPE_ENERGY: int = 0;
+	public static const STATS_POSTS_ADDED_TYPE_VICTORY: int = 1;
+	public static const STATS_POSTS_ADDED_TYPE_INVITE: int = 2;
 
+	
     public var ip:String;
     public var port:int;
     public var zone:String;
@@ -455,6 +474,33 @@ public class GameServer extends SmartFox {
 
         send(new ExtensionRequest("bombersWall.submitPrize", params, null));
     }
+	
+	
+	/* statistics */
+	
+	public function statLoginSource(source:int = STATS_LOGIN_SOURCE_TYPE_DEFAULT):void {
+		var params:ISFSObject = new SFSObject();
+		params.putInt("stat.setLoginSource.f.source", source);
+		
+		send(new ExtensionRequest(STATS_LOGIN_SOURCE, params, null));
+	}
+	
+	public function statPostAdded(source:int):void {
+		var params:ISFSObject = new SFSObject();
+		params.putInt("stat.addPostsPosted.f.postType", source);
+		
+		send(new ExtensionRequest(STATS_POSTS_ADDED, params, null));
+	}
+	
+	public function statShopOpened():void {
+		var params:ISFSObject = new SFSObject();
+		
+		send(new ExtensionRequest(STATS_SHOP_OPENED, params, null));
+	}
+	
+	
+	
+	
 
     public function measurePing():void {
         tenSecondsTimer.stop()
@@ -664,6 +710,9 @@ public class GameServer extends SmartFox {
                     Context.gameModel.gameEnded.dispatch()
                 });
 
+				/* regenerate all weapons */
+				Context.Model.currentSettings.gameProfile.regenerateWeapons();
+				
                 break;
 
             case INT_GAME_PROFILE_LOADED:
@@ -672,6 +721,7 @@ public class GameServer extends SmartFox {
                 try {
 
                     Context.Model.currentTutorialPart = TutorialPartType.byValue(responseParams.getInt("TrainingStatus"));
+
 
 //					Context.Model.currentTutorialPart = TutorialPartType.PART5;
 
@@ -735,6 +785,10 @@ public class GameServer extends SmartFox {
                     var prices:Array = new Array();
                     var bomberPrices:Array = new Array();
 
+					var goldDeltaPrices:Array = new Array();
+					var crystallsDeltaPrices:Array = new Array();
+					var itemMaximums:Array = new Array();
+					
                     for (var i:int = 0; i < itemsArr.size(); i++) {
                         var obj:ISFSObject = itemsArr.getSFSObject(i);
                         var id:int = obj.getInt("Id")
@@ -743,7 +797,10 @@ public class GameServer extends SmartFox {
                         var so:Boolean = obj.getBool("SpecialOffer")
                         var imo:ItemMarketObject = new ItemMarketObject(rp, stack, so)
 
-
+						var goldDelta: int = obj.getInt("GoldDelta");
+						var crystallsDelta: int = obj.getInt("CrystalDelta");
+						var itemMax:int = obj.getInt("MaxStack");
+						
                         var lev:int = obj.getInt("Level");
 
 
@@ -763,7 +820,14 @@ public class GameServer extends SmartFox {
                             /* is item */
 
                             prices[id] = imo;
-
+							
+							goldDeltaPrices[id] = goldDelta;
+							crystallsDeltaPrices[id] = crystallsDelta;
+							itemMaximums[id] = itemMax;
+							
+							/* put deltas and maximum value */
+							
+							
                             /* parse level rule */
 
                             var io:ItemObject = Context.Model.itemsManager.getItem(ItemType.byValue(id));
@@ -774,6 +838,10 @@ public class GameServer extends SmartFox {
 
                     }
 
+					Context.Model.marketManager.setItemCrystallsDelta(crystallsDeltaPrices);
+					Context.Model.marketManager.setItemGoldDelta(goldDeltaPrices);
+					Context.Model.marketManager.setItemMaximum(itemMaximums);
+					
                     Context.Model.marketManager.setItemPrices(prices);
                     Context.Model.marketManager.setBomberPrices(bomberPrices);
                     //levels
@@ -970,6 +1038,7 @@ public class GameServer extends SmartFox {
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
 
+					statLoginSource(Context.Model.statsSourceLocation);
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);
@@ -1039,7 +1108,24 @@ public class GameServer extends SmartFox {
                     Context.Model.dispatchCustomEvent(ContextEvent.GP_OPEN_BOBMERS_REFRESH, BomberType.byValue(iType.value));
 
                 } else {
+					
+					/* is weapon */
+					
+					//Alert.show(count.toString());
+					
                     Context.Model.currentSettings.gameProfile.addItem(iType, count);
+					
+					if (Context.Model.itemCollectionsManager.getCollection(iType) == null) 
+					{	
+						/* only weapons, not collection part */
+						
+						Context.Model.currentSettings.gameProfile.addItemGameRenegerated(iType, 1);
+						Context.Model.currentSettings.gameProfile.regenerateWeapons();
+						
+						Context.Model.dispatchCustomEvent(ContextEvent.IM_WEAPON_CONTENT_REFRESH, iType);
+					}
+					
+					
                 }
 
                 Context.Model.currentSettings.gameProfile.resources.setFrom(rp);

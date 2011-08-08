@@ -44,6 +44,8 @@
 			import components.pages.world.windows.tutorial.part5.TutorialPlayButtonW;
 			import components.wall.SendWallObject;
 			
+			import engine.model.gameServer.GameServer;
+			
 			import greensock.TweenMax;
 			
 			import loading.SoundManager;
@@ -207,6 +209,8 @@
                 PopUpManager.centerPopUp(iw);
 
                 iw.y -= 90;
+				
+				Context.gameServer.statShopOpened();
             });
 
             Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_DAY_BONUS, function (e:ContextEvent):void {
@@ -292,19 +296,27 @@
             /* фишка работает только для ВК */
 
             if ((parentApplication as Bombers).isWrapperExists) {
-                var currentLocation:String = "" + VkontakteGlobals.wrapper.external.getLocation();
-                if (currentLocation != "") {
-                    Context.gameServer.profileLoaded.addOnce(function(p1:*):void {
-                        var arr:Array = currentLocation.split("-");
-
-                        if (arr.length == 2) {
-                            /*  Context.gameModel.fastJoinFailed.addOnce(joinTheGameFailed);
-                             Context.gameModel.someoneJoinedToGame.addOnce(joinTheGame);
-
-                             Context.gameModel.joinConcreteGame(arr[0], arr[1]); */
-                        }
-                    });
-                }
+                var currentLocation:String = VkontakteGlobals.wrapper.external.getLocation();
+				
+				switch(currentLocation)
+				{
+					case "win":
+						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_VICTORY;
+						break;
+					case "fi":
+						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_ENERGY;
+						break;
+					case "invite":
+						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_INVITE;
+						break;
+					case "ow":
+						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_WALL;
+						break;
+					case "":
+						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_DEFAULT;
+						break;
+				}
+				
             }
 
 

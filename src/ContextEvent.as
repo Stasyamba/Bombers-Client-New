@@ -114,6 +114,8 @@ public class ContextEvent extends Event {
 	public static const IM_HITS_LOADED:String = "IMHitsLoaded";
 	// pass: Array -> [itemType, itemType, ...] hits now
 	
+	public static const IM_WEAPON_CONTENT_REFRESH: String = "IMWeaponContentRefresh";
+	
     /***** enegry market events *****/
     public static const NEED_TO_OPEN_ENERGY_MARKET:String = "IMNeedToOpenEnergyMarket";
 
@@ -121,6 +123,7 @@ public class ContextEvent extends Event {
     public static const GPAGE_NEED_TO_SHOW_PREGAME_WINDOW:String = "GPAGENeedToShowPregameWindow";
     public static const GPAGE_NEED_TO_SHOW_GAME_RESULTS_WINDOW:String = "GPAGENeedToShowResultsWindow";
     // pass: GameResults
+	public static const GPAGE_NEED_TO_SHOW_THREE_SEC_WINDOW: String = "GPAGENeedToShowThreeSecWindow";
 
     public static const GPAGE_MY_PARAMETERS_IS_CHANGED:String = "GPAGEMyParametersIsChanged";
     public static const GPAGE_UPDATE_GAME_WEAPONS:String = "GPAGEUpdateGameWeapons";

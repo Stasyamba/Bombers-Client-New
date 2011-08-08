@@ -20,6 +20,7 @@
 			import components.ApplicationView;
 			import components.common.base.CommonConstans;
 			import components.pages.game.windows.pregame.PreGameW;
+			import components.pages.game.windows.pregame.ThreeSecondsW;
 			import components.pages.game.windows.results.FightResultW;
 			
 			import engine.bombss.BombType;
@@ -44,6 +45,16 @@
                 }
             });
 
+			Context.Model.addCustomListener(ContextEvent.GPAGE_NEED_TO_SHOW_THREE_SEC_WINDOW, function (e: ContextEvent): void
+			{
+				var pw:ThreeSecondsW = new ThreeSecondsW();
+				
+				PopUpManager.addPopUp(pw, (parentApplication as Bombers), false);
+				PopUpManager.centerPopUp(pw);
+				
+				pw.x += 58;
+				pw.y -= 105;
+			});
 
 			Context.Model.addCustomListener(ContextEvent.GPAGE_SET_GAME_FOCUS, function (e: ContextEvent): void
 			{	
