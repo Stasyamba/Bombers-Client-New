@@ -24,7 +24,7 @@ public class SpecialSimpleBigObject extends SimpleBigObject {
 
     private function onExploded(x:int,y:int, lifeLeft:int):void {
         if(x == this.x && y == this.y){
-            explode(_explType,life - lifeLeft * ExplosionType.DYNAMITE.damage);
+            explode(_explType,life - lifeLeft);
 		}
     }
 

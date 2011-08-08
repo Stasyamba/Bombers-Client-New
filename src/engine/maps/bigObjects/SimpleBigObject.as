@@ -38,6 +38,14 @@ public class SimpleBigObject extends BigObjectBase {
         super(xml, map, mapBlockStateBuilder, mapObjectBuilder)
         _life = life
         _startLife = life
+
+        EngineContext.specialObjectExploded.add(onExploded)
+    }
+
+    private function onExploded(x:int,y:int, lifeLeft:int):void {
+        if(x == this.x && y == this.y){
+            explode(ExplosionType.REGULAR, life - lifeLeft);
+		}
     }
 
     public function get life():int {
