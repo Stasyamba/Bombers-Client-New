@@ -115,13 +115,13 @@ public class SimpleBigObject extends BigObjectBase {
         return new SimpleBigObject(xml, map, mapBlockStateBuilder, dynObjectBuilder, int(xml.@life))
     }
 
-    public static function asBox(id:int, x:int, y:int, graphicsId:String, map:IMap, mapBlockStateBuilder:MapBlockStateBuilder, dynObjectBuilder:DynObjectBuilder):SimpleBigObject {
+    public static function asBox(id:int, x:int, y:int, graphicsId:String, life:int, map:IMap, mapBlockStateBuilder:MapBlockStateBuilder, dynObjectBuilder:DynObjectBuilder):SimpleBigObject {
         var xml:XML = getAsBoxXml();
         xml.@id = id
         xml.@x = x;
         xml.@y = y;
         xml.@graphicsId = graphicsId
-        return new SimpleBigObject(xml, map, mapBlockStateBuilder, dynObjectBuilder, int(xml.@life))
+        return new SimpleBigObject(xml, map, mapBlockStateBuilder, dynObjectBuilder, life)
     }
 
     public static function getAsBoxXml():XML {

@@ -39,10 +39,10 @@ import org.osflash.signals.Signal;
 
 public class BombersContentLoader {
 
-    private static const IMAGES_ADDRESS:String = "http://www.vensella.ru/vp/images/"
-    private static const QUESTS_ADDRESS:String = "http://www.vensella.ru/vp/quests/"
-    private static const MONSTERS_ADDRESS:String = "http://www.vensella.ru/vp/monsters/monsters.xml"
-    private static const BOMBERS_ADDRESS:String = "http://www.vensella.ru/vp/bombers/bombers.xml"
+    private static const IMAGES_ADDRESS:String = "http://46.182.31.151/vp/images/"
+    private static const QUESTS_ADDRESS:String = "http://46.182.31.151/vp/quests/"
+    private static const MONSTERS_ADDRESS:String = "http://46.182.31.151/vp/monsters/monsters.xml"
+    private static const BOMBERS_ADDRESS:String = "http://46.182.31.151/vp/bombers/bombers.xml"
 
     private static var _filesXml:XML
     private static var _whatIsLoaded:Dictionary = new Dictionary()
@@ -368,7 +368,6 @@ public class BombersContentLoader {
 //creatures swf
 
 //BO swf
-    public static const BO_SWF_ADDRESS:String = "http://www.vensella.ru/eg/gate.swf"
     public static var boSwf:MovieClip
 
     public static function loadBO():void {
@@ -420,7 +419,7 @@ public class BombersContentLoader {
     }
 
 //sounds
-    private static const SOUNDS_ADDRESS:String = "http://www.vensella.ru/vp/sounds/"
+    private static const SOUNDS_ADDRESS:String = "http://46.182.31.151/vp/sounds/"
     private static const _soundsNames:Array = [
         "03",
         "windowMoveOpen",

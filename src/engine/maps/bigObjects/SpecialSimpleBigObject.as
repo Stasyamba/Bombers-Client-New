@@ -44,7 +44,7 @@ public class SpecialSimpleBigObject extends SimpleBigObject {
         xml.@y = y;
         xml.@graphicsId = graphicsId
 
-        return new SpecialSimpleBigObject(xml, map, mapBlockStateBuilder, dynObjectBuilder, ExplosionType.DYNAMITE.damage * life, ExplosionType.DYNAMITE)
+        return new SpecialSimpleBigObject(xml, map, mapBlockStateBuilder, dynObjectBuilder, life, ExplosionType.DYNAMITE)
     }
 }
 }
