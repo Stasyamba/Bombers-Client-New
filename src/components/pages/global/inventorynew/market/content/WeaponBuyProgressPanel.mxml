@@ -23,9 +23,6 @@
 			
 			private var _isInited:Boolean = false;
 			
-			private var cValue: int = 0;
-			private var mValue: int = 0;
-			
 			public function initContent(currentValue: int, maximumValue: int): void
 			{
 				if(_isInited)
@@ -55,7 +52,11 @@
 							}
 						}
 						
-						countLabel.text = currentValue.toString()+" шт. на игру";
+						countLabel.text = currentValue.toString()+" шт.";
+						if(maximumValue >= 4) 
+						{
+							countLabel.text += " на игру";
+						}
 					}else
 					{
 						Alert.show("Error CurrentValue = "+currentValue.toString()+" and MaximumValue="+maximumValue.toString()+" | WeaponBuyProgress.mxml");
