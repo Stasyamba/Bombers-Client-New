@@ -16,7 +16,7 @@
        immortalTime="3"
        graphicsId="common.bombers.FuryJoe"
        description="Очень злобный кактус"
-       bigImageURL="http://www.vensella.ru/eg/bombers/furyJoe/furyJoeBigImage.png">
+       bigImageURL="http://46.182.31.151/eg/bombers/furyJoe/furyJoeBigImage.png">
         <!--todo: access rules format-->
         <accessRules/>
         <blocks>
@@ -40,7 +40,7 @@
        immortalTime="3"
        graphicsId="common.bombers.R2D2"
        description="Постоянно ломается, металлолома кусок"
-       bigImageURL="http://www.vensella.ru/eg/bombers/r2d3/r2d3BigImage.png">
+       bigImageURL="http://46.182.31.151/eg/bombers/r2d3/r2d3BigImage.png">
         <accessRules/>
         <blocks>
             <B id="01" val="0.25"/>
@@ -61,7 +61,7 @@
        immortalTime="3"
        graphicsId="common.bombers.Zombie"
        description="Постоянно ломается, металлолома кусок"
-       bigImageURL="http://www.vensella.ru/eg/bombers/r2d3/r2d3BigImage.png">
+       bigImageURL="http://46.182.31.151/eg/bombers/r2d3/r2d3BigImage.png">
         <accessRules/>
         <blocks>
             <B id="01" val="0.25"/>

@@ -7,8 +7,8 @@
     <location>0</location>
     <name>Тестовая миссия 1</name>
     <description>В этой миссии вы должны выпилить дверь за минимально возможное время.</description>
-    <questImage>http://www.vensella.ru/eg/bombers/furyJoe/furyJoeBigImage.png</questImage>
-    <previewImage>http://www.vensella.ru/eg/bombers/furyJoe/furyJoeBigImage.png</previewImage>
+    <questImage>http://46.182.31.151/eg/bombers/furyJoe/furyJoeBigImage.png</questImage>
+    <previewImage>http://46.182.31.151/eg/bombers/furyJoe/furyJoeBigImage.png</previewImage>
     <timeLimit>90</timeLimit>
     <map>
         <Map>

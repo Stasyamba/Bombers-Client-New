@@ -402,7 +402,7 @@
              new SuperOfferObject(
              SuperOfferType.ENERGY,
              1,
-             "http://www.vensella.ru/eg/superQuestEnergy.jpg",
+             "http://46.182.31.151/eg/superQuestEnergy.jpg",
              "",
              2,
              null

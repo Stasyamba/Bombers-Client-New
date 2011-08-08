@@ -45,7 +45,7 @@
 			  horizontalAlign="center" verticalAlign="middle">
 		
 		
-			<mx:Image source="http://www.vensella.ru/eg/getFight.png"
+			<mx:Image source="http://46.182.31.151/eg/getFight.png"
 					  smoothBitmapContent="true" trustContent="{Context.Model.trustContent}"
 					  />
 

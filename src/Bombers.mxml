@@ -17,8 +17,7 @@
 	</vkUI:layout>
 	
 	<fx:Declarations>
-		<s:HTTPService url="http://cs1.vensella.ru/app_strepsils/Login" id="loginHTTP" method="POST"
-					   resultFormat="text"/>
+
 	</fx:Declarations>
 	
 	<fx:Style>
