@@ -10,10 +10,7 @@ import engine.maps.bigObjects.BigObjectBase
 import engine.maps.bigObjects.BigObjectLayer
 import engine.maps.bigObjects.SimpleBigObject
 import engine.maps.bigObjects.SpecialSimpleBigObject
-import engine.maps.bigObjects.SpecialSimpleBigObject
-import engine.maps.builders.DynObjectBuilder
 import engine.maps.builders.MapBlockBuilder
-import engine.maps.builders.MapBlockStateBuilder
 import engine.maps.interfaces.IMapBlock
 import engine.maps.mapBlocks.MapBlock
 import engine.maps.mapBlocks.MapBlockType
@@ -58,14 +55,19 @@ public class Map extends MapBase implements IMap {
         for each (var obj:XML in xml.objects.object) {
             switch (String(obj.@type)) {
                 case "bonusContainer":
-                    var b:MapBlock = getBlock( obj.@x, obj.@y) as MapBlock;
+                    var b:MapBlock = getBlock(obj.@x, obj.@y) as MapBlock;
                     b.setGold();
 //                    var bo:SimpleBigObject = SimpleBigObject.goldBox(bcId, obj.@x, obj.@y, this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder);
 //                    bcId++;
 //                    addBO(bo)
                     break;
                 case "200":
-                    var sbo:SpecialSimpleBigObject = SpecialSimpleBigObject.asBox(bcId, obj.@x, obj.@y, obj.@graphicsId, int(obj.@life), this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder);
+
+                    var sbo:SimpleBigObject;
+                    if (obj.@destroysBy.toString() != "")
+                        sbo = SpecialSimpleBigObject.asBox(bcId, obj.@x, obj.@y, obj.@graphicsId, int(obj.@life), this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder);
+                    else
+                        sbo = SimpleBigObject.asBox(bcId, obj.@x, obj.@y, obj.@graphicsId, int(obj.@life), this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder)
                     bcId++;
                     addBO(sbo)
                     break;
