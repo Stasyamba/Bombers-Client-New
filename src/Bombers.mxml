@@ -399,7 +399,7 @@
 			private function retry():void {
 				if (isWrapperExists) 
 				{
-					VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(Context.Model.applicationLink))
+					VkontakteGlobals.wrapper.external.navigateToURL(new URLRequest(Context.Model.applicationLink + "?vs="+(Math.random()*10000).toString()));
 				}else
 				{
 					Alert.show("No way dude, you're in local version");

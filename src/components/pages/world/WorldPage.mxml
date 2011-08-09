@@ -8,7 +8,7 @@
                     xmlns:bottompanel="components.pages.world.bottompanel.*"
                     xmlns:subbottompanel="components.pages.world.subbottompanel.*"
                     width="100%" height="100%"
-                    contentCreationComplete="init();"
+                    contentCreationComplete="init();" xmlns:sound="components.pages.world.toppanel.sound.*"
 
         >
 
@@ -47,6 +47,7 @@
 	<subbottompanel:SubBottomPanelView id="subBottomPanel" y="526"/>
     <bottompanel:BottomPanelView id="bottomPanel" y="485"/>
  
+	<sound:SoundControlling x="368" y="0" />
 
 
 </s:NavigatorContent>

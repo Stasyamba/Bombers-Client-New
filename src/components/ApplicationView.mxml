@@ -319,6 +319,8 @@
 						break;
 					case "ow":
 						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_WALL;
+					case "ad1":
+						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_AD1;
 						break;
 					case "":
 						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_DEFAULT;

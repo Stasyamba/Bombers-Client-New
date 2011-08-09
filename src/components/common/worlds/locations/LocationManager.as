@@ -16,8 +16,7 @@ public class LocationManager
                 ));
 
         locations.push(new LocationObject(
-                LocationType.WORLD1_CASTLE,[]
-//                [new AccessBetaRule()]
+                LocationType.WORLD1_CASTLE,[new AccessBetaRule()]
 //               todo: [new AccessLevelRule(4), new AccessBetaRule()]
                 ));
 

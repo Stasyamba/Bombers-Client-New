@@ -167,7 +167,7 @@
               verticalAlign="middle" horizontalAlign="center"
               gap="20"
               id="playersGroup"
-              paddingLeft="20"
+              paddingLeft="15"
             >
 
         <leftpanel:PlayerSlot id="player0" playerColor="{BomberColorType.BASE_BLUE}"/>
