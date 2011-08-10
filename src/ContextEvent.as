@@ -22,6 +22,9 @@ public class ContextEvent extends Event {
     public static const NEED_TO_CHANGE_MAIN_TAB:String = "NeedToChangeMainTab";
     // pass: String (const) -> tab name (const in ApplicationView)
 
+	public static const NEED_TO_SHOW_BE_COOLER_WINDOW: String = "NeedToShowBeCoolerWindow";
+	
+	
     public static const NEED_TO_SHOW_MAIN_PREALODER:String = "ShowMainPreloder";
     // pass: Boolean -> preloader visible
 	

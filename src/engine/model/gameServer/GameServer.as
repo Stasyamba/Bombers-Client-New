@@ -727,7 +727,10 @@ public class GameServer extends SmartFox {
 
                     /* it must be after dayly boust futher */
                     if (Context.Model.currentTutorialPart == TutorialPartType.DONE) {
-                        Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
+                        //Context.Model.dispatchCustomEvent(ContextEvent.INVITE_ALL_FRIENDS_SHOW);
+						
+						/* testing */
+						Context.Model.dispatchCustomEvent(ContextEvent.NEED_TO_SHOW_BE_COOLER_WINDOW);
                     }
 
 
@@ -1039,6 +1042,9 @@ public class GameServer extends SmartFox {
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
 
 					statLoginSource(Context.Model.statsSourceLocation);
+					
+					
+					
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);

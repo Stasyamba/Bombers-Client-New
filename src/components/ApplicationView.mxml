@@ -28,6 +28,7 @@
 			import components.common.worlds.locations.LocationType;
 			import components.pages.global.developing.DebugW;
 			import components.pages.global.energymarket.EnergyMarketW;
+			import components.pages.global.help.GetCoolerW;
 			import components.pages.global.inventorynew.InventoryW;
 			import components.pages.global.newlevel.NewLevelW;
 			import components.pages.global.people.InviteAllFriendsW;
@@ -273,6 +274,18 @@
 				iafw.y -= 95;
 			});
 			
+			Context.Model.addCustomListener(ContextEvent.NEED_TO_SHOW_BE_COOLER_WINDOW, function (e:ContextEvent):void {
+				
+				parentApplication.setStyle("modalTransparencyBlur", 4);
+				
+				var bw:GetCoolerW = new GetCoolerW();
+				
+				PopUpManager.addPopUp(bw, (parentApplication as Bombers), true);
+				PopUpManager.centerPopUp(bw);
+				
+				bw.y -= 80;
+			});
+			
             /* disconnected */
             Context.gameServer.disconnected.add(onDisconnected);
 
@@ -394,7 +407,7 @@
 			});
 
             /* testing */
-
+			
             //setId(2);
             //Context.Model.dispatchCustomEvent(ContextEvent.TUTORIAL_OPEN_PART1);
 

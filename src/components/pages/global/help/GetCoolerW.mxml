@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:mx1="library://ns.adobe.com/flex/halo"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 creationComplete="panelCreationComplete();"
+		 borderVisible="false"
+		 dropShadowVisible="false"
+		 skinClass="skins.common.EmptyPopUpS"
+		 width="722" height="535"
+		 xmlns:flexcomponents="components.common.flexcomponents.*"
+		 xmlns:preloaders="components.common.utils.preloaders.*"
+		 >
+	<fx:Script>
+		<![CDATA[
+			import components.common.base.CommonConstans;
+			
+			import skins.buttons.CloseButtonOriginS;
+			import skins.common.UnderlineTextButtonS;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<s:Sequence id="disapearingAnimation" effectEnd="{close();}">
+			<s:Animate target="{this}" duration="500">
+				<s:SimpleMotionPath property="x"
+				valueFrom="{this.x}"
+				valueTo="800"
+				/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="disapearingAnimationOpenInventory" effectEnd="{close();Context.Model.dispatchCustomEvent(ContextEvent.IM_SHOW);}">
+			<s:Animate target="{this}" duration="500">
+				<s:SimpleMotionPath property="x"
+									valueFrom="{this.x}"
+									valueTo="900"
+									/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="{this.alpha}"
+									valueTo="0"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		<s:Sequence id="apearingAnimation">
+			<s:Animate target="{this}" duration="750">
+				<s:SimpleMotionPath property="y"
+									valueFrom="-800" valueTo="70"
+									/>
+			</s:Animate>
+			<s:Animate target="{this}" duration="200">
+				<s:SimpleMotionPath property="y"
+									valueFrom="70" valueTo="15"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+		
+		<s:Sequence id="apearingBaseImage">
+			<s:Animate target="{baseImage}" duration="300">
+				<s:SimpleMotionPath property="alpha"
+									valueFrom="0" valueTo="1"
+									/>
+			</s:Animate>
+		</s:Sequence>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.common.utils.adjustcolor.ColorMatrix;
+			import components.common.resources.ResourcePrice;
+			import components.common.resources.ResourceType;
+			
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.managers.PopUpManager;
+			
+			public function close():void {
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function closeWrapper():void {
+				disapearingAnimation.play();
+			}
+			
+			private function panelCreationComplete():void {
+				apearingAnimation.play();
+				
+				var cm:ColorMatrix = new ColorMatrix();
+				cm.adjustBrightness(-7,-7,-7);
+				
+				bgButton1.filters = [cm.filter.clone()];
+				bgButton2.filters = [cm.filter.clone()];
+			}
+		
+			private function openInventory(): void
+			{
+				disapearingAnimationOpenInventory.play();
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bg.jpg')"
+					   backgroundImageFillMode="repeat"
+					   width="100%" height="100%"
+					   cornerRadius="80"
+					   borderVisible="true"
+					   borderColor="0x2c2414" borderWeight="6"
+					   />
+	<!--w: 722 h: 454-->
+	<!-- dark -->
+	
+	<s:HGroup height="100%" width="100%" verticalAlign="bottom" horizontalAlign="center" y="-5">
+		<s:Group>
+			<s:BorderContainer id="bottomBgMask" backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   width="710" height="80" y="80"
+							   borderVisible="false"
+							   />
+			<s:BorderContainer backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+							   backgroundImageFillMode="repeat"
+							   width="710" height="160"
+							   cornerRadius="80"
+							   borderVisible="false"
+							   mask="{bottomBgMask}"
+							   />
+		</s:Group>
+		
+	</s:HGroup>
+	
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="top" gap="17" y="25">
+		
+		<s:VGroup horizontalAlign="center" gap="5">
+			<s:Group>
+				<s:Label x="-1" y="3" text="Как стать круче?" fontFamily="mpbc" fontSize="72" color="0x312800" />
+				<s:Label text="Как стать круче?" fontFamily="mpbc" fontSize="72" color="0xffd100" />
+			</s:Group>
+			
+			<s:Group>
+				<s:Label x="-1" y="2" text="Купи один раз - используй всегда!" fontFamily="mpbc" fontSize="36" color="0x312800" />
+				<s:Label text="Купи один раз - используй всегда!" fontFamily="mpbc" fontSize="36" color="0xffd100" />
+			</s:Group>
+		</s:VGroup>
+		
+		
+		<s:HGroup height="195" verticalAlign="middle">
+			<mx:Image id="baseImage" alpha="0" source="{CommonConstans.BE_COOLER_IMAGE_URL}" trustContent="{Context.Model.trustContent}"
+					  complete="apearingBaseImage.play();"
+					  />
+		</s:HGroup>
+		
+		<s:HGroup gap="60">
+			
+			<s:Label text="{'Находите золото\nна карте'}" fontFamily="mpbc" fontSize="24" color="0xe0b03d" textAlign="center" />
+			
+			<s:VGroup horizontalAlign="center" gap="3">
+				<flexcomponents:UnderlinedText text="Зайдите в магазин" textFontFamily="mpbc" textSize="24" textColor="0x40d200"
+											   click="openInventory();"
+											   skinClass="skins.common.UnderlineTextButtonS"
+											   textUnderlineGap="-3"											   
+											   />
+				<s:Label text="{'выберите оружие'}" fontFamily="mpbc" fontSize="24" color="0xe0b03d" textAlign="center" />
+			</s:VGroup>
+			
+			<s:Label text="{'Используйте его\nкаждую игру'}" fontFamily="mpbc" fontSize="24" color="0xe0b03d" textAlign="center" />
+			
+		</s:HGroup>
+		
+		<s:HGroup height="100%" verticalAlign="middle">
+			<s:Group>
+				<s:BorderContainer id="bgButton1" backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+								   backgroundImageFillMode="repeat"
+								   width="284" height="62"
+								   cornerRadius="15"
+								   borderVisible="false"
+								   />
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" gap="10">
+					<s:BitmapImage source="@Embed(source='assets/pagegame/windows/gameready/superBombControl.png')" />
+					<s:Label text="Применить оружие" fontFamily="mpr" fontSize="18" color="0xe0b03d" />
+				</s:HGroup>
+			</s:Group>
+			
+			<s:Group>
+				<s:BorderContainer id="bgButton2" backgroundImage="@Embed(source='assets/windows/bgDark.jpg')"
+								   backgroundImageFillMode="repeat"
+								   width="284" height="62"
+								   cornerRadius="15"
+								   borderVisible="false"
+								   />
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" gap="10">
+					<s:Label text="Сменить оружие" fontFamily="mpr" fontSize="18" color="0xe0b03d" />
+					<s:BitmapImage source="@Embed(source='assets/pagegame/windows/gameready/superBombControl1.png')" />
+				</s:HGroup>
+			</s:Group>
+		</s:HGroup>
+	</s:VGroup>
+	
+	<flexcomponents:CloseButton skinClass="skins.buttons.CloseButtonOriginS" x="636" y="28" scale="0.9"
+								click="closeWrapper();"
+								/>
+	
+	
+	<s:controlBarContent/>
+</s:Panel>

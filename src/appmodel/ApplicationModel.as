@@ -80,7 +80,7 @@ public class ApplicationModel extends VkontakteApplicationModel {
     }
 
 	
-	public var isDevelopment: Boolean = true;
+	public var isDevelopment: Boolean = false;
 	
     [Bindable]
     public var currentSettings:Settings = new Settings();

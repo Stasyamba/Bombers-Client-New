@@ -9,6 +9,7 @@ package components.common.base
 		public static const SECONDS_TO_START_QUEST: int = 2;
 		
 		public static const FAKE_USER_IMAGE_URL: String = "http://46.182.31.151/eg/bombers/fakeuserphoto.jpg";
+		public static const BE_COOLER_IMAGE_URL: String = "http://46.182.31.151/eg/interface/getHigher.png";
 		
 		public static const MUSIC_WEAK_VOLUME: Number = 0.05;
 		public static const MUSIC_HALF_NORMAL_VOLUME: Number = 0.1;
