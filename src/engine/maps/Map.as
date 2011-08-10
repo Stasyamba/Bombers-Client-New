@@ -131,5 +131,13 @@ public class Map extends MapBase implements IMap {
     }
 
 
+    public function setDieWall(x:int, y:int):void {
+        for each (var sbo:BigObjectBase in _bigObjects) {
+            if(sbo is SimpleBigObject && sbo.x == x && sbo.y == y){
+                (sbo as SimpleBigObject).destroy();
+            }
+        }
+        getBlock(x, y).setDieWall();
+    }
 }
 }

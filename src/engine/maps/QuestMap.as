@@ -119,6 +119,9 @@ public class QuestMap extends MapBase implements IMap{
         return _monsterSpawns
     }
 
+    public function setDieWall(x:int, y:int):void {
+        getBlock(x,y).setDieWall();
+    }
 }
 
 }
