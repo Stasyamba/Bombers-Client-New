@@ -60,6 +60,7 @@
                 endGame()
                 while (hasEventListener(Event.ENTER_FRAME))
                     unsubscribeEnterFrameEvent();
+                changeTabBack();
             })
             //listener'll be removed in gameModel
             Context.gameModel.gameEnded.add(function ():void {
