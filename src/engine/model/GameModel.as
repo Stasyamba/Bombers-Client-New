@@ -448,6 +448,8 @@ public class GameModel {
     }
 
     private function onSomeoneLeftGame(lp:LobbyProfile):void {
+        if(lp.id == Context.Model.currentSettings.gameProfile.id)
+            leftGame.dispatch();
         lobbyProfiles[lp.slot] = null
     }
 
