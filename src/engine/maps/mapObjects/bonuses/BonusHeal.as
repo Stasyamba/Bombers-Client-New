@@ -11,8 +11,8 @@ import engine.maps.interfaces.IMapBlock
 
 public class BonusHeal extends BonusBase implements ICollectableDynObject {
 
-    public function BonusHeal(block:IMapBlock) {
-        super(block)
+    public function BonusHeal(id:int, block:IMapBlock) {
+        super(id, block)
     }
 
     public override function activateOn(player:IBomber, params:Object = null):void {

@@ -6,11 +6,10 @@
 package engine.bombss {
 import engine.bombers.interfaces.IBomber
 import engine.maps.interfaces.IDynObjectType
-import engine.maps.interfaces.IMapBlock
 import engine.maps.interfaces.ITimeActivatableDynObject
 import engine.maps.mapBlocks.NullMapBlock
 
-public class NullBomb implements ITimeActivatableDynObject {
+public class NullBomb extends BombBase implements ITimeActivatableDynObject {
 
     private static var instance:NullBomb;
 
@@ -20,63 +19,51 @@ public class NullBomb implements ITimeActivatableDynObject {
         return instance;
     }
 
-    public function get timeToActivate():int {
+    public override function get timeToActivate():int {
         return 0
     }
 
-    public function addVictim(player:IBomber):void {
+    public override function addVictim(player:IBomber):void {
     }
 
-    public function get victim():IBomber {
+    public override function get victim():IBomber {
         return null
     }
 
-    public function get x():int {
-        return 0
+    public override function activateOn(player:IBomber, params:Object = null):void {
     }
 
-    public function get y():int {
-        return 0
+    public override function grabCorrespondingWeapon():void {
     }
 
-    public function activateOn(player:IBomber, params:Object = null):void {
-    }
-
-    public function grabCorrespondingWeapon():void {
-    }
-
-    public function get owner():IBomber {
+    public override function get owner():IBomber {
         return null
     }
 
-    public function get removeAfterActivation():Boolean {
+    public override function get removeAfterActivation():Boolean {
         return true
     }
 
     function NullBomb() {
+        super(-1, null, NullMapBlock.getInstance(), null)
     }
 
-    public function onTimeElapsed(elapsedMilliSecs:int):void {
+    public override function onTimeElapsed(elapsedMilliSecs:int):void {
     }
 
-    public function get block():IMapBlock {
-        trace("SHIT, null bomb block requested")
-        return NullMapBlock.getInstance();
-    }
-
-    public function get type():IDynObjectType {
+    public override function get type():IDynObjectType {
         return BombType.NULL;
     }
 
-    public function canExplosionGoThrough():Boolean {
+    public override function canExplosionGoThrough():Boolean {
         return true;
     }
 
-    public function canGoThrough():Boolean {
+    public override function canGoThrough():Boolean {
         return true;
     }
 
-    public function explodesAndStopsExplosion():Boolean {
+    public override function explodesAndStopsExplosion():Boolean {
         return false;
     }
 }

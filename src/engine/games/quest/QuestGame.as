@@ -234,7 +234,7 @@ public class QuestGame extends GameBase implements IQuestGame {
         var b:IMapBlock = mapManager.map.getBlock(x, y);
         var player:IBomber = getPlayer(slot) as IBomber
 
-        var object:IDynObject = dynObjectBuilder.make(type, b, player, params);
+        var object:IDynObject = dynObjectBuilder.make(0, type, b, player, params);
         b.setObject(object)
 
         if (type.waitToAdd > 0)

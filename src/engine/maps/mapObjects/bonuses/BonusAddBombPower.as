@@ -12,8 +12,8 @@ import engine.maps.interfaces.IMapBlock
 public class BonusAddBombPower extends BonusBase implements ICollectableDynObject {
 
 
-    public function BonusAddBombPower(block:IMapBlock) {
-        super(block);
+    public function BonusAddBombPower(id:int, block:IMapBlock) {
+        super(id, block);
     }
 
 

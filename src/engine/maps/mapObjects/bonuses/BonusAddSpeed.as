@@ -12,8 +12,8 @@ import engine.maps.interfaces.IMapBlock
 public class BonusAddSpeed extends BonusBase implements ICollectableDynObject {
 
 
-    public function BonusAddSpeed(block:IMapBlock) {
-        super(block);
+    public function BonusAddSpeed(id:int, block:IMapBlock) {
+        super(id, block);
     }
 
 

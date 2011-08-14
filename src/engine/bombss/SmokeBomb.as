@@ -15,8 +15,8 @@ import engine.model.explosionss.ExplosionType
 public class SmokeBomb extends BombBase implements ITimeActivatableDynObject {
     private static const EXPLODE_TIME:int = 1266;
 
-    public function SmokeBomb(explosionsBuilder:ExplosionsBuilder, block:IMapBlock, player:IBomber) {
-        super(explosionsBuilder, block, player);
+    public function SmokeBomb(id:int, explosionsBuilder:ExplosionsBuilder, block:IMapBlock, player:IBomber) {
+        super(id, explosionsBuilder, block, player);
         _explodeTime = EXPLODE_TIME;
     }
 

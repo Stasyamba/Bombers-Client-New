@@ -4,13 +4,15 @@
  */
 
 package engine.bombss {
-import engine.bombers.interfaces.IBomber
-import engine.explosionss.ExplosionsBuilder
-import engine.explosionss.interfaces.IExplosion
-import engine.maps.interfaces.IDynObjectType
-import engine.maps.interfaces.IMapBlock
-import engine.maps.interfaces.ITimeActivatableDynObject
-import engine.model.explosionss.ExplosionType
+import engine.bombers.interfaces.IBomber;
+import engine.explosionss.ExplosionsBuilder;
+import engine.explosionss.interfaces.IExplosion;
+import engine.maps.interfaces.IDynObjectType;
+import engine.maps.interfaces.IMapBlock;
+import engine.maps.interfaces.ITimeActivatableDynObject;
+import engine.model.explosionss.ExplosionType;
+
+import mx.controls.Alert;
 
 public class RegularBomb extends BombBase implements ITimeActivatableDynObject {
 
@@ -18,8 +20,9 @@ public class RegularBomb extends BombBase implements ITimeActivatableDynObject {
 
     protected var _power:int;
 
-    public function RegularBomb(explosionsBuilder:ExplosionsBuilder, block:IMapBlock, player:IBomber) {
-        super(explosionsBuilder, block, player);
+    public function RegularBomb(id:int, explosionsBuilder:ExplosionsBuilder, block:IMapBlock, player:IBomber) {
+        super(id, explosionsBuilder, block, player);
+//		Alert.show("created: " + id);
         _power = player.bombPower;
         _explodeTime = EXPLODE_TIME;
     }

@@ -16,8 +16,8 @@ public class AtomBomb extends BombBase implements ITimeActivatableDynObject {
 
     private static const EXPLODE_TIME:int = 2000;
 
-    public function AtomBomb(explosionsBuilder:ExplosionsBuilder, block:IMapBlock, player:IBomber) {
-        super(explosionsBuilder, block, player);
+    public function AtomBomb(id:int, explosionsBuilder:ExplosionsBuilder, block:IMapBlock, player:IBomber) {
+        super(id, explosionsBuilder, block, player);
         _explodeTime = EXPLODE_TIME;
     }
 

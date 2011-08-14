@@ -9,19 +9,18 @@ import engine.explosionss.ExplosionsBuilder
 import engine.explosionss.interfaces.IExplosion
 import engine.maps.interfaces.IDynObjectType
 import engine.maps.interfaces.IMapBlock
+import engine.maps.mapObjects.DynObjectBase
 import engine.weapons.WeaponType
 
-public class BombBase {
+public class BombBase extends DynObjectBase {
 
-
-    public function BombBase(explosionsBuilder:ExplosionsBuilder, block:IMapBlock, owner:IBomber) {
-        _block = block;
+    public function BombBase(id:int, explosionsBuilder:ExplosionsBuilder, block:IMapBlock, owner:IBomber) {
+        super(id, block)
         _owner = owner;
         _explosionsBuilder = explosionsBuilder;
     }
 
     protected var _explodeTime:int;
-    protected var _block:IMapBlock;
     protected var _owner:IBomber;
     protected var _explosionsBuilder:ExplosionsBuilder;
 
@@ -47,18 +46,6 @@ public class BombBase {
 
     public function get owner():IBomber {
         return _owner;
-    }
-
-    public function get block():IMapBlock {
-        return _block;
-    }
-
-    public function get x():int {
-        return _block.x
-    }
-
-    public function get y():int {
-        return _block.y
     }
 
     public function get removeAfterActivation():Boolean {

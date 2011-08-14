@@ -18,6 +18,7 @@ import engine.model.managers.interfaces.IPlayerManager
 import greensock.TweenMax
 
 import mx.collections.ArrayList
+import mx.controls.Alert
 
 public class DynObjectManager implements IDynObjectManager {
 
@@ -72,6 +73,28 @@ public class DynObjectManager implements IDynObjectManager {
             _objects.removeItem(object);
         trace("removed at " + x + "," + y);
 
+    }
+
+
+    public function activateObjectById(id:int, player:IBomber, params:Object = null):void {
+//        Alert.show("activated: " + id);
+        var object:IDynObject = getObjectById(id);
+        if (object == null) {
+            throw Context.Exception("SERVER ERROR: No object to activate with id = " + id);
+//            return;
+        }
+        object.activateOn(player, params)
+
+        if (object.removeAfterActivation)
+            _objects.removeItem(object);
+    }
+
+    private function getObjectById(id:int):IDynObject {
+        for each (var object:IDynObject in _objects.source) {
+            if (id == object.id)
+                return object;
+        }
+        return null
     }
 
     protected function getObjectAt(x:int, y:int):IDynObject {

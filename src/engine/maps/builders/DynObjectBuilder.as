@@ -38,44 +38,44 @@ public class DynObjectBuilder {
 
     private var explosionsBuilder:ExplosionsBuilder
 
-    public function make(objType:IDynObjectType, block:IMapBlock, owner:IBomber = null, params:Object = null):IDynObject {
+    public function make(id:int, objType:IDynObjectType, block:IMapBlock, owner:IBomber = null, params:Object = null):IDynObject {
 
         if (objType is SpecialObjectType) {
-            return new SpecialObject(block, objType as SpecialObjectType)
+            return new SpecialObject(id, block, objType as SpecialObjectType)
         }
         switch (objType) {
             case DynObjectType.NULL:
                 return NullDynObject.getInstance();
             //bombs
             case BombType.REGULAR:
-                return new RegularBomb(explosionsBuilder, block, owner)
+                return new RegularBomb(id, explosionsBuilder, block, owner)
             case BombType.ATOM:
-                return new AtomBomb(explosionsBuilder, block, owner)
+                return new AtomBomb(id, explosionsBuilder, block, owner)
             case BombType.BOX:
-                return new BoxBomb(explosionsBuilder, block, owner)
+                return new BoxBomb(id, explosionsBuilder, block, owner)
             case BombType.DYNAMITE:
-                return new DynamiteBomb(explosionsBuilder, block, owner)
+                return new DynamiteBomb(id, explosionsBuilder, block, owner)
             case BombType.SMOKE:
-                return new SmokeBomb(explosionsBuilder, block, owner)
+                return new SmokeBomb(id, explosionsBuilder, block, owner)
             //bonuses
             case BonusType.ADD_BOMB:
-                return new BonusAddBomb(block)
+                return new BonusAddBomb(id, block)
             case BonusType.ADD_BOMB_POWER:
-                return new BonusAddBombPower(block)
+                return new BonusAddBombPower(id, block)
             case BonusType.ADD_SPEED:
-                return new BonusAddSpeed(block);
+                return new BonusAddSpeed(id, block);
             case BonusType.HEAL:
-                return new BonusHeal(block);
+                return new BonusHeal(id, block);
             case BonusType.ITEM:
-                return new BonusItem(block, ItemType.byValue(int(params["wt"])), int(params["count"]));
+                return new BonusItem(id, block, ItemType.byValue(int(params["wt"])), int(params["count"]));
             case BonusType.RESOURCE:
-                return new BonusResource(block, ResourceType.byServerValue(int(params["rt"])), int(params["count"]));
+                return new BonusResource(id, block, ResourceType.byServerValue(int(params["rt"])), int(params["count"]));
             //mines
             case MineType.REGULAR:
-                return new RegularMine(block, owner);
+                return new RegularMine(id, block, owner);
             //gates
             case GatePassType.GATE_PASS:
-                return new GatePass(block, params["orientation"] != "horizontal", params["active"] == "true", int(params["period"]) / 1000);
+                return new GatePass(id, block, params["orientation"] != "horizontal", params["active"] == "true", int(params["period"]) / 1000);
         }
         throw Context.Exception("Error in file DynObjectBuilder.as: NotImplemented: " + objType.key);
     }

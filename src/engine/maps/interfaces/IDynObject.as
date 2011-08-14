@@ -8,6 +8,8 @@ import engine.bombers.interfaces.IBomber
 
 public interface IDynObject {
 
+    function get id():int;
+
     function canExplosionGoThrough():Boolean;
 
     function canGoThrough():Boolean;

@@ -42,8 +42,8 @@ public class SimpleBigObject extends BigObjectBase {
         EngineContext.specialObjectExploded.add(onExploded)
     }
 
-    private function onExploded(x:int,y:int, lifeLeft:int):void {
-        if(x == this.x && y == this.y){
+    private function onExploded(id:int, x:int,y:int, lifeLeft:int):void {
+        if(id == _id){
             explode(ExplosionType.REGULAR, life - lifeLeft);
 		}
     }
@@ -90,8 +90,9 @@ public class SimpleBigObject extends BigObjectBase {
                 if (oldState.hiddenObject)
                     block.setObject(oldState.hiddenObject);
                 else {
-                    if (oldState.objectAfterObjectDestroyed != DynObjectType.NULL)
-                        EngineContext.objectAdded.dispatch(-1, block.x, block.y, oldState.objectAfterObjectDestroyed)
+                    //todo: won't work with id system
+//                    if (oldState.objectAfterObjectDestroyed != DynObjectType.NULL)
+//                        EngineContext.objectAdded.dispatch(-1, block.x, block.y, oldState.objectAfterObjectDestroyed)
                 }
             }
         }

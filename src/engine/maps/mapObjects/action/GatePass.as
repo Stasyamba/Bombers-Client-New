@@ -5,15 +5,14 @@ import engine.games.quest.monsters.Monster
 import engine.maps.interfaces.ICollectableDynObject
 import engine.maps.interfaces.IDynObjectType
 import engine.maps.interfaces.IMapBlock
+import engine.maps.mapObjects.DynObjectBase
 
 import flash.events.TimerEvent
 import flash.utils.Timer
 
 import org.osflash.signals.Signal
 
-public class GatePass implements ICollectableDynObject {
-
-    private var _block:IMapBlock
+public class GatePass extends DynObjectBase implements ICollectableDynObject {
 
     private var _isVert:Boolean
     private var _state:Boolean
@@ -23,8 +22,8 @@ public class GatePass implements ICollectableDynObject {
 
     private var _timer:Timer;
 
-    public function GatePass(block:IMapBlock, isVert:Boolean, startState:Boolean, period:Number = 0) {
-        _block = block;
+    public function GatePass(id:int, block:IMapBlock, isVert:Boolean, startState:Boolean, period:Number = 0) {
+        super(id, block);
         _isVert = isVert;
         _state = startState;
         _period = period
@@ -79,18 +78,6 @@ public class GatePass implements ICollectableDynObject {
 
     public function explodesAndStopsExplosion():Boolean {
         return false
-    }
-
-    public function get x():int {
-        return _block.x;
-    }
-
-    public function get y():int {
-        return _block.y;
-    }
-
-    public function get block():IMapBlock {
-        return _block
     }
 
     public function get type():IDynObjectType {

@@ -5,15 +5,14 @@ import engine.bombers.interfaces.IBomber
 import engine.maps.interfaces.ICollectableDynObject
 import engine.maps.interfaces.IDynObjectType
 import engine.maps.interfaces.IMapBlock
-import engine.weapons.WeaponType
 
 public class BonusItem extends BonusBase implements ICollectableDynObject {
 
     private var _weapon:ItemType
     private var _count:int;
 
-    public function BonusItem(block:IMapBlock, wt:ItemType, count:int) {
-        super(block);
+    public function BonusItem(id:int, block:IMapBlock, wt:ItemType, count:int) {
+        super(id, block);
         _weapon = wt;
         _count = count
     }

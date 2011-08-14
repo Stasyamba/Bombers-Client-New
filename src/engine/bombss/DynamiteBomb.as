@@ -15,8 +15,8 @@ import engine.model.explosionss.ExplosionType
 public class DynamiteBomb extends BombBase implements ITimeActivatableDynObject {
     private static const EXPLODE_TIME:int = 2000;
 
-    public function DynamiteBomb(explosionsBuilder:ExplosionsBuilder, block:IMapBlock, player:IBomber) {
-        super(explosionsBuilder, block, player);
+    public function DynamiteBomb(id:int, explosionsBuilder:ExplosionsBuilder, block:IMapBlock, player:IBomber) {
+        super(id, explosionsBuilder, block, player);
         _explodeTime = EXPLODE_TIME;
     }
 
