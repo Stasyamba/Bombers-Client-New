@@ -7,10 +7,9 @@ package engine.maps.mapObjects {
 import engine.bombers.interfaces.IBomber
 import engine.maps.interfaces.IDynObject
 import engine.maps.interfaces.IDynObjectType
-import engine.maps.interfaces.IMapBlock
 import engine.maps.mapBlocks.NullMapBlock
 
-public class NullDynObject implements IDynObject {
+public class NullDynObject extends DynObjectBase implements IDynObject {
 
     private static var instance:NullDynObject;
 
@@ -28,6 +27,7 @@ public class NullDynObject implements IDynObject {
     }
 
     function NullDynObject() {
+        super(-1, NullMapBlock.getInstance())
     }
 
     public function canExplosionGoThrough():Boolean {
@@ -56,16 +56,5 @@ public class NullDynObject implements IDynObject {
         return false;
     }
 
-    public function get x():int {
-        return -1;
-    }
-
-    public function get y():int {
-        return -1;
-    }
-
-    public function get block():IMapBlock {
-        return NullMapBlock.getInstance();
-    }
 }
 }

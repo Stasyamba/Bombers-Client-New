@@ -13,8 +13,8 @@ public class BonusExperience extends BonusBase implements ICollectableDynObject 
 
     private var _amount:int;
 
-    public function BonusExperience(block:IMapBlock, amount:int) {
-        super(block)
+    public function BonusExperience(id:int, block:IMapBlock, amount:int) {
+        super(id, block)
     }
 
 

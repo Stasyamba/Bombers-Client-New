@@ -63,13 +63,13 @@ public class Map extends MapBase implements IMap {
                     break;
                 case "200":
 
-                    var sbo:SimpleBigObject;
-                    if (obj.@destroysBy.toString() != "")
-                        sbo = SpecialSimpleBigObject.asBox(bcId, obj.@x, obj.@y, obj.@graphicsId, int(obj.@life), this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder);
-                    else
-                        sbo = SimpleBigObject.asBox(bcId, obj.@x, obj.@y, obj.@graphicsId, int(obj.@life), this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder)
-                    bcId++;
-                    addBO(sbo)
+//                    var sbo:SimpleBigObject;
+//                    if (obj.@destroysBy.toString() != "")
+//                        sbo = SpecialSimpleBigObject.asBox(bcId, obj.@x, obj.@y, obj.@graphicsId, int(obj.@life), this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder);
+//                    else
+//                        sbo = SimpleBigObject.asBox(bcId, obj.@x, obj.@y, obj.@graphicsId, int(obj.@life), this, blockBuilder.mapBlockStateBuilder, blockBuilder.dynObjectBuilder)
+//                    bcId++;
+//                    addBO(sbo)
                     break;
             }
         }
@@ -113,7 +113,7 @@ public class Map extends MapBase implements IMap {
         }
     }
 
-    private function addBO(bo:BigObjectBase):void {
+    public function addBO(bo:BigObjectBase):void {
         _bigObjects[bo.id] = bo
         switch (bo.layer) {
             case BigObjectLayer.DECORATION:
@@ -131,5 +131,13 @@ public class Map extends MapBase implements IMap {
     }
 
 
+    public function setDieWall(x:int, y:int):void {
+        for each (var sbo:BigObjectBase in _bigObjects) {
+            if(sbo is SimpleBigObject && sbo.x == x && sbo.y == y){
+                (sbo as SimpleBigObject).destroy();
+            }
+        }
+        getBlock(x, y).setDieWall();
+    }
 }
 }

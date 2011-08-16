@@ -10,19 +10,19 @@ import engine.explosionss.RegularExplosion
 import engine.maps.interfaces.ICollectableDynObject
 import engine.maps.interfaces.IDynObjectType
 import engine.maps.interfaces.IMapBlock
+import engine.maps.mapObjects.DynObjectBase
 import engine.weapons.WeaponType
 
-public class RegularMine implements ICollectableDynObject {
+public class RegularMine extends DynObjectBase implements ICollectableDynObject {
 
-    private var _block:IMapBlock
     private var _owner:IBomber
 
     private var _wasTriedToBeTaken:Boolean = false;
 
     private static const DAMAGE:int = 15
 
-    public function RegularMine(block:IMapBlock, owner:IBomber) {
-        _block = block
+    public function RegularMine(id:int, block:IMapBlock, owner:IBomber) {
+        super(id, block)
         _owner = owner
     }
 
@@ -45,18 +45,6 @@ public class RegularMine implements ICollectableDynObject {
 
     public function explodesAndStopsExplosion():Boolean {
         return false
-    }
-
-    public function get x():int {
-        return _block.x;
-    }
-
-    public function get y():int {
-        return _block.y;
-    }
-
-    public function get block():IMapBlock {
-        return _block
     }
 
     public function get type():IDynObjectType {

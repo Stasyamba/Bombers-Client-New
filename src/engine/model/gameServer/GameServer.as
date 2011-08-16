@@ -1387,11 +1387,14 @@ public class GameServer extends SmartFox {
         for (var i:int = 0; i < bonusArr.size(); i++) {
             var obj:ISFSObject = bonusArr.getSFSObject(i);
             bonuses.push({
+                id:obj.getInt("ID"),
                 x:obj.getInt("X"),
                 y:obj.getInt("Y"),
                 type:obj.getInt("T"),
-                p0:obj.containsKey("P0") ? obj.getInt("P0") : undefined,
-                p1:obj.containsKey("P1") ? obj.getInt("P1") : undefined
+                p0:obj.containsKey("P0") ? obj.getData("P0").data : undefined,
+                p1:obj.containsKey("P1") ? obj.getData("P1").data : undefined,
+                p2:obj.containsKey("P2") ? obj.getData("P2").data : undefined
+
             })
         }
 
@@ -1404,7 +1407,7 @@ public class GameServer extends SmartFox {
         var name:String = responseParams.getUtfString("game.DOAdd.f.userId")
         if (name != null && name != "")
             slot = Context.gameModel.getLobbyProfileById(name).slot
-        EngineContext.objectAdded.dispatch(
+        EngineContext.objectAdded.dispatch(responseParams.getInt("game.DOAdd.f.id"),
                 slot,
                 responseParams.getInt("game.DOAdd.f.x"),
                 responseParams.getInt("game.DOAdd.f.y"),
@@ -1414,8 +1417,10 @@ public class GameServer extends SmartFox {
     private function onDYNAMIC_OBJECT_ACTIVATED(responseParams:ISFSObject):void {
 
         var type:int = responseParams.getInt("game.DOAct.f.type");
+        var id:int = responseParams.getInt("game.DOAct.f.id");
+
         if (type == 200) {
-            EngineContext.specialObjectExploded.dispatch(responseParams.getInt("game.DOAct.f.x"), responseParams.getInt("game.DOAct.f.y"), responseParams.getInt("game.DOAct.f.lifeLeft"));
+            EngineContext.specialObjectExploded.dispatch(id, responseParams.getInt("game.DOAct.f.x"), responseParams.getInt("game.DOAct.f.y"), responseParams.getInt("game.DOAct.f.lifeLeft"));
             return;
         }
         var slot:int = -1
@@ -1429,7 +1434,7 @@ public class GameServer extends SmartFox {
         if (sfsArr) {
             for (var i:int = 0; i < sfsArr.size(); i++) {
                 var i1:ISFSObject = sfsArr.getSFSObject(i);
-                destList.push({x: i1.getInt("X"), y: i1.getInt("Y"),isS:i1.getBool("isS")})
+                destList.push({x: i1.getInt("X"), y: i1.getInt("Y"),isS:i1.getBool("isS"),id:i1.getInt("ID")})
             }
         }
         var params:Object = {};
@@ -1437,7 +1442,7 @@ public class GameServer extends SmartFox {
         params["lifetime"] = responseParams.getInt("game.DOAct.f.s.lifetime");
         params["active"] = responseParams.getBool("game.DOAct.f.isActive");
 
-        EngineContext.objectActivated.dispatch(
+        EngineContext.objectActivated.dispatch(id,
                 slot,
                 responseParams.getInt("game.DOAct.f.x"),
                 responseParams.getInt("game.DOAct.f.y"),

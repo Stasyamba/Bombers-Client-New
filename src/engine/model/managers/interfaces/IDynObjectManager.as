@@ -14,5 +14,7 @@ public interface IDynObjectManager {
     function checkObjectsActivated(elapsedMiliSecs:int):void;
 
     function activateObject(x:int, y:int, player:IBomber,params:Object = null):void;
+
+    function activateObjectById(id:int, bomber:IBomber, params:Object = null):void
 }
 }

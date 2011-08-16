@@ -27,7 +27,7 @@ public class MapManager implements IMapManager {
     }
 
     public function setDieWall(x:int, y:int):void {
-        _map.getBlock(x, y).setDieWall()
+        _map.setDieWall(x, y)
     }
 
     public function get canUseMap():Boolean {

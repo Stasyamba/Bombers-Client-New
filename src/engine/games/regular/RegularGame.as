@@ -4,46 +4,49 @@
  */
 
 package engine.games.regular {
-import components.common.resources.ResourcePrice;
-import components.common.resources.ResourceType;
-import components.common.worlds.locations.LocationType;
+import components.common.resources.ResourcePrice
+import components.common.resources.ResourceType
+import components.common.worlds.locations.LocationType
 
-import engine.EngineContext;
-import engine.bombers.PlayerBomber;
-import engine.bombers.PlayersBuilder;
-import engine.bombers.interfaces.IBomber;
-import engine.bombers.interfaces.IEnemyBomber;
-import engine.bombers.interfaces.IPlayerBomber;
-import engine.data.common.maps.Maps;
-import engine.explosionss.ExplosionsBuilder;
-import engine.games.*;
-import engine.games.quest.GameStats;
-import engine.maps.builders.DynObjectBuilder;
-import engine.maps.builders.MapBlockBuilder;
-import engine.maps.builders.MapBlockStateBuilder;
-import engine.maps.interfaces.IDynObject;
-import engine.maps.interfaces.IDynObjectType;
-import engine.maps.interfaces.IMapBlock;
-import engine.maps.mapObjects.DynObjectType;
-import engine.maps.mapObjects.action.GatePassType;
-import engine.maps.mapObjects.bonuses.BonusType;
-import engine.model.explosionss.ExplosionType;
-import engine.model.managers.interfaces.IEnemiesManager;
-import engine.model.managers.quest.MonstersManager;
-import engine.model.managers.regular.DynObjectManager;
-import engine.model.managers.regular.EnemiesManager;
-import engine.model.managers.regular.ExplosionsManager;
-import engine.model.managers.regular.MapManager;
-import engine.model.managers.regular.PlayerManager;
-import engine.playerColors.PlayerColor;
-import engine.profiles.PlayerGameProfile;
-import engine.utils.Direction;
-import engine.weapons.WeaponBuilder;
-import engine.weapons.WeaponType;
-import engine.weapons.interfaces.IActivatableWeapon;
-import engine.weapons.interfaces.IDeactivatableWeapon;
+import engine.EngineContext
+import engine.bombers.PlayerBomber
+import engine.bombers.PlayersBuilder
+import engine.bombers.interfaces.IBomber
+import engine.bombers.interfaces.IEnemyBomber
+import engine.bombers.interfaces.IPlayerBomber
+import engine.data.common.maps.Maps
+import engine.explosionss.ExplosionsBuilder
+import engine.games.*
+import engine.games.quest.GameStats
+import engine.maps.Map
+import engine.maps.bigObjects.SimpleBigObject
+import engine.maps.bigObjects.SpecialSimpleBigObject
+import engine.maps.builders.DynObjectBuilder
+import engine.maps.builders.MapBlockBuilder
+import engine.maps.builders.MapBlockStateBuilder
+import engine.maps.interfaces.IDynObject
+import engine.maps.interfaces.IDynObjectType
+import engine.maps.interfaces.IMapBlock
+import engine.maps.mapObjects.DynObjectType
+import engine.maps.mapObjects.action.GatePassType
+import engine.maps.mapObjects.bonuses.BonusType
+import engine.model.explosionss.ExplosionType
+import engine.model.managers.interfaces.IEnemiesManager
+import engine.model.managers.quest.MonstersManager
+import engine.model.managers.regular.DynObjectManager
+import engine.model.managers.regular.EnemiesManager
+import engine.model.managers.regular.ExplosionsManager
+import engine.model.managers.regular.MapManager
+import engine.model.managers.regular.PlayerManager
+import engine.playerColors.PlayerColor
+import engine.profiles.PlayerGameProfile
+import engine.utils.Direction
+import engine.weapons.WeaponBuilder
+import engine.weapons.WeaponType
+import engine.weapons.interfaces.IActivatableWeapon
+import engine.weapons.interfaces.IDeactivatableWeapon
 
-import greensock.TweenMax;
+import greensock.TweenMax
 
 public class RegularGame extends GameBase implements IMultiPlayerGame {
 
@@ -199,25 +202,29 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
                 bomber.putOnMap(mapManager.map, item.x, item.y);
         }
         for each (var bObj:Object in bonuses) {
-            if (int(bObj.type) == 200 || int(bObj.type) == 300) //goldBoxes
+            if (int(bObj.type) == 300) //goldBoxes
                 continue;
+            if (int(bObj.type) == 200) {
+                var sbo:SimpleBigObject;
+                if (int(bObj.p0 != -1))
+                    sbo = SpecialSimpleBigObject.asBox(bObj.id, bObj.x, bObj.y, String(bObj.p2), int(bObj.p1), mapManager.map, mapBlockStateBuilder, dynObjectBuilder);
+                else
+                    sbo = SimpleBigObject.asBox(bObj.id, bObj.x, bObj.y, String(bObj.p2), int(bObj.p1), mapManager.map, mapBlockStateBuilder, dynObjectBuilder);
+                Map(mapManager.map).addBO(sbo);
+                continue;
+            }
             switch (DynObjectType.byValue(int(bObj.type))) {
                 case BonusType.ITEM:
-                    addObject(-1, bObj.x, bObj.y, BonusType.ITEM, {wt:bObj.p0,count:bObj.p1})
+                    addObject(bObj.id, -1, bObj.x, bObj.y, BonusType.ITEM, {wt:bObj.p0,count:bObj.p1})
                     break;
                 case BonusType.RESOURCE:
-                    addObject(-1, bObj.x, bObj.y, BonusType.RESOURCE, {rt:bObj.p0,count:bObj.p1})
+                    addObject(bObj.id, -1, bObj.x, bObj.y, BonusType.RESOURCE, {rt:bObj.p0,count:bObj.p1})
                     break;
-				case GatePassType.GATE_PASS:
-					break;
+                case GatePassType.GATE_PASS:
+                    addObject(bObj.id, -1, bObj.x, bObj.y, GatePassType.GATE_PASS, {active:String(bObj.p0), orientation:String(bObj.p1),period:0})
+                    break;
                 default:
-                    addObject(-1, bObj.x, bObj.y, DynObjectType.byValue(bObj.type))
-            }
-        }
-        for each (var obj:XML in xml.objects.object) {
-            switch (String(obj.@type)) {
-                case "210":
-                    addObject(-1, obj.@x, obj.@y, GatePassType.GATE_PASS, {active:String(obj.@active), orientation:String(obj.@orientation),period:0})
+                    addObject(bObj.id, -1, bObj.x, bObj.y, DynObjectType.byValue(bObj.type))
             }
         }
         _ready = true;
@@ -240,14 +247,14 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
     }
 
 
-    private function onObjectActivated(id:int, x:int, y:int, objType:IDynObjectType, destList:Array, params:Object):void {
-        var bomber:IBomber = getPlayer(id);
-        dynObjectManager.activateObject(x, y, bomber, params);
+    private function onObjectActivated(id:int, slot:int, x:int, y:int, objType:IDynObjectType, destList:Array, params:Object):void {
+        var bomber:IBomber = getPlayer(slot);
+        dynObjectManager.activateObjectById(id, bomber, params);
         for each (var point:Object in destList) {
             if (point.isS)
                 (dynObjectManager as DynObjectManager).explodeBlock(point.x, point.y, ExplosionType.byValue(objType.key), params != null ? params.damage : 0)
             else
-                dynObjectManager.activateObject(point.x, point.y, bomber);
+                dynObjectManager.activateObjectById(point.id, bomber);
         }
     }
 
@@ -255,11 +262,11 @@ public class RegularGame extends GameBase implements IMultiPlayerGame {
         Context.gameServer.sendActivateDynamicObject(object);
     }
 
-    public function addObject(slot:int, x:int, y:int, objType:IDynObjectType, params:Object = null):void {
+    public function addObject(id:int, slot:int, x:int, y:int, objType:IDynObjectType, params:Object = null):void {
         var b:IMapBlock = mapManager.map.getBlock(x, y);
         var player:IBomber = getPlayer(slot)  //can be null
 
-        var object:IDynObject = dynObjectBuilder.make(objType, b, player, params);
+        var object:IDynObject = dynObjectBuilder.make(id, objType, b, player, params);
         b.setObject(object);
 
         object.grabCorrespondingWeapon()

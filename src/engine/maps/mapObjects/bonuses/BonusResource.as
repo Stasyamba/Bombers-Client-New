@@ -4,7 +4,6 @@
  */
 
 package engine.maps.mapObjects.bonuses {
-import components.common.resources.ResourceObject
 import components.common.resources.ResourceType
 
 import engine.bombers.interfaces.IBomber
@@ -17,15 +16,15 @@ public class BonusResource extends BonusBase implements ICollectableDynObject {
     private var _rtype:ResourceType;
     private var _count:int;
 
-    public function BonusResource(block:IMapBlock, rt:ResourceType, count:int) {
-        super(block)
+    public function BonusResource(id:int, block:IMapBlock, rt:ResourceType, count:int) {
+        super(id, block)
         _rtype = rt
         _count = count;
     }
 
     public override function activateOn(player:IBomber, params:Object = null):void {
         super.activateOn(player)
-        Context.game.resourceCollected(_rtype, _count ,player)
+        Context.game.resourceCollected(_rtype, _count, player)
     }
 
     public function get type():IDynObjectType {

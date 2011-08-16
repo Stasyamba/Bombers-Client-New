@@ -14,8 +14,8 @@ public class SpecialObject extends BonusBase implements ICollectableDynObject {
 
     private var _type:IDynObjectType
 
-    public function SpecialObject(block:IMapBlock, type:SpecialObjectType) {
-        super(block);
+    public function SpecialObject(id:int, block:IMapBlock, type:SpecialObjectType) {
+        super(id, block);
         _type = type
     }
 

@@ -22,8 +22,8 @@ public class SpecialSimpleBigObject extends SimpleBigObject {
         EngineContext.specialObjectExploded.add(onExploded)
     }
 
-    private function onExploded(x:int,y:int, lifeLeft:int):void {
-        if(x == this.x && y == this.y){
+    private function onExploded(id:int, x:int,y:int, lifeLeft:int):void {
+        if(id == _id){
             explode(_explType,life - lifeLeft);
 		}
     }

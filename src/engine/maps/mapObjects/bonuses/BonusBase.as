@@ -6,14 +6,14 @@
 package engine.maps.mapObjects.bonuses {
 import engine.bombers.interfaces.IBomber
 import engine.maps.interfaces.IMapBlock
+import engine.maps.mapObjects.DynObjectBase
 
-public class BonusBase {
+public class BonusBase extends DynObjectBase {
 
-    protected var _block:IMapBlock;
     private var _wasTriedToBeTaken:Boolean = false;
 
-    public function BonusBase(block:IMapBlock) {
-        this._block = block;
+    public function BonusBase(id:int, block:IMapBlock) {
+        super(id, block);
     }
 
     public function canExplosionGoThrough():Boolean {
@@ -26,18 +26,6 @@ public class BonusBase {
 
     public function explodesAndStopsExplosion():Boolean {
         return false;
-    }
-
-    public function get block():IMapBlock {
-        return _block;
-    }
-
-    public function get x():int {
-        return block.x;
-    }
-
-    public function get y():int {
-        return block.y;
     }
 
     public function activateOn(player:IBomber, params:Object = null):void {

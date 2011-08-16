@@ -104,7 +104,7 @@ public class EngineContext {
     public static var greenBaloon:Signal = new Signal(Number, Number, Direction)
     public static var pingChanged:Signal = new Signal(Point)
 
-    private static var _specialObjectExploded:Signal = new Signal(int,int,int);
+    private static var _specialObjectExploded:Signal = new Signal(int,int,int,int);
 
     //Monster, damage
 

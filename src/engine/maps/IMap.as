@@ -47,5 +47,7 @@ public interface IMap {
     //filter: function (b:IMapBlock):Boolean
     //true passes the filter
     function getRandomBlock(filter:Function):IMapBlock
+
+    function setDieWall(x:int, y:int):void
 }
 }

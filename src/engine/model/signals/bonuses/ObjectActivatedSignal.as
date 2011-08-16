@@ -10,7 +10,7 @@ import org.osflash.signals.Signal
 
 public class ObjectActivatedSignal extends Signal {
     public function ObjectActivatedSignal() {
-        super(int, int, int, IDynObjectType, Object)
+        super(int, int, int, int, IDynObjectType, Object)
     }
 }
 }
