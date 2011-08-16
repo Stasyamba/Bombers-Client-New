@@ -95,12 +95,12 @@
 			public function closeWrapper():void {
 				
 				Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_SET_GAME_FOCUS);
+				closeTimer.removeEventListener(TimerEvent.TIMER, timerTick);
 				
 				if (isClosing)
 					return
 					isClosing = true
 				disapearingAnimation.play();
-				closeTimer.removeEventListener(TimerEvent.TIMER, timerTick);
 			}
 			
 			private function panelCreationComplete():void {

@@ -5,6 +5,8 @@
 
 package engine.model.gameServer {
 
+import api.vkontakte.VkontakteGlobals;
+
 import com.smartfoxserver.v2.SmartFox;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
@@ -1040,11 +1042,10 @@ public class GameServer extends SmartFox {
                     }
 
                     Context.Model.dispatchCustomEvent(ContextEvent.FRIENDS_PANEL_FRIENDS_IS_LOADED, friendsLent);
-
+					
 					statLoginSource(Context.Model.statsSourceLocation);
 					
-					
-					
+					//Context.gameServer.adminReloadMaps();
                 }
                 catch(errObject:Error) {
                     Alert.show(errObject.message);

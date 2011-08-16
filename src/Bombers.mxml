@@ -109,6 +109,8 @@
 			import components.common.utils.enviroment.vkontakte.ApiResult;
 			import components.common.utils.enviroment.vkontakte.FlashVars;
 			
+			import engine.model.gameServer.GameServer;
+			
 			import loading.BombersContentLoader;
 			
 			import mx.controls.Alert;
@@ -193,6 +195,36 @@
 				{
 					Context.Model.applicationId = "2141693";
 					Context.Model.applicationLink = "http://vkontakte.ru/app2141693";
+				} 
+				
+				if (isWrapperExists) {
+					var currentLocation:String = VkontakteGlobals.wrapper.external.getLocation();
+					
+					switch(currentLocation)
+					{
+						case "win":
+							Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_VICTORY;
+							break;
+						case "fi":
+							Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_ENERGY;
+							break;
+						case "invite":
+							Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_INVITE;
+							break;
+						case "ow":
+							Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_WALL;
+							break;
+						case "ad1":
+							Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_AD1;
+							break;
+						case "ad2":
+							Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_AD2;
+							break;
+						case "":
+							Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_DEFAULT;
+							break;
+					}
+					
 				} 
 				
 				Context.Model.addCustomListener(ContextEvent.VK_SHOW_VOTE_CONTROL, function (e: ContextEvent): void

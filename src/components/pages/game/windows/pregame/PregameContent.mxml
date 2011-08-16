@@ -48,14 +48,14 @@
 			
 			public function initContent(): void
 			{
-				timeToReady = CommonConstans.AUTO_READY_TIME_SECONDS;
+				//timeToReady = CommonConstans.AUTO_READY_TIME_SECONDS;
 				
 				readyButton.enabled = true;
-				readyTimer.stop();
-				readyTimer.reset();
-				timeToReady = CommonConstans.AUTO_READY_TIME_SECONDS;
+				//readyTimer.stop();
+				//readyTimer.reset();
+				//timeToReady = CommonConstans.AUTO_READY_TIME_SECONDS;
 				
-				readyTimer.start();
+				//readyTimer.start();
 			}
 			
 			public function setReady(): void
@@ -109,7 +109,7 @@
 	
 	<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="center">
 		<s:HGroup>
-			<s:Label text="Вы будете готовы через {timeToReady} сек." fontFamily="mpr" fontSize="14" color="0xffe760" />
+			<s:Label text="Вы будете готовы через {timeToReady} сек." fontFamily="mpr" fontSize="14" color="0xffe760" alpha="0" />
 		</s:HGroup>
 		
 		<s:HGroup gap="0">

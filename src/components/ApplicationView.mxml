@@ -316,32 +316,6 @@
             /* parse game request if it's opened from the wall */
             /* фишка работает только для ВК */
 
-            if ((parentApplication as Bombers).isWrapperExists) {
-                var currentLocation:String = VkontakteGlobals.wrapper.external.getLocation();
-				
-				switch(currentLocation)
-				{
-					case "win":
-						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_VICTORY;
-						break;
-					case "fi":
-						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_ENERGY;
-						break;
-					case "invite":
-						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_INVITE;
-						break;
-					case "ow":
-						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_WALL;
-					case "ad1":
-						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_AD1;
-						break;
-					case "":
-						Context.Model.statsSourceLocation = GameServer.STATS_LOGIN_SOURCE_TYPE_DEFAULT;
-						break;
-				}
-				
-            }
-
 
             /* tutorial */
 
