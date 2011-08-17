@@ -73,7 +73,9 @@ public class ContextEvent extends Event {
     public static const GP_CURRENT_BOMBER_CHANGED:String = "GPCurrentBomberChanged";
 	
 	public static const GP_PREGAME_CLOSE:String = "GPPregameClose";
+	public static const GP_PREGAME_BLOCK_READY_BUTTON:String = "GPPregameBlockButton";
 	public static const GP_COLOR_CHANGED:String = "GPColorChanged";
+	
 	
 	public static const GP_OPEN_BOBMERS_REFRESH: String = "GPOpenBombersRefresh";
 	

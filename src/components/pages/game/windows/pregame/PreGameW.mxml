@@ -68,6 +68,9 @@
 			public function close():void {
 				readyContent.destroy();
 				Context.Model.removeCustomEventListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
+				Context.Model.removeCustomEventListener(ContextEvent.GP_PREGAME_BLOCK_READY_BUTTON, blockReadyButton);
+				Context.Model.removeCustomEventListener(ContextEvent.GP_PREGAME_CLOSE, closeWrapper1);
+				
 				PopUpManager.removePopUp(this);
 			}
 			
@@ -85,6 +88,7 @@
 				
 				Context.Model.addCustomListener(ContextEvent.GP_ENERGY_IS_CHANGED, switchToReady);
 				Context.Model.addCustomListener(ContextEvent.GP_PREGAME_CLOSE, closeWrapper1);
+				Context.Model.addCustomListener(ContextEvent.GP_PREGAME_BLOCK_READY_BUTTON, blockReadyButton);
 				
 				//Alert.show(Context.Model.currentSettings.gameProfile.energy.toString());
 				
@@ -100,7 +104,13 @@
 				Context.gameModel.threeSecondsToStart.add( function (p0:*,p1:*,p2:*){
 					Context.Model.dispatchCustomEvent(ContextEvent.GP_PREGAME_CLOSE);
 					Context.Model.dispatchCustomEvent(ContextEvent.GPAGE_NEED_TO_SHOW_THREE_SEC_WINDOW);
-				})
+				});
+					
+			}
+			
+			private function blockReadyButton(e:ContextEvent): void
+			{
+				readyContent.blockReady();
 			}
 			
 			private function closeWrapper1(e:ContextEvent): void

@@ -23,14 +23,31 @@
 			
 			private var readyTimer: Timer = new Timer(1000, CommonConstans.AUTO_READY_TIME_SECONDS);
 			[Bindable] private var timeToReady: int = CommonConstans.AUTO_READY_TIME_SECONDS;
+			private var coolPhrases:Array = new Array();
+			
 			
 			private function init(): void
 			{	
 				var bo: BomberObject = Context.Model.bomberManager.getBomber(Context.Model.currentSettings.gameProfile.currentBomberType);
 				bombasterImage.source = bo.viewObject.bigImageURL;
 				
-				readyTimer.addEventListener(TimerEvent.TIMER, timerTick);
-				readyTimer.addEventListener(TimerEvent.TIMER_COMPLETE, timerComplete);
+				//readyTimer.addEventListener(TimerEvent.TIMER, timerTick);
+				//readyTimer.addEventListener(TimerEvent.TIMER_COMPLETE, timerComplete);
+				
+				coolPhrases = new Array();
+				coolPhrases.push("Игра не для слабонервных, уверен что готов?");
+				coolPhrases.push("Ну что, покажем этим салагам кто тут главный?");
+				coolPhrases.push("Как будешь готов, дружище, кнопка рядом");
+				coolPhrases.push("Сейчас такое начнется!!! Ты готов?");
+				coolPhrases.push("Похоже эти парни не шутят... готов?");
+				coolPhrases.push("Кто к нас с бомбой придет, того и подорвем");
+				coolPhrases.push("На карте должен остаться только один");
+				coolPhrases.push("Бомбастер сказал, бомбастер сделал!");
+				coolPhrases.push("Это будет битва эпохи, ты готов?");
+				coolPhrases.push("Жми готов, а дальше как нибудь разберемся");
+				coolPhrases.push("Это игра?! Это - СПААААРТАААА!!!");
+				
+				pregameLabel.text = coolPhrases[Math.floor(Math.random()*(coolPhrases.length - 1))];
 				
 				//initContent();
 			}
@@ -48,13 +65,12 @@
 			
 			public function initContent(): void
 			{
-				//timeToReady = CommonConstans.AUTO_READY_TIME_SECONDS;
 				
-				readyButton.enabled = true;
+				//timeToReady = CommonConstans.AUTO_READY_TIME_SECONDS;
+				//readyButton.enabled = true;
 				//readyTimer.stop();
 				//readyTimer.reset();
 				//timeToReady = CommonConstans.AUTO_READY_TIME_SECONDS;
-				
 				//readyTimer.start();
 			}
 			
@@ -67,19 +83,24 @@
 				
 				/* server request */
 				
-				readyTimer.stop();
-				readyTimer.reset();
+				//readyTimer.stop();
+				//readyTimer.reset();
 				
-				readyButton.enabled = false;
+				blockReady();
 				
 				var amIReady:Boolean = Context.gameModel.myLobbyProfile().isReady
 				Context.gameModel.setMeReady(!amIReady)
 			}
 			
+			public function blockReady(): void
+			{
+				readyButton.enabled = false;
+			}
+			
 			public function destroy(): void
 			{
-				readyTimer.stop();
-				readyTimer.reset();
+				//readyTimer.stop();
+				//readyTimer.reset();
 			}
 			
 		]]>
@@ -109,7 +130,8 @@
 	
 	<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="center">
 		<s:HGroup>
-			<s:Label text="Вы будете готовы через {timeToReady} сек." fontFamily="mpr" fontSize="14" color="0xffe760" alpha="0" />
+			<!--<s:Label text="Вы будете готовы через {timeToReady} сек." fontFamily="mpr" fontSize="14" color="0xffe760" alpha="1" />-->
+			<s:Label id="pregameLabel" text="" fontFamily="mpr" fontSize="14" color="0xffe760" alpha="1" />
 		</s:HGroup>
 		
 		<s:HGroup gap="0">

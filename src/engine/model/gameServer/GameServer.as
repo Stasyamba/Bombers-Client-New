@@ -1186,6 +1186,13 @@ public class GameServer extends SmartFox {
                     Context.Model.dispatchCustomEvent(ContextEvent.GP_ENERGY_IS_CHANGED);
                 }
 
+				/* my profile */
+				
+				if(ready && name == Context.Model.currentSettings.gameProfile.id)
+				{
+					Context.Model.dispatchCustomEvent(ContextEvent.GP_PREGAME_BLOCK_READY_BUTTON);
+				}
+				
                 break;
 
             case INT_QUEST_START_RESULT:
