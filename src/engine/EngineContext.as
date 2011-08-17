@@ -4,44 +4,42 @@
  */
 
 package engine {
-import engine.games.quest.monsters.Monster
-import engine.games.quest.monsters.MonsterType
-import engine.games.quest.monsters.walking.IWalkingStrategy
-import engine.model.signals.DieWallAppearedSignal
-import engine.model.signals.FrameEnteredSignal
-import engine.model.signals.MonsterCoordsChangedSignal
-import engine.model.signals.MonsterDirectionChangedSignal
-import engine.model.signals.MoveTickSignal
-import engine.model.signals.SmokeAddedSignal
-import engine.model.signals.WeaponActivatedSignal
-import engine.model.signals.WeaponDeactivatedSignal
-import engine.model.signals.WeaponUnitSpentSignal
-import engine.model.signals.bonuses.ObjectActivatedSignal
-import engine.model.signals.bonuses.ObjectAddedSignal
-import engine.model.signals.bonuses.TriedToActivateObjectSignal
-import engine.model.signals.damage.EnemyDamagedSignal
-import engine.model.signals.damage.EnemyDiedSignal
-import engine.model.signals.damage.PlayerDamagedSignal
-import engine.model.signals.damage.PlayerDiedSignal
-import engine.model.signals.explosions.ExplosionsAddedSignal
-import engine.model.signals.explosions.ExplosionsChangedSignal
-import engine.model.signals.explosions.ExplosionsRemovedSignal
-import engine.model.signals.explosions.ExplosionsUpdatedSignal
-import engine.model.signals.movement.EnemyInputDirectionChangedSignal
-import engine.model.signals.movement.EnemySmoothMovePerformedSignal
-import engine.model.signals.movement.PlayerCoordsChangedSignal
-import engine.model.signals.movement.PlayerInputDirectionChangedSignal
-import engine.model.signals.movement.PlayerViewDirectionChangedSignal
-import engine.model.signals.weapons.TriedToActivateWeaponSignal
-import engine.utils.Direction
+import engine.games.quest.monsters.Monster;
+import engine.games.quest.monsters.MonsterType;
+import engine.games.quest.monsters.walking.IWalkingStrategy;
+import engine.maps.interfaces.IDynObjectType;
+import engine.model.signals.DieWallAppearedSignal;
+import engine.model.signals.FrameEnteredSignal;
+import engine.model.signals.MonsterCoordsChangedSignal;
+import engine.model.signals.MonsterDirectionChangedSignal;
+import engine.model.signals.MoveTickSignal;
+import engine.model.signals.SmokeAddedSignal;
+import engine.model.signals.WeaponActivatedSignal;
+import engine.model.signals.WeaponDeactivatedSignal;
+import engine.model.signals.WeaponUnitSpentSignal;
+import engine.model.signals.bonuses.ObjectActivatedSignal;
+import engine.model.signals.bonuses.ObjectAddedSignal;
+import engine.model.signals.bonuses.TriedToActivateObjectSignal;
+import engine.model.signals.damage.EnemyDamagedSignal;
+import engine.model.signals.damage.EnemyDiedSignal;
+import engine.model.signals.damage.PlayerDamagedSignal;
+import engine.model.signals.damage.PlayerDiedSignal;
+import engine.model.signals.explosions.ExplosionsAddedSignal;
+import engine.model.signals.explosions.ExplosionsChangedSignal;
+import engine.model.signals.explosions.ExplosionsRemovedSignal;
+import engine.model.signals.explosions.ExplosionsUpdatedSignal;
+import engine.model.signals.movement.EnemyInputDirectionChangedSignal;
+import engine.model.signals.movement.EnemySmoothMovePerformedSignal;
+import engine.model.signals.movement.PlayerCoordsChangedSignal;
+import engine.model.signals.movement.PlayerInputDirectionChangedSignal;
+import engine.model.signals.movement.PlayerViewDirectionChangedSignal;
+import engine.model.signals.weapons.TriedToActivateWeaponSignal;
+import engine.utils.Direction;
 
-import flash.geom.Point
+import flash.geom.Point;
 
-import org.osflash.signals.Signal
+import org.osflash.signals.Signal;
 
-import org.osflash.signals.Signal
-
-import org.osflash.signals.Signal
 
 public class EngineContext {
 
@@ -94,9 +92,9 @@ public class EngineContext {
     private var _qActivateWeapon:WeaponActivatedSignal = new WeaponActivatedSignal()
 
     //---goals
-    private var _qAddObject:ObjectAddedSignal = new ObjectAddedSignal()
-    private var _qPlayerActivateObject:ObjectActivatedSignal = new ObjectActivatedSignal()
-    private var _qMonsterActivateObject:ObjectActivatedSignal = new ObjectActivatedSignal()
+    private var _qAddObject:Signal = new Signal(int, int, int, IDynObjectType, Object)
+    private var _qPlayerActivateObject:Signal = new Signal(int, int, int, IDynObjectType, Object)
+    private var _qMonsterActivateObject:Signal = new Signal(int, int, int, IDynObjectType, Object)
     private var _qMonsterDamaged:Signal = new Signal(Monster, int)
     private var _qTimeOut:Signal = new Signal()
 
@@ -253,15 +251,15 @@ public class EngineContext {
         return instance._qActivateWeapon
     }
 
-    public static function get qAddObject():ObjectAddedSignal {
+    public static function get qAddObject():Signal {
         return instance._qAddObject
     }
 
-    public static function get qPlayerActivateObject():ObjectActivatedSignal {
+    public static function get qPlayerActivateObject():Signal {
         return instance._qPlayerActivateObject
     }
 
-    public static function get qMonsterActivateObject():ObjectActivatedSignal {
+    public static function get qMonsterActivateObject():Signal {
         return instance._qMonsterActivateObject
     }
 
