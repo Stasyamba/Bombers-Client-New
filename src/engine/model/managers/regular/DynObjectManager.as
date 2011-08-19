@@ -4,21 +4,21 @@
  */
 
 package engine.model.managers.regular {
-import engine.EngineContext
-import engine.bombers.interfaces.IBomber
-import engine.maps.interfaces.ICollectableDynObject
-import engine.maps.interfaces.IDynObject
-import engine.maps.interfaces.IMapBlock
-import engine.maps.interfaces.ITimeActivatableDynObject
-import engine.model.explosionss.ExplosionType
-import engine.model.managers.interfaces.IDynObjectManager
-import engine.model.managers.interfaces.IMapManager
-import engine.model.managers.interfaces.IPlayerManager
+import engine.EngineContext;
+import engine.bombers.interfaces.IBomber;
+import engine.maps.interfaces.ICollectableDynObject;
+import engine.maps.interfaces.IDynObject;
+import engine.maps.interfaces.IMapBlock;
+import engine.maps.interfaces.ITimeActivatableDynObject;
+import engine.model.explosionss.ExplosionType;
+import engine.model.managers.interfaces.IDynObjectManager;
+import engine.model.managers.interfaces.IMapManager;
+import engine.model.managers.interfaces.IPlayerManager;
 
-import greensock.TweenMax
+import greensock.TweenMax;
 
-import mx.collections.ArrayList
-import mx.controls.Alert
+import mx.collections.ArrayList;
+import mx.controls.Alert;
 
 public class DynObjectManager implements IDynObjectManager {
 
@@ -27,6 +27,9 @@ public class DynObjectManager implements IDynObjectManager {
 
     protected var _objects:ArrayList = new ArrayList();
 
+	private var ignore:Object = {}
+	
+	
     public function DynObjectManager(playerManager:IPlayerManager, mapManager:IMapManager) {
         this.playerManager = playerManager;
         this.mapManager = mapManager;
@@ -58,6 +61,10 @@ public class DynObjectManager implements IDynObjectManager {
 
     public function addObject(object:IDynObject):void {
         _objects.addItem(object);
+		if(to_activate[object.id]){
+			activateObjectById(object.id,to_activate[object.id].player, to_activate[object.id].params)
+			delete to_activate[object.id]
+		}
         trace("added")
     }
 
@@ -75,13 +82,15 @@ public class DynObjectManager implements IDynObjectManager {
 
     }
 
-
+	private var to_activate:Object = new Object()
+	
     public function activateObjectById(id:int, player:IBomber, params:Object = null):void {
 //        Alert.show("activated: " + id);
         var object:IDynObject = getObjectById(id);
+		
         if (object == null) {
-            throw Context.Exception("SERVER ERROR: No object to activate with id = " + id);
-//            return;
+			to_activate[id] = {player:player, params:params}
+			return;
         }
         object.activateOn(player, params)
 
